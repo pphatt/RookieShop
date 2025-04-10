@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadphoneStore.Persistence"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadphoneStore.Presentation", "src\HeadphoneStore.Presentation\HeadphoneStore.Presentation.csproj", "{24512DB6-8CCE-4201-9353-785B7AA60B30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadphoneStore.StoreFrontEnd", "src\HeadphoneStore.StoreFrontEnd\HeadphoneStore.StoreFrontEnd.csproj", "{8202632B-8E9D-4193-802B-3EE9776F8D65}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,18 @@ Global
 		{24512DB6-8CCE-4201-9353-785B7AA60B30}.Release|x64.Build.0 = Release|Any CPU
 		{24512DB6-8CCE-4201-9353-785B7AA60B30}.Release|x86.ActiveCfg = Release|Any CPU
 		{24512DB6-8CCE-4201-9353-785B7AA60B30}.Release|x86.Build.0 = Release|Any CPU
+		{8202632B-8E9D-4193-802B-3EE9776F8D65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8202632B-8E9D-4193-802B-3EE9776F8D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8202632B-8E9D-4193-802B-3EE9776F8D65}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8202632B-8E9D-4193-802B-3EE9776F8D65}.Debug|x64.Build.0 = Debug|Any CPU
+		{8202632B-8E9D-4193-802B-3EE9776F8D65}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8202632B-8E9D-4193-802B-3EE9776F8D65}.Debug|x86.Build.0 = Debug|Any CPU
+		{8202632B-8E9D-4193-802B-3EE9776F8D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8202632B-8E9D-4193-802B-3EE9776F8D65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8202632B-8E9D-4193-802B-3EE9776F8D65}.Release|x64.ActiveCfg = Release|Any CPU
+		{8202632B-8E9D-4193-802B-3EE9776F8D65}.Release|x64.Build.0 = Release|Any CPU
+		{8202632B-8E9D-4193-802B-3EE9776F8D65}.Release|x86.ActiveCfg = Release|Any CPU
+		{8202632B-8E9D-4193-802B-3EE9776F8D65}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,5 +139,9 @@ Global
 		{1E85EE01-EB53-4951-A25F-A66CB45B65DF} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{33D57CD8-6524-4172-95B0-1887280B24C4} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{24512DB6-8CCE-4201-9353-785B7AA60B30} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{8202632B-8E9D-4193-802B-3EE9776F8D65} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C822DED8-0503-4981-A6BB-2AD1CF1C9C33}
 	EndGlobalSection
 EndGlobal
