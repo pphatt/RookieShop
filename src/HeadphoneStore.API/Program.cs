@@ -3,8 +3,11 @@ using System.Text.Json.Serialization;
 
 using HeadphoneStore.API;
 using HeadphoneStore.API.DependencyInjection.Extensions;
+using HeadphoneStore.Application.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var serverCorsPolicy = "ServerCorsPolicy";
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -24,9 +27,16 @@ builder.Services
     })
     .AddApplicationPart(AssemblyReference.Assembly);
 
+// Add Cors
+builder.Services.ConfigureCors(builder.Configuration, serverCorsPolicy);
+
 // Add SeriLog
 builder.Host.AddLogging();
 builder.Logging.ClearProviders();
+
+// Application Layer
+builder.Services.AddMediatRApplication();
+builder.Services.AddAutoMapperApplication();
 
 var app = builder.Build();
 
