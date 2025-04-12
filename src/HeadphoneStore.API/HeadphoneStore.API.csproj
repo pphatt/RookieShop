@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,7 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HeadphoneStore.Application\HeadphoneStore.Application.csproj" />
+    <ProjectReference Include="..\HeadphoneStore.Contract\HeadphoneStore.Contract.csproj" />
+    <ProjectReference Include="..\HeadphoneStore.Domain\HeadphoneStore.Domain.csproj" />
+    <ProjectReference Include="..\HeadphoneStore.Infrastructure\HeadphoneStore.Infrastructure.csproj" />
+    <ProjectReference Include="..\HeadphoneStore.Persistence\HeadphoneStore.Persistence.csproj" />
+    <ProjectReference Include="..\HeadphoneStore.StoreFrontEnd\HeadphoneStore.StoreFrontEnd.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.13" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
