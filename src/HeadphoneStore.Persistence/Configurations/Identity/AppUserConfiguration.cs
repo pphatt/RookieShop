@@ -4,7 +4,7 @@ using HeadphoneStore.Domain.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HeadphoneStore.Persistence.Configurations;
+namespace HeadphoneStore.Persistence.Configurations.Identity;
 
 internal class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
 {
@@ -45,6 +45,13 @@ internal class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
             .HasMany(x => x.Tokens)
             .WithOne()
             .HasForeignKey(x => x.UserId)
+            .IsRequired();
+
+        // One User can have Many UserAddresses
+        builder
+            .HasMany(x => x.Addresses)
+            .WithOne()
+            .HasForeignKey(x => x.Id)
             .IsRequired();
     }
 }

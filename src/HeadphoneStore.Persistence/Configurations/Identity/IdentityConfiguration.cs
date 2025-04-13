@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HeadphoneStore.Persistence.Configurations;
+namespace HeadphoneStore.Persistence.Configurations.Identity;
 
 internal class AppUserRoleConfiguration : IEntityTypeConfiguration<IdentityUserRole<Guid>>
 {

@@ -12,4 +12,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.15" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Aggregates\Categories\ValueObjects\" />
+    <Folder Include="Aggregates\Order\ValueObjects\" />
+    <Folder Include="Aggregates\Products\ValueObjects\" />
+  </ItemGroup>
+
 </Project>

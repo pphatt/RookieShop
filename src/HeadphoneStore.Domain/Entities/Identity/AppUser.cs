@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
+using HeadphoneStore.Domain.Entities.Content;
 using HeadphoneStore.Domain.Enumeration;
 
 using Microsoft.AspNetCore.Identity;
@@ -23,4 +24,7 @@ public class AppUser : IdentityUser<Guid>
     public virtual ICollection<IdentityUserClaim<Guid>> Claims { get; set; } // UserClaims
     public virtual ICollection<IdentityUserLogin<Guid>> Logins { get; set; } // UserLogins
     public virtual ICollection<IdentityUserToken<Guid>> Tokens { get; set; } // UserTokens
+
+    private readonly List<UserAddress> _addresses = new();
+    public virtual IReadOnlyCollection<UserAddress> Addresses => _addresses.AsReadOnly();
 }

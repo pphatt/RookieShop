@@ -4,6 +4,7 @@ using HeadphoneStore.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HeadphoneStore.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250413145421_AddBusinessEntities")]
+    partial class AddBusinessEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,8 +107,6 @@ namespace HeadphoneStore.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Orders", (string)null);
                 });
 
@@ -126,6 +127,9 @@ namespace HeadphoneStore.Persistence.Migrations
 
                     b.Property<DateTimeOffset?>("ModifiedOnUtc")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid?>("OrderDetailFeedbackId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
@@ -150,8 +154,6 @@ namespace HeadphoneStore.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("OrderDetails", (string)null);
                 });
@@ -186,7 +188,7 @@ namespace HeadphoneStore.Persistence.Migrations
                     b.Property<DateTimeOffset?>("ModifiedOnUtc")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid?>("OrderId")
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -325,41 +327,6 @@ namespace HeadphoneStore.Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Transactions", (string)null);
-                });
-
-            modelBuilder.Entity("HeadphoneStore.Domain.Entities.Content.UserAddress", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("CreatedOnUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("ModifiedOnUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Province")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserAddresses");
                 });
 
             modelBuilder.Entity("HeadphoneStore.Domain.Entities.Identity.AppRole", b =>
@@ -578,12 +545,6 @@ namespace HeadphoneStore.Persistence.Migrations
 
             modelBuilder.Entity("HeadphoneStore.Domain.Entities.Content.Order", b =>
                 {
-                    b.HasOne("HeadphoneStore.Domain.Entities.Identity.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.OwnsOne("HeadphoneStore.Domain.Entities.Content.OrderAddress", "ShippingAddress", b1 =>
                         {
                             b1.Property<Guid>("OrderId")
@@ -628,19 +589,15 @@ namespace HeadphoneStore.Persistence.Migrations
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("HeadphoneStore.Domain.Entities.Content.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("HeadphoneStore.Domain.Entities.Content.OrderPayment", b =>
                 {
                     b.HasOne("HeadphoneStore.Domain.Entities.Content.Order", null)
                         .WithMany("Payments")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("HeadphoneStore.Domain.Entities.Content.Product", b =>
@@ -666,15 +623,6 @@ namespace HeadphoneStore.Persistence.Migrations
                     b.HasOne("HeadphoneStore.Domain.Entities.Identity.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("HeadphoneStore.Domain.Entities.Content.UserAddress", b =>
-                {
-                    b.HasOne("HeadphoneStore.Domain.Entities.Identity.AppUser", null)
-                        .WithMany("Addresses")
-                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -751,8 +699,6 @@ namespace HeadphoneStore.Persistence.Migrations
 
             modelBuilder.Entity("HeadphoneStore.Domain.Entities.Identity.AppUser", b =>
                 {
-                    b.Navigation("Addresses");
-
                     b.Navigation("Claims");
 
                     b.Navigation("Logins");
