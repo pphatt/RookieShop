@@ -17,6 +17,8 @@ public class ProductMedia : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEnti
         CreatedOnUtc = DateTime.UtcNow;
     }
 
+    public void Delete() => IsDeleted = true;
+
     public void Update(string imageUrl, Guid updatedBy)
     {
         ImageUrl = imageUrl ?? throw new ArgumentNullException(nameof(imageUrl));

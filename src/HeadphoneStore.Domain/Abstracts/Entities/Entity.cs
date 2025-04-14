@@ -11,7 +11,7 @@ public abstract class Entity<T> : IEntity<T>, IAuditableEntity where T : notnull
     public T Id { get; protected set; } = default!;
     public bool IsDeleted { get; protected set; }
 
-    public DateTimeOffset CreatedOnUtc { get; protected set; }
+    public DateTimeOffset CreatedOnUtc { get; protected set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset? ModifiedOnUtc { get; protected set; }
 
     protected Entity()
@@ -53,7 +53,7 @@ public abstract class Entity<T> : IEntity<T>, IAuditableEntity where T : notnull
         return Id?.GetHashCode() ?? 0;
     }
 
-    public void MarkAsDeleted(string? updatedBy)
+    public void Delete(string? updatedBy)
     {
         IsDeleted = true;
         ModifiedOnUtc = DateTimeOffset.UtcNow;

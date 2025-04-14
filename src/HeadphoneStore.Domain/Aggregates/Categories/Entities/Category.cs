@@ -19,6 +19,8 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
         CreatedOnUtc = DateTime.UtcNow;
     }
 
+    public void Delete() => IsDeleted = true;
+
     public void Update(string name, string description, Guid updatedBy)
     {
         if (name.Length > 256)

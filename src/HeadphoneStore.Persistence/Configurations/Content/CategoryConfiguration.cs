@@ -24,8 +24,8 @@ internal class CategoryConfiguration : IEntityTypeConfiguration<Category>
         // One Category can have Many Products
         builder
             .HasMany<Product>()
-            .WithOne()
-            .HasForeignKey(p => p.CategoryId)
+            .WithOne(p => p.Category)
+            .HasForeignKey("CategoryId")
             .IsRequired();
     }
 }

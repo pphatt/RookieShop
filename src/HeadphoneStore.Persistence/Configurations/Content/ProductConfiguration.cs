@@ -1,4 +1,5 @@
 ﻿using HeadphoneStore.Domain.Aggregates.Products.Entities;
+using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
 using HeadphoneStore.Domain.Constraints;
 
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,13 @@ internal class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.HasKey(p => p.Id);
 
-        builder.Property(p => p.CategoryId).IsRequired();
         builder.Property(p => p.Name).HasMaxLength(256).IsRequired();
         builder.Property(p => p.Description).HasMaxLength(1000).IsRequired();
+        builder.Property(p => p.Quantity).IsRequired();
         builder.Property(p => p.Sku).HasMaxLength(50).IsRequired();
+        builder.Property(p => p.ProductStatus).IsRequired();
+        builder.Property(p => p.AverageRating).IsRequired();
+        builder.Property(p => p.TotalReviews).IsRequired();
         builder.Property(p => p.CreatedBy).IsRequired();
         builder.Property(p => p.CreatedOnUtc).IsRequired();
         builder.Property(p => p.IsDeleted).IsRequired();
@@ -26,11 +30,7 @@ internal class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.OwnsOne(c => c.ProductPrice, price =>
         {
             price.Property(p => p.Amount)
-                .HasColumnType("decimal(18, 2)")
-                .IsRequired();
-
-            price.Property(p => p.Currency)
-                .HasMaxLength(3)
+                .HasPrecision(18, 2)
                 .IsRequired();
         });
 
@@ -39,6 +39,13 @@ internal class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasMany(p => p.Media)
             .WithOne()
             .HasForeignKey("ProductId")
+            .IsRequired();
+
+        // One Product belongs to one Category
+        builder
+            .HasOne(p => p.Category)
+            .WithMany()
+            .HasForeignKey(x => x.CategoryId)
             .IsRequired();
     }
 }

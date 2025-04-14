@@ -4,6 +4,7 @@ using HeadphoneStore.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HeadphoneStore.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250414060548_AddQuantityAndProductStatusToProductTable")]
+    partial class AddQuantityAndProductStatusToProductTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,7 +215,7 @@ namespace HeadphoneStore.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserAddresses", (string)null);
+                    b.ToTable("UserAddresses");
                 });
 
             modelBuilder.Entity("HeadphoneStore.Domain.Aggregates.Order.Entities.Order", b =>
@@ -601,7 +604,7 @@ namespace HeadphoneStore.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("HeadphoneStore.Domain.Aggregates.Order.Entities.Order.ShippingAddress#HeadphoneStore.Domain.Aggregates.Order.ValueObjects.ShippingAddress", "ShippingAddress", b1 =>
+                    b.OwnsOne("HeadphoneStore.Domain.Aggregates.Order.ValueObjects.ShippingAddress", "ShippingAddress", b1 =>
                         {
                             b1.Property<Guid>("OrderId")
                                 .HasColumnType("uniqueidentifier");
@@ -623,7 +626,7 @@ namespace HeadphoneStore.Persistence.Migrations
 
                             b1.HasKey("OrderId");
 
-                            b1.ToTable("Orders", (string)null);
+                            b1.ToTable("Orders");
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
@@ -672,7 +675,7 @@ namespace HeadphoneStore.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("HeadphoneStore.Domain.Aggregates.Products.Entities.Product.ProductPrice#HeadphoneStore.Domain.Aggregates.Products.ValueObjects.ProductPrice", "ProductPrice", b1 =>
+                    b.OwnsOne("HeadphoneStore.Domain.Aggregates.Products.ValueObjects.ProductPrice", "ProductPrice", b1 =>
                         {
                             b1.Property<Guid>("ProductId")
                                 .HasColumnType("uniqueidentifier");
@@ -683,7 +686,7 @@ namespace HeadphoneStore.Persistence.Migrations
 
                             b1.HasKey("ProductId");
 
-                            b1.ToTable("Products", (string)null);
+                            b1.ToTable("Products");
 
                             b1.WithOwner()
                                 .HasForeignKey("ProductId");
