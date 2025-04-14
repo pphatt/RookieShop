@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using HeadphoneStore.API;
 using HeadphoneStore.API.DependencyInjection.Extensions;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
+using HeadphoneStore.Persistence.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,11 @@ builder.Logging.ClearProviders();
 // Application Layer
 builder.Services.AddMediatRApplication();
 builder.Services.AddAutoMapperApplication();
+
+// Persistence Layer
+builder.Services.ConfigureSqlServerRetryOptionsPersistence(builder.Configuration);
+builder.Services.AddSqlServerPersistence(builder.Configuration);
+builder.Services.AddDbIdentity();
 
 var app = builder.Build();
 
