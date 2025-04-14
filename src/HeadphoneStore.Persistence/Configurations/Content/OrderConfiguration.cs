@@ -1,6 +1,6 @@
-﻿using HeadphoneStore.Domain.Constraints;
-using HeadphoneStore.Domain.Entities.Content;
-using HeadphoneStore.Domain.Entities.Identity;
+﻿using HeadphoneStore.Domain.Aggregates.Identity.Entities;
+using HeadphoneStore.Domain.Aggregates.Order.Entities;
+using HeadphoneStore.Domain.Constraints;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -27,7 +27,6 @@ internal class OrderConfiguration : IEntityTypeConfiguration<Order>
         // Order owns one OrderAddress
         builder.OwnsOne(o => o.ShippingAddress, a =>
         {
-            a.Property(p => p.Address).HasMaxLength(500).IsRequired();
             a.Property(p => p.Street).HasMaxLength(500).IsRequired();
             a.Property(p => p.Province).HasMaxLength(100).IsRequired();
             a.Property(p => p.PhoneNumber).HasMaxLength(20).IsRequired();

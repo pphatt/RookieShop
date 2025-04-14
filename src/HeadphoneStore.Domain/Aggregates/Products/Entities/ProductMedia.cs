@@ -1,6 +1,6 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Entities;
 
-namespace HeadphoneStore.Domain.Entities.Content;
+namespace HeadphoneStore.Domain.Aggregates.Products.Entities;
 
 public class ProductMedia : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<Guid?>
 {

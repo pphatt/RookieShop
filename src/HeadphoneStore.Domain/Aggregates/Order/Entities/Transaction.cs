@@ -1,7 +1,7 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Aggregates;
 using HeadphoneStore.Domain.Abstracts.Entities;
 
-namespace HeadphoneStore.Domain.Entities.Content;
+namespace HeadphoneStore.Domain.Aggregates.Order.Entities;
 
 public class Transaction : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<Guid?>
 {

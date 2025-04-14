@@ -1,5 +1,7 @@
-﻿using HeadphoneStore.Domain.Entities.Content;
-using HeadphoneStore.Domain.Entities.Identity;
+﻿using HeadphoneStore.Domain.Aggregates.Categories.Entities;
+using HeadphoneStore.Domain.Aggregates.Identity.Entities;
+using HeadphoneStore.Domain.Aggregates.Order.Entities;
+using HeadphoneStore.Domain.Aggregates.Products.Entities;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

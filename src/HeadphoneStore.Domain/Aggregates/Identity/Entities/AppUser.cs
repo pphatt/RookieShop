@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-using HeadphoneStore.Domain.Entities.Content;
 using HeadphoneStore.Domain.Enumeration;
 
 using Microsoft.AspNetCore.Identity;
 
-namespace HeadphoneStore.Domain.Entities.Identity;
+namespace HeadphoneStore.Domain.Aggregates.Identity.Entities;
 
 [Table("AppUsers")]
 public class AppUser : IdentityUser<Guid>

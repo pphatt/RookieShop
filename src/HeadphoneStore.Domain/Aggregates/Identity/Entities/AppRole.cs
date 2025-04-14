@@ -4,7 +4,7 @@ using HeadphoneStore.Domain.Enumerations;
 
 using Microsoft.AspNetCore.Identity;
 
-namespace HeadphoneStore.Domain.Entities.Identity;
+namespace HeadphoneStore.Domain.Aggregates.Identity.Entities;
 
 [Table("AppRoles")]
 public class AppRole : IdentityRole<Guid>

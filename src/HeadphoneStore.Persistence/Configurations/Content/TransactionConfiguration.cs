@@ -1,6 +1,6 @@
-﻿using HeadphoneStore.Domain.Constraints;
-using HeadphoneStore.Domain.Entities.Content;
-using HeadphoneStore.Domain.Entities.Identity;
+﻿using HeadphoneStore.Domain.Aggregates.Identity.Entities;
+using HeadphoneStore.Domain.Aggregates.Order.Entities;
+using HeadphoneStore.Domain.Constraints;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

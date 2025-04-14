@@ -1,6 +1,6 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Entities;
 
-namespace HeadphoneStore.Domain.Entities.Content;
+namespace HeadphoneStore.Domain.Aggregates.Identity.Entities;
 
 public class UserAddress : Entity<Guid>
 {

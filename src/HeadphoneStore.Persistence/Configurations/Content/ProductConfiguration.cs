@@ -1,5 +1,5 @@
-﻿using HeadphoneStore.Domain.Constraints;
-using HeadphoneStore.Domain.Entities.Content;
+﻿using HeadphoneStore.Domain.Aggregates.Products.Entities;
+using HeadphoneStore.Domain.Constraints;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,11 +17,22 @@ internal class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.CategoryId).IsRequired();
         builder.Property(p => p.Name).HasMaxLength(256).IsRequired();
         builder.Property(p => p.Description).HasMaxLength(1000).IsRequired();
-        builder.Property(p => p.Price).HasPrecision(18, 2).IsRequired();
         builder.Property(p => p.Sku).HasMaxLength(50).IsRequired();
         builder.Property(p => p.CreatedBy).IsRequired();
         builder.Property(p => p.CreatedOnUtc).IsRequired();
         builder.Property(p => p.IsDeleted).IsRequired();
+
+        // Setup ProductPrice ValueObject
+        builder.OwnsOne(c => c.ProductPrice, price =>
+        {
+            price.Property(p => p.Amount)
+                .HasColumnType("decimal(18, 2)")
+                .IsRequired();
+
+            price.Property(p => p.Currency)
+                .HasMaxLength(3)
+                .IsRequired();
+        });
 
         // One Product can have Many ProductMedia
         builder

@@ -1,6 +1,6 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Entities;
 
-namespace HeadphoneStore.Domain.Entities.Content;
+namespace HeadphoneStore.Domain.Aggregates.Order.Entities;
 
 public class OrderPayment : Entity<Guid>
 {

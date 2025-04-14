@@ -14,8 +14,7 @@
 
   <ItemGroup>
     <Folder Include="Aggregates\Categories\ValueObjects\" />
-    <Folder Include="Aggregates\Order\ValueObjects\" />
-    <Folder Include="Aggregates\Products\ValueObjects\" />
+    <Folder Include="Aggregates\Identity\ValueObjects\" />
   </ItemGroup>
 
 </Project>

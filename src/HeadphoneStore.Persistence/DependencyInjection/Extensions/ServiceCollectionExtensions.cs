@@ -1,4 +1,4 @@
-﻿using HeadphoneStore.Domain.Entities.Identity;
+﻿using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Persistence.DependencyInjection.Options;
 
 using Microsoft.AspNetCore.Identity;
