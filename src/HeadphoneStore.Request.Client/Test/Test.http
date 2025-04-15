@@ -1,0 +1,10 @@
+@port = 7124
+@Server.API_HostAddress=https://localhost:{{port}}
+
+POST {{Server.API_HostAddress}}/api/v1/test/test-exception
+Content-Type: application/json
+
+{
+    "email": "phatvtgcs21@gmail.com",
+    "password": "Admin@123"
+}

@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using ErrorOr;
-
 namespace HeadphoneStore.Domain.Abstracts.Entities;
 
 public abstract class Entity<T> : IEntity<T>, IAuditableEntity where T : notnull

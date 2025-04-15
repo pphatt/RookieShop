@@ -1,7 +1,7 @@
-﻿using ErrorOr;
-
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
+
+using HeadphoneStore.Contract.Abstracts.Shared;
 
 using MediatR;
 
@@ -10,7 +10,7 @@ namespace HeadphoneStore.Application.Behaviors;
 public class ValidationPipelineBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
-    where TResponse : IErrorOr
+    where TResponse : Error
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -46,7 +46,7 @@ public class ValidationPipelineBehavior<TRequest, TResponse>
                 .ToList();
 
         return (dynamic)validationFailures.ConvertAll(
-            validationFail => Error.Validation(
+            validationFail => (
                 code: validationFail.PropertyName,
                 description: validationFail.ErrorMessage
             )

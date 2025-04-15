@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 
 using HeadphoneStore.API;
 using HeadphoneStore.API.DependencyInjection.Extensions;
+using HeadphoneStore.API.Middlewares;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Persistence.DependencyInjection.Extensions;
 
@@ -44,7 +45,12 @@ builder.Services.ConfigureSqlServerRetryOptionsPersistence(builder.Configuration
 builder.Services.AddSqlServerPersistence(builder.Configuration);
 builder.Services.AddDbIdentity();
 
+builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
+
 var app = builder.Build();
+
+// Using middleware
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -53,6 +59,25 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Add SeriLog
+app.AddSerilog();
+
+// Add Cors
+app.UseCors(serverCorsPolicy);
+
+// Add Core
+app.UseRouting();
+
+app.UseStaticFiles();
+app.UseExceptionHandler("/errors");
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+// Application Layer
+app.AddAutoMapperValidationApplication();
 
 app.Run();
