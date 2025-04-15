@@ -12,6 +12,8 @@ public class TableNames
     public const string AppUserLogins = nameof(AppUserLogins); // IdentityUserLogin
     public const string AppUserTokens = nameof(AppUserTokens); // IdentityUserToken
 
+    public const string Permissions = nameof(Permissions);
+
     public const string Products = nameof(Products);
     public const string ProductMedias = nameof(ProductMedias);
     public const string Categories = nameof(Categories);

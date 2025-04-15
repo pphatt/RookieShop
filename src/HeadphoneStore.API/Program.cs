@@ -5,6 +5,7 @@ using HeadphoneStore.API;
 using HeadphoneStore.API.DependencyInjection.Extensions;
 using HeadphoneStore.API.Middlewares;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
+using HeadphoneStore.Infrastructure.DependencyInjection.Extensions;
 using HeadphoneStore.Persistence.DependencyInjection.Extensions;
 
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
@@ -41,9 +42,15 @@ builder.Services
     .AddEndpointsApiExplorer()
     .AddSwaggerAPI();
 
+// API Layer
+builder.Services.AddJwtAuthentication(builder.Configuration); // authentication and authorization
+
 // Application Layer
 builder.Services.AddMediatRApplication();
 builder.Services.AddAutoMapperApplication();
+
+// Infrastructure Layer
+builder.Services.AddInfrastructureDependenciesLayer(builder.Configuration);
 
 // Persistence Layer
 builder.Services.ConfigureSqlServerRetryOptionsPersistence(builder.Configuration);
@@ -61,6 +68,8 @@ app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.AddSwaggerUI();
+
+    app.AddMigration();
 }
 
 // Add SeriLog

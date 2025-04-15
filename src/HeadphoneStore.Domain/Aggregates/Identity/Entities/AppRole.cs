@@ -15,4 +15,5 @@ public class AppRole : IdentityRole<Guid>
 
     public virtual ICollection<IdentityUserRole<Guid>> UserRoles { get; set; } // UserRoles
     public virtual ICollection<IdentityRoleClaim<Guid>> Claims { get; set; } // RoleClaims
+    public virtual ICollection<Permission> Permissions { get; set; }
 }

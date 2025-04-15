@@ -72,7 +72,15 @@ internal sealed class GlobalExceptionHandlerMiddleware : IMiddleware
                 problemDetails.Title = description;
             }
 
-            problemDetails.Extensions.Add("errorCodes", new List<string>() { code });
+            if (statusCode == StatusCodes.Status500InternalServerError)
+            {
+                problemDetails.Detail = description;
+                problemDetails.Extensions.Add("error", "Internal Server Error");
+            }
+            else
+            {
+                problemDetails.Extensions.Add("errorCodes", new List<string>() { code });
+            }
         }
         else
         {
@@ -137,6 +145,6 @@ internal sealed class GlobalExceptionHandlerMiddleware : IMiddleware
             return code;
         }
 
-        return "Something went wrong";
+        return "Something went wrong. Internal server error.";
     }
 }

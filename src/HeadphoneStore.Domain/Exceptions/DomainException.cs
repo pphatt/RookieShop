@@ -19,17 +19,17 @@ public abstract class DomainException : Exception
 
     public virtual ExceptionType Type { get; }
 
-    protected DomainException(string code, string message) : base(message)
+    protected DomainException(string code, string description) : base(description)
     {
         Code = code;
-        Description = message;
+        Description = description;
     }
 
     public abstract class FailureException : DomainException
     {
         public override ExceptionType Type => ExceptionType.Failure;
 
-        protected FailureException(string code, string message) : base(code, message)
+        protected FailureException(string code, string description) : base(code, description)
         {
         }
     }
@@ -38,7 +38,7 @@ public abstract class DomainException : Exception
     {
         public override ExceptionType Type => ExceptionType.Unexpected;
 
-        protected UnexpectedException(string code, string message) : base(code, message)
+        protected UnexpectedException(string code, string description) : base(code, description)
         {
         }
     }
@@ -47,7 +47,7 @@ public abstract class DomainException : Exception
     {
         public override ExceptionType Type => ExceptionType.Validation;
 
-        protected ValidationException(string code, string message) : base(code, message)
+        protected ValidationException(string code, string description) : base(code, description)
         {
         }
     }
@@ -56,7 +56,7 @@ public abstract class DomainException : Exception
     {
         public override ExceptionType Type => ExceptionType.Conflict;
 
-        protected ConflictException(string code, string message) : base(code, message)
+        protected ConflictException(string code, string description) : base(code, description)
         {
         }
     }
@@ -65,7 +65,7 @@ public abstract class DomainException : Exception
     {
         public override ExceptionType Type => ExceptionType.NotFound;
 
-        protected NotFoundException(string code, string message) : base(code, message)
+        protected NotFoundException(string code, string description) : base(code, description)
         {
         }
     }
@@ -74,7 +74,7 @@ public abstract class DomainException : Exception
     {
         public override ExceptionType Type => ExceptionType.Unauthorized;
 
-        protected UnauthorizedException(string code, string message) : base(code, message)
+        protected UnauthorizedException(string code, string description) : base(code, description)
         {
         }
     }
@@ -83,7 +83,7 @@ public abstract class DomainException : Exception
     {
         public override ExceptionType Type => ExceptionType.Forbidden;
 
-        protected ForbiddenException(string code, string message) : base(code, message)
+        protected ForbiddenException(string code, string description) : base(code, description)
         {
         }
     }
