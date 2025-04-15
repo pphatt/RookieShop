@@ -21,6 +21,13 @@ internal class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.Property(c => c.CreatedOnUtc).IsRequired();
         builder.Property(c => c.IsDeleted).IsRequired();
 
+        // Self-referencing relationship
+        builder
+            .HasOne(c => c.Parent)
+            .WithMany(c => c.Children)
+            .HasForeignKey(c => c.ParentId)
+            .IsRequired(false);
+
         // One Category can have Many Products
         builder
             .HasMany<Product>()

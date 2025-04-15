@@ -137,6 +137,6 @@ internal sealed class GlobalExceptionHandlerMiddleware : IMiddleware
             return code;
         }
 
-        return "Something went wrong";
+        return "Something went wrong. Internal server error.";
     }
 }

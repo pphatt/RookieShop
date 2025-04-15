@@ -31,5 +31,12 @@ internal class AppRoleConfiguration : IEntityTypeConfiguration<AppRole>
             .WithOne()
             .HasForeignKey(x => x.RoleId)
             .IsRequired();
+
+        // One Role can have Many Permissions
+        builder
+            .HasMany(x => x.Permissions)
+            .WithOne(p => p.Role)
+            .HasForeignKey(p => p.RoleId)
+            .IsRequired();
     }
 }
