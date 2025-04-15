@@ -13,16 +13,13 @@ namespace HeadphoneStore.API.Middlewares;
 internal sealed class GlobalExceptionHandlerMiddleware : IMiddleware
 {
     private readonly ILogger<GlobalExceptionHandlerMiddleware> _logger;
-    private readonly ProblemDetailsFactory _problemDetailsFactory;
     private readonly ApiBehaviorOptions _options;
 
     public GlobalExceptionHandlerMiddleware(
         ILogger<GlobalExceptionHandlerMiddleware> logger,
-        ProblemDetailsFactory problemDetailsFactory,
         IOptions<ApiBehaviorOptions> options)
     {
         _logger = logger;
-        _problemDetailsFactory = problemDetailsFactory;
         _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
     }
 
@@ -141,15 +138,5 @@ internal sealed class GlobalExceptionHandlerMiddleware : IMiddleware
         }
 
         return "Something went wrong";
-    }
-
-    private Dictionary<string, string[]>? GetValidationErrorsFromInnerException(Exception innerException)
-    {
-        var errorsProperty = innerException.GetType().GetProperty("Errors");
-        if (errorsProperty != null && errorsProperty.GetValue(innerException) is Dictionary<string, string[]> errors)
-        {
-            return errors;
-        }
-        return null;
     }
 }
