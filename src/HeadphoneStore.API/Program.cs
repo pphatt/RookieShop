@@ -7,14 +7,13 @@ using HeadphoneStore.API.Middlewares;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Persistence.DependencyInjection.Extensions;
 
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
+
+using TreeCommerce.API.DependencyInjection.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var serverCorsPolicy = "ServerCorsPolicy";
-
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 // Add Controller
 builder.Services
@@ -34,7 +33,13 @@ builder.Services.ConfigureCors(builder.Configuration, serverCorsPolicy);
 
 // Add SeriLog
 builder.Host.AddLogging();
-builder.Logging.ClearProviders();
+
+// Add Swagger
+builder.Services
+    .AddSwaggerGenNewtonsoftSupport()
+    .AddFluentValidationRulesToSwagger()
+    .AddEndpointsApiExplorer()
+    .AddSwaggerAPI();
 
 // Application Layer
 builder.Services.AddMediatRApplication();
@@ -55,8 +60,7 @@ app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.AddSwaggerUI();
 }
 
 // Add SeriLog
