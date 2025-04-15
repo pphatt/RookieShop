@@ -3,12 +3,9 @@ using System.Text.Json.Serialization;
 
 using HeadphoneStore.API;
 using HeadphoneStore.API.DependencyInjection.Extensions;
-using HeadphoneStore.API.Exceptions;
 using HeadphoneStore.API.Middlewares;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Persistence.DependencyInjection.Extensions;
-
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,8 +44,6 @@ builder.Services.AddAutoMapperApplication();
 builder.Services.ConfigureSqlServerRetryOptionsPersistence(builder.Configuration);
 builder.Services.AddSqlServerPersistence(builder.Configuration);
 builder.Services.AddDbIdentity();
-
-builder.Services.AddSingleton<ProblemDetailsFactory, ServerProblemDetailsFactory>();
 
 builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 

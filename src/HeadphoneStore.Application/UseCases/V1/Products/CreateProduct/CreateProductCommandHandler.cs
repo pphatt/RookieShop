@@ -9,8 +9,6 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
     public async Task<Result> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         Console.WriteLine("Create Product");
-        throw new ProductException.ProductNameDuplicateException();
-
         return Result.Success();
     }
 }

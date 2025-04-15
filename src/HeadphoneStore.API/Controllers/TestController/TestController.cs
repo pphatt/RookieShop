@@ -15,10 +15,8 @@ public class TestController : ApiController
     }
 
     [HttpGet("test-exception")]
-    public async Task<IActionResult> TestException()
+    public async Task<IActionResult> TestException([FromQuery] CreateProductCommand command)
     {
-        var command = new CreateProductCommand();
-
         var result = await _mediatorSender.Send(command);
 
         return Ok(result);
