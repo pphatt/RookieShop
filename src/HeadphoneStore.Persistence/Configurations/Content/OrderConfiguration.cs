@@ -21,7 +21,7 @@ internal class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(o => o.IsFeedback).IsRequired();
         builder.Property(o => o.Total).HasPrecision(18, 2).IsRequired();
         builder.Property(o => o.CreatedBy).IsRequired();
-        builder.Property(o => o.CreatedOnUtc).IsRequired();
+        builder.Property(o => o.CreatedDateTime ).IsRequired();
         builder.Property(o => o.IsDeleted).IsRequired();
 
         // Order owns one OrderAddress

@@ -14,7 +14,7 @@ public class ProductMedia : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEnti
     {
         ImageUrl = imageUrl ?? throw new ArgumentNullException(nameof(imageUrl));
         CreatedBy = createdBy;
-        CreatedOnUtc = DateTime.UtcNow;
+        CreatedDateTime  = DateTime.UtcNow;
     }
 
     public void Delete() => IsDeleted = true;
@@ -23,6 +23,6 @@ public class ProductMedia : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEnti
     {
         ImageUrl = imageUrl ?? throw new ArgumentNullException(nameof(imageUrl));
         UpdatedBy = updatedBy;
-        ModifiedOnUtc = DateTime.UtcNow;
+        UpdatedDateTime = DateTime.UtcNow;
     }
 }

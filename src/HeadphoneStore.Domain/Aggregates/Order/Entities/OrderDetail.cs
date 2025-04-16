@@ -20,6 +20,6 @@ public class OrderDetail : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntit
         ProductId = productId;
         ProductQuantity = quantity > 0 ? quantity : throw new ArgumentException("Quantity must be positive.");
         ProductPrice = price >= 0 ? price : throw new ArgumentException("Price cannot be negative.");
-        CreatedOnUtc = DateTime.UtcNow;
+        CreatedDateTime  = DateTime.UtcNow;
     }
 }

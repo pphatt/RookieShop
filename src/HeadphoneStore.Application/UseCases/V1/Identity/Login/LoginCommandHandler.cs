@@ -3,13 +3,14 @@ using HeadphoneStore.Contract.Abstracts.Commands;
 using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Domain.Exceptions;
+using HeadphoneStore.Contract.Services.Identity.Login;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
 namespace HeadphoneStore.Application.UseCases.V1.Identity.Login;
 
-public class LoginCommandHandler : ICommandHandler<LoginCommand, LoginResponse>
+public class LoginCommandHandler : ICommandHandler<LoginCommand, LoginResponseDto>
 {
     private readonly ILogger<LoginCommandHandler> _logger;
     private readonly SignInManager<AppUser> _signInManager;
@@ -31,32 +32,32 @@ public class LoginCommandHandler : ICommandHandler<LoginCommand, LoginResponse>
         _claimsTransformation = claimsTransformation;
     }
 
-    public async Task<Result<LoginResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<Result<LoginResponseDto>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
 
         if (user is null)
         {
-            throw new UserException.NotFound();
+            throw new UsersException.NotFound();
         }
 
         //user.ValidateCommonRules();
 
         if (user.IsActive == false)
         {
-            throw new UserException.InactiveOrLockedOut();
+            throw new UsersException.InactiveOrLockedOut();
         }
 
         var loginStatus = await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
 
         if (loginStatus.Succeeded == false)
         {
-            throw new UserException.InvalidCredentials();
+            throw new UsersException.InvalidCredentials();
         }
 
         var claims = await _claimsTransformation.TransformClaims(user);
 
-        var response = new LoginResponse
+        var response = new LoginResponseDto
         {
             AccessToken = _jwtService.GenerateAccessToken(claims),
             RefreshToken = _jwtService.GenerateRefreshToken(),

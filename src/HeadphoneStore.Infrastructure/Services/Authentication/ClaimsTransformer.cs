@@ -39,7 +39,7 @@ public class ClaimsTransformer : IClaimsTransformation
             new("email", user.Email ?? string.Empty),
             //new("fullname", user.GetFullName() ?? string.Empty),
             new("phoneNumber", user.PhoneNumber ?? string.Empty),
-            new("status", user.Status.ToString() ?? UserStatus.Banned.ToString()),
+            new("status", user.Status.ToString() ?? UserStatus.Inactive.ToString()),
             new("roles", JsonSerializer.Serialize(roleNames)),
             new("permissions", JsonSerializer.Serialize(permissionClaims)),
         ];

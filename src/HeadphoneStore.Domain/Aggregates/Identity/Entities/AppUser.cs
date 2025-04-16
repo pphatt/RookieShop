@@ -2,6 +2,7 @@
 
 using HeadphoneStore.Domain.Abstracts.Entities;
 using HeadphoneStore.Domain.Enumeration;
+using HeadphoneStore.Domain.Exceptions;
 
 using Microsoft.AspNetCore.Identity;
 
@@ -19,8 +20,8 @@ public class AppUser : IdentityUser<Guid>, IAuditableEntity
     public string? Bio { get; set; }
     public UserStatus Status { get; set; }
     public bool IsDeleted { get; set; }
-    public DateTimeOffset CreatedOnUtc { get; set; }
-    public DateTimeOffset? ModifiedOnUtc { get; set; }
+    public DateTimeOffset CreatedDateTime  { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? UpdatedDateTime { get; set; }
 
     public virtual ICollection<IdentityUserRole<Guid>> UserRoles { get; set; } // UserRoles
     public virtual ICollection<IdentityUserClaim<Guid>> Claims { get; set; } // UserClaims
@@ -29,4 +30,100 @@ public class AppUser : IdentityUser<Guid>, IAuditableEntity
 
     private readonly List<UserAddress> _addresses = new();
     public virtual IReadOnlyCollection<UserAddress> Addresses => _addresses.AsReadOnly();
+
+    protected AppUser() { }
+
+    private AppUser(string email)
+    {
+        //if (string.IsNullOrWhiteSpace(email))
+        //    throw new UsersException.FieldNullOrWhitespaceException("Email");
+
+        Id = Guid.NewGuid();
+        Email = email;
+        NormalizedEmail = email.ToUpperInvariant();
+        IsActive = true;
+        Status = UserStatus.Active; // set this to Active
+        IsDeleted = false;
+        CreatedDateTime  = DateTimeOffset.UtcNow;
+        UserName = Email;
+        EmailConfirmed = true; // don't need to confirm
+        NormalizedUserName = NormalizedEmail;
+        SecurityStamp = Guid.NewGuid().ToString();
+    }
+
+    private AppUser(string email, string firstName, string lastName, string phoneNumber) : this(email)
+    {
+        //if (string.IsNullOrWhiteSpace(phoneNumber))
+        //    throw new UsersException.FieldNullOrWhitespaceException("Phone Number");
+        //if (string.IsNullOrWhiteSpace(firstName))
+        //    throw new UsersException.FieldNullOrWhitespaceException("First name");
+        //if (string.IsNullOrWhiteSpace(lastName))
+        //    throw new UsersException.FieldNullOrWhitespaceException("Last name");
+        //if (string.IsNullOrWhiteSpace(email))
+        //    throw new UsersException.FieldNullOrWhitespaceException("Email");
+
+        FirstName = firstName;
+        LastName = lastName;
+    }
+
+    private AppUser(string email, string firstName, string lastName, string phoneNumber, string passwordHash)
+        : this(email, firstName, lastName, phoneNumber)
+    {
+        PasswordHash = passwordHash;
+    }
+
+    public string GetFullName() => $"{FirstName} {LastName}";
+
+    public bool IsActiveUser()
+        => UserStatus.Active == Status && EmailConfirmed && !string.IsNullOrWhiteSpace(PasswordHash);
+
+    public bool CanBeResetPasswordAfterConfirmedEmail()
+        => !IsActiveUser();
+
+    public static AppUser Create(string email, string firstName, string lastName, string phoneNumber)
+    {
+        return new(email, firstName, lastName, phoneNumber);
+    }
+
+    public static AppUser Create(string email)
+    {
+        return new(email);
+    }
+
+    public static AppUser Create(string email, string firstName, string lastName, string phoneNumber, string password)
+    {
+        return new(email, firstName, lastName, password, phoneNumber);
+    }
+
+    public void Update(string firstName, string lastName)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        UpdatedDateTime = DateTimeOffset.Now;
+    }
+
+    public void Logout()
+    {
+        LastLoginDate = DateTimeOffset.UtcNow;
+    }
+
+    public void Update(string firstName, string lastName, string? hasedPassword = null, string? phoneNumber = null)
+    {
+        Update(firstName, lastName);
+
+        if (!string.IsNullOrWhiteSpace(hasedPassword))
+        {
+            PasswordHash = hasedPassword;
+        }
+
+        if (!string.IsNullOrWhiteSpace(phoneNumber))
+        {
+            PhoneNumber = phoneNumber;
+        }
+    }
+
+    public void CompleteRegistration(string firstName, string lastName, string phoneNumber)
+    {
+        Update(firstName, lastName, phoneNumber: phoneNumber);
+    }
 }

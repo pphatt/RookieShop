@@ -17,7 +17,7 @@ internal class OrderPaymentConfiguration : IEntityTypeConfiguration<OrderPayment
         builder.Property(op => op.CardNumber).HasMaxLength(20).IsRequired();
         builder.Property(op => op.Cvc).HasMaxLength(4).IsRequired();
         builder.Property(op => op.Expire).HasMaxLength(5).IsRequired();
-        builder.Property(op => op.CreatedOnUtc).IsRequired();
+        builder.Property(op => op.CreatedDateTime ).IsRequired();
         builder.Property(op => op.IsDeleted).IsRequired();
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace HeadphoneStore.Domain.Exceptions;
 
-public static class ProductException
+public static class ProductsException
 {
     public sealed class ProductNotFoundException() : DomainException.NotFoundException(
         code: "Product.NotFound", 

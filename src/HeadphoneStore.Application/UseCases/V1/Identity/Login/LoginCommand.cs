@@ -1,9 +1,10 @@
 ﻿using HeadphoneStore.Contract.Abstracts.Commands;
+using HeadphoneStore.Contract.Services.Identity.Login;
 
 namespace HeadphoneStore.Application.UseCases.V1.Identity.Login;
 
-public class LoginCommand : ICommand<LoginResponse>
+public sealed record LoginCommand(
+    string Email,
+    string Password) : ICommand<LoginResponseDto>
 {
-    public string Email { get; set; } = default!;
-    public string Password { get; set; } = default!;
 }
