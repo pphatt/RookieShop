@@ -2,7 +2,7 @@
 
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 
-namespace HeadphoneStore.Application.Abstracts.Interface;
+namespace HeadphoneStore.Application.Abstracts.Interface.Services.Authentication;
 
 public interface IClaimsTransformation
 {

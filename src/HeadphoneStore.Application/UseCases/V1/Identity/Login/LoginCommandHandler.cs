@@ -1,4 +1,4 @@
-﻿using HeadphoneStore.Application.Abstracts.Interface;
+﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Authentication;
 using HeadphoneStore.Contract.Abstracts.Commands;
 using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;

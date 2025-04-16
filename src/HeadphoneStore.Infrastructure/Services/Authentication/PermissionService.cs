@@ -1,4 +1,4 @@
-﻿using HeadphoneStore.Application.Abstracts.Interface;
+﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Authentication;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 
 using Microsoft.AspNetCore.Identity;

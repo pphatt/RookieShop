@@ -18,7 +18,7 @@ public static class JwtExtensions
     {
         JwtOption jwtOptions = new JwtOption();
 
-        configuration.Bind(JwtOption.SelectionName, jwtOptions);
+        configuration.Bind(nameof(JwtOption), jwtOptions);
 
         services.AddSingleton(Options.Create(jwtOptions));
 

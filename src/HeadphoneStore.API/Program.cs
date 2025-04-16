@@ -6,6 +6,7 @@ using HeadphoneStore.API.DependencyInjection.Extensions;
 using HeadphoneStore.API.Middlewares;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Infrastructure.DependencyInjection.Extensions;
+using HeadphoneStore.Infrastructure.DependencyInjection.Options;
 using HeadphoneStore.Persistence.DependencyInjection.Extensions;
 
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
@@ -51,6 +52,8 @@ builder.Services.AddAutoMapperApplication();
 
 // Infrastructure Layer
 builder.Services.AddInfrastructureDependenciesLayer(builder.Configuration);
+builder.Services.ConfigureMailOptionsInfrastructure(builder.Configuration.GetSection(nameof(EmailOption)));
+builder.Services.AddHttpContextAccessor();
 
 // Persistence Layer
 builder.Services.ConfigureSqlServerRetryOptionsPersistence(builder.Configuration);
