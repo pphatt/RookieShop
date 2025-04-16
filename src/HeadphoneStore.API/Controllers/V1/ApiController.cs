@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace HeadphoneStore.API.Controllers;
+namespace HeadphoneStore.API.Controllers.V1;
 
 [ApiController]
 [ApiVersion(1)]

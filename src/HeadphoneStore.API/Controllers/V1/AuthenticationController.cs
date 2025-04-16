@@ -11,7 +11,7 @@ using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace HeadphoneStore.API.Controllers.Authentication;
+namespace HeadphoneStore.API.Controllers.V1;
 
 [ApiVersion(1)]
 public class AuthenticationController : ApiController
