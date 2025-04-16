@@ -43,7 +43,7 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
         Sku = sku;
         Category = category;
         CreatedBy = createdBy;
-        CreatedOnUtc = DateTime.UtcNow;
+        CreatedDateTime  = DateTime.UtcNow;
     }
 
     public void Delete() => IsDeleted = true;
@@ -62,7 +62,7 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
         Sku = sku ?? throw new ArgumentNullException(nameof(sku));
         Category = category;
         UpdatedBy = updatedBy;
-        ModifiedOnUtc = DateTime.UtcNow;
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
     public void AddMedia(string imageUrl, Guid createdBy)
@@ -71,7 +71,7 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
 
         _media.Add(media);
 
-        ModifiedOnUtc = DateTime.UtcNow;
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
     protected override void EnsureValidState()

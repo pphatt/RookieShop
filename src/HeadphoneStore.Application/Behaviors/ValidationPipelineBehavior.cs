@@ -1,16 +1,18 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
 
 using HeadphoneStore.Contract.Abstracts.Shared;
 
 using MediatR;
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HeadphoneStore.Application.Behaviors;
 
 public class ValidationPipelineBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
-    where TResponse : Error
+    where TResponse : Result
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -28,28 +30,35 @@ public class ValidationPipelineBehavior<TRequest, TResponse>
 
         var context = new ValidationContext<TRequest>(request);
 
-        var validationResult = await Task.WhenAll(
-            _validators.Select(vr => vr.ValidateAsync(context, cancellationToken))
+        var validationResults = await Task.WhenAll(
+            _validators.Select(v => v.ValidateAsync(context, cancellationToken))
         );
 
-        bool validationResultAreValid = validationResult.All(vr => vr.IsValid);
+        var failures = validationResults
+            .SelectMany(r => r.Errors)
+            .Where(f => f != null)
+            .GroupBy(
+                e => e.PropertyName,
+                e => e.ErrorMessage
+            )
+            .ToDictionary(
+                failureGroup => failureGroup.Key,
+                failureGroup => failureGroup.ToArray()
+            );
 
-        if (validationResultAreValid)
+        if (failures.Any())
         {
-            return await next();
+            var errorResponse = new ValidationProblemDetails
+            {
+                Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+                Title = "One or more validation errors occurred.",
+                Status = StatusCodes.Status400BadRequest,
+                Errors = failures
+            };
+
+            return (TResponse)(object)Result.Failure(errorResponse);
         }
 
-        List<ValidationFailure> validationFailures =
-            validationResult
-                .SelectMany(vr => vr.Errors)
-                .Where(error => error != null)
-                .ToList();
-
-        return (dynamic)validationFailures.ConvertAll(
-            validationFail => (
-                code: validationFail.PropertyName,
-                description: validationFail.ErrorMessage
-            )
-        );
+        return await next();
     }
 }

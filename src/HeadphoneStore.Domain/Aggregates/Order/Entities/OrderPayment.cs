@@ -15,6 +15,6 @@ public class OrderPayment : Entity<Guid>
         CardNumber = cardNumber ?? throw new ArgumentNullException(nameof(cardNumber));
         Cvc = cvc ?? throw new ArgumentNullException(nameof(cvc));
         Expire = expire ?? throw new ArgumentNullException(nameof(expire));
-        CreatedOnUtc = DateTime.UtcNow;
+        CreatedDateTime  = DateTime.UtcNow;
     }
 }

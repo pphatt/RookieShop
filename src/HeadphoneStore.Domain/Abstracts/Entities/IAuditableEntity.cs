@@ -2,6 +2,6 @@
 
 public interface IAuditableEntity
 {
-    DateTimeOffset CreatedOnUtc { get; }
-    DateTimeOffset? ModifiedOnUtc { get; }
+    DateTimeOffset CreatedDateTime { get; }
+    DateTimeOffset? UpdatedDateTime { get; }
 }

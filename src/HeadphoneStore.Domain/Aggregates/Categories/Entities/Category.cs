@@ -14,14 +14,14 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
     private readonly List<Category> _children = new();
     public virtual IReadOnlyCollection<Category> Children => _children.AsReadOnly();
 
-    private Category() { } // For EF Core
+    private Category() { }
 
     public Category(string name, string description, Guid createdBy, Category? parent = null) : base(Guid.NewGuid())
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         Description = description ?? throw new ArgumentNullException(nameof(description));
         CreatedBy = createdBy;
-        CreatedOnUtc = DateTime.UtcNow;
+        CreatedDateTime  = DateTime.UtcNow;
         Parent = parent;
         ParentId = parent?.Id;
     }
@@ -36,7 +36,7 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
         Name = name ?? throw new ArgumentNullException(nameof(name));
         Description = description ?? throw new ArgumentNullException(nameof(description));
         UpdatedBy = updatedBy;
-        ModifiedOnUtc = DateTime.UtcNow;
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
     public void AddChild(Category category)

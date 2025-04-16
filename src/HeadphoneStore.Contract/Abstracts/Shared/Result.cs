@@ -29,6 +29,11 @@ public class Result
         set => _messages = value ?? new();
     }
 
+    protected internal Result(bool isSuccessful, object errors) : this(isSuccessful)
+    {
+        Errors = errors;
+    }
+
     private string _message = string.Empty;
 
     public string? Message
@@ -39,6 +44,10 @@ public class Result
 
     public bool IsSuccessful { get; }
 
+    public bool? IsFailure => !IsSuccessful;
+
+    public object? Errors { get; protected set; }
+
     public static Result Success() => new(true);
 
     public static Result Success(string message) => new(true, message);
@@ -48,20 +57,34 @@ public class Result
     public static Result<TValue> Success<TValue>(TValue value) => new(value, true);
 
     public static Result<TValue> Create<TValue>(TValue value) => Success(value);
+
+    public static Result Failure() => new(false);
+
+    public static Result Failure(object errors) => new(false, errors);
+
+    public static Result Failure(string message) => new(false, message);
+
+    public static Result Failure(List<string> messages) => new(false, messages);
+
+    public static Result<TValue> Failure<TValue>() => new(default, false);
+
+    public static Result<TValue> Failure<TValue>(string message) => new(default, false) { Message = message };
+
+    public static Result<TValue> Failure<TValue>(List<string> messages) => new(default, false) { Messages = messages };
 }
 
 public class Result<TValue> : Result
 {
-    private readonly TValue? _value;
-    protected internal Result(TValue? value, bool isSuccess) : base(isSuccess)
+    private readonly TValue? _data;
+    protected internal Result(TValue? data, bool isSuccess) : base(isSuccess)
     {
-        _value = value;
+        _data = data;
     }
 
-    public TValue Value => IsSuccessful ? _value! : throw new InvalidOperationException("The value of failure result can not be access");
+    public TValue Data => IsSuccessful ? _data! : throw new InvalidOperationException("The data of failure result can not be access");
 
     [JsonConstructor]
-    public Result(TValue value) : this(value, true) { }
+    public Result(TValue data) : this(data, true) { }
 
-    public static implicit operator Result<TValue>(TValue? value) => Create(value)!;
+    public static implicit operator Result<TValue>(TValue? data) => Create(data)!;
 }

@@ -32,7 +32,7 @@ public class Order : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEnti
         Status = "Pending";
         IsFeedback = false;
         Total = 0;
-        CreatedOnUtc = DateTime.UtcNow;
+        CreatedDateTime  = DateTime.UtcNow;
         CreatedBy = createdBy;
     }
 
@@ -44,7 +44,7 @@ public class Order : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEnti
         var detail = new OrderDetail(orderId, productId, quantity, price);
         _orderDetails.Add(detail);
         RecalculateTotal();
-        ModifiedOnUtc = DateTime.UtcNow;
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
     public void AddPayment(string cardNumber, string cvc, string expire)
@@ -54,7 +54,7 @@ public class Order : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEnti
 
         var payment = new OrderPayment(cardNumber, cvc, expire);
         _payments.Add(payment);
-        ModifiedOnUtc = DateTime.UtcNow;
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
     public void UpdateStatus(string newStatus, Guid updatedBy)
@@ -68,7 +68,7 @@ public class Order : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEnti
 
         Status = newStatus;
         UpdatedBy = updatedBy;
-        ModifiedOnUtc = DateTime.UtcNow;
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
     public void MarkFeedbackProvided(Guid updatedBy)
@@ -78,7 +78,7 @@ public class Order : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEnti
 
         IsFeedback = true;
         UpdatedBy = updatedBy;
-        ModifiedOnUtc = DateTime.UtcNow;
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
     private void RecalculateTotal()

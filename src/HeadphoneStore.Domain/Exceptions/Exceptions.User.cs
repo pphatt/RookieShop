@@ -1,6 +1,6 @@
 ﻿namespace HeadphoneStore.Domain.Exceptions;
 
-public static partial class UserException
+public static partial class UsersException
 {
     public sealed class NotFound() : DomainException.NotFoundException(
         code: "User.NotFound",

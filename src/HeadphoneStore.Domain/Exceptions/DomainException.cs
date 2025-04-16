@@ -25,6 +25,13 @@ public abstract class DomainException : Exception
         Description = description;
     }
 
+    protected DomainException(string code, string description, ExceptionType type) : base(description)
+    {
+        Code = code;
+        Description = description;
+        Type = type;
+    }
+
     public abstract class FailureException : DomainException
     {
         public override ExceptionType Type => ExceptionType.Failure;
@@ -86,5 +93,12 @@ public abstract class DomainException : Exception
         protected ForbiddenException(string code, string description) : base(code, description)
         {
         }
+    }
+}
+
+public class CustomException : DomainException
+{
+    public CustomException(string code, string description, ExceptionType type) : base(code, description, type)
+    {
     }
 }
