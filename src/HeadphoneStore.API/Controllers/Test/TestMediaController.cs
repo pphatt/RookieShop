@@ -1,4 +1,6 @@
-﻿using HeadphoneStore.API.Filters;
+﻿using Asp.Versioning;
+
+using HeadphoneStore.API.Filters;
 using HeadphoneStore.Application.Abstracts.Interface.Services.Media;
 using HeadphoneStore.Contract.Dtos.Media;
 
@@ -8,6 +10,7 @@ namespace HeadphoneStore.API.Controllers.Test;
 
 
 [Tags("Test")]
+[ApiVersion(1)]
 public class TestMediaController : TestApiController
 {
     private readonly ICloudinaryService _cloudinaryService;
@@ -21,6 +24,7 @@ public class TestMediaController : TestApiController
     [FileValidationFilter(5 * 1024 * 1024)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [MapToApiVersion(1)]
     public async Task<IActionResult> UploadFiles([FromForm] List<IFormFile> files, [FromForm] FileRequiredParamsDto request)
     {
         //await _mediaService.SaveFilesAsync(files, type);
@@ -33,6 +37,7 @@ public class TestMediaController : TestApiController
     [HttpDelete("remove-files")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [MapToApiVersion(1)]
     public async Task<IActionResult> RemoveFiles(List<DeleteFileDto> request)
     {
         //await _mediaService.RemoveFiles(paths);
@@ -45,6 +50,7 @@ public class TestMediaController : TestApiController
     [HttpGet("download-files")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [MapToApiVersion(1)]
     public async Task<IActionResult> DownloadFile([FromQuery] List<string> request)
     {
         //try
