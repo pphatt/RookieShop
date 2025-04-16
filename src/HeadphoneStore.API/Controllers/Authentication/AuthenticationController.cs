@@ -18,8 +18,9 @@ public class AuthenticationController : ApiController
         _mapper = mapper;
     }
 
-    [HttpPost]
-    [Route("login")]
+    [HttpPost("login")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         var mapper = _mapper.Map<LoginCommand>(request);

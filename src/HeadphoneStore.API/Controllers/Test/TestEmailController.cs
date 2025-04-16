@@ -16,6 +16,8 @@ public class TestEmailController : TestApiController
     }
 
     [HttpGet("email")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> TestEmail()
     {
         var emailRequest = new EmailContent
