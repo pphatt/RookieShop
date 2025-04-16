@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Asp.Versioning.ApiExplorer;
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -13,12 +15,16 @@ public static class SwaggerExtensions
         {
             c.EnableAnnotations();
 
-            c.SwaggerDoc("AdminAPI", new OpenApiInfo
+            var provider = services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
+            foreach (var description in provider.ApiVersionDescriptions)
             {
-                Title = "Admin API",
-                Version = "v1",
-                Description = "API for administrative operations"
-            });
+                c.SwaggerDoc(description.GroupName, new OpenApiInfo
+                {
+                    Title = "HeadphoneStore API",
+                    Version = description.ApiVersion.ToString(),
+                    Description = $"API for HeadphoneStore operations (Version {description.GroupName})"
+                });
+            }
 
             c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
             {
@@ -52,18 +58,17 @@ public static class SwaggerExtensions
             });
         });
 
-        // missing versioning setup here.
-
         return services;
     }
 
-    // missing versioning setup here.
     public static void AddSwaggerUI(this WebApplication app)
     {
         app.UseSwagger();
         app.UseSwaggerUI(options =>
         {
-            options.SwaggerEndpoint("/swagger/AdminAPI/swagger.json", "Admin API");
+            foreach (var version in app.DescribeApiVersions().Select(version => version.GroupName))
+                options.SwaggerEndpoint($"/swagger/{version}/swagger.json", version);
+
             options.DisplayOperationId();
             options.DisplayRequestDuration();
 

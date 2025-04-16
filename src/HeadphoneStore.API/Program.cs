@@ -1,6 +1,8 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+using Asp.Versioning;
+
 using HeadphoneStore.API;
 using HeadphoneStore.API.DependencyInjection.Extensions;
 using HeadphoneStore.API.Middlewares;
@@ -29,6 +31,23 @@ builder.Services
         options.JsonSerializerOptions.WriteIndented = true;
     })
     .AddApplicationPart(AssemblyReference.Assembly);
+
+// Add Api Versioning
+builder.Services
+    .AddApiVersioning(options =>
+    {
+        options.ReportApiVersions = true;
+        options.AssumeDefaultVersionWhenUnspecified = true;
+        options.ApiVersionReader = ApiVersionReader.Combine(
+            new UrlSegmentApiVersionReader(),
+            new HeaderApiVersionReader("X-Api-Version"));
+    })
+    .AddMvc()
+    .AddApiExplorer(options =>
+    {
+        options.GroupNameFormat = "'v'V";
+        options.SubstituteApiVersionInUrl = true;
+    });
 
 // Add Cors
 builder.Services.ConfigureCors(builder.Configuration, serverCorsPolicy);

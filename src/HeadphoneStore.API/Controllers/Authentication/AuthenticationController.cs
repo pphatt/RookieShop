@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using Asp.Versioning;
+
+using AutoMapper;
 
 using HeadphoneStore.Application.UseCases.V1.Identity.Login;
 
@@ -8,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HeadphoneStore.API.Controllers.Authentication;
 
-[Route("api/v1/[controller]")]
+[ApiVersion(1)]
 public class AuthenticationController : ApiController
 {
     private readonly IMapper _mapper;
@@ -21,6 +23,7 @@ public class AuthenticationController : ApiController
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [MapToApiVersion(1)]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         var mapper = _mapper.Map<LoginCommand>(request);
