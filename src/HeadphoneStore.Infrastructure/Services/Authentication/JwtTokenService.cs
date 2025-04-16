@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-using HeadphoneStore.Application.Abstracts.Interface;
+using HeadphoneStore.Application.Abstracts.Interface.Services.Authentication;
 using HeadphoneStore.Infrastructure.DependencyInjection.Options;
 
 using Microsoft.Extensions.Options;

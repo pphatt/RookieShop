@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Text.Json;
 
-using HeadphoneStore.Application.Abstracts.Interface;
+using HeadphoneStore.Application.Abstracts.Interface.Services.Authentication;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 
 using HeadphoneStore.Domain.Enumeration;
