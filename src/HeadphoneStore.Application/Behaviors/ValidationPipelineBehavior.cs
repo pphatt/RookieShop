@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using System.Reflection;
+
+using FluentValidation;
 
 using HeadphoneStore.Contract.Abstracts.Shared;
 
@@ -55,6 +57,32 @@ public class ValidationPipelineBehavior<TRequest, TResponse>
                 Status = StatusCodes.Status400BadRequest,
                 Errors = failures
             };
+
+            if (typeof(TResponse).IsGenericType && typeof(TResponse).GetGenericTypeDefinition() == typeof(Result<>))
+            {
+                var genericType = typeof(TResponse).GetGenericArguments()[0];
+
+                var failureMethod = typeof(Result)
+                    .GetMethods(BindingFlags.Static | BindingFlags.Public)
+                    .FirstOrDefault(m =>
+                        m.Name == nameof(Result.Failure) &&
+                        m.IsGenericMethodDefinition &&
+                        m.GetGenericArguments().Length == 1 &&
+                        m.GetParameters().Length == 1 &&
+                        m.GetParameters()[0].ParameterType == typeof(object));
+
+                if (failureMethod != null)
+                {
+                    var genericFailureMethod = failureMethod.MakeGenericMethod(genericType);
+
+                    return (TResponse)genericFailureMethod.Invoke(null, new object[] { errorResponse })!;
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error: Could not find generic Result.Failure<T>(object) in Result class for type {genericType}");
+                    return (TResponse)(object)Result.Failure(errorResponse);
+                }
+            }
 
             return (TResponse)(object)Result.Failure(errorResponse);
         }

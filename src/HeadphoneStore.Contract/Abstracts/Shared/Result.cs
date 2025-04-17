@@ -68,6 +68,8 @@ public class Result
 
     public static Result<TValue> Failure<TValue>() => new(default, false);
 
+    public static Result<TValue> Failure<TValue>(object errors) => new(default, false) { Errors = errors };
+
     public static Result<TValue> Failure<TValue>(string message) => new(default, false) { Message = message };
 
     public static Result<TValue> Failure<TValue>(List<string> messages) => new(default, false) { Messages = messages };
