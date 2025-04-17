@@ -26,6 +26,11 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
         ParentId = parent?.Id;
     }
 
+    public static Category Create(string name, string description, Guid createdBy, Category? parent = null)
+    {
+        return new(name, description, createdBy, parent);
+    }
+
     public void Delete() => IsDeleted = true;
 
     public void Update(string name, string description, Guid updatedBy)

@@ -1,6 +1,7 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Persistence.DependencyInjection.Options;
+using HeadphoneStore.Persistence.Repositories;
 using HeadphoneStore.Persistence.Repository;
 
 using Microsoft.AspNetCore.Identity;
@@ -49,6 +50,27 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
         services.AddScoped(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>));
+
+        var concreteServices = typeof(CategoryRepository).Assembly.GetTypes()
+            .Where(x => x.GetInterfaces().Any(i => i.Name == typeof(IRepositoryBase<,>).Name)
+                && !x.IsAbstract
+                && x.IsClass
+                && !x.IsGenericType)
+            .OrderBy(x => x.Name.Contains("Cache") ? 1 : 0);
+
+        foreach (var concreteService in concreteServices)
+        {
+            var allInterfaces = concreteService.GetInterfaces();
+
+            var inheritedInterface = allInterfaces.SelectMany(x => x.GetInterfaces());
+
+            var directInterface = allInterfaces.Except(inheritedInterface).FirstOrDefault();
+
+            if (directInterface != null)
+            {
+                services.Add(new ServiceDescriptor(directInterface, concreteService, ServiceLifetime.Scoped));
+            }
+        }
     }
 
     public static void AddDbIdentity(this IServiceCollection services)
