@@ -39,18 +39,18 @@ public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>
         Expression<Func<TEntity, bool>>? predicate = null,
         params Expression<Func<TEntity, object>>[] includeProperties)
     {
-        IQueryable<TEntity> items = _dbSet.AsNoTracking(); // Importance always include AsNoTracking for Query Side
+        IQueryable<TEntity> items = _dbSet.AsNoTracking(); // Keep AsNoTracking for query side
 
         if (predicate != null)
         {
-            items.Where(predicate);
+            items = items.Where(predicate);
         }
 
         if (includeProperties != null)
         {
             foreach (var property in includeProperties)
             {
-                items.Include(property);
+                items = items.Include(property);
             }
         }
 

@@ -1,4 +1,6 @@
-﻿using HeadphoneStore.Contract.Abstracts.Commands;
+﻿using System.Linq;
+
+using HeadphoneStore.Contract.Abstracts.Commands;
 using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
@@ -34,7 +36,7 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
         var createdBy = request.CreatedBy;
         var parentCategoryId = request.ParentCategoryId;
 
-        var duplicateName = _categoryRepository.FindByConditionAsync(x => x.Name.Equals(name)).FirstOrDefault();
+        var duplicateName = _categoryRepository.FindByConditionAsync(x => x.Name.Equals(name)).SingleOrDefault();
 
         if (duplicateName is not null)
         {
