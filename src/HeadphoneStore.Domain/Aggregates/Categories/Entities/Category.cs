@@ -14,7 +14,7 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
     private readonly List<Category> _children = new();
     public virtual IReadOnlyCollection<Category> Children => _children.AsReadOnly();
 
-    private Category() { }
+    protected Category() { }
 
     public Category(string name, string description, Guid createdBy, Category? parent = null) : base(Guid.NewGuid())
     {
@@ -33,7 +33,7 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
 
     public void Delete() => IsDeleted = true;
 
-    public void Update(string name, string description, Guid updatedBy)
+    public void Update(string name, string description, Category? parent, Guid updatedBy)
     {
         if (name.Length > 256)
             throw new ArgumentException("Name cannot exceed 256 characters.");
@@ -41,6 +41,7 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
         Name = name ?? throw new ArgumentNullException(nameof(name));
         Description = description ?? throw new ArgumentNullException(nameof(description));
         UpdatedBy = updatedBy;
+        Parent = parent;
         UpdatedDateTime = DateTime.UtcNow;
     }
 

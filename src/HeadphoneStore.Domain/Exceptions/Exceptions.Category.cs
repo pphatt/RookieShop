@@ -8,5 +8,10 @@ public static partial class Exceptions
             code: "Category.DuplicateName",
             description: "Category's name already exists."
         );
+
+        public sealed class NotFound() : DomainException.NotFoundException(
+            code: "Category.NotFound",
+            description: "Category was not found."
+        );
     }
 }
