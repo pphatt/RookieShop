@@ -80,6 +80,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.ConfigureSqlServerRetryOptionsPersistence(builder.Configuration);
 builder.Services.AddSqlServerPersistence(builder.Configuration);
 builder.Services.AddDbIdentity();
+builder.Services.AddRepositoryPersistence();
 
 builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 

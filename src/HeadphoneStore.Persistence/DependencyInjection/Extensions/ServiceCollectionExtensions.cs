@@ -1,5 +1,7 @@
-﻿using HeadphoneStore.Domain.Aggregates.Identity.Entities;
+﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Persistence.DependencyInjection.Options;
+using HeadphoneStore.Persistence.Repository;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +44,12 @@ public static class ServiceCollectionExtensions
             .Bind(configuration.GetSection(nameof(SqlServerRetryOptions)))
             .ValidateDataAnnotations()
             .ValidateOnStart();
+
+    public static void AddRepositoryPersistence(this IServiceCollection services)
+    {
+        services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+        services.AddScoped(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>));
+    }
 
     public static void AddDbIdentity(this IServiceCollection services)
     {
