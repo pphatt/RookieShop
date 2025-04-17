@@ -12,13 +12,13 @@ namespace HeadphoneStore.API.Controllers.V1;
 [ApiController]
 [ApiVersion(1)]
 [Route("api/v{version:apiVersion}/[controller]")]
-public class ApiController : ControllerBase
+public class BaseApiController : ControllerBase
 {
-    protected readonly ISender _mediatorSender;
+    protected readonly IMediator _mediator;
 
-    public ApiController(ISender mediatorSender)
+    public BaseApiController(IMediator mediator)
     {
-        _mediatorSender = mediatorSender;
+        _mediator = mediator;
     }
 
     protected IActionResult HandlerFailure(Result result)

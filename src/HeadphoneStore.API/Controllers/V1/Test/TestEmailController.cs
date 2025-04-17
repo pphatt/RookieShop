@@ -19,7 +19,7 @@ public class TestEmailController : TestApiController
 
     [HttpGet("email")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
     public async Task<IActionResult> TestEmail()
     {
