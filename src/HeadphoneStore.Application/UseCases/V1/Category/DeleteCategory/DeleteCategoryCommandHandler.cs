@@ -19,7 +19,7 @@ public class DeleteCategoryCommandHandler : ICommandHandler<DeleteCategoryComman
 
     public async Task<Result> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
-        var category = await _categoryRepository.FindByIdAsync(request.CategoryId);
+        var category = await _categoryRepository.FindByIdAsync(request.Id);
 
         if (category is null)
         {

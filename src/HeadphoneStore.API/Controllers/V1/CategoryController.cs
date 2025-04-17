@@ -46,7 +46,7 @@ public class CategoryController : BaseApiController
         return Ok(response);
     }
 
-    [HttpPut("{CategoryId}")]
+    [HttpPut("{Id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateCategoryResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
@@ -62,7 +62,7 @@ public class CategoryController : BaseApiController
         return Ok(response);
     }
 
-    [HttpDelete("{CategoryId}")]
+    [HttpDelete("{Id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateCategoryResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]

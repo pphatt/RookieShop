@@ -26,7 +26,7 @@ public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryComman
         var parentCategoryId = request.ParentCategoryId;
         var updatedBy = request.UpdatedBy;
 
-        var categoryFromDb = await _categoryRepository.FindByIdAsync(request.CategoryId);
+        var categoryFromDb = await _categoryRepository.FindByIdAsync(request.Id);
 
         if (categoryFromDb is null)
         {
