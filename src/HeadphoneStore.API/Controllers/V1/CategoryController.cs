@@ -3,10 +3,11 @@
 using AutoMapper;
 
 using HeadphoneStore.Application.UseCases.V1.Category.CreateCategory;
+using HeadphoneStore.Application.UseCases.V1.Category.DeleteCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
 using HeadphoneStore.Contract.Services.Category.Create;
+using HeadphoneStore.Contract.Services.Category.Delete;
 using HeadphoneStore.Contract.Services.Category.Update;
-using HeadphoneStore.Contract.Services.Identity.Login;
 
 using MediatR;
 
@@ -30,6 +31,7 @@ public class CategoryController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateCategoryResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
+    [AllowAnonymous]
     public async Task<IActionResult> CreateCategory([FromForm] CreateCategoryRequestDto request)
     {
         var mapper = _mapper.Map<CreateCategoryCommand>(request);
@@ -38,7 +40,7 @@ public class CategoryController : BaseApiController
 
         var response = await _mediator.Send(mapper);
 
-        if (response.IsFailure is true)
+        if (response.IsFailure)
             return HandlerFailure(response);
 
         return Ok(response);
@@ -54,9 +56,26 @@ public class CategoryController : BaseApiController
 
         var response = await _mediator.Send(mapper);
 
-        if (response.IsFailure is true)
+        if (response.IsFailure)
             return HandlerFailure(response);
 
         return Ok(response);
+    }
+
+    [HttpDelete("{CategoryId}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateCategoryResponseDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    [AllowAnonymous]
+    public async Task<IActionResult> DeleteCategory([FromRoute] DeleteCategoryRequestDto request)
+    {
+        var mapper = _mapper.Map<DeleteCategoryCommand>(request);
+
+        var response = await _mediator.Send(mapper);
+
+        if (response.IsFailure)
+            return HandlerFailure(response);
+
+        return Ok();
     }
 }

@@ -36,7 +36,7 @@ public class AuthenticationController : BaseApiController
 
         var response = await _mediator.Send(mapper);
 
-        if (response.IsFailure is true)
+        if (response.IsFailure)
             return HandlerFailure(response);
 
         return Ok(response);
@@ -53,7 +53,7 @@ public class AuthenticationController : BaseApiController
 
         var response = await _mediator.Send(mapper);
 
-        if (response.IsFailure is true)
+        if (response.IsFailure)
             return HandlerFailure(response);
 
         return Ok(response);

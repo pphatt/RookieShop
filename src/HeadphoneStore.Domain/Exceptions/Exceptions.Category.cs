@@ -13,5 +13,10 @@ public static partial class Exceptions
             code: "Category.NotFound",
             description: "Category was not found."
         );
+
+        public sealed class AlreadyDeleted() : DomainException.ValidationException(
+            code: "Category.AlreadyDeleted",
+            description: "Category already deleted."
+        );
     }
 }

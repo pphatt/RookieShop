@@ -44,7 +44,7 @@ public class Result
 
     public bool IsSuccessful { get; }
 
-    public bool? IsFailure => !IsSuccessful;
+    public bool IsFailure => !IsSuccessful;
 
     public object? Errors { get; protected set; }
 
