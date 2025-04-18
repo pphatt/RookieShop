@@ -1,30 +1,32 @@
-﻿using AutoMapper;
-
-using HeadphoneStore.Contract.Abstracts.Queries;
+﻿using HeadphoneStore.Contract.Abstracts.Queries;
 using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Contract.Dtos.Category;
 using HeadphoneStore.Domain.Abstracts.Repositories;
-using HeadphoneStore.Domain.Aggregates.Categories.Entities;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace HeadphoneStore.Application.UseCases.V1.Category.GetCategoryById;
 
-using Category = Domain.Aggregates.Categories.Entities.Category;
 using Exceptions = Domain.Exceptions.Exceptions;
 
 public class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, CategoryDto>
 {
-    private readonly IMapper _mapper;
     private readonly ICategoryRepository _categoryRepository;
 
-    public GetCategoryByIdQueryHandler(IMapper mapper, ICategoryRepository categoryRepository)
+    public GetCategoryByIdQueryHandler(ICategoryRepository categoryRepository)
     {
-        _mapper = mapper;
         _categoryRepository = categoryRepository;
     }
 
     public async Task<Result<CategoryDto>> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
-        var category = await _categoryRepository.FindByIdAsync(request.Id, cancellationToken);
+        var category = await _categoryRepository
+            .GetQueryableSet()
+            .AsNoTracking()
+            .Where(x => x.Id.Equals(request.Id))
+            .Include(x => x.Parent)
+            .Include(x => x.SubCategories)
+            .SingleOrDefaultAsync();
 
         if (category is null)
         {
@@ -36,23 +38,30 @@ public class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, C
             throw new Exceptions.Category.AlreadyDeleted();
         }
 
-        CategoryDtoBase? parent = null;
-
-        if (category.ParentId is not null)
+        var result = new CategoryDto()
         {
-            parent = _mapper.Map<CategoryDtoBase>(category.Parent);
-        }
-
-        List<CategoryDtoBase>? children = null;
-
-        if (category.SubCategories.Any())
-        {
-            children = _mapper.Map<List<CategoryDtoBase>>(category.SubCategories);
-        }
-
-        var result = _mapper.Map<CategoryDto>(category);
-        result.Parent = parent;
-        result.SubCategories = children;
+            Id = category.Id,
+            Name = category.Name,
+            Description = category.Description,
+            CreatedBy = category.CreatedBy,
+            UpdatedBy = category.UpdatedBy,
+            Parent = category.Parent != null ? new CategoryDto
+            {
+                Id = category.Parent.Id,
+                Name = category.Parent.Name,
+                Description = category.Parent.Description,
+                CreatedBy = category.Parent.CreatedBy,
+                UpdatedBy = category.Parent.UpdatedBy,
+            } : null,
+            SubCategories = category.SubCategories.Select(x => new CategoryDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                CreatedBy = x.CreatedBy,
+                UpdatedBy = x.UpdatedBy,
+            })
+        };
 
         return Result.Success(result);
     }

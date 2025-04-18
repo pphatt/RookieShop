@@ -30,7 +30,7 @@ public class GetAllCategoriesWithSubCategoriesQueryHandler : IQueryHandler<GetAl
                 Description = x.Description,
                 CreatedBy = x.CreatedBy,
                 UpdatedBy = x.UpdatedBy,
-                Parent = x.Parent != null ? new CategoryDtoBase
+                Parent = x.Parent != null ? new CategoryDto
                 {
                     Id = x.Parent.Id,
                     Name = x.Parent.Name,
@@ -38,7 +38,7 @@ public class GetAllCategoriesWithSubCategoriesQueryHandler : IQueryHandler<GetAl
                     CreatedBy = x.Parent.CreatedBy,
                     UpdatedBy = x.Parent.UpdatedBy,
                 } : null,
-                SubCategories = x.SubCategories.Select(c => new CategoryDtoBase
+                SubCategories = x.SubCategories.Select(c => new CategoryDto
                 {
                     Id = c.Id,
                     Name = c.Name,

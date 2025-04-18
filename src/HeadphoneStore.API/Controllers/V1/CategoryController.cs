@@ -103,7 +103,7 @@ public class CategoryController : BaseApiController
     }
 
     [HttpGet("all")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDtoBase>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDto>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
     [AllowAnonymous]
@@ -120,7 +120,7 @@ public class CategoryController : BaseApiController
     }
 
     [HttpGet("all-sub")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDtoBase>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDto>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
     [AllowAnonymous]
@@ -136,7 +136,7 @@ public class CategoryController : BaseApiController
         return Ok(response);
     }
 
-    [HttpGet("with-sub-all")]
+    [HttpGet("all-with-sub")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDto>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]

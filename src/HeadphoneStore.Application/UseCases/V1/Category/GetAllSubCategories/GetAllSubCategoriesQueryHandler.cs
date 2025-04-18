@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HeadphoneStore.Application.UseCases.V1.Category.GetAllSubCategories;
 
-public class GetAllSubCategoriesQueryHandler : IQueryHandler<GetAllSubCategoriesQuery, List<CategoryDtoBase>>
+public class GetAllSubCategoriesQueryHandler : IQueryHandler<GetAllSubCategoriesQuery, List<CategoryDto>>
 {
     private readonly ICategoryRepository _categoryRepository;
 
@@ -16,14 +16,14 @@ public class GetAllSubCategoriesQueryHandler : IQueryHandler<GetAllSubCategories
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<Result<List<CategoryDtoBase>>> Handle(GetAllSubCategoriesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<CategoryDto>>> Handle(GetAllSubCategoriesQuery request, CancellationToken cancellationToken)
     {
         var query = _categoryRepository
             .GetQueryableSet()
             .AsNoTracking()
             .Include(x => x.SubCategories)
             .SelectMany(c => c.SubCategories)
-            .Select(x => new CategoryDtoBase
+            .Select(x => new CategoryDto
             {
                 Id = x.Id,
                 Name = x.Name,

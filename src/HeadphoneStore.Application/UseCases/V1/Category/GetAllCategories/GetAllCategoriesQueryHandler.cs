@@ -1,29 +1,43 @@
-﻿
-using AutoMapper;
-
-using HeadphoneStore.Contract.Abstracts.Queries;
+﻿using HeadphoneStore.Contract.Abstracts.Queries;
 using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Contract.Dtos.Category;
 using HeadphoneStore.Domain.Abstracts.Repositories;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace HeadphoneStore.Application.UseCases.V1.Category.GetAllCategories;
 
-public class GetAllCategoriesQueryHandler : IQueryHandler<GetAllCategoriesQuery, List<CategoryDtoBase>>
+public class GetAllCategoriesQueryHandler : IQueryHandler<GetAllCategoriesQuery, List<CategoryDto>>
 {
-    private readonly IMapper _mapper;
     private readonly ICategoryRepository _categoryRepository;
 
-    public GetAllCategoriesQueryHandler(IMapper mapper, ICategoryRepository categoryRepository)
+    public GetAllCategoriesQueryHandler(ICategoryRepository categoryRepository)
     {
-        _mapper = mapper;
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<Result<List<CategoryDtoBase>>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<CategoryDto>>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
     {
-        var categories = _categoryRepository.FindAll(x => x.ParentId == null);
+        var categories = _categoryRepository
+            .FindAll(x => x.ParentId == null)
+            .Select(x => new CategoryDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                CreatedBy = x.CreatedBy,
+                UpdatedBy = x.UpdatedBy,
+                SubCategories = x.SubCategories.Select(c => new CategoryDto
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Description = c.Description,
+                    CreatedBy = c.CreatedBy,
+                    UpdatedBy = c.UpdatedBy,
+                })
+            });
 
-        var result = _mapper.Map<List<CategoryDtoBase>>(categories);
+        var result = await categories.ToListAsync();
 
         return Result.Success(result);
     }
