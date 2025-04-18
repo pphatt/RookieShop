@@ -22,20 +22,20 @@ public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>
         CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includeProperties)
     {
-        return await FindAllAsync(null, includeProperties)
+        return await FindAll(null, includeProperties)
             .AsTracking()
             .SingleOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
     }
 
-    public IEnumerable<TEntity> FindByConditionAsync(
+    public IEnumerable<TEntity> FindByCondition(
         Expression<Func<TEntity, bool>> predicate,
         CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includeProperties)
     {
-        return FindAllAsync(predicate, includeProperties).AsTracking();
+        return FindAll(predicate, includeProperties).AsTracking();
     }
 
-    public IQueryable<TEntity> FindAllAsync(
+    public IQueryable<TEntity> FindAll(
         Expression<Func<TEntity, bool>>? predicate = null,
         params Expression<Func<TEntity, object>>[] includeProperties)
     {

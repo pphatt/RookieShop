@@ -33,7 +33,7 @@ public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryComman
             throw new Exceptions.Category.NotFound();
         }
 
-        var duplicateName = _categoryRepository.FindByConditionAsync(x => x.Name.Equals(name)).FirstOrDefault();
+        var duplicateName = _categoryRepository.FindByCondition(x => x.Name.Equals(name)).FirstOrDefault();
 
         if (duplicateName is not null && duplicateName.Id != categoryFromDb.Id)
         {

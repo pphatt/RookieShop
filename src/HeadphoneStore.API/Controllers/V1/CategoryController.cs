@@ -4,8 +4,10 @@ using AutoMapper;
 
 using HeadphoneStore.Application.UseCases.V1.Category.CreateCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.DeleteCategory;
+using HeadphoneStore.Application.UseCases.V1.Category.GetAllCategories;
 using HeadphoneStore.Application.UseCases.V1.Category.GetCategoryById;
 using HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
+using HeadphoneStore.Contract.Dtos.Category;
 using HeadphoneStore.Contract.Services.Category.Create;
 using HeadphoneStore.Contract.Services.Category.Delete;
 using HeadphoneStore.Contract.Services.Category.GetCategoryById;
@@ -38,7 +40,7 @@ public class CategoryController : BaseApiController
     {
         var mapper = _mapper.Map<CreateCategoryCommand>(request);
 
-        mapper.CreatedBy = Guid.Parse("695C0301-D309-4E4E-9B19-7DA747888ED1");
+        mapper.CreatedBy = Guid.Parse("F50F0A80-12DC-4BD2-8861-8D0A8B3A6E96");
 
         var response = await _mediator.Send(mapper);
 
@@ -91,6 +93,23 @@ public class CategoryController : BaseApiController
         var mapper = _mapper.Map<GetCategoryByIdQuery>(request);
 
         var response = await _mediator.Send(mapper);
+
+        if (response.IsFailure)
+            return HandlerFailure(response);
+
+        return Ok(response);
+    }
+
+    [HttpGet("all")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDtoBase>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetAllCategories()
+    {
+        var query = new GetAllCategoriesQuery();
+
+        var response = await _mediator.Send(query);
 
         if (response.IsFailure)
             return HandlerFailure(response);

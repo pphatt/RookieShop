@@ -9,12 +9,12 @@ public interface IRepositoryBase<TEntity, in TKey> where TEntity : class
         CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includeProperties);
 
-    IEnumerable<TEntity> FindByConditionAsync(
+    IEnumerable<TEntity> FindByCondition(
         Expression<Func<TEntity, bool>> predicate,
         CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includeProperties);
 
-    IQueryable<TEntity> FindAllAsync(
+    IQueryable<TEntity> FindAll(
         Expression<Func<TEntity, bool>> predicate,
         params Expression<Func<TEntity, object>>[] includeProperties);
 

@@ -36,14 +36,14 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
         var createdBy = request.CreatedBy;
         var parentCategoryId = request.ParentCategoryId;
 
-        var duplicateName = _categoryRepository.FindByConditionAsync(x => x.Name.Equals(name)).SingleOrDefault();
+        var duplicateName = _categoryRepository.FindByCondition(x => x.Name.Equals(name)).SingleOrDefault();
 
         if (duplicateName is not null)
         {
             throw new Exceptions.Category.DuplicateName();
         }
 
-        var user = _userManager.FindByIdAsync(createdBy.ToString());
+        var user = await _userManager.FindByIdAsync(createdBy.ToString());
 
         if (user is null)
         {
