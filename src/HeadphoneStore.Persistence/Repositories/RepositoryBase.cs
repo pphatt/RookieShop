@@ -57,6 +57,11 @@ public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>
         return items;
     }
 
+    public IQueryable<TEntity> GetQueryableSet()
+    {
+        return _dbSet.AsQueryable<TEntity>();
+    }
+
     public void Add(TEntity entity)
     {
         _dbSet.Add(entity);

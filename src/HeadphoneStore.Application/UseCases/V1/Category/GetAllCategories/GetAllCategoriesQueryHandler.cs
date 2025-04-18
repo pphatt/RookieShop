@@ -23,8 +23,8 @@ public class GetAllCategoriesQueryHandler : IQueryHandler<GetAllCategoriesQuery,
     {
         var categories = _categoryRepository.FindAll(x => x.ParentId == null);
 
-        var categoriesDto = _mapper.Map<List<CategoryDtoBase>>(categories);
+        var result = _mapper.Map<List<CategoryDtoBase>>(categories);
 
-        return Result.Success(categoriesDto);
+        return Result.Success(result);
     }
 }

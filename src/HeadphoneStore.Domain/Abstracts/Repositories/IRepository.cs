@@ -18,6 +18,8 @@ public interface IRepositoryBase<TEntity, in TKey> where TEntity : class
         Expression<Func<TEntity, bool>> predicate,
         params Expression<Func<TEntity, object>>[] includeProperties);
 
+    IQueryable<TEntity> GetQueryableSet();
+
     void Add(TEntity entity);
 
     void AddRange(IEnumerable<TEntity> entities);
