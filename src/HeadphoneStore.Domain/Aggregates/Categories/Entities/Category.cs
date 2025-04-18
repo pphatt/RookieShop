@@ -48,7 +48,7 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
         UpdatedDateTime = DateTime.UtcNow;
     }
 
-    public void AddChild(Category category)
+    public void AddSubCategory(Category category)
     {
         if (category == null)
             throw new ArgumentNullException(nameof(category));

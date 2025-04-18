@@ -18,8 +18,7 @@ public class GetAllCategoriesWithSubCategoriesQueryHandler : IQueryHandler<GetAl
 
     public async Task<Result<List<CategoryDto>>> Handle(GetAllCategoriesWithSubCategoriesQuery request, CancellationToken cancellationToken)
     {
-        var query =
-            _categoryRepository
+        var query =_categoryRepository
             .GetQueryableSet()
             .AsNoTracking()
             .Include(x => x.SubCategories)
