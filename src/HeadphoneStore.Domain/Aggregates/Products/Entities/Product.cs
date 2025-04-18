@@ -21,6 +21,8 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
 
     public Guid CategoryId { get; set; }
     public virtual Category Category { get; private set; }
+    public Guid BrandId { get; set; }
+    public virtual Brand Brand { get; private set; }
 
     private readonly List<ProductMedia> _media = [];
     public virtual IReadOnlyCollection<ProductMedia> Media => _media.AsReadOnly();
@@ -34,6 +36,7 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
         ProductPrice productPrice,
         string sku,
         Category category,
+        Brand brand,
         Guid createdBy) : base(Guid.NewGuid())
     {
         Name = name;
@@ -42,6 +45,7 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
         ProductPrice = productPrice;
         Sku = sku;
         Category = category;
+        Brand = brand;
         CreatedBy = createdBy;
         CreatedDateTime  = DateTime.UtcNow;
     }
@@ -54,6 +58,7 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
         ProductPrice productPrice,
         string sku,
         Category category,
+        Brand brand,
         Guid updatedBy)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
@@ -61,6 +66,7 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
         ProductPrice = productPrice.Amount >= 0 ? productPrice : throw new ArgumentException("Price cannot be negative.");
         Sku = sku ?? throw new ArgumentNullException(nameof(sku));
         Category = category;
+        Brand = brand;
         UpdatedBy = updatedBy;
         UpdatedDateTime = DateTime.UtcNow;
     }

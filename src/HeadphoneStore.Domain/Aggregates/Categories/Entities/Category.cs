@@ -1,4 +1,5 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Entities;
+using HeadphoneStore.Domain.Aggregates.Products.Entities;
 
 namespace HeadphoneStore.Domain.Aggregates.Categories.Entities;
 
@@ -11,8 +12,10 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
 
     public Guid? ParentId { get; private set; }
     public virtual Category? Parent { get; private set; }
-    private readonly List<Category> _children = new();
-    public virtual IReadOnlyCollection<Category> Children => _children.AsReadOnly();
+    private readonly List<Category> _subCategories = new();
+    public virtual IReadOnlyCollection<Category> SubCategories => _subCategories.AsReadOnly();
+    private readonly List<Product> _products = new();
+    public virtual IReadOnlyCollection<Product> Products => _products.AsReadOnly();
 
     protected Category() { }
 
@@ -50,7 +53,7 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
         if (category == null)
             throw new ArgumentNullException(nameof(category));
 
-        _children.Add(category);
+        _subCategories.Add(category);
 
         category.SetParent(this);
     }

@@ -45,14 +45,14 @@ public class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, C
 
         List<CategoryDtoBase>? children = null;
 
-        if (category.Children.Any())
+        if (category.SubCategories.Any())
         {
-            children = _mapper.Map<List<CategoryDtoBase>>(category.Children);
+            children = _mapper.Map<List<CategoryDtoBase>>(category.SubCategories);
         }
 
         var result = _mapper.Map<CategoryDto>(category);
         result.Parent = parent;
-        result.Children = children;
+        result.SubCategories = children;
 
         return Result.Success(result);
     }

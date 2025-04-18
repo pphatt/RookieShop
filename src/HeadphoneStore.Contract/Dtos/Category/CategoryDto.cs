@@ -12,5 +12,5 @@ public class CategoryDtoBase
 public class CategoryDto : CategoryDtoBase
 {
     public CategoryDtoBase? Parent { get; set; }
-    public IEnumerable<CategoryDtoBase>? Children { get; set; }
+    public IEnumerable<CategoryDtoBase>? SubCategories { get; set; }
 }
