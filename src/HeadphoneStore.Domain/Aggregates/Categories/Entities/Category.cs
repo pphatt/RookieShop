@@ -1,4 +1,5 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Entities;
+using HeadphoneStore.Domain.Aggregates.Products.Entities;
 
 namespace HeadphoneStore.Domain.Aggregates.Categories.Entities;
 
@@ -11,10 +12,12 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
 
     public Guid? ParentId { get; private set; }
     public virtual Category? Parent { get; private set; }
-    private readonly List<Category> _children = new();
-    public virtual IReadOnlyCollection<Category> Children => _children.AsReadOnly();
+    private readonly List<Category> _subCategories = new();
+    public virtual IReadOnlyCollection<Category> SubCategories => _subCategories.AsReadOnly();
+    private readonly List<Product> _products = new();
+    public virtual IReadOnlyCollection<Product> Products => _products.AsReadOnly();
 
-    private Category() { }
+    protected Category() { }
 
     public Category(string name, string description, Guid createdBy, Category? parent = null) : base(Guid.NewGuid())
     {
@@ -26,9 +29,14 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
         ParentId = parent?.Id;
     }
 
+    public static Category Create(string name, string description, Guid createdBy, Category? parent = null)
+    {
+        return new(name, description, createdBy, parent);
+    }
+
     public void Delete() => IsDeleted = true;
 
-    public void Update(string name, string description, Guid updatedBy)
+    public void Update(string name, string description, Category? parent, Guid updatedBy)
     {
         if (name.Length > 256)
             throw new ArgumentException("Name cannot exceed 256 characters.");
@@ -36,15 +44,16 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
         Name = name ?? throw new ArgumentNullException(nameof(name));
         Description = description ?? throw new ArgumentNullException(nameof(description));
         UpdatedBy = updatedBy;
+        Parent = parent;
         UpdatedDateTime = DateTime.UtcNow;
     }
 
-    public void AddChild(Category category)
+    public void AddSubCategory(Category category)
     {
         if (category == null)
             throw new ArgumentNullException(nameof(category));
 
-        _children.Add(category);
+        _subCategories.Add(category);
 
         category.SetParent(this);
     }

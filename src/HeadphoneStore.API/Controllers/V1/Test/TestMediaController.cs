@@ -6,7 +6,7 @@ using HeadphoneStore.Contract.Dtos.Media;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace HeadphoneStore.API.Controllers.Test;
+namespace HeadphoneStore.API.Controllers.V1.Test;
 
 
 [Tags("Test")]
@@ -23,7 +23,7 @@ public class TestMediaController : TestApiController
     [HttpPost("upload-files")]
     [FileValidationFilter(5 * 1024 * 1024)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
     public async Task<IActionResult> UploadFiles([FromForm] List<IFormFile> files, [FromForm] FileRequiredParamsDto request)
     {
@@ -36,7 +36,7 @@ public class TestMediaController : TestApiController
 
     [HttpDelete("remove-files")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
     public async Task<IActionResult> RemoveFiles(List<DeleteFileDto> request)
     {
@@ -49,7 +49,7 @@ public class TestMediaController : TestApiController
 
     [HttpGet("download-files")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
     public async Task<IActionResult> DownloadFile([FromQuery] List<string> request)
     {

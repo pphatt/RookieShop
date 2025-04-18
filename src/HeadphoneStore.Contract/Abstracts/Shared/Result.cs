@@ -44,7 +44,7 @@ public class Result
 
     public bool IsSuccessful { get; }
 
-    public bool? IsFailure => !IsSuccessful;
+    public bool IsFailure => !IsSuccessful;
 
     public object? Errors { get; protected set; }
 
@@ -68,6 +68,8 @@ public class Result
 
     public static Result<TValue> Failure<TValue>() => new(default, false);
 
+    public static Result<TValue> Failure<TValue>(object errors) => new(default, false) { Errors = errors };
+
     public static Result<TValue> Failure<TValue>(string message) => new(default, false) { Message = message };
 
     public static Result<TValue> Failure<TValue>(List<string> messages) => new(default, false) { Messages = messages };
@@ -76,7 +78,13 @@ public class Result
 public class Result<TValue> : Result
 {
     private readonly TValue? _data;
+
     protected internal Result(TValue? data, bool isSuccess) : base(isSuccess)
+    {
+        _data = data;
+    }
+
+    protected Result(TValue? data, bool isSuccess, object? errors) : base(isSuccess, errors)
     {
         _data = data;
     }
@@ -85,6 +93,8 @@ public class Result<TValue> : Result
 
     [JsonConstructor]
     public Result(TValue data) : this(data, true) { }
+
+    public static Result<TValue> Failure<TValue>(object errors) => new Result<TValue>(default, false, errors);
 
     public static implicit operator Result<TValue>(TValue? data) => Create(data)!;
 }

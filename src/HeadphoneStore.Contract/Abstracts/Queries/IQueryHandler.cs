@@ -6,6 +6,6 @@ using MediatR;
 namespace HeadphoneStore.Contract.Abstracts.Queries;
 
 public interface IQueryHandler<TCommand, TResponse> : IRequestHandler<TCommand, Result<TResponse>>
-    where TCommand : ICommand<TResponse>
+    where TCommand : IQuery<TResponse>
 {
 }

@@ -24,15 +24,17 @@ internal class CategoryConfiguration : IEntityTypeConfiguration<Category>
         // Self-referencing relationship
         builder
             .HasOne(c => c.Parent)
-            .WithMany(c => c.Children)
+            .WithMany(c => c.SubCategories)
             .HasForeignKey(c => c.ParentId)
             .IsRequired(false);
 
+        builder.HasIndex(c => c.ParentId);
+
         // One Category can have Many Products
         builder
-            .HasMany<Product>()
+            .HasMany(c => c.Products)
             .WithOne(p => p.Category)
-            .HasForeignKey("CategoryId")
-            .IsRequired();
+            .HasForeignKey(p => p.CategoryId)
+            .IsRequired(true);
     }
 }

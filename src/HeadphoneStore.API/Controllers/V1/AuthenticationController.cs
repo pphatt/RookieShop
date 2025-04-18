@@ -9,31 +9,34 @@ using HeadphoneStore.Contract.Services.Identity.Register;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HeadphoneStore.API.Controllers.Authentication;
+namespace HeadphoneStore.API.Controllers.V1;
 
 [ApiVersion(1)]
-public class AuthenticationController : ApiController
+[Authorize]
+public class AuthenticationController : BaseApiController
 {
     private readonly IMapper _mapper;
 
-    public AuthenticationController(ISender mediatorSender, IMapper mapper) : base(mediatorSender)
+    public AuthenticationController(IMediator mediator, IMapper mapper) : base(mediator)
     {
         _mapper = mapper;
     }
 
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponseDto))]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
+    [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
     {
         var mapper = _mapper.Map<LoginCommand>(request);
 
-        var response = await _mediatorSender.Send(mapper);
+        var response = await _mediator.Send(mapper);
 
-        if (response.IsFailure is true)
+        if (response.IsFailure)
             return HandlerFailure(response);
 
         return Ok(response);
@@ -41,15 +44,16 @@ public class AuthenticationController : ApiController
 
     [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RegisterResponseDto))]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
+    [AllowAnonymous]
     public async Task<IActionResult> Register([FromBody] RegisterRequestDto request)
     {
         var mapper = _mapper.Map<RegisterCommand>(request);
 
-        var response = await _mediatorSender.Send(mapper);
+        var response = await _mediator.Send(mapper);
 
-        if (response.IsFailure is true)
+        if (response.IsFailure)
             return HandlerFailure(response);
 
         return Ok(response);

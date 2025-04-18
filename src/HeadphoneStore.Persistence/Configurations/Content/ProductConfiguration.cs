@@ -1,5 +1,4 @@
 ﻿using HeadphoneStore.Domain.Aggregates.Products.Entities;
-using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
 using HeadphoneStore.Domain.Constraints;
 
 using Microsoft.EntityFrameworkCore;
@@ -44,8 +43,14 @@ internal class ProductConfiguration : IEntityTypeConfiguration<Product>
         // One Product belongs to one Category
         builder
             .HasOne(p => p.Category)
-            .WithMany()
+            .WithMany(c => c.Products)
             .HasForeignKey(x => x.CategoryId)
             .IsRequired();
+
+        // One Product belongs to one Brand
+        builder.HasOne(p => p.Brand)
+            .WithMany(b => b.Products)
+            .HasForeignKey(p => p.BrandId)
+            .IsRequired(true);
     }
 }

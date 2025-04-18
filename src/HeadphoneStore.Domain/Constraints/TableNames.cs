@@ -17,6 +17,7 @@ public class TableNames
     public const string Products = nameof(Products);
     public const string ProductMedias = nameof(ProductMedias);
     public const string Categories = nameof(Categories);
+    public const string Brands = nameof(Brands);
     public const string Orders = nameof(Orders);
     public const string OrderDetails = nameof(OrderDetails);
     public const string OrderPayments = nameof(OrderPayments);

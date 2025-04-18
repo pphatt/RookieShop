@@ -1,11 +1,10 @@
 ﻿using Asp.Versioning;
 
-using HeadphoneStore.API.Controllers.Test;
 using HeadphoneStore.Application.Abstracts.Interface.Services.Mail;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace Server.Api.Controllers.TestApi;
+namespace HeadphoneStore.API.Controllers.V1.Test;
 
 [Tags("Test")]
 [ApiVersion(1)]
@@ -20,7 +19,7 @@ public class TestEmailController : TestApiController
 
     [HttpGet("email")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
     public async Task<IActionResult> TestEmail()
     {

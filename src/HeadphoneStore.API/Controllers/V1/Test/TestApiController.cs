@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace HeadphoneStore.API.Controllers.Test;
+namespace HeadphoneStore.API.Controllers.V1.Test;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/test")]

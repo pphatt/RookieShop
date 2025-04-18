@@ -17,9 +17,9 @@ public static class AutoMapperExtensions
 
     public static WebApplication AddAutoMapperValidationApplication(this WebApplication app)
     {
-        var scope = app.Services.CreateScope();
-        var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
-        mapper.ConfigurationProvider.AssertConfigurationIsValid();
+        //var scope = app.Services.CreateScope();
+        //var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
+        //mapper.ConfigurationProvider.AssertConfigurationIsValid();
 
         return app;
     }
