@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "HeadphoneStore.Up",
+    "Projects": [
+      {
+        "Path": "src\\HeadphoneStore.API\\HeadphoneStore.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\HeadphoneStore.StoreFrontEnd\\HeadphoneStore.StoreFrontEnd.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
