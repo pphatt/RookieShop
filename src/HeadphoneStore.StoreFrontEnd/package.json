@@ -1,0 +1,34 @@
+{
+  "name": "headphone-store",
+  "version": "1.0.0",
+  "description": "Headphone store customer frontend",
+  "author": {
+    "name": "pphatt",
+    "email": "phatvu080903@gmail.com",
+    "url": "https://github.com/pphatt"
+  },
+  "repository": {
+    "url": "https://github.com/pphatt/headphone-store-backend",
+    "type": "git"
+  },
+  "scripts": {
+    "compiler:ts": "tsc -w",
+    "compiler:sass": "sass --watch Assets/scss:wwwroot/css --no-source-map",
+    "deps": "node ncu.js",
+    "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
+    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+    "clean": "rimraf --glob **/node_modules **/dist pnpm-lock.yaml",
+    "typecheck": "tsc --noEmit --pretty"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "3.5.3",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "fast-glob": "^3.3.3",
+    "npm-check-updates": "^17.1.18",
+    "rimraf": "^6.0.1",
+    "sass": "^1.86.3"
+  }
+}
