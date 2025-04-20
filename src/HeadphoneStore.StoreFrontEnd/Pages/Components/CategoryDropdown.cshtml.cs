@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HeadphoneStore.StoreFrontEnd.Pages.Components
 {
-    public class NewProductSectionModel : PageModel
+    public class CategoryDropdownModel : PageModel
     {
         public void OnGet()
         {
