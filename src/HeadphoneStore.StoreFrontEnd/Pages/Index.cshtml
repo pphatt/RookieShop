@@ -1,10 +1,602 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@section Styles {
+    <link href="@Url.Content("~/css/application/home/layout.css")" rel="stylesheet" type="text/css" asp-append-version="true"/>
+
+    @* <link href="@Url.Content("~/css/application/home/new-product-section.css")" rel="stylesheet" type="text/css" asp-append-version="true" /> *@
+
+    <link href="@Url.Content("~/css/application/home/list-product-section.css")" rel="stylesheet" type="text/css" asp-append-version="true"/>
+}
+
+<div class="container">
+    <div class="header-layout-wrapper">
+        <div class="header-logo-wrapper">
+            <a href="/" class="header-logo-container">
+                <img class="logo-image" src="~/images/headphone-store-logo.png"/>
+
+                <div class="site-name-text">Headphone Store</div>
+            </a>
+        </div>
+
+        <div class="search-bar-wrapper">
+            <form class="search-bar-form-wrapper">
+                <input class="search-input" placeholder="Bạn muốn tìm sản phẩm gì ?"/>
+
+                <button class="search-button">
+                    <i class="material-icons-outlined">search</i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="category-section-wrapper">
+        <div class="dropdown dropdown-hover">
+            <button data-mdb-button-init data-mdb-ripple-init data-mdb-dropdown-init
+                    class="btn btn-primary dropdown-toggle category-btn" type="button" id="dropdownMenuButton"
+                    data-mdb-toggle="dropdown" aria-expanded="false">
+                DANH MỤC SẢN PHẨM
+            </button>
+
+            <ul style="border-top: 0px;" class="dropdown-menu dropdown-menu-hover category-dropdown-list-wrapper" aria-labelledby="dropdownMenuButton">
+                <li>
+                    <a class="dropdown-item" href="/tai-nghe">Tai Nghe</a>
+
+                    <div class="dropdown-menu dropdown-submenu">
+                        <div class="category-box">
+                            <h3>Phân loại</h3>
+
+                            <a href="/tai-nghe-in-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Tai Nghe In Ear
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Tai Nghe Over Ear
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Tai Nghe Chống Ồn
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Tai Nghe Bluetooth
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Tai Nghe True Wireless
+                            </a>
+                        </div>
+
+                        <div class="brand-box">
+                            <h3>Thương hiệu</h3>
+
+                            <a href="/tai-nghe-in-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Sony
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                JBL
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Fili
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Audio-technica
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Hifiman
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Beats
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Moondrop
+                            </a>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <a class="dropdown-item" href="/tai-nghe">DAC - AMP</a>
+
+                    <div style="top: -106.5%" class="dropdown-menu dropdown-submenu">
+                        <div class="category-box">
+                            <h3>Phân loại</h3>
+
+                            <a href="/tai-nghe-in-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Tai Nghe In Ear
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Tai Nghe Over Ear
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Tai Nghe Chống Ồn
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Tai Nghe Bluetooth
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Tai Nghe True Wireless
+                            </a>
+                        </div>
+
+                        <div class="brand-box">
+                            <h3>Thương hiệu</h3>
+
+                            <a href="/tai-nghe-in-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Sony
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                JBL
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Fili
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Audio-technica
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Hifiman
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Beats
+                            </a>
+
+                            <a href="/tai-nghe-over-ear" class="box-item">
+                                <i class="material-icons-outlined">radio_button_unchecked</i>
+                                Moondrop
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="carousel" data-bs-ride="carousel" class="swiper-layout-wrapper carousel slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="2500">
+                <img class="swiper-slide swiper-image-wrapper" src="https://hifiman.com/attachments/image/20250320/20250320060659_93982.jpg"/>
+            </div>
+
+            <div class="carousel-item" data-bs-interval="2500">
+                <img class="swiper-slide swiper-image-wrapper" src="https://hifiman.com/attachments/image/20241018/20241018083127_50355.jpg"/>
+            </div>
+
+            <div class="carousel-item" data-bs-interval="2500">
+                <img class="swiper-slide swiper-image-wrapper" src="https://hifiman.com/attachments/image/20230517/20230517061205_59059.jpg"/>
+            </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+@* @await Html.PartialAsync("Components/NewProductSection") *@
+
+<div class="container grid-layout">
+    <div style="margin-right: -15px; margin-left: -15px;">
+        <div class="grid-title-wrapper">
+            <h2 class="grid-title">san pham moi</h2>
+        </div>
+
+        <div class="swiper main-swiper">
+            <ul class="swiper-wrapper">
+                <li class="swiper-slide collection-item">
+                    <div class="card-wrapper">
+                        <div class="card-container">
+                            <div class="card-image-wrapper">
+                                <div class="card-image-container">
+                                    <div class="card-image-overlay">
+                                        <img class="card-image" src="https://headphones.com/cdn/shop/products/MoondropVariations11024x1024.jpg?v=1707787932&width=360"/>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="card-content-wrapper">
+                                <div class="card-content-container">
+                                    <div class="product-brand">Moondrop</div>
+    
+                                    <h3 class="product-name">
+                                        <a href="/">Moondrop Variations Tribrid In-Ear Headphones</a>
+                                    </h3>
+    
+                                    <div class="product-price-wrapper">
+                                        <div class="product-price-container">
+                                            <div class="product-price-overlay">
+                                                <span>$599</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+    
+                <li class="swiper-slide collection-item">
+                    <div class="card-wrapper">
+                        <div class="card-container">
+                            <div class="card-image-wrapper">
+                                <div class="card-image-container">
+                                    <div class="card-image-overlay">
+                                        <img class="card-image" src="https://tainghe.com.vn/media/product/250_119_64_audio_tia_fourt___universal_gia_tot_2.jpg"/>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="card-content-wrapper">
+                                <div class="card-content-container">
+                                    <div class="product-brand">Moondrop</div>
+    
+                                    <h3 class="product-name">
+                                        <a href="/">Moondrop Variations Tribrid In-Ear Headphones</a>
+                                    </h3>
+    
+                                    <div class="product-price-wrapper">
+                                        <div class="product-price-container">
+                                            <div class="product-price-overlay">
+                                                <span>$599</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+    
+                <li class="swiper-slide collection-item">
+                    <div class="card-wrapper">
+                        <div class="card-container">
+                            <div class="card-image-wrapper">
+                                <div class="card-image-container">
+                                    <div class="card-image-overlay">
+                                        <img class="card-image" src="https://tainghe.com.vn/media/product/6716_tai_nghe_earacoustic_spa_limited_edition.webp"/>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="card-content-wrapper">
+                                <div class="card-content-container">
+                                    <div class="product-brand">Moondrop</div>
+    
+                                    <h3 class="product-name">
+                                        <a href="/">Moondrop Variations Tribrid In-Ear Headphones</a>
+                                    </h3>
+    
+                                    <div class="product-price-wrapper">
+                                        <div class="product-price-container">
+                                            <div class="product-price-overlay">
+                                                <span>$599</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+    
+                <li class="swiper-slide collection-item">
+                    <div class="card-wrapper">
+                        <div class="card-container">
+                            <div class="card-image-wrapper">
+                                <div class="card-image-container">
+                                    <div class="card-image-overlay">
+                                        <img class="card-image" src="https://headphones.com/cdn/shop/products/MoondropVariations11024x1024.jpg?v=1707787932&width=360"/>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="card-content-wrapper">
+                                <div class="card-content-container">
+                                    <div class="product-brand">Moondrop</div>
+    
+                                    <h3 class="product-name">
+                                        <a href="/">Moondrop Variations Tribrid In-Ear Headphones</a>
+                                    </h3>
+    
+                                    <div class="product-price-wrapper">
+                                        <div class="product-price-container">
+                                            <div class="product-price-overlay">
+                                                <span>$599</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+    
+                <li class="swiper-slide collection-item">
+                    <div class="card-wrapper">
+                        <div class="card-container">
+                            <div class="card-image-wrapper">
+                                <div class="card-image-container">
+                                    <div class="card-image-overlay">
+                                        <img class="card-image" src="https://headphones.com/cdn/shop/products/MoondropVariations11024x1024.jpg?v=1707787932&width=360"/>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="card-content-wrapper">
+                                <div class="card-content-container">
+                                    <div class="product-brand">Moondrop</div>
+    
+                                    <h3 class="product-name">
+                                        <a href="/">Moondrop Variations Tribrid In-Ear Headphones</a>
+                                    </h3>
+    
+                                    <div class="product-price-wrapper">
+                                        <div class="product-price-container">
+                                            <div class="product-price-overlay">
+                                                <span>$599</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                
+                <li class="swiper-slide collection-item">
+                    <div class="card-wrapper">
+                        <div class="card-container">
+                            <div class="card-image-wrapper">
+                                <div class="card-image-container">
+                                    <div class="card-image-overlay">
+                                        <img class="card-image" src="https://headphones.com/cdn/shop/products/MoondropVariations11024x1024.jpg?v=1707787932&width=360"/>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="card-content-wrapper">
+                                <div class="card-content-container">
+                                    <div class="product-brand">Moondrop</div>
+    
+                                    <h3 class="product-name">
+                                        <a href="/">Moondrop Variations Tribrid In-Ear Headphones</a>
+                                    </h3>
+    
+                                    <div class="product-price-wrapper">
+                                        <div class="product-price-container">
+                                            <div class="product-price-overlay">
+                                                <span>$599</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <div style="color: black" class="swiper-button-next"></div>
+            <div style="color: black" class="swiper-button-prev"></div>
+        </div>
+    </div>
+</div>
+
+<div class="container grid-layout">
+    <div style="margin-right: -15px; margin-left: -15px;">
+        <div class="grid-title-wrapper">
+            <h2 class="grid-title">tai nghe</h2>
+        </div>
+
+        <ul class="product-grid">
+            <li class="collection-item">
+                <div class="card-wrapper">
+                    <div class="card-container">
+                        <div class="card-image-wrapper">
+                            <div class="card-image-container">
+                                <div class="card-image-overlay">
+                                    <img class="card-image" src="https://headphones.com/cdn/shop/products/MoondropVariations11024x1024.jpg?v=1707787932&width=360"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-content-wrapper">
+                            <div class="card-content-container">
+                                <div class="product-brand">Moondrop</div>
+
+                                <h3 class="product-name">
+                                    <a href="/">Moondrop Variations Tribrid In-Ear Headphones</a>
+                                </h3>
+
+                                <div class="product-price-wrapper">
+                                    <div class="product-price-container">
+                                        <div class="product-price-overlay">
+                                            <span>$599</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="collection-item">
+                <div class="card-wrapper">
+                    <div class="card-container">
+                        <div class="card-image-wrapper">
+                            <div class="card-image-container">
+                                <div class="card-image-overlay">
+                                    <img class="card-image" src="https://tainghe.com.vn/media/product/250_119_64_audio_tia_fourt___universal_gia_tot_2.jpg"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-content-wrapper">
+                            <div class="card-content-container">
+                                <div class="product-brand">Moondrop</div>
+
+                                <h3 class="product-name">
+                                    <a href="/">Moondrop Variations Tribrid In-Ear Headphones</a>
+                                </h3>
+
+                                <div class="product-price-wrapper">
+                                    <div class="product-price-container">
+                                        <div class="product-price-overlay">
+                                            <span>$599</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="collection-item">
+                <div class="card-wrapper">
+                    <div class="card-container">
+                        <div class="card-image-wrapper">
+                            <div class="card-image-container">
+                                <div class="card-image-overlay">
+                                    <img class="card-image" src="https://tainghe.com.vn/media/product/6716_tai_nghe_earacoustic_spa_limited_edition.webp"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-content-wrapper">
+                            <div class="card-content-container">
+                                <div class="product-brand">Moondrop</div>
+
+                                <h3 class="product-name">
+                                    <a href="/">Moondrop Variations Tribrid In-Ear Headphones</a>
+                                </h3>
+
+                                <div class="product-price-wrapper">
+                                    <div class="product-price-container">
+                                        <div class="product-price-overlay">
+                                            <span>$599</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="collection-item">
+                <div class="card-wrapper">
+                    <div class="card-container">
+                        <div class="card-image-wrapper">
+                            <div class="card-image-container">
+                                <div class="card-image-overlay">
+                                    <img class="card-image" src="https://headphones.com/cdn/shop/products/MoondropVariations11024x1024.jpg?v=1707787932&width=360"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-content-wrapper">
+                            <div class="card-content-container">
+                                <div class="product-brand">Moondrop</div>
+
+                                <h3 class="product-name">
+                                    <a href="/">Moondrop Variations Tribrid In-Ear Headphones</a>
+                                </h3>
+
+                                <div class="product-price-wrapper">
+                                    <div class="product-price-container">
+                                        <div class="product-price-overlay">
+                                            <span>$599</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="collection-item">
+                <div class="card-wrapper">
+                    <div class="card-container">
+                        <div class="card-image-wrapper">
+                            <div class="card-image-container">
+                                <div class="card-image-overlay">
+                                    <img class="card-image" src="https://headphones.com/cdn/shop/products/MoondropVariations11024x1024.jpg?v=1707787932&width=360"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-content-wrapper">
+                            <div class="card-content-container">
+                                <div class="product-brand">Moondrop</div>
+
+                                <h3 class="product-name">
+                                    <a href="/">Moondrop Variations Tribrid In-Ear Headphones</a>
+                                </h3>
+
+                                <div class="product-price-wrapper">
+                                    <div class="product-price-container">
+                                        <div class="product-price-overlay">
+                                            <span>$599</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
 </div>

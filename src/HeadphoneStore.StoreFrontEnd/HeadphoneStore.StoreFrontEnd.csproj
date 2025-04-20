@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\scss\application\root-layout\" />
+    <Folder Include="Assets\scss\application\home\" />
+    <Folder Include="Assets\scss\components\layout\" />
     <Folder Include="Assets\scss\vendors\" />
     <Folder Include="Assets\scss\theme\" />
     <Folder Include="wwwroot\css\abstract\" />

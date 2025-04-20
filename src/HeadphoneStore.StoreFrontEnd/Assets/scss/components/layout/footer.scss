@@ -1,0 +1,33 @@
+.footer-wrapper {
+    background: #fafafa;
+
+    padding: 30px 0;
+
+    border-top: solid 1px #969696;
+
+    overflow: hidden;
+}
+
+.footer-container {
+    width: 1440px;
+
+    margin: auto;
+
+    li {
+        width: 20%;
+        float: left;
+    }
+
+    a {
+        display: block;
+        margin: 14px 0;
+        font-size: 14px;
+    }
+}
+
+.footer-title {
+    margin-bottom: 13px;
+
+    font-size: 18px;
+    font-weight: bold;
+}
