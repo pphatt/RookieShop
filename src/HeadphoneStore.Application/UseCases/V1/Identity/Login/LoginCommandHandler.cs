@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 
 namespace HeadphoneStore.Application.UseCases.V1.Identity.Login;
 
+using Exceptions = Domain.Exceptions.Exceptions;
+
 public class LoginCommandHandler : ICommandHandler<LoginCommand, LoginResponseDto>
 {
     private readonly ILogger<LoginCommandHandler> _logger;
@@ -38,21 +40,21 @@ public class LoginCommandHandler : ICommandHandler<LoginCommand, LoginResponseDt
 
         if (user is null)
         {
-            throw new UsersException.NotFound();
+            throw new Exceptions.User.NotFound();
         }
 
         //user.ValidateCommonRules();
 
         if (user.IsActive == false)
         {
-            throw new UsersException.InactiveOrLockedOut();
+            throw new Exceptions.User.InactiveOrLockedOut();
         }
 
         var loginStatus = await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
 
         if (loginStatus.Succeeded == false)
         {
-            throw new UsersException.InvalidCredentials();
+            throw new Exceptions.User.InvalidCredentials();
         }
 
         var claims = await _claimsTransformation.TransformClaims(user);

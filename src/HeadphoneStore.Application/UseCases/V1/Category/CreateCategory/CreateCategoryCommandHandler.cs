@@ -47,7 +47,7 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
 
         if (user is null)
         {
-            throw new UsersException.NotFound();
+            throw new Exceptions.User.NotFound();
         }
 
         var parentCategory = parentCategoryId is not null 

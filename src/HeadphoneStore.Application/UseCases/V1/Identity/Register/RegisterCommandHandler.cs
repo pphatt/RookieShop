@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace HeadphoneStore.Application.UseCases.V1.Identity.Register;
 
+using Exceptions = Domain.Exceptions.Exceptions;
+
 public class RegisterCommandHandler : ICommandHandler<RegisterCommand>
 {
     private readonly UserManager<AppUser> _userManager;
@@ -27,7 +29,7 @@ public class RegisterCommandHandler : ICommandHandler<RegisterCommand>
 
         if (userFromDb is not null)
         {
-            throw new UsersException.DuplicateEmail();
+            throw new Exceptions.User.DuplicateEmail();
         }
 
         var newUser = AppUser.Create(email);
