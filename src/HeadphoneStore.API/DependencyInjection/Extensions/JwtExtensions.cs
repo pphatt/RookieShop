@@ -2,17 +2,13 @@
 using System.Net.Mime;
 using System.Text;
 
-using HeadphoneStore.API.Authorization;
 using HeadphoneStore.Infrastructure.DependencyInjection.Options;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 using Newtonsoft.Json;
-
-using Server.Api.Authorization;
 
 namespace HeadphoneStore.API.DependencyInjection.Extensions;
 
@@ -139,9 +135,6 @@ public static class JwtExtensions
                 }
             };
         });
-
-        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-        services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
         return services;
     }

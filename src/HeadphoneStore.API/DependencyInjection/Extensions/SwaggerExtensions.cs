@@ -1,7 +1,12 @@
 ﻿using Asp.Versioning.ApiExplorer;
 
+using HeadphoneStore.API.Authorization;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
+
+using Server.Api.Authorization;
 
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -34,9 +39,9 @@ public static class SwaggerExtensions
                 Scheme = JwtBearerDefaults.AuthenticationScheme,
                 BearerFormat = "JWT",
                 Description = @"
-                    JWT Authorization header using the Bearer scheme.
-                    To access this API, provide your access token.
-                    Example: '12345abcxyz'"
+                JWT Authorization header using the Bearer scheme.
+                To access this API, provide your access token.
+                Example: '12345abcxyz'"
             });
 
             c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -57,6 +62,9 @@ public static class SwaggerExtensions
                 }
             });
         });
+
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+        services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
         return services;
     }

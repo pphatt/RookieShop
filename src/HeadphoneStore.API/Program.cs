@@ -62,9 +62,6 @@ builder.Services
     .AddEndpointsApiExplorer()
     .AddSwaggerAPI();
 
-// API Layer
-builder.Services.AddJwtAuthentication(builder.Configuration); // authentication and authorization
-
 // Application Layer
 builder.Services.AddMediatRApplication();
 builder.Services.AddAutoMapperApplication();
@@ -81,6 +78,9 @@ builder.Services.ConfigureSqlServerRetryOptionsPersistence(builder.Configuration
 builder.Services.AddSqlServerPersistence(builder.Configuration);
 builder.Services.AddDbIdentity();
 builder.Services.AddRepositoryPersistence();
+
+// API Layer
+builder.Services.AddJwtAuthentication(builder.Configuration); // authentication and authorization
 
 builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 

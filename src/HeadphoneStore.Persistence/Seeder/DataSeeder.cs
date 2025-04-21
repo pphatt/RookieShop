@@ -1,9 +1,7 @@
-﻿using System;
-using System.Data;
-
-using HeadphoneStore.Domain.Aggregates.Categories.Entities;
+﻿using HeadphoneStore.Domain.Aggregates.Categories.Entities;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
+using HeadphoneStore.Domain.Constants;
 using HeadphoneStore.Domain.Constraints;
 using HeadphoneStore.Domain.Enumerations;
 
