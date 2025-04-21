@@ -13,9 +13,12 @@ public class ProductMedia : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEnti
 
     private ProductMedia() { } // For EF Core
 
-    public ProductMedia(string imageUrl, Guid createdBy) : base(Guid.NewGuid())
+    public ProductMedia(string imageUrl, string publicId, string path, string name, Guid createdBy) : base(Guid.NewGuid())
     {
         ImageUrl = imageUrl ?? throw new ArgumentNullException(nameof(imageUrl));
+        PublicId = publicId;
+        Path = path;
+        Name = name;
         CreatedBy = createdBy;
         CreatedDateTime  = DateTime.UtcNow;
     }

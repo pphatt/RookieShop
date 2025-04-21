@@ -71,12 +71,9 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
         UpdatedDateTime = DateTime.UtcNow;
     }
 
-    public void AddMedia(string imageUrl, Guid createdBy)
+    public void AddMedia(ProductMedia media)
     {
-        var media = new ProductMedia(imageUrl, createdBy);
-
         _media.Add(media);
-
         UpdatedDateTime = DateTime.UtcNow;
     }
 

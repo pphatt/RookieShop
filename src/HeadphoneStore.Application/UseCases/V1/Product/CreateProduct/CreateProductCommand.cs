@@ -1,6 +1,8 @@
 ﻿using HeadphoneStore.Contract.Abstracts.Commands;
 using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
 
+using Microsoft.AspNetCore.Http;
+
 namespace HeadphoneStore.Application.UseCases.V1.Product.CreateProduct;
 
 public class CreateProductCommand : ICommand
@@ -13,4 +15,5 @@ public class CreateProductCommand : ICommand
     public int ProductPrice { get; set; }
     public Guid CategoryId { get; set; }
     public Guid BrandId { get; set; }
+    public List<IFormFile>? Files { get; set; }
 }

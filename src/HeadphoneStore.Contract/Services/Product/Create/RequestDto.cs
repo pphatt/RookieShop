@@ -1,5 +1,7 @@
 ﻿using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
 
+using Microsoft.AspNetCore.Http;
+
 namespace HeadphoneStore.Contract.Services.Product.Create;
 
 public class CreateProductRequestDto
@@ -12,4 +14,5 @@ public class CreateProductRequestDto
     public int ProductPrice { get; set; }
     public Guid CategoryId { get; set; }
     public Guid BrandId { get; set; }
+    public List<IFormFile>? Files { get; set; }
 }

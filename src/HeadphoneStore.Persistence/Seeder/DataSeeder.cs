@@ -173,6 +173,8 @@ public partial class DataSeeder
             createdBy: createdBy
         );
 
+        context.Brands.AddRange(brand1, brand2);
+
         context.SaveChanges();
 
         #endregion Brand List
