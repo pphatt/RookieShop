@@ -2,6 +2,7 @@
 
 using AutoMapper;
 
+using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Application.UseCases.V1.Category.CreateCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.DeleteCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.GetAllCategories;
@@ -40,7 +41,7 @@ public class CategoryController : BaseApiController
     {
         var mapper = _mapper.Map<CreateCategoryCommand>(request);
 
-        mapper.CreatedBy = Guid.Parse("F50F0A80-12DC-4BD2-8861-8D0A8B3A6E96");
+        mapper.CreatedBy = User.GetUserId();
 
         var response = await _mediator.Send(mapper);
 

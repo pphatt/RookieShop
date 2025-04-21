@@ -35,6 +35,7 @@ public class JwtTokenService : ITokenService
             NotBefore = DateTime.UtcNow,
             Expires = DateTime.UtcNow.AddMinutes(_jwtOption.ExpiryMinutes),
             Issuer = _jwtOption.Issuer,
+            Audience = _jwtOption.Audience,
             SigningCredentials = signingCredentials
         };
 
