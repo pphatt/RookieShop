@@ -1,14 +1,22 @@
 ﻿namespace HeadphoneStore.Domain.Exceptions;
 
-public static class ProductsException
+public static partial class Exceptions
 {
-    public sealed class ProductNotFoundException() : DomainException.NotFoundException(
-        code: "Product.NotFound", 
-        description: "Product cannot be found"
-    );
+    public static class Product
+    {
+        public sealed class NotFound() : DomainException.NotFoundException(
+            code: "Product.NotFound",
+            description: "Product cannot be found."
+        );
 
-    public sealed class ProductNameDuplicateException() : DomainException.ValidationException(
-        code: "Product.NameDuplicate", 
-        description: "Product already exists"
-    );
+        public sealed class DuplicateName() : DomainException.ValidationException(
+            code: "Product.DuplicateName",
+            description: "Product's name already exists."
+        );
+
+        public sealed class InvalidPrice() : DomainException.ValidationException(
+            code: "Product.InvalidPrice",
+            description: "Product's price is invalid."
+        );
+    }
 }

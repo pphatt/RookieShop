@@ -19,6 +19,7 @@ public class ApplicationDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     public virtual DbSet<Product> Products => Set<Product>();
     public virtual DbSet<ProductMedia> ProductMedias => Set<ProductMedia>();
     public virtual DbSet<Category> Categories => Set<Category>();
+    public virtual DbSet<Brand> Brands => Set<Brand>();
     public virtual DbSet<Order> Orders => Set<Order>();
     public virtual DbSet<OrderDetail> OrderDetails => Set<OrderDetail>();
     public virtual DbSet<OrderPayment> OrderPayments => Set<OrderPayment>();

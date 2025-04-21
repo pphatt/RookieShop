@@ -5,6 +5,9 @@ namespace HeadphoneStore.Domain.Aggregates.Products.Entities;
 public class ProductMedia : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<Guid?>
 {
     public string ImageUrl { get; private set; }
+    public string PublicId { get; set; }
+    public string Path { get; set; }
+    public string Name { get; set; }
     public Guid CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
 
