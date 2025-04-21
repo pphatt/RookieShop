@@ -10,7 +10,7 @@ public class Permission : Entity<long>
 
     public virtual AppRole? Role { get; private set; }
 
-    private Permission() { }
+    protected Permission() { }
 
     public Permission(Guid roleId, string function, string command)
     {
@@ -25,5 +25,5 @@ public class Permission : Entity<long>
         Command = command;
     }
 
-    public string GetDisplayName() => $"{Function}.{Command}";
+    public string GetDisplayName() => $"Permissions.{Function.Split('.')[2]}.{Command.Split('.')[2]}";
 }

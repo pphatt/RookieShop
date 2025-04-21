@@ -9,7 +9,7 @@ public class UserAddress : Entity<Guid>
     public string Province { get; private set; }
     public string PhoneNumber { get; private set; }
 
-    private UserAddress() { } // For EF Core
+    protected UserAddress() { } // For EF Core
 
     public UserAddress(string street, string province, string phoneNumber) : base(Guid.NewGuid())
     {

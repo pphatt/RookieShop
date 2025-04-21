@@ -3,6 +3,7 @@
 public class UserClaims
 {
     public const string Id = "id";
+    public const string Username = "userName";
     public const string Email = "email";
     public const string Roles = "roles";
     public const string Permissions = "permissions";

@@ -1,54 +1,25 @@
 ﻿using System.ComponentModel;
 
 namespace HeadphoneStore.Domain.Constants;
-
-public static class Permissions
+public static partial class Permissions
 {
-    public static class Dashboards
+    public static class Function
     {
-        [Description("View Dashboard")]
-        public const string View = "Permissions.Dashboards.View";
+        public const string USER = nameof(USER);
+        public const string ROLE = nameof(ROLE);
+        public const string CATEGORY = nameof(CATEGORY);
+        public const string ORDER = nameof(ORDER);
+        public const string PERMISSION = nameof(PERMISSION);
     }
+}
 
-    public static class Roles
+public static partial class Permissions
+{
+    public static class Command
     {
-        [Description("Create New Role")]
-        public const string Create = "Permissions.Roles.Create";
-
-        [Description("View Roles")]
-        public const string View = "Permissions.Roles.View";
-
-        [Description("Update Role")]
-        public const string Edit = "Permissions.Roles.Edit";
-
-        [Description("Delete Role")]
-        public const string Delete = "Permissions.Roles.Delete";
-    }
-
-    public static class Users
-    {
-        [Description("Create New User")]
-        public const string Create = "Permissions.Users.Create";
-
-        [Description("View Users")]
-        public const string View = "Permissions.Users.View";
-
-        [Description("Update User")]
-        public const string Edit = "Permissions.Users.Edit";
-
-        [Description("Delete User")]
-        public const string Delete = "Permissions.Users.Delete";
-    }
-
-    public static class SettingGAC
-    {
-        [Description("Manage Guest Setting Access Control")]
-        public const string Manage = "Permissions.SettingGAC.Manage";
-    }
-
-    public static class ActivityLogs
-    {
-        [Description("View Activity Logs")]
-        public const string View = "Permissions.ActivityLogs.View";
+        public const string CREATE = nameof(CREATE);
+        public const string VIEW = nameof(VIEW);
+        public const string EDIT = nameof(EDIT);
+        public const string DELETE = nameof(DELETE);
     }
 }

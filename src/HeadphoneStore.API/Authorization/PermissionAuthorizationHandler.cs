@@ -1,10 +1,11 @@
+using System.Security.Claims;
+
 using HeadphoneStore.Application.Abstracts.Interface.Services.Identity;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-
-using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace HeadphoneStore.API.Authorization;
 
@@ -46,36 +47,36 @@ public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionReq
             return;
         }
 
-        var permissions = new List<Claim>();
+        var permissions = new List<Permission>();
 
-        foreach (var roleName in roleNames)
+        // Get all roles at once with their permissions
+        var roles = await _roleManager.Roles
+            .Where(r => roleNames.Contains(r.Name))
+            .Include(r => r.Permissions)
+            .ToListAsync();
+
+        // Check if any role names weren't found
+        var missingRoles = roleNames.Except(roles.Select(r => r.Name));
+
+        if (missingRoles.Any())
         {
-            // get individual role.
-            var role = await _roleManager.FindByNameAsync(roleName);
-
-            if (role is null)
-            {
-                context.Fail();
-                return;
-            }
-
-            // get all role claims on the RoleClaims table.
-            var roleClaims = await _roleManager.GetClaimsAsync(role);
-
-            permissions.AddRange(roleClaims);
+            context.Fail();
+            return;
         }
 
-        // filter it down by:
-        // - is the role claim type "permissions" (this is because we can store many other information in this table so make sure we only take permissions.)
-        // - check is the require permission for the route is contained in the permissions list.
-        var result =
-            permissions.Where(
-                x => x.Type == "permissions" &&
-                x.Value == requirement.Permission &&
-                x.Issuer == "LOCAL AUTHORITY"
-            );
+        // Collect all permissions
+        permissions = roles
+            .SelectMany(r => r.Permissions)
+            .ToList();
 
-        if (!result.Any())
+        // Filter permissions based on your criteria
+        // Note: I'm assuming you want to check if the required permission exists in the list
+        // You might need to adjust this part based on your actual Permission structure
+        var hasRequiredPermission = permissions.Any(p =>
+            p.Function == requirement.Function &&
+            p.Command == requirement.Command);
+
+        if (!hasRequiredPermission)
         {
             context.Fail();
             return;

@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text.Json;
 
 using HeadphoneStore.Application.Abstracts.Interface.Services.Authentication;
@@ -35,9 +36,14 @@ public class ClaimsTransformer : IClaimsTransformation
         var permissionClaims = TransformPermissionsToPermissionClaims(permissions);
 
         return [
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new(UserClaims.Id, user.Id.ToString()),
+            new(ClaimTypes.NameIdentifier, user.UserName ?? string.Empty),
+            new(UserClaims.Username, user.UserName ?? string.Empty),
+            new(ClaimTypes.Name, user.UserName ?? string.Empty),
             new(UserClaims.Email, user.Email ?? string.Empty),
             new(UserClaims.PhoneNumber, user.PhoneNumber ?? string.Empty),
+            new(UserClaims.Avatar, user.Avatar ?? string.Empty),
             new(UserClaims.Status, user.Status.ToString() ?? UserStatus.Inactive.ToString()),
             new(UserClaims.Roles, JsonSerializer.Serialize(roleNames)),
             new(UserClaims.Permissions, JsonSerializer.Serialize(permissionClaims)),
