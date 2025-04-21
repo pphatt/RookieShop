@@ -1,4 +1,10 @@
-﻿namespace HeadphoneStore.API.DependencyInjection.Extensions;
+﻿using HeadphoneStore.API.Authorization;
+
+using Microsoft.AspNetCore.Authorization;
+
+using Server.Api.Authorization;
+
+namespace HeadphoneStore.API.DependencyInjection.Extensions;
 
 public static class ServiceCollectionExtensions
 {

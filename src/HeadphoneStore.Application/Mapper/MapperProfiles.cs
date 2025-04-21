@@ -6,12 +6,14 @@ using HeadphoneStore.Application.UseCases.V1.Category.GetCategoryById;
 using HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
 using HeadphoneStore.Application.UseCases.V1.Identity.Login;
 using HeadphoneStore.Application.UseCases.V1.Identity.Register;
+using HeadphoneStore.Contract.Dtos.Identity.Role;
 using HeadphoneStore.Contract.Services.Category.Create;
 using HeadphoneStore.Contract.Services.Category.Delete;
 using HeadphoneStore.Contract.Services.Category.GetCategoryById;
 using HeadphoneStore.Contract.Services.Category.Update;
 using HeadphoneStore.Contract.Services.Identity.Login;
 using HeadphoneStore.Contract.Services.Identity.Register;
+using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 
 namespace HeadphoneStore.Application.Mapper;
 
@@ -22,6 +24,9 @@ public class MapperProfiles : Profile
         // Authentication.
         CreateMap<LoginRequestDto, LoginCommand>();
         CreateMap<RegisterRequestDto, RegisterCommand>();
+
+        // Role
+        CreateMap<AppRole, RoleDto>();
 
         // Category
         CreateMap<CreateCategoryRequestDto, CreateCategoryCommand>();

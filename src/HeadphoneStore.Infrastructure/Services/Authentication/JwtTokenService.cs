@@ -14,7 +14,7 @@ namespace HeadphoneStore.Infrastructure.Services.Authentication;
 
 public class JwtTokenService : ITokenService
 {
-    private const string _secretKey = "secret-key-secret-key-secret-key-secret-key-secret-key";
+    private const string _secretKey = "z6_Fpg5YXVIfY{vD+!AJm)oYHP.#;t~)&tyadtB80m8T7]Z'CGcU0VXO~Rl5_qOg_&(%NX$3c8G,0'.'MbzSkJ+AxcI7ViY@DNbN";
 
     private readonly JwtOption _jwtOption;
 
