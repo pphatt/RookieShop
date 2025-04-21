@@ -4,10 +4,10 @@ namespace HeadphoneStore.Domain.Aggregates.Identity.Entities;
 
 public class Permission : Entity<long>
 {
-    public required Guid RoleId { get; set; }
-    public required string Command { get; set; }
-    public required string Function { get; set; }
+    public string Command { get; private set; }
+    public string Function { get; private set; }
 
+    public Guid RoleId { get; private set; }
     public virtual AppRole? Role { get; private set; }
 
     protected Permission() { }

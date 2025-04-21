@@ -4,6 +4,7 @@ using HeadphoneStore.Domain.Aggregates.Products.Entities;
 using HeadphoneStore.Domain.Constants;
 using HeadphoneStore.Domain.Constraints;
 using HeadphoneStore.Domain.Enumerations;
+using HeadphoneStore.Persistence.DependencyInjection.Extensions;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -53,6 +54,9 @@ public partial class DataSeeder
 
             await context.SaveChangesAsync();
         }
+
+        // seed permissions
+        await SeedPermissions(context, roles);
     }
 
     private static async Task<List<AppRole>> RoleList(ApplicationDbContext context)
@@ -90,6 +94,47 @@ public partial class DataSeeder
         return roles;
 
         #endregion Role List
+    }
+
+    private static async Task SeedPermissions(ApplicationDbContext context, List<AppRole> roles)
+    {
+        #region Seed Permissions
+
+        if (await context.Set<Permission>().AnyAsync())
+        {
+            return;
+        }
+
+        var adminRole = roles[0];
+        var customerRole = roles[1];
+
+        var allPermissions = new List<Permission>();
+
+        foreach (var functionField in typeof(Permissions.Function).GetFields())
+        {
+            string function = functionField.GetValue(null)?.ToString() ?? string.Empty;
+
+            if (string.IsNullOrEmpty(function)) continue;
+
+            foreach (var commandField in typeof(Permissions.Command).GetFields())
+            {
+                string command = commandField.GetValue(null)?.ToString() ?? string.Empty;
+
+                if (string.IsNullOrEmpty(command)) continue;
+
+                allPermissions.Add(new Permission(adminRole.Id, function.ToFunctionPermissions(), command.ToCommandPermissions()));
+            }
+        }
+
+        allPermissions.Add(new Permission(customerRole.Id, Permissions.Function.CATEGORY.ToFunctionPermissions(), Permissions.Command.VIEW.ToCommandPermissions()));
+        allPermissions.Add(new Permission(customerRole.Id, Permissions.Function.ORDER.ToFunctionPermissions(), Permissions.Command.VIEW.ToCommandPermissions()));
+        allPermissions.Add(new Permission(customerRole.Id, Permissions.Function.ORDER.ToFunctionPermissions(), Permissions.Command.CREATE.ToCommandPermissions()));
+
+        await context.Permissions.AddRangeAsync(allPermissions);
+
+        await context.SaveChangesAsync();
+
+        #endregion Seed Permissions
     }
 
     private static void SeedCategories(ApplicationDbContext context, Guid adminId)

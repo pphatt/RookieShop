@@ -16,6 +16,7 @@ public class ApplicationDbContext : IdentityDbContext<AppUser, AppRole, Guid>
 
     public virtual DbSet<AppUser> AppUsers => Set<AppUser>();
     public virtual DbSet<AppRole> AppRoles => Set<AppRole>();
+    public virtual DbSet<Permission> Permissions => Set<Permission>();
     public virtual DbSet<Product> Products => Set<Product>();
     public virtual DbSet<ProductMedia> ProductMedias => Set<ProductMedia>();
     public virtual DbSet<Category> Categories => Set<Category>();

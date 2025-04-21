@@ -34,7 +34,7 @@ public class PermissionConfiguration : IEntityTypeConfiguration<Permission>
 
         builder
             .HasOne(p => p.Role)
-            .WithMany()
+            .WithMany(r => r.Permissions)
             .HasForeignKey(p => p.RoleId)
             .IsRequired();
     }

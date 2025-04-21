@@ -1,6 +1,5 @@
-﻿using System.ComponentModel;
+﻿namespace HeadphoneStore.Domain.Constants;
 
-namespace HeadphoneStore.Domain.Constants;
 public static partial class Permissions
 {
     public static class Function
