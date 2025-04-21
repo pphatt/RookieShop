@@ -2,6 +2,7 @@
 
 using AutoMapper;
 
+using HeadphoneStore.Application.UseCases.V1.Brand.BulkDeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.DeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrands;
@@ -9,6 +10,7 @@ using HeadphoneStore.Application.UseCases.V1.Brand.GetBrandById;
 using HeadphoneStore.Application.UseCases.V1.Brand.UpdateBrand;
 using HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
 using HeadphoneStore.Contract.Dtos.Brand;
+using HeadphoneStore.Contract.Services.Brand.BulkDelete;
 using HeadphoneStore.Contract.Services.Brand.Create;
 using HeadphoneStore.Contract.Services.Brand.Delete;
 using HeadphoneStore.Contract.Services.Brand.GetAll;
@@ -86,6 +88,22 @@ public class BrandController : BaseApiController
         return Ok(response);
     }
 
+    [HttpDelete("bulk-delete")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteBrandResponseDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    public async Task<IActionResult> BulkDeleteBrand([FromForm] BulkDeleteBrandRequestDto request)
+    {
+        var mapper = _mapper.Map<BulkDeleteBrandCommand>(request);
+
+        var response = await _mediator.Send(mapper);
+
+        if (response.IsFailure)
+            return HandlerFailure(response);
+
+        return Ok(response);
+    }
+
     [HttpGet("{Id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BrandDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
@@ -108,9 +126,9 @@ public class BrandController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> GetAllBrands()
     {
-        var mapper = new GetAllBrandsQuery();
+        var query = new GetAllBrandsQuery();
 
-        var response = await _mediator.Send(mapper);
+        var response = await _mediator.Send(query);
 
         if (response.IsFailure)
             return HandlerFailure(response);

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 
+using HeadphoneStore.Application.UseCases.V1.Brand.BulkDeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.DeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrands;
@@ -12,6 +13,7 @@ using HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
 using HeadphoneStore.Application.UseCases.V1.Identity.Login;
 using HeadphoneStore.Application.UseCases.V1.Identity.Register;
 using HeadphoneStore.Contract.Dtos.Identity.Role;
+using HeadphoneStore.Contract.Services.Brand.BulkDelete;
 using HeadphoneStore.Contract.Services.Brand.Create;
 using HeadphoneStore.Contract.Services.Brand.Delete;
 using HeadphoneStore.Contract.Services.Brand.GetAll;
@@ -48,6 +50,7 @@ public class MapperProfiles : Profile
         CreateMap<CreateBrandRequestDto, CreateBrandCommand>();
         CreateMap<UpdateBrandRequestDto, UpdateBrandCommand>();
         CreateMap<DeleteBrandRequestDto, DeleteBrandCommand>();
+        CreateMap<BulkDeleteBrandRequestDto, BulkDeleteBrandCommand>();
         CreateMap<GetBrandByIdRequestDto, GetBrandByIdQuery>();
         CreateMap<GetAllBrandsRequestDto, GetAllBrandsQuery>();
     }
