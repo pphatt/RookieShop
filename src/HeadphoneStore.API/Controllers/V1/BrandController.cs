@@ -4,12 +4,14 @@ using AutoMapper;
 
 using HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.DeleteBrand;
+using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrands;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetBrandById;
 using HeadphoneStore.Application.UseCases.V1.Brand.UpdateBrand;
 using HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
 using HeadphoneStore.Contract.Dtos.Brand;
 using HeadphoneStore.Contract.Services.Brand.Create;
 using HeadphoneStore.Contract.Services.Brand.Delete;
+using HeadphoneStore.Contract.Services.Brand.GetAll;
 using HeadphoneStore.Contract.Services.Brand.GetById;
 using HeadphoneStore.Contract.Services.Brand.Update;
 using HeadphoneStore.Contract.Services.Category.Update;
@@ -91,6 +93,22 @@ public class BrandController : BaseApiController
     public async Task<IActionResult> GetBrandById([FromRoute] GetBrandByIdRequestDto request)
     {
         var mapper = _mapper.Map<GetBrandByIdQuery>(request);
+
+        var response = await _mediator.Send(mapper);
+
+        if (response.IsFailure)
+            return HandlerFailure(response);
+
+        return Ok(response);
+    }
+
+    [HttpGet("all")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BrandDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    public async Task<IActionResult> GetAllBrands()
+    {
+        var mapper = new GetAllBrandsQuery();
 
         var response = await _mediator.Send(mapper);
 
