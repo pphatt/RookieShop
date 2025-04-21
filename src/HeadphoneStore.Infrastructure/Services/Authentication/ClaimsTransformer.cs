@@ -3,7 +3,7 @@ using System.Text.Json;
 
 using HeadphoneStore.Application.Abstracts.Interface.Services.Authentication;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
-
+using HeadphoneStore.Domain.Constants;
 using HeadphoneStore.Domain.Enumeration;
 
 using Microsoft.AspNetCore.Identity;
@@ -35,13 +35,12 @@ public class ClaimsTransformer : IClaimsTransformation
         var permissionClaims = TransformPermissionsToPermissionClaims(permissions);
 
         return [
-            new("id", user.Id.ToString()),
-            new("email", user.Email ?? string.Empty),
-            //new("fullname", user.GetFullName() ?? string.Empty),
-            new("phoneNumber", user.PhoneNumber ?? string.Empty),
-            new("status", user.Status.ToString() ?? UserStatus.Inactive.ToString()),
-            new("roles", JsonSerializer.Serialize(roleNames)),
-            new("permissions", JsonSerializer.Serialize(permissionClaims)),
+            new(UserClaims.Id, user.Id.ToString()),
+            new(UserClaims.Email, user.Email ?? string.Empty),
+            new(UserClaims.PhoneNumber, user.PhoneNumber ?? string.Empty),
+            new(UserClaims.Status, user.Status.ToString() ?? UserStatus.Inactive.ToString()),
+            new(UserClaims.Roles, JsonSerializer.Serialize(roleNames)),
+            new(UserClaims.Permissions, JsonSerializer.Serialize(permissionClaims)),
         ];
     }
 }
