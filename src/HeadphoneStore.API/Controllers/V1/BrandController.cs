@@ -3,9 +3,11 @@
 using AutoMapper;
 
 using HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
+using HeadphoneStore.Application.UseCases.V1.Brand.DeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.UpdateBrand;
 using HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
 using HeadphoneStore.Contract.Services.Brand.Create;
+using HeadphoneStore.Contract.Services.Brand.Delete;
 using HeadphoneStore.Contract.Services.Brand.Update;
 using HeadphoneStore.Contract.Services.Category.Update;
 
@@ -33,7 +35,7 @@ public class BrandController : BaseApiController
     {
         var mapper = _mapper.Map<CreateBrandCommand>(request);
 
-        mapper.CreatedBy = Guid.Parse("5E640E2D-F4AA-4776-85BC-F860A3E58F31");
+        mapper.CreatedBy = Guid.Parse("BC884C5B-4773-4A80-B822-CD541D03DA66");
 
         var response = await _mediator.Send(mapper);
 
@@ -52,6 +54,24 @@ public class BrandController : BaseApiController
         var mapper = _mapper.Map<UpdateBrandCommand>(request);
 
         mapper.UpdatedBy = Guid.Parse("5E640E2D-F4AA-4776-85BC-F860A3E58F31");
+
+        var response = await _mediator.Send(mapper);
+
+        if (response.IsFailure)
+            return HandlerFailure(response);
+
+        return Ok(response);
+    }
+
+    [HttpDelete("{Id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteBrandResponseDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    public async Task<IActionResult> DeleteBrand([FromRoute] DeleteBrandRequestDto request)
+    {
+        var mapper = _mapper.Map<DeleteBrandCommand>(request);
+
+        mapper.UpdatedBy = Guid.Parse("BC884C5B-4773-4A80-B822-CD541D03DA66");
 
         var response = await _mediator.Send(mapper);
 
