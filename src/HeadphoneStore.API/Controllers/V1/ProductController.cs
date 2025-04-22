@@ -2,10 +2,12 @@
 
 using AutoMapper;
 
+using HeadphoneStore.API.Authorization;
 using HeadphoneStore.Application.UseCases.V1.Product.CreateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.UpdateProduct;
 using HeadphoneStore.Contract.Services.Product.Create;
 using HeadphoneStore.Contract.Services.Product.Update;
+using HeadphoneStore.Domain.Constants;
 
 using MediatR;
 
@@ -24,6 +26,7 @@ public class ProductController : BaseApiController
     }
 
     [HttpPost("create")]
+    [RequirePermission(Permissions.Function.PRODUCT, Permissions.Command.CREATE)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateProductResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
@@ -40,6 +43,7 @@ public class ProductController : BaseApiController
     }
 
     [HttpPut("{Id}")]
+    [RequirePermission(Permissions.Function.PRODUCT, Permissions.Command.EDIT)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateProductResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]

@@ -2,21 +2,20 @@
 
 using AutoMapper;
 
+using HeadphoneStore.API.Authorization;
 using HeadphoneStore.Application.UseCases.V1.Brand.BulkDeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.DeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrands;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetBrandById;
 using HeadphoneStore.Application.UseCases.V1.Brand.UpdateBrand;
-using HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
 using HeadphoneStore.Contract.Dtos.Brand;
 using HeadphoneStore.Contract.Services.Brand.BulkDelete;
 using HeadphoneStore.Contract.Services.Brand.Create;
 using HeadphoneStore.Contract.Services.Brand.Delete;
-using HeadphoneStore.Contract.Services.Brand.GetAll;
 using HeadphoneStore.Contract.Services.Brand.GetById;
 using HeadphoneStore.Contract.Services.Brand.Update;
-using HeadphoneStore.Contract.Services.Category.Update;
+using HeadphoneStore.Domain.Constants;
 
 using MediatR;
 
@@ -35,6 +34,7 @@ public class BrandController : BaseApiController
     }
 
     [HttpPost("create")]
+    [RequirePermission(Permissions.Function.BRAND, Permissions.Command.CREATE)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateBrandResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
@@ -53,6 +53,7 @@ public class BrandController : BaseApiController
     }
 
     [HttpPut("{Id}")]
+    [RequirePermission(Permissions.Function.BRAND, Permissions.Command.EDIT)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateBrandRequestDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
@@ -71,6 +72,7 @@ public class BrandController : BaseApiController
     }
 
     [HttpDelete("{Id}")]
+    [RequirePermission(Permissions.Function.BRAND, Permissions.Command.DELETE)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteBrandResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
@@ -89,6 +91,7 @@ public class BrandController : BaseApiController
     }
 
     [HttpDelete("bulk-delete")]
+    [RequirePermission(Permissions.Function.BRAND, Permissions.Command.DELETE)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteBrandResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
@@ -105,6 +108,7 @@ public class BrandController : BaseApiController
     }
 
     [HttpGet("{Id}")]
+    [RequirePermission(Permissions.Function.BRAND, Permissions.Command.VIEW)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BrandDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
@@ -121,6 +125,7 @@ public class BrandController : BaseApiController
     }
 
     [HttpGet("all")]
+    [RequirePermission(Permissions.Function.BRAND, Permissions.Command.VIEW)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BrandDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]

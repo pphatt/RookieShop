@@ -2,6 +2,7 @@
 
 using AutoMapper;
 
+using HeadphoneStore.API.Authorization;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Application.UseCases.V1.Category.CreateCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.DeleteCategory;
@@ -15,10 +16,10 @@ using HeadphoneStore.Contract.Services.Category.Create;
 using HeadphoneStore.Contract.Services.Category.Delete;
 using HeadphoneStore.Contract.Services.Category.GetCategoryById;
 using HeadphoneStore.Contract.Services.Category.Update;
+using HeadphoneStore.Domain.Constants;
 
 using MediatR;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HeadphoneStore.API.Controllers.V1;
@@ -34,6 +35,7 @@ public class CategoryController : BaseApiController
     }
 
     [HttpPost("create")]
+    [RequirePermission(Permissions.Function.CATEGORY, Permissions.Command.CREATE)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateCategoryResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
@@ -52,6 +54,7 @@ public class CategoryController : BaseApiController
     }
 
     [HttpPut("{Id}")]
+    [RequirePermission(Permissions.Function.CATEGORY, Permissions.Command.EDIT)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateCategoryResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
@@ -68,6 +71,7 @@ public class CategoryController : BaseApiController
     }
 
     [HttpDelete("{Id}")]
+    [RequirePermission(Permissions.Function.CATEGORY, Permissions.Command.DELETE)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteCategoryResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
@@ -84,6 +88,7 @@ public class CategoryController : BaseApiController
     }
 
     [HttpGet("{Id}")]
+    [RequirePermission(Permissions.Function.CATEGORY, Permissions.Command.VIEW)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateCategoryResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
@@ -100,6 +105,7 @@ public class CategoryController : BaseApiController
     }
 
     [HttpGet("all")]
+    [RequirePermission(Permissions.Function.CATEGORY, Permissions.Command.VIEW)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDto>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
@@ -116,6 +122,7 @@ public class CategoryController : BaseApiController
     }
 
     [HttpGet("all-sub")]
+    [RequirePermission(Permissions.Function.CATEGORY, Permissions.Command.VIEW)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDto>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
@@ -132,6 +139,7 @@ public class CategoryController : BaseApiController
     }
 
     [HttpGet("all-with-sub")]
+    [RequirePermission(Permissions.Function.CATEGORY, Permissions.Command.VIEW)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDto>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]

@@ -7,6 +7,8 @@ public static partial class Permissions
         public const string USER = nameof(USER);
         public const string ROLE = nameof(ROLE);
         public const string CATEGORY = nameof(CATEGORY);
+        public const string PRODUCT = nameof(PRODUCT);
+        public const string BRAND = nameof(BRAND);
         public const string ORDER = nameof(ORDER);
         public const string PERMISSION = nameof(PERMISSION);
     }
