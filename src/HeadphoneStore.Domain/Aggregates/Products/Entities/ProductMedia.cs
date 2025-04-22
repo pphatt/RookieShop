@@ -1,4 +1,6 @@
-﻿using HeadphoneStore.Domain.Abstracts.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+using HeadphoneStore.Domain.Abstracts.Entities;
 
 namespace HeadphoneStore.Domain.Aggregates.Products.Entities;
 
@@ -11,7 +13,10 @@ public class ProductMedia : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEnti
     public Guid CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
 
-    private ProductMedia() { } // For EF Core
+    [Timestamp]
+    public byte[] RowVersion { get; set; }
+
+    protected ProductMedia() { } // For EF Core
 
     public ProductMedia(string imageUrl, string publicId, string path, string name, Guid createdBy) : base(Guid.NewGuid())
     {

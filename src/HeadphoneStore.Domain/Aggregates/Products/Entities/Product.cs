@@ -1,4 +1,6 @@
-﻿using HeadphoneStore.Domain.Abstracts.Aggregates;
+﻿using System.ComponentModel.DataAnnotations;
+
+using HeadphoneStore.Domain.Abstracts.Aggregates;
 using HeadphoneStore.Domain.Abstracts.Entities;
 using HeadphoneStore.Domain.Aggregates.Categories.Entities;
 using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
@@ -27,7 +29,10 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
     private readonly List<ProductMedia> _media = [];
     public virtual IReadOnlyCollection<ProductMedia> Media => _media.AsReadOnly();
 
-    private Product() { }
+    [Timestamp]
+    public byte[] RowVersion { get; set; }
+
+    protected Product() { }
 
     public Product(
         string name,
@@ -74,6 +79,12 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
     public void AddMedia(ProductMedia media)
     {
         _media.Add(media);
+        UpdatedDateTime = DateTime.UtcNow;
+    }
+
+    public void RemoveMedia(ProductMedia media)
+    {
+        _media.Remove(media);
         UpdatedDateTime = DateTime.UtcNow;
     }
 

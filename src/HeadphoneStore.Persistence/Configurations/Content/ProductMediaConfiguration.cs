@@ -18,5 +18,7 @@ internal class ProductMediaConfiguration : IEntityTypeConfiguration<ProductMedia
         builder.Property(m => m.CreatedBy).IsRequired();
         builder.Property(m => m.CreatedDateTime ).IsRequired();
         builder.Property(m => m.IsDeleted).IsRequired();
+
+        builder.Property(m => m.RowVersion).IsRowVersion().IsConcurrencyToken();
     }
 }

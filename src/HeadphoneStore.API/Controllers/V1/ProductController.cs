@@ -3,7 +3,9 @@
 using AutoMapper;
 
 using HeadphoneStore.Application.UseCases.V1.Product.CreateProduct;
+using HeadphoneStore.Application.UseCases.V1.Product.UpdateProduct;
 using HeadphoneStore.Contract.Services.Product.Create;
+using HeadphoneStore.Contract.Services.Product.Update;
 
 using MediatR;
 
@@ -28,6 +30,22 @@ public class ProductController : BaseApiController
     public async Task<IActionResult> CreateProduct([FromForm] CreateProductRequestDto request)
     {
         var mapper = _mapper.Map<CreateProductCommand>(request);
+
+        var response = await _mediator.Send(mapper);
+
+        if (response.IsFailure)
+            return HandlerFailure(response);
+
+        return Ok(response);
+    }
+
+    [HttpPut("{Id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateProductResponseDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    public async Task<IActionResult> UpdateProduct([FromForm] UpdateProductRequestDto request)
+    {
+        var mapper = _mapper.Map<UpdateProductCommand>(request);
 
         var response = await _mediator.Send(mapper);
 

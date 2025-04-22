@@ -1,6 +1,8 @@
-﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+﻿using HeadphoneStore.API.Interceptors;
+using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Persistence.DependencyInjection.Options;
+using HeadphoneStore.Persistence.Interceptors;
 using HeadphoneStore.Persistence.Repositories;
 using HeadphoneStore.Persistence.Repository;
 
@@ -18,6 +20,9 @@ public static class ServiceCollectionExtensions
     {
         services.AddDbContextPool<ApplicationDbContext>((provider, builder) =>
         {
+            var auditableInterceptor = provider.GetService<UpdateAuditableEntitiesInterceptor>();
+            var deletableInterceptor = provider.GetService<DeleteAuditableEntitiesInterceptor>();
+
             var configuration = provider.GetRequiredService<IConfiguration>();
             var options = provider.GetRequiredService<IOptionsMonitor<SqlServerRetryOptions>>();
 
