@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-using HeadphoneStore.Domain.Abstracts.Entities;
+﻿using HeadphoneStore.Domain.Abstracts.Entities;
 
 namespace HeadphoneStore.Domain.Aggregates.Products.Entities;
 
@@ -13,19 +11,20 @@ public class ProductMedia : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEnti
     public Guid CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
 
-    [Timestamp]
-    public byte[] RowVersion { get; set; }
+    public Guid ProductId { get; set; }
+    public virtual Product Product { get; set; }
 
     protected ProductMedia() { } // For EF Core
 
-    public ProductMedia(string imageUrl, string publicId, string path, string name, Guid createdBy) : base(Guid.NewGuid())
+    public ProductMedia(Guid productId, string imageUrl, string publicId, string path, string name, Guid createdBy) : base(Guid.NewGuid())
     {
+        ProductId = productId;
         ImageUrl = imageUrl ?? throw new ArgumentNullException(nameof(imageUrl));
         PublicId = publicId;
         Path = path;
         Name = name;
         CreatedBy = createdBy;
-        CreatedDateTime  = DateTime.UtcNow;
+        CreatedDateTime = DateTime.UtcNow;
     }
 
     public void Delete() => IsDeleted = true;

@@ -96,6 +96,7 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
             foreach (var info in uploadResult)
             {
                 var media = new ProductMedia(
+                    productId: product.Id,
                     imageUrl: info.Path,
                     publicId: info.PublicId,
                     path: info.Path,

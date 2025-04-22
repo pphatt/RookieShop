@@ -29,9 +29,6 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
     private readonly List<ProductMedia> _media = [];
     public virtual IReadOnlyCollection<ProductMedia> Media => _media.AsReadOnly();
 
-    [Timestamp]
-    public byte[] RowVersion { get; set; }
-
     protected Product() { }
 
     public Product(
@@ -52,7 +49,7 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
         Category = category;
         Brand = brand;
         CreatedBy = createdBy;
-        CreatedDateTime  = DateTime.UtcNow;
+        CreatedDateTime = DateTime.UtcNow;
     }
 
     public void Delete() => IsDeleted = true;

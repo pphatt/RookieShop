@@ -17,6 +17,6 @@ public class UpdateProductRequestDto
     public int ProductPrice { get; set; }
     public Guid CategoryId { get; set; }
     public Guid BrandId { get; set; }
-    public List<Guid> OldFiles { get; set; }
-    public List<IFormFile>? NewFiles { get; set; }
+    public List<Guid>? OldFiles { get; set; } = new();
+    public List<IFormFile>? NewFiles { get; set; } = new();
 }

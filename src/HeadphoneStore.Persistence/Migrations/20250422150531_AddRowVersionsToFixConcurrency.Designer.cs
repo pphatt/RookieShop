@@ -4,6 +4,7 @@ using HeadphoneStore.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HeadphoneStore.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250422150531_AddRowVersionsToFixConcurrency")]
+    partial class AddRowVersionsToFixConcurrency
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -891,11 +894,11 @@ namespace HeadphoneStore.Persistence.Migrations
 
             modelBuilder.Entity("HeadphoneStore.Domain.Aggregates.Products.Entities.ProductMedia", b =>
                 {
-                    b.HasOne("HeadphoneStore.Domain.Aggregates.Products.Entities.Product", "Product")
+                    b.HasOne("HeadphoneStore.Domain.Aggregates.Products.Entities.Product", null)
                         .WithMany("Media")
-                        .HasForeignKey("ProductId");
-
-                    b.Navigation("Product");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

@@ -81,13 +81,13 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
             throw new Exceptions.Brand.NotFound();
         }
 
-        var oldImages = new List<DeleteFileDto>();
-
         // handle remove old images if changes.
         if (request.OldFiles is not null &&
             request.OldFiles.Count() > 0 &&
             product.Media.Count() > 0)
         {
+            var oldImages = new List<DeleteFileDto>();
+
             var oldImagesRequest = request.OldFiles;
 
             foreach (var image in product.Media.ToList())
@@ -100,8 +100,13 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
                         PublicId = image.PublicId
                     });
 
-                    product.RemoveMedia(image);
+                    _productMediaRepository.Remove(image);
                 }
+            }
+
+            if (oldImages.Count() > 0)
+            {
+                await _cloudinaryService.RemoveFilesFromCloudinary(oldImages);
             }
         }
 
@@ -120,19 +125,15 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
             foreach (var info in filesInfo)
             {
                 var file = new ProductMedia(
+                    productId: product.Id,
                     imageUrl: info.Path,
                     publicId: info.PublicId,
                     path: info.Path,
                     name: info.Name,
                     createdBy: request.UpdatedBy);
 
-                product.AddMedia(file);
+                _productMediaRepository.Add(file);
             }
-        }
-
-        if (oldImages.Count() > 0)
-        {
-            await _cloudinaryService.RemoveFilesFromCloudinary(oldImages);
         }
 
         product.Update(
@@ -144,8 +145,6 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
             brand: brand,
             updatedBy: request.UpdatedBy
         );
-
-        _productRepository.Update(product);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

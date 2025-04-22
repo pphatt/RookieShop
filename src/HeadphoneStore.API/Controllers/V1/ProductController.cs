@@ -68,7 +68,7 @@ public class ProductController : BaseApiController
 
     [HttpDelete("{Id}")]
     [RequirePermission(Permissions.Function.PRODUCT, Permissions.Command.DELETE)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateProductResponseDto))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteProductResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
     public async Task<IActionResult> DeleteProduct([FromRoute] DeleteProductRequestDto request)

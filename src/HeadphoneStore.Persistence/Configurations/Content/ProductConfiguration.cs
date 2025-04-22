@@ -25,8 +25,6 @@ internal class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.CreatedDateTime ).IsRequired();
         builder.Property(p => p.IsDeleted).IsRequired();
 
-        builder.Property(p => p.RowVersion).IsRowVersion().IsConcurrencyToken();
-
         // Setup ProductPrice ValueObject
         builder.OwnsOne(c => c.ProductPrice, price =>
         {
@@ -38,9 +36,9 @@ internal class ProductConfiguration : IEntityTypeConfiguration<Product>
         // One Product can have Many ProductMedia
         builder
             .HasMany(p => p.Media)
-            .WithOne()
-            .HasForeignKey("ProductId")
-            .IsRequired();
+            .WithOne(pm => pm.Product)
+            .HasForeignKey(pm => pm.ProductId)
+            .IsRequired(false);
 
         // One Product belongs to one Category
         builder
