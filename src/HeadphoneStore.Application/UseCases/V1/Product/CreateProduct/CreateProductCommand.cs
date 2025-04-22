@@ -16,4 +16,5 @@ public class CreateProductCommand : ICommand
     public Guid CategoryId { get; set; }
     public Guid BrandId { get; set; }
     public List<IFormFile>? Files { get; set; }
+    public Guid CreatedBy { get; set; }
 }

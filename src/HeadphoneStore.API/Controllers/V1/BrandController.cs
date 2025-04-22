@@ -3,6 +3,7 @@
 using AutoMapper;
 
 using HeadphoneStore.API.Authorization;
+using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Application.UseCases.V1.Brand.BulkDeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.DeleteBrand;
@@ -42,7 +43,7 @@ public class BrandController : BaseApiController
     {
         var mapper = _mapper.Map<CreateBrandCommand>(request);
 
-        mapper.CreatedBy = Guid.Parse("BC884C5B-4773-4A80-B822-CD541D03DA66");
+        mapper.CreatedBy = User.GetUserId();
 
         var response = await _mediator.Send(mapper);
 
@@ -61,7 +62,7 @@ public class BrandController : BaseApiController
     {
         var mapper = _mapper.Map<UpdateBrandCommand>(request);
 
-        mapper.UpdatedBy = Guid.Parse("5E640E2D-F4AA-4776-85BC-F860A3E58F31");
+        mapper.UpdatedBy = User.GetUserId();
 
         var response = await _mediator.Send(mapper);
 
@@ -80,7 +81,7 @@ public class BrandController : BaseApiController
     {
         var mapper = _mapper.Map<DeleteBrandCommand>(request);
 
-        mapper.UpdatedBy = Guid.Parse("BC884C5B-4773-4A80-B822-CD541D03DA66");
+        mapper.UpdatedBy = User.GetUserId();
 
         var response = await _mediator.Send(mapper);
 

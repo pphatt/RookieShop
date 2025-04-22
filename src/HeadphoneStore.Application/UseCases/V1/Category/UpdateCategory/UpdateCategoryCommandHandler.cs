@@ -11,16 +11,13 @@ using Exceptions = Domain.Exceptions.Exceptions;
 
 public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryCommand>
 {
-    private readonly UserManager<AppUser> _userManager;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICategoryRepository _categoryRepository;
 
     public UpdateCategoryCommandHandler(
-        UserManager<AppUser> userManager,
         IUnitOfWork unitOfWork,
         ICategoryRepository categoryRepository)
     {
-        _userManager = userManager;
         _unitOfWork = unitOfWork;
         _categoryRepository = categoryRepository;
     }
@@ -31,13 +28,6 @@ public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryComman
         var description = request.Description;
         var parentCategoryId = request.ParentCategoryId;
         var updatedBy = request.UpdatedBy;
-
-        var user = await _userManager.FindByIdAsync(request.UpdatedBy.ToString());
-
-        if (user is null)
-        {
-            throw new Exceptions.User.NotFound();
-        }
 
         var categoryFromDb = await _categoryRepository.FindByIdAsync(request.Id);
 

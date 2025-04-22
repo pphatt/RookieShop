@@ -3,6 +3,7 @@
 using AutoMapper;
 
 using HeadphoneStore.API.Authorization;
+using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Application.UseCases.V1.Product.CreateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.DeleteProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.UpdateProduct;
@@ -36,6 +37,8 @@ public class ProductController : BaseApiController
     {
         var mapper = _mapper.Map<CreateProductCommand>(request);
 
+        mapper.CreatedBy = User.GetUserId();
+
         var response = await _mediator.Send(mapper);
 
         if (response.IsFailure)
@@ -52,6 +55,8 @@ public class ProductController : BaseApiController
     public async Task<IActionResult> UpdateProduct([FromForm] UpdateProductRequestDto request)
     {
         var mapper = _mapper.Map<UpdateProductCommand>(request);
+
+        mapper.UpdatedBy = User.GetUserId();
 
         var response = await _mediator.Send(mapper);
 

@@ -17,7 +17,6 @@ using Product = Domain.Aggregates.Products.Entities.Product;
 
 public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
 {
-    private readonly UserManager<AppUser> _userManager;
     private readonly IProductRepository _productRepository;
     private readonly ICategoryRepository _categoryRepository;
     private readonly IBrandRepository _brandRepository;
@@ -25,14 +24,12 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateProductCommandHandler(
-        UserManager<AppUser> userManager,
         IProductRepository productRepository,
         ICategoryRepository categoryRepository,
         IBrandRepository brandRepository,
         ICloudinaryService cloudinaryService,
         IUnitOfWork unitOfWork)
     {
-        _userManager = userManager;
         _productRepository = productRepository;
         _categoryRepository = categoryRepository;
         _brandRepository = brandRepository;
@@ -80,7 +77,7 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
             sku: sku,
             category: category,
             brand: brand,
-            createdBy: Guid.Parse("9749FF2A-ABBF-4B09-A88A-E42E31FE5DCC")
+            createdBy: request.CreatedBy
         );
 
         product.Quantity = request.Quantity;
@@ -90,7 +87,7 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
             var required = new FileRequiredParamsDto
             {
                 type = FileType.Image,
-                userId = Guid.Parse("9749FF2A-ABBF-4B09-A88A-E42E31FE5DCC"),
+                userId = request.CreatedBy,
                 productId = product.Id
             };
 
@@ -103,7 +100,7 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
                     publicId: info.PublicId,
                     path: info.Path,
                     name: info.Name,
-                    createdBy: Guid.Parse("9749FF2A-ABBF-4B09-A88A-E42E31FE5DCC"));
+                    createdBy: request.CreatedBy);
 
                 product.AddMedia(media);
             }

@@ -62,6 +62,8 @@ public class CategoryController : BaseApiController
     {
         var mapper = _mapper.Map<UpdateCategoryCommand>(request);
 
+        mapper.UpdatedBy = User.GetUserId();
+
         var response = await _mediator.Send(mapper);
 
         if (response.IsFailure)

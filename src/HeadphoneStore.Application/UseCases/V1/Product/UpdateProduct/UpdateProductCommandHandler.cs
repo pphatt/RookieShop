@@ -81,86 +81,74 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
             throw new Exceptions.Brand.NotFound();
         }
 
-        try
+        var oldImages = new List<DeleteFileDto>();
+
+        // handle remove old images if changes.
+        if (request.OldFiles is not null &&
+            request.OldFiles.Count() > 0 &&
+            product.Media.Count() > 0)
         {
-            var oldImages = new List<DeleteFileDto>();
+            var oldImagesRequest = request.OldFiles;
 
-            // handle remove old images if changes.
-            if (request.OldFiles is not null &&
-                request.OldFiles.Count() > 0 &&
-                product.Media.Count() > 0)
+            foreach (var image in product.Media.ToList())
             {
-                var oldImagesRequest = request.OldFiles;
-
-                foreach (var image in product.Media.ToList())
+                if (!oldImagesRequest.Contains(image.Id))
                 {
-                    if (!oldImagesRequest.Contains(image.Id))
+                    oldImages.Add(new DeleteFileDto
                     {
-                        oldImages.Add(new DeleteFileDto
-                        {
-                            Type = FileType.Image,
-                            PublicId = image.PublicId
-                        });
+                        Type = FileType.Image,
+                        PublicId = image.PublicId
+                    });
 
-                        product.RemoveMedia(image);
-                    }
+                    product.RemoveMedia(image);
                 }
             }
-
-            // handle add new images if added.
-            if (request.NewFiles is not null && request.NewFiles.Count() > 0)
-            {
-                var required = new FileRequiredParamsDto
-                {
-                    type = FileType.Image,
-                    userId = Guid.Parse("0A041E80-4855-4ACE-B724-E8409FA157D8"),
-                    productId = product.Id,
-                };
-
-                var filesInfo = await _cloudinaryService.UploadFilesToCloudinary(request.NewFiles, required);
-
-                foreach (var info in filesInfo)
-                {
-                    var file = new ProductMedia(
-                        imageUrl: info.Path,
-                        publicId: info.PublicId,
-                        path: info.Path,
-                        name: info.Name,
-                        createdBy: Guid.Parse("0A041E80-4855-4ACE-B724-E8409FA157D8"));
-
-                    product.AddMedia(file);
-                }
-            }
-
-            if (oldImages.Count() > 0)
-            {
-                await _cloudinaryService.RemoveFilesFromCloudinary(oldImages);
-            }
-
-            product.Update(
-                name: request.Name,
-                description: request.Description,
-                productPrice: new ProductPrice(request.ProductPrice),
-                sku: request.Sku.ToString(),
-                category: category,
-                brand: brand,
-                updatedBy: Guid.Parse("0A041E80-4855-4ACE-B724-E8409FA157D8")
-            );
-
-            _productRepository.Update(product);
-
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            return Result.Success();
         }
-        catch (DbUpdateConcurrencyException ex)
+
+        // handle add new images if added.
+        if (request.NewFiles is not null && request.NewFiles.Count() > 0)
         {
-            // Log the exception details
-            // You can extract the entity that caused the concurrency exception
-            var entry = ex.Entries.First();
+            var required = new FileRequiredParamsDto
+            {
+                type = FileType.Image,
+                userId = request.UpdatedBy,
+                productId = product.Id,
+            };
 
-            // Handle concurrency issue
-            return Result.Failure("The product was modified by another user. Please refresh and try again.");
+            var filesInfo = await _cloudinaryService.UploadFilesToCloudinary(request.NewFiles, required);
+
+            foreach (var info in filesInfo)
+            {
+                var file = new ProductMedia(
+                    imageUrl: info.Path,
+                    publicId: info.PublicId,
+                    path: info.Path,
+                    name: info.Name,
+                    createdBy: request.UpdatedBy);
+
+                product.AddMedia(file);
+            }
         }
+
+        if (oldImages.Count() > 0)
+        {
+            await _cloudinaryService.RemoveFilesFromCloudinary(oldImages);
+        }
+
+        product.Update(
+            name: request.Name,
+            description: request.Description,
+            productPrice: new ProductPrice(request.ProductPrice),
+            sku: request.Sku.ToString(),
+            category: category,
+            brand: brand,
+            updatedBy: request.UpdatedBy
+        );
+
+        _productRepository.Update(product);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result.Success();
     }
 }

@@ -18,4 +18,5 @@ public class UpdateProductCommand : ICommand
     public Guid BrandId { get; set; }
     public List<Guid> OldFiles { get; set; }
     public List<IFormFile>? NewFiles { get; set; }
+    public Guid UpdatedBy { get; set; }
 }

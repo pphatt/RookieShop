@@ -17,16 +17,13 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICategoryRepository _categoryRepository;
-    private readonly UserManager<AppUser> _userManager;
 
     public CreateCategoryCommandHandler(
         IUnitOfWork unitOfWork,
-        ICategoryRepository categoryRepository,
-        UserManager<AppUser> userManager)
+        ICategoryRepository categoryRepository)
     {
         _unitOfWork = unitOfWork;
         _categoryRepository = categoryRepository;
-        _userManager = userManager;
     }
 
     public async Task<Result> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
@@ -41,13 +38,6 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
         if (duplicateName is not null)
         {
             throw new Exceptions.Category.DuplicateName();
-        }
-
-        var user = await _userManager.FindByIdAsync(createdBy.ToString());
-
-        if (user is null)
-        {
-            throw new Exceptions.User.NotFound();
         }
 
         var parentCategory = parentCategoryId is not null 
