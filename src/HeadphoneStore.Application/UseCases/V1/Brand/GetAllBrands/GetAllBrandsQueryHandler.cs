@@ -27,8 +27,6 @@ public class GetAllBrandsQueryHandler : IQueryHandler<GetAllBrandsQuery, List<Br
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
-                CreatedBy = x.CreatedBy,
-                UpdatedBy = x.UpdatedBy
             });
 
         var result = await brands.ToListAsync();

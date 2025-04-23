@@ -39,4 +39,30 @@ public static class StringExtension
 
         return output;
     }
+
+    public static string FormatPascalCaseString(this string input)
+    {
+        var words = Regex.Matches(input, @"[A-Z][a-z]*")
+                         .Cast<Match>()
+                         .Select(m => m.Value)
+                         .ToArray();
+
+        if (words.Length == 0) return input;
+
+        words[0] = CapitalizeFirstLetter(words[0]);
+
+        for (int i = 1; i < words.Length; i++)
+        {
+            words[i] = words[i].ToLower();
+        }
+
+        return string.Join(" ", words);
+    }
+
+    private static string CapitalizeFirstLetter(string word)
+    {
+        if (string.IsNullOrEmpty(word)) return word;
+
+        return char.ToUpper(word[0]) + word.Substring(1).ToLower();
+    }
 }

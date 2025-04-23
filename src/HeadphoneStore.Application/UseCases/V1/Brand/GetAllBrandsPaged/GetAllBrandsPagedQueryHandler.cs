@@ -16,7 +16,7 @@ public class GetAllBrandsPagedQueryHandler : IQueryHandler<GetAllBrandsPagedQuer
 
     public async Task<Result<PagedResult<BrandDto>>> Handle(GetAllBrandsPagedQuery request, CancellationToken cancellationToken)
     {
-        var result = await _brandRepository.GetBrandsPaging(
+        var result = await _brandRepository.GetBrandsPagination(
             keyword: request.Keyword,
             pageIndex: request.PageIndex,
             pageSize: request.PageSize

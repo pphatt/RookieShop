@@ -10,14 +10,11 @@ namespace HeadphoneStore.Persistence.Repositories;
 
 public class BrandRepository : RepositoryBase<Brand, Guid>, IBrandRepository
 {
-    private readonly ApplicationDbContext _context;
-
     public BrandRepository(ApplicationDbContext context) : base(context)
     {
-        _context = context;
     }
 
-    public async Task<PagedResult<BrandDto>> GetBrandsPaging(string? keyword, int pageIndex, int pageSize)
+    public async Task<PagedResult<BrandDto>> GetBrandsPagination(string? keyword, int pageIndex, int pageSize)
     {
         var query = GetQueryableSet().AsNoTracking();
 
@@ -35,8 +32,6 @@ public class BrandRepository : RepositoryBase<Brand, Guid>, IBrandRepository
             Id = x.Id,
             Name = x.Name,
             Description = x.Description,
-            CreatedBy = x.CreatedBy,
-            UpdatedBy = x.UpdatedBy
         });
 
         return await PagedResult<BrandDto>.InitializeAsync(result, pageIndex, pageSize);

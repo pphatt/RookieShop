@@ -21,17 +21,13 @@ public class GetBrandByIdQueryHandler : ICommandHandler<GetBrandByIdQuery, Brand
         var brand = await _brandRepository.FindByIdAsync(request.Id);
 
         if (brand is null || brand.IsDeleted)
-        {
             throw new Exceptions.Brand.NotFound();
-        }
 
         var result = new BrandDto
         {
             Id = brand.Id,
             Name = brand.Name,
             Description = brand.Description,
-            CreatedBy = brand.CreatedBy,
-            UpdatedBy = brand.UpdatedBy,
         };
 
         return Result.Success(result);
