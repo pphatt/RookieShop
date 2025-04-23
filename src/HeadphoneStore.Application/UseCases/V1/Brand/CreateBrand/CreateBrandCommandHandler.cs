@@ -23,9 +23,7 @@ public class CreateBrandCommandHandler : ICommandHandler<CreateBrandCommand>
         var duplicateName = _brandRepository.FindByCondition(x => x.Name == request.Name).FirstOrDefault();
 
         if (duplicateName is not null)
-        {
             throw new Exceptions.Brand.DuplicateName();
-        }
 
         var category = Brand.Create(
             name: request.Name,

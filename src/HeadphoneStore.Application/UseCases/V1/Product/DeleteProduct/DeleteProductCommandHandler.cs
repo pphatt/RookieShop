@@ -22,9 +22,7 @@ public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand>
         var product = await _productRepository.FindByIdAsync(request.Id);
 
         if (product is null)
-        {
             throw new Exceptions.Product.NotFound();
-        }
 
         product.Delete();
 

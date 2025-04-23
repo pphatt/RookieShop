@@ -30,9 +30,7 @@ public class BulkDeleteBrandCommandHandler : ICommandHandler<BulkDeleteBrandComm
             var brand = await _brandRepository.FindByIdAsync(id);
 
             if (brand is null)
-            {
                 throw new Exceptions.Brand.NotFound();
-            }
 
             brand.Delete();
 
@@ -40,9 +38,7 @@ public class BulkDeleteBrandCommandHandler : ICommandHandler<BulkDeleteBrandComm
         }
 
         if (successfullyDeletedItems.Count < 0)
-        {
             return Result.Success("Nothing was deleted.");
-        }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

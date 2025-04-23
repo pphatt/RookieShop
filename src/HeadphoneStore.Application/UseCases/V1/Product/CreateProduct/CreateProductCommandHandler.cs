@@ -42,28 +42,20 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
         var productFromDb = _productRepository.FindByCondition(x => x.Name == request.Name).SingleOrDefault();
 
         if (productFromDb is not null)
-        {
             throw new Exceptions.Product.DuplicateName();
-        }
 
         if (request.ProductPrice < 0)
-        {
             throw new Exceptions.Product.InvalidPrice();
-        }
 
         var category = await _categoryRepository.FindByIdAsync(request.CategoryId);
 
         if (category is null)
-        {
             throw new Exceptions.Category.NotFound();
-        }
 
         var brand = await _brandRepository.FindByIdAsync(request.BrandId);
 
         if (brand is null)
-        {
             throw new Exceptions.Brand.NotFound();
-        }
 
         var productPrice = ProductPrice.Create(request.ProductPrice);
 

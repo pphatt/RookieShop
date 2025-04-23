@@ -36,9 +36,7 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
         var duplicateName = _categoryRepository.FindByCondition(x => x.Name.Equals(name)).SingleOrDefault();
 
         if (duplicateName is not null)
-        {
             throw new Exceptions.Category.DuplicateName();
-        }
 
         var parentCategory = parentCategoryId is not null 
             ? await _categoryRepository.FindByIdAsync((Guid)parentCategoryId) 
@@ -52,6 +50,7 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
         );
 
         _categoryRepository.Add(category);
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();

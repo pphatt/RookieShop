@@ -30,16 +30,12 @@ public class DeleteBrandCommandHandler : ICommandHandler<DeleteBrandCommand>
         var user = await _userManager.FindByIdAsync(request.UpdatedBy.ToString());
 
         if (user is null)
-        {
             throw new Exceptions.User.NotFound();
-        }
 
         var brand = _brandRepository.FindByCondition(x => x.Id == request.Id).SingleOrDefault();
 
         if (brand is null)
-        {
             throw new Exceptions.Brand.NotFound();
-        }
 
         brand.Delete();
 

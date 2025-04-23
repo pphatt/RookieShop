@@ -30,23 +30,17 @@ public class UpdateBrandCommandHandler : ICommandHandler<UpdateBrandCommand>
         var user = await _userManager.FindByIdAsync(request.UpdatedBy.ToString());
 
         if (user is null)
-        {
             throw new Exceptions.User.NotFound();
-        }
 
         var brandFromDb = await _brandRepository.FindByIdAsync(request.Id);
 
         if (brandFromDb is null)
-        {
             throw new Exceptions.Brand.NotFound();
-        }
 
         var duplicateName = _brandRepository.FindByCondition(x => x.Name.Equals(request.Name)).FirstOrDefault();
 
         if (duplicateName is not null && duplicateName.Id != brandFromDb.Id)
-        {
             throw new Exceptions.Brand.DuplicateName();
-        }
 
         brandFromDb.Update(
             name: request.Name,

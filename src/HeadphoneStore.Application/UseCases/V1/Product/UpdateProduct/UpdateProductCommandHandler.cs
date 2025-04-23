@@ -47,32 +47,24 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
             .FirstOrDefaultAsync();
 
         if (product is null)
-        {
             throw new Exceptions.Product.NotFound();
-        }
 
         var duplicateName = _productRepository
             .FindByCondition(x => x.Name == request.Name)
             .FirstOrDefault();
 
         if (duplicateName is not null && duplicateName.Id != product.Id)
-        {
             throw new Exceptions.Product.DuplicateName();
-        }
 
         var category = await _categoryRepository.FindByIdAsync(request.CategoryId);
 
         if (category is null)
-        {
             throw new Exceptions.Category.NotFound();
-        }
 
         var brand = await _brandRepository.FindByIdAsync(request.BrandId);
 
         if (brand is null)
-        {
             throw new Exceptions.Brand.NotFound();
-        }
 
         // handle remove old images if changes.
         if (request.OldFiles is not null &&

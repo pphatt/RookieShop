@@ -32,16 +32,12 @@ public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryComman
         var categoryFromDb = await _categoryRepository.FindByIdAsync(request.Id);
 
         if (categoryFromDb is null)
-        {
             throw new Exceptions.Category.NotFound();
-        }
 
         var duplicateName = _categoryRepository.FindByCondition(x => x.Name.Equals(name)).FirstOrDefault();
 
         if (duplicateName is not null && duplicateName.Id != categoryFromDb.Id)
-        {
             throw new Exceptions.Category.DuplicateName();
-        }
 
         var parentCategory = parentCategoryId is not null
             ? await _categoryRepository.FindByIdAsync((Guid)parentCategoryId)

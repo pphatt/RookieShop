@@ -22,14 +22,10 @@ public class DeleteCategoryCommandHandler : ICommandHandler<DeleteCategoryComman
         var category = await _categoryRepository.FindByIdAsync(request.Id);
 
         if (category is null)
-        {
             throw new Exceptions.Category.NotFound();
-        }
 
         if (category.IsDeleted)
-        {
             throw new Exceptions.Category.AlreadyDeleted();
-        }
 
         category.Delete();
 
