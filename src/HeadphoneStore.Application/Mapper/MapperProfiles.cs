@@ -9,6 +9,7 @@ using HeadphoneStore.Application.UseCases.V1.Brand.GetBrandById;
 using HeadphoneStore.Application.UseCases.V1.Brand.UpdateBrand;
 using HeadphoneStore.Application.UseCases.V1.Category.CreateCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.DeleteCategory;
+using HeadphoneStore.Application.UseCases.V1.Category.GetAllCategoriesPaged;
 using HeadphoneStore.Application.UseCases.V1.Category.GetCategoryById;
 using HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
 using HeadphoneStore.Application.UseCases.V1.Identity.Login;
@@ -26,6 +27,7 @@ using HeadphoneStore.Contract.Services.Brand.GetById;
 using HeadphoneStore.Contract.Services.Brand.Update;
 using HeadphoneStore.Contract.Services.Category.Create;
 using HeadphoneStore.Contract.Services.Category.Delete;
+using HeadphoneStore.Contract.Services.Category.GetAllPaged;
 using HeadphoneStore.Contract.Services.Category.GetCategoryById;
 using HeadphoneStore.Contract.Services.Category.Update;
 using HeadphoneStore.Contract.Services.Identity.Login;
@@ -53,6 +55,7 @@ public class MapperProfiles : Profile
         CreateMap<UpdateCategoryRequestDto, UpdateCategoryCommand>();
         CreateMap<DeleteCategoryRequestDto, DeleteCategoryCommand>();
         CreateMap<GetCategoryByIdRequestDto, GetCategoryByIdQuery>();
+        CreateMap<GetAllCategoriesPagedRequestDto, GetAllCategoriesPagedQuery>();
 
         // Brand
         CreateMap<CreateBrandRequestDto, CreateBrandCommand>();

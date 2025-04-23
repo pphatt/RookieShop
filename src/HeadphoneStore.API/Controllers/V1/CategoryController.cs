@@ -7,13 +7,16 @@ using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Application.UseCases.V1.Category.CreateCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.DeleteCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.GetAllCategories;
+using HeadphoneStore.Application.UseCases.V1.Category.GetAllCategoriesPaged;
 using HeadphoneStore.Application.UseCases.V1.Category.GetAllCategoriesWithSubCategories;
 using HeadphoneStore.Application.UseCases.V1.Category.GetAllSubCategories;
 using HeadphoneStore.Application.UseCases.V1.Category.GetCategoryById;
 using HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
+using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Contract.Dtos.Category;
 using HeadphoneStore.Contract.Services.Category.Create;
 using HeadphoneStore.Contract.Services.Category.Delete;
+using HeadphoneStore.Contract.Services.Category.GetAllPaged;
 using HeadphoneStore.Contract.Services.Category.GetCategoryById;
 using HeadphoneStore.Contract.Services.Category.Update;
 using HeadphoneStore.Domain.Constants;
@@ -97,6 +100,23 @@ public class CategoryController : BaseApiController
     public async Task<IActionResult> GetCategoryById([FromRoute] GetCategoryByIdRequestDto request)
     {
         var mapper = _mapper.Map<GetCategoryByIdQuery>(request);
+
+        var response = await _mediator.Send(mapper);
+
+        if (response.IsFailure)
+            return HandlerFailure(response);
+
+        return Ok(response);
+    }
+
+    [HttpGet("pagination")]
+    [RequirePermission(Permissions.Function.CATEGORY, Permissions.Command.VIEW)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedResult<CategoryDto>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    public async Task<IActionResult> GetAllCategoriesPagination([FromQuery] GetAllCategoriesPagedRequestDto request)
+    {
+        var mapper = _mapper.Map<GetAllCategoriesPagedQuery>(request);
 
         var response = await _mediator.Send(mapper);
 
