@@ -6,11 +6,14 @@ using HeadphoneStore.API.Authorization;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Application.UseCases.V1.Product.CreateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.DeleteProduct;
+using HeadphoneStore.Application.UseCases.V1.Product.GetAllProductsPaged;
 using HeadphoneStore.Application.UseCases.V1.Product.GetProductById;
 using HeadphoneStore.Application.UseCases.V1.Product.UpdateProduct;
+using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Contract.Dtos.Product;
 using HeadphoneStore.Contract.Services.Product.Create;
 using HeadphoneStore.Contract.Services.Product.Delete;
+using HeadphoneStore.Contract.Services.Product.GetAllPaged;
 using HeadphoneStore.Contract.Services.Product.GetById;
 using HeadphoneStore.Contract.Services.Product.Update;
 using HeadphoneStore.Domain.Constants;
@@ -94,6 +97,23 @@ public class ProductController : BaseApiController
     public async Task<IActionResult> GetProductById([FromRoute] GetProductByIdRequestDto request)
     {
         var mapper = _mapper.Map<GetProductByIdQuery>(request);
+
+        var response = await _mediator.Send(mapper);
+
+        if (response.IsFailure)
+            return HandlerFailure(response);
+
+        return Ok(response);
+    }
+
+    [HttpGet("pagination")]
+    [RequirePermission(Permissions.Function.PRODUCT, Permissions.Command.VIEW)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedResult<ProductDto>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    public async Task<IActionResult> GetAllProductsPagination([FromQuery] GetAllProductPagedRequestDto request)
+    {
+        var mapper = _mapper.Map<GetAllProductsPagedQuery>(request);
 
         var response = await _mediator.Send(mapper);
 
