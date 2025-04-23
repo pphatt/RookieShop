@@ -8,12 +8,16 @@ using HeadphoneStore.Application.UseCases.V1.Brand.BulkDeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.DeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrands;
+using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrandsPaged;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetBrandById;
 using HeadphoneStore.Application.UseCases.V1.Brand.UpdateBrand;
+using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Contract.Dtos.Brand;
 using HeadphoneStore.Contract.Services.Brand.BulkDelete;
 using HeadphoneStore.Contract.Services.Brand.Create;
 using HeadphoneStore.Contract.Services.Brand.Delete;
+using HeadphoneStore.Contract.Services.Brand.GetAll;
+using HeadphoneStore.Contract.Services.Brand.GetAllPaged;
 using HeadphoneStore.Contract.Services.Brand.GetById;
 using HeadphoneStore.Contract.Services.Brand.Update;
 using HeadphoneStore.Domain.Constants;
@@ -93,7 +97,7 @@ public class BrandController : BaseApiController
 
     [HttpDelete("bulk-delete")]
     [RequirePermission(Permissions.Function.BRAND, Permissions.Command.DELETE)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteBrandResponseDto))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BulkDeleteBrandResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
     public async Task<IActionResult> BulkDeleteBrand([FromForm] BulkDeleteBrandRequestDto request)
@@ -135,6 +139,23 @@ public class BrandController : BaseApiController
         var query = new GetAllBrandsQuery();
 
         var response = await _mediator.Send(query);
+
+        if (response.IsFailure)
+            return HandlerFailure(response);
+
+        return Ok(response);
+    }
+
+    [HttpGet("pagination")]
+    [RequirePermission(Permissions.Function.BRAND, Permissions.Command.VIEW)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedResult<BrandDto>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    public async Task<IActionResult> GetAllBrandsPagination([FromQuery] GetAllBrandsPagedRequestDto request)
+    {
+        var mapper = _mapper.Map<GetAllBrandsPagedQuery>(request);
+
+        var response = await _mediator.Send(mapper);
 
         if (response.IsFailure)
             return HandlerFailure(response);

@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 
+using HeadphoneStore.Application.Abstracts.Interface.Repositories;
 using HeadphoneStore.Domain.Abstracts.Entities;
-using HeadphoneStore.Domain.Abstracts.Repositories;
 
 using Microsoft.EntityFrameworkCore;
 

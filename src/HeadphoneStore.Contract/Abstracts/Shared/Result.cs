@@ -89,7 +89,9 @@ public class Result<TValue> : Result
         _data = data;
     }
 
-    public TValue Data => IsSuccessful ? _data! : throw new InvalidOperationException("The data of failure result can not be access");
+    public TValue Data => IsSuccessful 
+        ? _data! 
+        : throw new InvalidOperationException("The data of failure result can not be access");
 
     [JsonConstructor]
     public Result(TValue data) : this(data, true) { }

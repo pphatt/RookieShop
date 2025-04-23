@@ -1,5 +1,5 @@
 ﻿using HeadphoneStore.API.Interceptors;
-using HeadphoneStore.Domain.Abstracts.Repositories;
+using HeadphoneStore.Application.Abstracts.Interface.Repositories;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Persistence.DependencyInjection.Options;
 using HeadphoneStore.Persistence.Interceptors;

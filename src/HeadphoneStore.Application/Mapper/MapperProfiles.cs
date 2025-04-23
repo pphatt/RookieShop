@@ -4,6 +4,7 @@ using HeadphoneStore.Application.UseCases.V1.Brand.BulkDeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.DeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrands;
+using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrandsPaged;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetBrandById;
 using HeadphoneStore.Application.UseCases.V1.Brand.UpdateBrand;
 using HeadphoneStore.Application.UseCases.V1.Category.CreateCategory;
@@ -20,6 +21,7 @@ using HeadphoneStore.Contract.Services.Brand.BulkDelete;
 using HeadphoneStore.Contract.Services.Brand.Create;
 using HeadphoneStore.Contract.Services.Brand.Delete;
 using HeadphoneStore.Contract.Services.Brand.GetAll;
+using HeadphoneStore.Contract.Services.Brand.GetAllPaged;
 using HeadphoneStore.Contract.Services.Brand.GetById;
 using HeadphoneStore.Contract.Services.Brand.Update;
 using HeadphoneStore.Contract.Services.Category.Create;
@@ -59,6 +61,7 @@ public class MapperProfiles : Profile
         CreateMap<BulkDeleteBrandRequestDto, BulkDeleteBrandCommand>();
         CreateMap<GetBrandByIdRequestDto, GetBrandByIdQuery>();
         CreateMap<GetAllBrandsRequestDto, GetAllBrandsQuery>();
+        CreateMap<GetAllBrandsPagedRequestDto, GetAllBrandsPagedQuery>();
 
         // Product
         CreateMap<CreateProductRequestDto, CreateProductCommand>();

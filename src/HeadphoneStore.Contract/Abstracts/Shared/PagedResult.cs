@@ -6,9 +6,9 @@ namespace HeadphoneStore.Contract.Abstracts.Shared;
 
 public class PagedResult<T>
 {
-    public const int UpperPageSize = 100;
-    public const int DefaultPageSize = 10;
-    public const int DefaultPageIndex = 1;
+    private const int MaxPageSize = 100;
+    private const int DefaultPageSize = 10;
+    private const int DefaultPageIndex = 1;
 
     [JsonConstructor]
     public PagedResult(List<T> items, int pageIndex, int pageSize, int totalCount)
@@ -19,24 +19,31 @@ public class PagedResult<T>
         TotalCount = totalCount;
     }
 
-    public List<T> Items { get; }
+    public List<T> Items { get; set; }
     public int PageIndex { get; }
     public int PageSize { get; }
     public int TotalCount { get; }
+    public int PageCount => (int)Math.Ceiling((double)TotalCount / PageSize);
+    public int FirstRowOnPage => (PageIndex - 1) * PageSize + 1;
+    public int LastRowOnPage => Math.Min(PageIndex * PageSize, TotalCount);
     public bool HasNextPage => PageIndex * PageSize < TotalCount;
     public bool HasPreviousPage => PageIndex > 1;
-    public int LastRowOnPage => Math.Min(PageIndex * PageSize, TotalCount);
 
-    public static async Task<PagedResult<T>> CreateAsync(IQueryable<T> query, int pageIndex, int pageSize)
+    public static async Task<PagedResult<T>> InitializeAsync(IQueryable<T> query, int pageIndex, int pageSize)
     {
-        pageIndex = pageIndex <= 0 ? DefaultPageIndex : pageIndex;
-        pageSize = pageSize <= 0
-            ? DefaultPageSize
-            : pageSize > UpperPageSize
-                ? UpperPageSize : pageSize;
+        ArgumentNullException.ThrowIfNull(query);
+
+        pageIndex = Math.Max(pageIndex, DefaultPageIndex);
+
+        pageSize = pageSize <= 0 ? DefaultPageSize : Math.Min(pageSize, MaxPageSize);
 
         var totalCount = await query.CountAsync();
-        var items = await query.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
-        return new(items, pageIndex, pageSize, totalCount);
+
+        var items = await query
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return new PagedResult<T>(items, pageIndex, pageSize, totalCount);
     }
 }

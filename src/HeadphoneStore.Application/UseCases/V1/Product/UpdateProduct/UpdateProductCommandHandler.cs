@@ -1,8 +1,8 @@
-﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Media;
+﻿using HeadphoneStore.Application.Abstracts.Interface.Repositories;
+using HeadphoneStore.Application.Abstracts.Interface.Services.Media;
 using HeadphoneStore.Contract.Abstracts.Commands;
 using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Contract.Dtos.Media;
-using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
 using HeadphoneStore.Domain.Aggregates.Products.ValueObjects;
 using HeadphoneStore.Domain.Constraints;
