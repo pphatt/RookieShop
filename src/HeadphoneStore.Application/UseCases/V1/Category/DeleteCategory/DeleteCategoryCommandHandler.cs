@@ -31,6 +31,6 @@ public class DeleteCategoryCommandHandler : ICommandHandler<DeleteCategoryComman
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success("Delete successfully.");
+        return Result.Success("Delete category successfully.");
     }
 }

@@ -53,6 +53,6 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return Result.Success("Create category successfully.");
     }
 }

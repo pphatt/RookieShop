@@ -103,6 +103,6 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return Result.Success("Create new product successfully.");
     }
 }

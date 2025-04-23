@@ -41,6 +41,6 @@ public class DeleteBrandCommandHandler : ICommandHandler<DeleteBrandCommand>
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return Result.Success("Delete brand successfully.");
     }
 }

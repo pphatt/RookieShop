@@ -50,6 +50,6 @@ public class UpdateBrandCommandHandler : ICommandHandler<UpdateBrandCommand>
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return Result.Success("Update brand successfully.");
     }
 }

@@ -34,6 +34,6 @@ public class CreateBrandCommandHandler : ICommandHandler<CreateBrandCommand>
         _brandRepository.Add(category);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return Result.Success("Create new brand successfully.");
     }
 }

@@ -28,6 +28,6 @@ public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand>
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return Result.Success("Delete product successfully.");
     }
 }
