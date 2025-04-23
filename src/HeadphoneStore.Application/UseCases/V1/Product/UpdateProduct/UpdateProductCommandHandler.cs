@@ -52,29 +52,22 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
         }
 
         var duplicateName = _productRepository
-            .GetQueryableSet()
-            .Where(x => x.Name == request.Name)
-            .SingleOrDefault();
+            .FindByCondition(x => x.Name == request.Name)
+            .FirstOrDefault();
 
         if (duplicateName is not null && duplicateName.Id != product.Id)
         {
             throw new Exceptions.Product.DuplicateName();
         }
 
-        var category = await _categoryRepository
-            .GetQueryableSet()
-            .Where(x => x.Id == request.CategoryId)
-            .SingleOrDefaultAsync();
+        var category = await _categoryRepository.FindByIdAsync(request.CategoryId);
 
         if (category is null)
         {
             throw new Exceptions.Category.NotFound();
         }
 
-        var brand = await _brandRepository
-            .GetQueryableSet()
-            .Where(x => x.Id == request.BrandId)
-            .SingleOrDefaultAsync();
+        var brand = await _brandRepository.FindByIdAsync(request.BrandId);
 
         if (brand is null)
         {
