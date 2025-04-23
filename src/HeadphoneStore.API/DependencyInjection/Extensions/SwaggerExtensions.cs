@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning.ApiExplorer;
 
 using HeadphoneStore.API.Authorization;
+using HeadphoneStore.API.Common.Filters;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -19,6 +20,8 @@ public static class SwaggerExtensions
         services.AddSwaggerGen(c =>
         {
             c.EnableAnnotations();
+
+            c.SchemaFilter<EnumSchemaFilter>();
 
             var provider = services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
             foreach (var description in provider.ApiVersionDescriptions)

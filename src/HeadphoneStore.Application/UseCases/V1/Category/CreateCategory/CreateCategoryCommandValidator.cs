@@ -14,9 +14,5 @@ public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCo
         RuleFor(x => x.Description)
             .NotNull()
             .NotEmpty();
-
-        RuleFor(x => x.CreatedBy)
-            .NotNull()
-            .NotEmpty();
     }
 }

@@ -1,9 +1,6 @@
 ﻿using HeadphoneStore.Contract.Abstracts.Commands;
 using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Domain.Abstracts.Repositories;
-using HeadphoneStore.Domain.Aggregates.Identity.Entities;
-
-using Microsoft.AspNetCore.Identity;
 
 namespace HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
 

@@ -14,9 +14,5 @@ public class CreateBrandCommandValidator : AbstractValidator<CreateBrandCommand>
         RuleFor(x => x.Description)
             .NotNull()
             .NotEmpty();
-
-        RuleFor(x => x.CreatedBy)
-            .NotNull()
-            .NotEmpty();
     }
 }
