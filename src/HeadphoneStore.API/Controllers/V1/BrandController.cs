@@ -16,7 +16,6 @@ using HeadphoneStore.Contract.Dtos.Brand;
 using HeadphoneStore.Contract.Services.Brand.BulkDelete;
 using HeadphoneStore.Contract.Services.Brand.Create;
 using HeadphoneStore.Contract.Services.Brand.Delete;
-using HeadphoneStore.Contract.Services.Brand.GetAll;
 using HeadphoneStore.Contract.Services.Brand.GetAllPaged;
 using HeadphoneStore.Contract.Services.Brand.GetById;
 using HeadphoneStore.Contract.Services.Brand.Update;

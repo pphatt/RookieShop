@@ -2,7 +2,7 @@
 using HeadphoneStore.Contract.Dtos.Brand;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
 
-namespace HeadphoneStore.Application.Abstracts.Interface.Repositories;
+namespace HeadphoneStore.Domain.Abstracts.Repositories;
 
 public interface IBrandRepository : IRepositoryBase<Brand, Guid>
 {

@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HeadphoneStore.Application\HeadphoneStore.Application.csproj" />
     <ProjectReference Include="..\HeadphoneStore.Contract\HeadphoneStore.Contract.csproj" />
     <ProjectReference Include="..\HeadphoneStore.Domain\HeadphoneStore.Domain.csproj" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace HeadphoneStore.Application.Abstracts.Interface.Repositories;
+﻿namespace HeadphoneStore.Domain.Abstracts.Repositories;
 
 public interface IUnitOfWork
 {

@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace HeadphoneStore.Application.Abstracts.Interface.Repositories;
+namespace HeadphoneStore.Domain.Abstracts.Repositories;
 
 public interface IRepositoryBase<TEntity, in TKey> where TEntity : class
 {

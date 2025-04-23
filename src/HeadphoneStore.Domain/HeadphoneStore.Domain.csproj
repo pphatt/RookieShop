@@ -16,4 +16,8 @@
     <Folder Include="Aggregates\Identity\ValueObjects\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HeadphoneStore.Contract\HeadphoneStore.Contract.csproj" />
+  </ItemGroup>
+
 </Project>

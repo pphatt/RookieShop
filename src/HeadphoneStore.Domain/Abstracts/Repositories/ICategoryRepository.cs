@@ -1,6 +1,6 @@
 ﻿using HeadphoneStore.Domain.Aggregates.Categories.Entities;
 
-namespace HeadphoneStore.Application.Abstracts.Interface.Repositories;
+namespace HeadphoneStore.Domain.Abstracts.Repositories;
 
 public interface ICategoryRepository : IRepositoryBase<Category, Guid>
 {

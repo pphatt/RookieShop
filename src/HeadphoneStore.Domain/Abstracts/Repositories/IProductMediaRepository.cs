@@ -1,6 +1,6 @@
 ﻿using HeadphoneStore.Domain.Aggregates.Products.Entities;
 
-namespace HeadphoneStore.Application.Abstracts.Interface.Repositories;
+namespace HeadphoneStore.Domain.Abstracts.Repositories;
 
 public interface IProductMediaRepository : IRepositoryBase<ProductMedia, Guid>
 {

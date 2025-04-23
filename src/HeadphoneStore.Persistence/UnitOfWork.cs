@@ -1,4 +1,4 @@
-﻿using HeadphoneStore.Application.Abstracts.Interface.Repositories;
+﻿using HeadphoneStore.Domain.Abstracts.Repositories;
 
 namespace HeadphoneStore.Persistence;
 

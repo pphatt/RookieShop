@@ -1,7 +1,7 @@
-﻿using HeadphoneStore.Application.Abstracts.Interface.Repositories;
-using HeadphoneStore.Contract.Abstracts.Queries;
+﻿using HeadphoneStore.Contract.Abstracts.Queries;
 using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Contract.Dtos.Brand;
+using HeadphoneStore.Domain.Abstracts.Repositories;
 
 using Microsoft.EntityFrameworkCore;
 
