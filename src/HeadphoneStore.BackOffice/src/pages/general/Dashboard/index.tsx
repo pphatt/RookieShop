@@ -1,8 +1,4 @@
 import * as React from "react"
-import { Header } from "@/components/layout/header"
-import { TopNav } from "@/components/layout/top-nav"
-import { ThemeSwitch } from "@/components/layout/theme-switch"
-import { ProfileDropdown } from "@/components/layout/profile-dropdown"
 import { Main } from "@/components/layout/main"
 import { UserFormButton } from "@/pages/general/Dashboard/components/UserFormButton"
 import { UsersDialogs } from "@/pages/general/Dashboard/components/UsersDialogs"
@@ -17,15 +13,6 @@ export default function AdminDashboard() {
 
   return (
     <UsersProvider>
-      <Header>
-        <TopNav />
-
-        <div className="ml-auto flex items-center space-x-4">
-          <ThemeSwitch />
-          <ProfileDropdown />
-        </div>
-      </Header>
-
       <Main>
         <div className="mb-2 flex flex-wrap items-center justify-between space-y-2">
           <div>

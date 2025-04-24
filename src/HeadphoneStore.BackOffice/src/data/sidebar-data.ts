@@ -25,7 +25,7 @@ export type NavLink = BaseNavItem & {
 
 export type NavCollapsible = BaseNavItem & {
   items: (BaseNavItem & { url: string })[]
-  url?: never
+  url: string
 }
 
 export type NavItem = NavCollapsible | NavLink
@@ -42,8 +42,8 @@ export interface SidebarData {
 
 export const sidebarData: SidebarData = {
   user: {
-    name: "satnaing",
-    email: "satnaingdev@gmail.com",
+    name: "abc",
+    email: "abc123@gmail.com",
     avatar: "/avatars/shadcn.jpg",
   },
   navGroups: [
@@ -54,11 +54,6 @@ export const sidebarData: SidebarData = {
           title: "Dashboard",
           url: "/",
           icon: LayoutDashboard,
-        },
-        {
-          title: "Users",
-          url: "/users",
-          icon: Users,
         },
         {
           title: "Product",
@@ -74,6 +69,16 @@ export const sidebarData: SidebarData = {
           title: "Brand",
           url: "/brands",
           icon: LayoutPanelLeft,
+        },
+      ],
+    },
+    {
+      title: "Customer",
+      items: [
+        {
+          title: "Users",
+          url: "/users",
+          icon: Users,
         },
       ],
     },
