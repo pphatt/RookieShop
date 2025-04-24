@@ -1,6 +1,6 @@
 import { Suspense } from "react"
 import { Outlet, Route, Routes } from "react-router-dom"
-import { AdminMainLayout } from "@/pages/general/Root"
+import { AdminMainLayout } from "@/pages/root"
 
 function App() {
   return (

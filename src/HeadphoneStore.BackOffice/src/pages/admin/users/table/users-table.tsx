@@ -23,8 +23,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { User } from "@/@types/user.type"
-import { DataTablePagination } from "@/pages/general/Dashboard/table/data-table-pagination"
-import { DataTableToolbar } from "@/pages/general/Dashboard/table/data-table-toolbar"
+import { DataTablePagination } from "@/pages/admin/users/table/data-table-pagination"
+import { DataTableToolbar } from "@/pages/admin/users/table/data-table-toolbar"
 
 declare module "@tanstack/react-table" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

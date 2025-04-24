@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { useUsers } from "@/pages/general/Dashboard/context/users-context"
+import { useUsers } from "@/pages/admin/users/context/users-context"
 import { UserPlus } from "lucide-react"
 
 export function UserFormButton() {

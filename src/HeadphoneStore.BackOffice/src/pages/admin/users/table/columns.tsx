@@ -5,8 +5,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 import LongText from "@/components/long-text"
 import { callTypes, userTypes } from "@/data/user-types"
 import { User } from "@/@types/user.type"
-import { DataTableColumnHeader } from "@/pages/general/Dashboard/table/data-table-column-header"
-import { DataTableRowActions } from "@/pages/general/Dashboard/table/data-table-row-actions"
+import { DataTableColumnHeader } from "@/pages/admin/users/table/data-table-column-header"
+import { DataTableRowActions } from "@/pages/admin/users/table/data-table-row-actions"
 
 export const columns: ColumnDef<User>[] = [
   {

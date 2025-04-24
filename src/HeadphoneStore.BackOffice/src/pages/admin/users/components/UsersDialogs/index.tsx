@@ -1,6 +1,6 @@
-import { useUsers } from "@/pages/general/Dashboard/context/users-context"
-import { UsersActionDialog } from "@/pages/general/Dashboard/components/UsersActionDialog"
-import { UsersDeleteDialog } from "@/pages/general/Dashboard/components/UsersDeleteDialog"
+import { useUsers } from "@/pages/admin/users/context/users-context"
+import { UsersActionDialog } from "@/pages/admin/users/components/UsersActionDialog"
+import { UsersDeleteDialog } from "@/pages/admin/users/components/UsersDeleteDialog"
 
 export function UsersDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useUsers()

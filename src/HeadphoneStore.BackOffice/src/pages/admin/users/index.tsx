@@ -1,12 +1,12 @@
 import * as React from "react"
 import { Main } from "@/components/layout/main"
-import { UserFormButton } from "@/pages/general/Dashboard/components/UserFormButton"
-import { UsersDialogs } from "@/pages/general/Dashboard/components/UsersDialogs"
-import UsersProvider from "@/pages/general/Dashboard/context/users-context"
-import { UsersTable } from "@/pages/general/Dashboard/table/users-table"
+import { UserFormButton } from "@/pages/admin/users/components/UserFormButton"
+import { UsersDialogs } from "@/pages/admin/users/components/UsersDialogs"
+import UsersProvider from "@/pages/admin/users/context/users-context"
+import { UsersTable } from "@/pages/admin/users/table/users-table"
 import { userListSchema } from "@/@types/user.type"
 import { users } from "@/model/user.scheme"
-import { columns } from "@/pages/general/Dashboard/table/columns"
+import { columns } from "@/pages/admin/users/table/columns"
 
 export default function AdminDashboard() {
   const userList = userListSchema.parse(users)
