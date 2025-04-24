@@ -1,16 +1,13 @@
-import { useState } from "react"
-import reactLogo from "./assets/react.svg"
-import viteLogo from "/vite.svg"
-import "./App.css"
-import { Button } from "@/components/ui/button"
+import { Suspense } from "react"
+import { Outlet, Route, Routes } from "react-router-dom"
+import { RouteComponent } from "@/pages/general/Root"
+import AdminDashboard from "@/pages/general/Dashboard"
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <Button onClick={() => setCount(count + 1)}>{count}</Button>
-    </>
+    <RouteComponent>
+      <AdminDashboard></AdminDashboard>
+    </RouteComponent>
   )
 }
 

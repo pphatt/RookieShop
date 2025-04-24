@@ -1,0 +1,5 @@
+.remove-ring-color {
+  &:focus-within {
+    --tw-ring-shadow: none;
+  }
+}

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "dev:local": "concurrently \"pnpm open-home\" \"vite\"",
+    "dev:local": "concurrently \"pnpm open-home\" \"pnpm dev\"",
     "dev:safe": "concurrently \"pnpm open-home:safe\" \"dotenv -e .env.https vite --experimental-https --experimental-https-key ./certificates/localhost-key.pem --experimental-https-cert ./certificates/localhost.pem\"",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
@@ -66,6 +66,7 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.1",
     "react-resizable-panels": "^2.1.8",
+    "react-router-dom": "^7.5.1",
     "recharts": "^2.15.3",
     "rimraf": "^6.0.1",
     "sass": "^1.87.0",
