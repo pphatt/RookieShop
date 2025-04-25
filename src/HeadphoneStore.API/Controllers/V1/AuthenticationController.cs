@@ -58,4 +58,10 @@ public class AuthenticationController : BaseApiController
 
         return Ok(response);
     }
+
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        return Ok();
+    }
 }

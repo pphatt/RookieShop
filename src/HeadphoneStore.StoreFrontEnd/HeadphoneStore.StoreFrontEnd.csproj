@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Update="appsettings.json" CopyToPublishDirectory="Never" />
+    <Content Update="appsettings.Development.json" CopyToPublishDirectory="Never" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Assets\scss\application\home\" />
     <Folder Include="Assets\scss\components\layout\" />
     <Folder Include="Assets\scss\vendors\" />

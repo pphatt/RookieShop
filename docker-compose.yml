@@ -1,0 +1,58 @@
+name: headphone-store
+
+services:
+  headphonestore.webapi:
+    image: ${DOCKER_REGISTRY-}headphonestoreapi
+    container_name: headphonestore.webapi
+    build:
+      context: .
+      dockerfile: src/HeadphoneStore.API/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    networks:
+      - headphonestore-network
+    depends_on:
+      - redis
+
+  headphonestore.database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: headphonestore.database
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "sa123456!"
+    restart: always
+    ports:
+      - "14333:1433" # using 14333 port to make sure not have the same port as EXPRESS (1433)
+    volumes:
+      - sqlserver:/var/opt/mssql
+    networks:
+      - headphonestore-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    networks:
+      - headphonestore-network
+    ports:
+      - "6379:6379"
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: redis-commander
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8088:8081"
+    networks:
+      - headphonestore-network
+    depends_on:
+      - redis
+
+networks:
+  headphonestore-network:
+    driver: bridge
+
+volumes:
+  sqlserver:
