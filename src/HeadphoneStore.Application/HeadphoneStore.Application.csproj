@@ -23,4 +23,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCases\V1\Identity\RefreshToken\" />
+  </ItemGroup>
+
 </Project>
