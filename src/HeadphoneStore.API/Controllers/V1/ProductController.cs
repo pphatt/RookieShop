@@ -20,10 +20,12 @@ using HeadphoneStore.Domain.Constants;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HeadphoneStore.API.Controllers.V1;
 
+[Authorize]
 [ApiVersion(1)]
 public class ProductController : BaseApiController
 {
@@ -94,6 +96,7 @@ public class ProductController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
+    [AllowAnonymous]
     public async Task<IActionResult> GetProductById([FromRoute] GetProductByIdRequestDto request)
     {
         var mapper = _mapper.Map<GetProductByIdQuery>(request);
@@ -111,6 +114,7 @@ public class ProductController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedResult<ProductDto>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllProductsPagination([FromQuery] GetAllProductPagedRequestDto request)
     {
         var mapper = _mapper.Map<GetAllProductsPagedQuery>(request);

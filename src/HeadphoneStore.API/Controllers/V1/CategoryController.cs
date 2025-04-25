@@ -23,10 +23,12 @@ using HeadphoneStore.Domain.Constants;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HeadphoneStore.API.Controllers.V1;
 
+[Authorize]
 [ApiVersion(1)]
 public class CategoryController : BaseApiController
 {
@@ -97,6 +99,7 @@ public class CategoryController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CreateCategoryResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
+    [AllowAnonymous]
     public async Task<IActionResult> GetCategoryById([FromRoute] GetCategoryByIdRequestDto request)
     {
         var mapper = _mapper.Map<GetCategoryByIdQuery>(request);
@@ -114,6 +117,7 @@ public class CategoryController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedResult<CategoryDto>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllCategoriesPagination([FromQuery] GetAllCategoriesPagedRequestDto request)
     {
         var mapper = _mapper.Map<GetAllCategoriesPagedQuery>(request);
@@ -131,6 +135,7 @@ public class CategoryController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDto>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllCategories()
     {
         var query = new GetAllCategoriesQuery();
@@ -148,6 +153,7 @@ public class CategoryController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDto>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllSubCategories()
     {
         var query = new GetAllSubCategoriesQuery();
@@ -165,6 +171,7 @@ public class CategoryController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDto>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllCategoriesWithSubCategories()
     {
         var query = new GetAllCategoriesWithSubCategoriesQuery();

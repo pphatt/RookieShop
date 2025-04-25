@@ -77,26 +77,26 @@ public class Result
 
 public class Result<TValue> : Result
 {
-    private readonly TValue? _data;
+    private readonly TValue? _value;
 
-    protected internal Result(TValue? data, bool isSuccess) : base(isSuccess)
+    protected internal Result(TValue? value, bool isSuccess) : base(isSuccess)
     {
-        _data = data;
+        _value = value;
     }
 
-    protected Result(TValue? data, bool isSuccess, object? errors) : base(isSuccess, errors)
+    protected Result(TValue? value, bool isSuccess, object? errors) : base(isSuccess, errors)
     {
-        _data = data;
+        _value = value;
     }
 
-    public TValue Data => IsSuccessful 
-        ? _data! 
-        : throw new InvalidOperationException("The data of failure result can not be access");
+    public TValue Value => IsSuccessful 
+        ? _value! 
+        : throw new InvalidOperationException("The value of failure result can not be access");
 
     [JsonConstructor]
-    public Result(TValue data) : this(data, true) { }
+    public Result(TValue value) : this(value, true) { }
 
     public static Result<TValue> Failure<TValue>(object errors) => new Result<TValue>(default, false, errors);
 
-    public static implicit operator Result<TValue>(TValue? data) => Create(data)!;
+    public static implicit operator Result<TValue>(TValue? value) => Create(value)!;
 }

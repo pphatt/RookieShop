@@ -23,10 +23,12 @@ using HeadphoneStore.Domain.Constants;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HeadphoneStore.API.Controllers.V1;
 
+[Authorize]
 [ApiVersion(1)]
 public class BrandController : BaseApiController
 {
@@ -116,6 +118,7 @@ public class BrandController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BrandDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
+    [AllowAnonymous]
     public async Task<IActionResult> GetBrandById([FromRoute] GetBrandByIdRequestDto request)
     {
         var mapper = _mapper.Map<GetBrandByIdQuery>(request);
@@ -133,6 +136,7 @@ public class BrandController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BrandDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllBrands()
     {
         var query = new GetAllBrandsQuery();
@@ -150,6 +154,7 @@ public class BrandController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedResult<BrandDto>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllBrandsPagination([FromQuery] GetAllBrandsPagedRequestDto request)
     {
         var mapper = _mapper.Map<GetAllBrandsPagedQuery>(request);

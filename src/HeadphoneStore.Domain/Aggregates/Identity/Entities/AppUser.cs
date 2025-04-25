@@ -2,7 +2,6 @@
 
 using HeadphoneStore.Domain.Abstracts.Entities;
 using HeadphoneStore.Domain.Enumeration;
-using HeadphoneStore.Domain.Exceptions;
 
 using Microsoft.AspNetCore.Identity;
 
