@@ -23,7 +23,7 @@ public class PagedResult<T>
     public int PageIndex { get; }
     public int PageSize { get; }
     public int TotalCount { get; }
-    public int PageCount => (int)Math.Ceiling((double)TotalCount / PageSize);
+    public int TotalPage => (int)Math.Ceiling((double)TotalCount / PageSize);
     public int FirstRowOnPage => (PageIndex - 1) * PageSize + 1;
     public int LastRowOnPage => Math.Min(PageIndex * PageSize, TotalCount);
     public bool HasNextPage => PageIndex * PageSize < TotalCount;

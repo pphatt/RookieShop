@@ -1,4 +1,6 @@
-﻿using HeadphoneStore.Domain.Aggregates.Categories.Entities;
+﻿using ErrorOr;
+
+using HeadphoneStore.Domain.Aggregates.Categories.Entities;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
 using HeadphoneStore.Domain.Constants;
@@ -202,21 +204,45 @@ public partial class DataSeeder
             return;
         }
 
-        var createdBy = adminId;
+        var brands = new List<Brand>
+        {
+            Brand.Create(name: "Sony", description: "Sony", createdBy: adminId),
+            Brand.Create(name: "64 Audio", description: "64 Audio", createdBy: adminId),
+            Brand.Create(name: "AAW", description: "AAW", createdBy: adminId),
+            Brand.Create(name: "Apple", description: "Apple", createdBy: adminId),
+            Brand.Create(name: "Fiil", description: "Fiil", createdBy: adminId),
+            Brand.Create(name: "JBL", description: "JBL", createdBy: adminId),
+            Brand.Create(name: "Audio-technica", description: "Audio-technica", createdBy: adminId),
+            Brand.Create(name: "Auglamour", description: "Auglamour", createdBy: adminId),
+            Brand.Create(name: "Skullcandy", description: "Skullcandy", createdBy: adminId),
+            Brand.Create(name: "SoundPeats", description: "SoundPeats", createdBy: adminId),
+            Brand.Create(name: "Beats", description: "Beats", createdBy: adminId),
+            Brand.Create(name: "Beyerdynamic", description: "Beyerdynamic", createdBy: adminId),
+            Brand.Create(name: "B&O", description: "B&O", createdBy: adminId),
+            Brand.Create(name: "Bose", description: "Bose", createdBy: adminId),
+            Brand.Create(name: "Campfire", description: "Campfire", createdBy: adminId),
+            Brand.Create(name: "Focal", description: "Focal", createdBy: adminId),
+            Brand.Create(name: "Denon", description: "Denon", createdBy: adminId),
+            Brand.Create(name: "Grado", description: "Grado", createdBy: adminId),
+            Brand.Create(name: "Hifiman", description: "Hifiman", createdBy: adminId),
+            Brand.Create(name: "Jabra", description: "Jabra", createdBy: adminId),
+            Brand.Create(name: "Sennheiser", description: "Sennheiser", createdBy: adminId),
+            Brand.Create(name: "Shozy", description: "Shozy", createdBy: adminId),
+            Brand.Create(name: "Shure", description: "Shure", createdBy: adminId),
+            Brand.Create(name: "Tribit", description: "Tribit", createdBy: adminId),
+            Brand.Create(name: "SoundMAGIC", description: "SoundMAGIC", createdBy: adminId),
+            Brand.Create(name: "iBasso", description: "iBasso", createdBy: adminId),
+            Brand.Create(name: "Fiio", description: "Fiio", createdBy: adminId),
+            Brand.Create(name: "Sabbat", description: "Sabbat", createdBy: adminId),
+            Brand.Create(name: "Moondrop", description: "Moondrop", createdBy: adminId),
+            Brand.Create(name: "Marshall", description: "Marshall", createdBy: adminId),
+            Brand.Create(name: "Westone", description: "Westone", createdBy: adminId),
+            Brand.Create(name: "Dunu", description: "Dunu", createdBy: adminId),
+            Brand.Create(name: "Yuin", description: "Yuin", createdBy: adminId),
+            Brand.Create(name: "Campire", description: "Campire", createdBy: adminId)
+        };
 
-        var brand1 = Brand.Create(
-            name: "Sony",
-            description: "Sony",
-            createdBy: createdBy
-        );
-
-        var brand2 = Brand.Create(
-            name: "Hifiman",
-            description: "Hifiman",
-            createdBy: createdBy
-        );
-
-        context.Brands.AddRange(brand1, brand2);
+        context.Brands.AddRange(brands);
 
         context.SaveChanges();
 

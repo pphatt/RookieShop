@@ -9,8 +9,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Ellipsis, SquarePen, Trash2 } from "lucide-react"
-import { TBrand } from "@/@types/brand.type"
 import { useBrands } from "@/pages/admin/brands/context/brands-context"
+import { TBrand } from "@/@types/brand.type"
 
 interface DataTableRowActionsProps {
   row: Row<TBrand>
@@ -43,7 +43,9 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
               <SquarePen size={16} />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
+
           <DropdownMenuSeparator />
+
           <DropdownMenuItem
             onClick={() => {
               setCurrentRow(row.original)

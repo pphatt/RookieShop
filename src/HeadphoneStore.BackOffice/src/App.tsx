@@ -3,6 +3,7 @@ import { Outlet, Route, Routes } from "react-router-dom"
 import { AdminMainLayout } from "@/pages/root"
 import AdminGuard from "@/guards/AdminGuard"
 import UnauthenticatedGuard from "@/guards/UnauthenticatedGuard"
+import BrandDashboard from "@/pages/admin/brands"
 
 const Login = lazy(() => import("@/pages/auth/Login"))
 
@@ -55,7 +56,7 @@ function App() {
             path={"/brands"}
             element={
               <AdminMainLayout>
-                <>Brands dashboard</>
+                <BrandDashboard />
               </AdminMainLayout>
             }
           ></Route>

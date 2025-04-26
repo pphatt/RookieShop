@@ -1,0 +1,129 @@
+"use client"
+
+import { z } from "zod"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { TBrand } from "@/@types/brand.type"
+import { Textarea } from "@/components/ui/textarea"
+
+const formSchema = z.object({
+  name: z.string().min(1, { message: "Last Name is required." }),
+  description: z.string().min(1, { message: "Username is required." }),
+})
+
+type BrandForm = z.infer<typeof formSchema>
+
+interface Props {
+  currentRow?: TBrand
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}
+
+export function BrandsActionDialog({ currentRow, open, onOpenChange }: Props) {
+  const isEdit = !!currentRow
+
+  const form = useForm<BrandForm>({
+    resolver: zodResolver(formSchema),
+  })
+
+  const onSubmit = (values: BrandForm) => {
+    form.reset()
+    onOpenChange(false)
+  }
+
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={(state) => {
+        form.reset()
+        onOpenChange(state)
+      }}
+    >
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader className="text-left">
+          <DialogTitle>{isEdit ? "Edit Brand" : "Add New Brand"}</DialogTitle>
+
+          <DialogDescription>
+            {isEdit ? "Update the brand here. " : "Create new brand here. "}
+            Click save when you&apos;re done.
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="-mr-4 h-[26.25rem] w-full overflow-y-auto py-1 pr-4">
+          <Form {...form}>
+            <form
+              id="brand-form"
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4 p-0.5"
+            >
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
+                    <FormLabel className="col-span-2 text-right">
+                      Name
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="John"
+                        className="col-span-4"
+                        autoComplete="off"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="col-span-4 col-start-3" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
+                    <FormLabel className="col-span-2 text-right">
+                      Description
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Doe"
+                        className="col-span-4"
+                        autoComplete="off"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="col-span-4 col-start-3" />
+                  </FormItem>
+                )}
+              />
+            </form>
+          </Form>
+        </div>
+        <DialogFooter>
+          <Button type="submit" form="brand-form">
+            Save changes
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
