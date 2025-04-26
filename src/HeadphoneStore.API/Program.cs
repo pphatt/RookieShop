@@ -71,6 +71,7 @@ builder.Services.AddInfrastructureDependenciesLayer(builder.Configuration);
 builder.Services.ConfigureEmailOptionsInfrastructure(builder.Configuration.GetSection(nameof(EmailOption)));
 builder.Services.ConfigureMediaOptionsInfrastructure(builder.Configuration.GetSection(nameof(MediaOption)));
 builder.Services.ConfigureCloudinaryOptionsInfrastructure(builder.Configuration.GetSection(nameof(CloudinaryOption)));
+builder.Services.ConfigureCacheOptionsInfrastructure(builder.Configuration.GetSection(nameof(CacheOption)));
 builder.Services.AddHttpContextAccessor();
 
 // Persistence Layer

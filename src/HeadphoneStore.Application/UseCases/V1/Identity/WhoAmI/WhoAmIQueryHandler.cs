@@ -1,4 +1,5 @@
-﻿using HeadphoneStore.Contract.Abstracts.Queries;
+﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Caching;
+using HeadphoneStore.Contract.Abstracts.Queries;
 using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Contract.Dtos.Identity.Role;
 using HeadphoneStore.Contract.Dtos.Identity.User;
@@ -11,18 +12,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HeadphoneStore.Application.UseCases.V1.Identity.WhoAmI;
 
+using static HeadphoneStore.Domain.Exceptions.Exceptions;
+
 using Exceptions = Domain.Exceptions.Exceptions;
 
 public class WhoAmIQueryHandler : IQueryHandler<WhoAmIQuery, UserDto>
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly RoleManager<AppRole> _roleManager;
+    private readonly ICacheService _cacheService;
 
     public WhoAmIQueryHandler(UserManager<AppUser> userManager,
-                              RoleManager<AppRole> roleManager)
+                              RoleManager<AppRole> roleManager,
+                              ICacheService cacheService)
     {
         _userManager = userManager;
         _roleManager = roleManager;
+        _cacheService = cacheService;
     }
 
     public async Task<Result<UserDto>> Handle(WhoAmIQuery request, CancellationToken cancellationToken)
@@ -68,6 +74,8 @@ public class WhoAmIQueryHandler : IQueryHandler<WhoAmIQuery, UserDto>
                 RoleStatus = Enum.GetName(typeof(RoleStatus), (int)x.Status) ?? RoleStatus.Inactive.ToString(),
             })
         };
+
+        await _cacheService.SetAsync($"User:{userFromDb.Email!}:Profile:WhoAmI", response, default, cancellationToken);
 
         return Result.Success(response);
     }
