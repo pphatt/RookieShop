@@ -60,9 +60,10 @@ public class LoginCommandHandler : ICommandHandler<LoginCommand, LoginResponseDt
         {
             AccessToken = _jwtService.GenerateAccessToken(claims),
             RefreshToken = _jwtService.GenerateRefreshToken(),
+            RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(1),
         };
 
-        await _cacheService.SetAsync($"User:{user.Email!}:Token:RefreshToken", response, default, cancellationToken);
+        await _cacheService.SetAsync($"User:{user.Email!}:Token:AuthenticatedToken", response, null, cancellationToken);
 
         return Result.Success(response);
     }

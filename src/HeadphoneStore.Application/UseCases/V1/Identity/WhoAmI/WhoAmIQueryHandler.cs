@@ -75,7 +75,7 @@ public class WhoAmIQueryHandler : IQueryHandler<WhoAmIQuery, UserDto>
             })
         };
 
-        await _cacheService.SetAsync($"User:{userFromDb.Email!}:Profile:WhoAmI", response, default, cancellationToken);
+        await _cacheService.SetAsync($"User:{userFromDb.Email!}:Profile:WhoAmI", response, null, cancellationToken);
 
         return Result.Success(response);
     }

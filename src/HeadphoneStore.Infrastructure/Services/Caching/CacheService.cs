@@ -63,10 +63,16 @@ public class CacheService : ICacheService
             }
         });
 
-        options ??= new DistributedCacheEntryOptions
+        if (options is null)
         {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_cacheOption.ExpirationMinutes)
-        };
+            await _distributedCache.SetStringAsync(key, serializedValue, cancellationToken);
+            return;
+        }
+
+        if (options.AbsoluteExpirationRelativeToNow is null)
+        {
+            options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_cacheOption.ExpirationMinutes);
+        }
 
         await _distributedCache.SetStringAsync(key, serializedValue, options, cancellationToken);
     }

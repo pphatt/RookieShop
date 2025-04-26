@@ -6,7 +6,6 @@ using HeadphoneStore.Contract.Abstracts.Commands;
 using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Contract.Services.Identity.Login;
 using HeadphoneStore.Domain.Abstracts.Repositories;
-using HeadphoneStore.Domain.Constants;
 
 using Microsoft.Extensions.Logging;
 
@@ -36,17 +35,19 @@ public class LogoutCommandHandler : ICommandHandler<LogoutCommand>
     {
         var principal = _tokenService.GetPrincipalFromExpiredToken(request.AccessToken); // it is not expired
 
+        // principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
+        // principal.Claims.FirstOrDefault(x => x.Type == UserClaims.Permissions);
         var emailKey = (principal.FindFirstValue(ClaimTypes.Email)?.ToString());
 
         if (emailKey is null)
             throw new Exceptions.Token.EmailKeyNotFound();
 
-        var cachedRefreshToken = await _cacheService.GetAsync<LoginResponseDto>($"User:{emailKey!}:Token:RefreshToken", cancellationToken);
+        var authenticated = await _cacheService.GetAsync<LoginResponseDto>($"User:{emailKey!}:Token:AuthenticatedToken", cancellationToken);
 
-        if (cachedRefreshToken is null)
+        if (authenticated is null)
             throw new Exceptions.Token.NotFoundInCached();
 
-        await _cacheService.RemoveAsync($"User:{emailKey!}:Token:RefreshToken", cancellationToken);
+        await _cacheService.RemoveAsync($"User:{emailKey!}:Token:AuthenticatedToken", cancellationToken);
 
         var isUpdateSuccess = await _userRepository.UpdateLastLogin(emailKey);
 

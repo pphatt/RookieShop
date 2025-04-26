@@ -4,9 +4,11 @@ using AutoMapper;
 
 using HeadphoneStore.Application.UseCases.V1.Identity.Login;
 using HeadphoneStore.Application.UseCases.V1.Identity.Logout;
+using HeadphoneStore.Application.UseCases.V1.Identity.RefreshToken;
 using HeadphoneStore.Application.UseCases.V1.Identity.Register;
 using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Contract.Services.Identity.Login;
+using HeadphoneStore.Contract.Services.Identity.RefreshToken;
 using HeadphoneStore.Contract.Services.Identity.Register;
 
 using MediatR;
@@ -77,6 +79,23 @@ public class AuthenticationController : BaseApiController
         };
 
         var result = await _mediator.Send(command);
+
+        if (result.IsFailure)
+            return HandlerFailure(result);
+
+        return Ok(result);
+    }
+
+    [HttpPost("refresh-token")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    [AllowAnonymous]
+    public async Task<IActionResult> RefreshToken([FromForm] RefreshTokenRequestDto request)
+    {
+        var mapper = _mapper.Map<RefreshTokenCommand>(request);
+
+        var result = await _mediator.Send(mapper);
 
         if (result.IsFailure)
             return HandlerFailure(result);

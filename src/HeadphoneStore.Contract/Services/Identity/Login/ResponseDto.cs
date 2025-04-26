@@ -1,7 +1,7 @@
-﻿namespace HeadphoneStore.Contract.Services.Identity.Login;
+﻿using HeadphoneStore.Contract.Services.Identity.Authenticated;
 
-public class LoginResponseDto
+namespace HeadphoneStore.Contract.Services.Identity.Login;
+
+public class LoginResponseDto : AuthenticatedTokenResponse
 {
-    public string AccessToken { get; set; } = default!;
-    public string RefreshToken { get; set; } = default!;
 }
