@@ -38,7 +38,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [profile, setProfile] = useState(initialAppContext.profile)
 
   const accessToken = getAccessTokenFromLS()
-  const [enrolledListCourse, setEnrolledListCourse] = useState<string[]>([])
 
   const { data, isLoading: fetchWhoAmILoading } = useQuery({
     queryKey: ["whoami", isAuthenticated],

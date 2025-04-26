@@ -26,6 +26,7 @@ import {
   saveRefreshTokenToLS,
   saveUserToLS,
 } from "@/utils/auth.utils"
+import IconSpinner from "@/components/icon-spinner"
 
 type UserAuthFormProps = HTMLAttributes<HTMLFormElement>
 
@@ -129,6 +130,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         />
 
         <Button className="mt-2" disabled={isLoading}>
+          {isLoading && <IconSpinner aria-hidden="true" />}
           Login
         </Button>
       </form>

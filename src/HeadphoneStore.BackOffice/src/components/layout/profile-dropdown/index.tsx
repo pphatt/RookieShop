@@ -7,15 +7,20 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useAppContext } from "@/hooks/user-app-context"
 import { toTitleCase } from "@/utils"
+import { useMutation } from "@tanstack/react-query"
+import { logout } from "@/services/auth.services"
+import { clearLS } from "@/utils/auth.utils"
+import { toast } from "react-toastify"
+import IconSpinner from "@/components/icon-spinner"
 
 export function ProfileDropdown() {
-  const { profile } = useAppContext()
+  const { isAuthenticated, setProfile, setIsAuthenticated, profile } =
+    useAppContext()
 
   let shortName =
     profile?.firstName && profile?.lastName
@@ -26,6 +31,26 @@ export function ProfileDropdown() {
     profile?.firstName && profile?.lastName
       ? toTitleCase(`${profile?.firstName} ${profile?.lastName}`)
       : profile?.email.split("@")[0]
+
+  const navigate = useNavigate()
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      clearLS()
+      setIsAuthenticated(false)
+      setProfile(undefined)
+      toast.success("Log out successfully !")
+      navigate("/login")
+    },
+    onError: () => {
+      toast.error("Error when logging out")
+    },
+  })
+
+  const handleLogout = () => {
+    mutate()
+  }
 
   return (
     <DropdownMenu modal={false}>
@@ -50,16 +75,13 @@ export function ProfileDropdown() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link to="/settings">
-              Profile
-              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-            </Link>
+            <Link to="/settings">Profile</Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleLogout()}>
+          {isLoading && <IconSpinner aria-hidden="true" />}
           Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
