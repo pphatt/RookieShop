@@ -3,12 +3,9 @@ using HeadphoneStore.Contract.Abstracts.Commands;
 using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Contract.Dtos.Media;
 using HeadphoneStore.Domain.Abstracts.Repositories;
-using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
 using HeadphoneStore.Domain.Aggregates.Products.ValueObjects;
 using HeadphoneStore.Domain.Constraints;
-
-using Microsoft.AspNetCore.Identity;
 
 namespace HeadphoneStore.Application.UseCases.V1.Product.CreateProduct;
 

@@ -61,7 +61,9 @@ public class JwtTokenService : ITokenService
         var tokenValidationParameters = new TokenValidationParameters
         {
             ValidateAudience = true, // you might want to validate the audience and issuer depending on your use case
+            ValidAudience = _jwtOption.Audience,
             ValidateIssuer = true,
+            ValidIssuer = _jwtOption.Issuer,
             ValidateLifetime = true, // here we are saying that we do need to care about the token's expiration date
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(key),

@@ -42,17 +42,17 @@ public class LoginCommandHandler : ICommandHandler<LoginCommand, LoginResponseDt
         var user = await _userManager.FindByEmailAsync(request.Email);
 
         if (user is null)
-            throw new Exceptions.User.NotFound();
+            throw new Exceptions.Identity.NotFound();
 
         //user.ValidateCommonRules();
 
         if (user.IsActive == false)
-            throw new Exceptions.User.InactiveOrLockedOut();
+            throw new Exceptions.Identity.InactiveOrLockedOut();
 
         var loginStatus = await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
 
         if (loginStatus.Succeeded == false)
-            throw new Exceptions.User.InvalidCredentials();
+            throw new Exceptions.Identity.InvalidCredentials();
 
         var claims = await _claimsTransformation.TransformClaims(user);
 

@@ -71,7 +71,7 @@ public class CacheService : ICacheService
         await _distributedCache.SetStringAsync(key, serializedValue, options, cancellationToken);
     }
 
-    public async Task InvalidateAsync(string key, CancellationToken cancellationToken = default)
+    public async Task RemoveAsync(string key, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(key))
             throw new ArgumentException("Key cannot be null or whitespace.", nameof(key));
@@ -80,7 +80,7 @@ public class CacheService : ICacheService
     }
 
     // References: https://stackoverflow.com/a/60385140
-    public async Task InvalidateWithPrefixAsync(string prefix, CancellationToken cancellationToken = default)
+    public async Task RemoveByPrefixAsync(string prefix, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(prefix))
             throw new ArgumentException("Prefix cannot be null or whitespace.", nameof(prefix));

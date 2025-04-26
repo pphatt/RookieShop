@@ -3,7 +3,9 @@
 using AutoMapper;
 
 using HeadphoneStore.Application.UseCases.V1.Identity.Login;
+using HeadphoneStore.Application.UseCases.V1.Identity.Logout;
 using HeadphoneStore.Application.UseCases.V1.Identity.Register;
+using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Contract.Services.Identity.Login;
 using HeadphoneStore.Contract.Services.Identity.Register;
 
@@ -11,6 +13,7 @@ using MediatR;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 
 namespace HeadphoneStore.API.Controllers.V1;
 
@@ -60,8 +63,24 @@ public class AuthenticationController : BaseApiController
     }
 
     [HttpPost("logout")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    [AllowAnonymous]
     public async Task<IActionResult> Logout()
     {
-        return Ok();
+        var accessTokenFromHeader = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+
+        var command = new LogoutCommand
+        {
+            AccessToken = accessTokenFromHeader
+        };
+
+        var result = await _mediator.Send(command);
+
+        if (result.IsFailure)
+            return HandlerFailure(result);
+
+        return Ok(result);
     }
 }

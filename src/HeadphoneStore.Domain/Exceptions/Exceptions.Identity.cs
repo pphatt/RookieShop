@@ -2,7 +2,7 @@
 
 public static partial class Exceptions
 {
-    public static class User
+    public static class Identity
     {
         public sealed class NotFound() : DomainException.NotFoundException(
             code: "User.NotFound",

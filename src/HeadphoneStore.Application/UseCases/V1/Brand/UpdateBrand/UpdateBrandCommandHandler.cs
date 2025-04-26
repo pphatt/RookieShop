@@ -30,7 +30,7 @@ public class UpdateBrandCommandHandler : ICommandHandler<UpdateBrandCommand>
         var user = await _userManager.FindByIdAsync(request.UpdatedBy.ToString());
 
         if (user is null)
-            throw new Exceptions.User.NotFound();
+            throw new Exceptions.Identity.NotFound();
 
         var brandFromDb = await _brandRepository.FindByIdAsync(request.Id);
 

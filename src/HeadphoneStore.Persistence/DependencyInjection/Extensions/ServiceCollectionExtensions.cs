@@ -56,6 +56,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
         services.AddScoped(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>));
 
+        services.AddScoped<IUserRepository, UserRepository>();
+
         var concreteServices = typeof(CategoryRepository).Assembly.GetTypes()
             .Where(x => x.GetInterfaces().Any(i => i.Name == typeof(IRepositoryBase<,>).Name)
                 && !x.IsAbstract

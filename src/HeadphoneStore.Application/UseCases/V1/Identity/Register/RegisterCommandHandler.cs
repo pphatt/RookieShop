@@ -28,7 +28,7 @@ public class RegisterCommandHandler : ICommandHandler<RegisterCommand>
         var userFromDb = await _userManager.FindByEmailAsync(email);
 
         if (userFromDb is not null)
-            throw new Exceptions.User.DuplicateEmail();
+            throw new Exceptions.Identity.DuplicateEmail();
 
         var newUser = AppUser.Create(email);
 

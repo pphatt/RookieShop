@@ -10,7 +10,7 @@ public interface ICacheService
     Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions? options = null, CancellationToken cancellationToken = default) 
         where T : class;
 
-    Task InvalidateAsync(string key, CancellationToken cancellationToken = default);
+    Task RemoveAsync(string key, CancellationToken cancellationToken = default);
 
-    Task InvalidateWithPrefixAsync(string prefix, CancellationToken cancellationToken = default);
+    Task RemoveByPrefixAsync(string prefix, CancellationToken cancellationToken = default);
 }

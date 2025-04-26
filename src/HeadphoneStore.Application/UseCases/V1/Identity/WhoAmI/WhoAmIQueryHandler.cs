@@ -41,7 +41,7 @@ public class WhoAmIQueryHandler : IQueryHandler<WhoAmIQuery, UserDto>
             .FirstOrDefaultAsync();
 
         if (userFromDb is null)
-            throw new Exceptions.User.NotFound();
+            throw new Exceptions.Identity.NotFound();
 
         var userRoles = userFromDb.UserRoles.Select(x => x.RoleId).ToList();
         var roles = await _roleManager.Roles.Where(x => userRoles.Contains(x.Id)).ToListAsync(cancellationToken);
