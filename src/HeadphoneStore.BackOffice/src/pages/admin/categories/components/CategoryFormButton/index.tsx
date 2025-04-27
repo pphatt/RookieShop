@@ -1,14 +1,14 @@
 import { Button } from "@/components/ui/button"
 import { PlusCircle } from "lucide-react"
-import { useBrands } from "@/pages/admin/brands/context/brands-context"
+import { useCategories } from "@/pages/admin/categories/context/categories-context"
 
-export function BrandFormButton() {
-  const { setOpen } = useBrands()
+export function CategoryFormButton() {
+  const { setOpen } = useCategories()
 
   return (
     <div className="flex gap-2">
       <Button className="space-x-1" onClick={() => setOpen("add")}>
-        <span>Add Brand</span>
+        <span>Add Category</span>
 
         <PlusCircle size={18} />
       </Button>

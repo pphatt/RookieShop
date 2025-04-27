@@ -33,6 +33,7 @@ export function SelectDropdown({
   const defaultState = isControlled
     ? { value: defaultValue, onValueChange }
     : { defaultValue, onValueChange }
+
   return (
     <Select {...defaultState}>
       <FormControl>

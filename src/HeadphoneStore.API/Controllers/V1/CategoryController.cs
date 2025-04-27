@@ -9,6 +9,7 @@ using HeadphoneStore.Application.UseCases.V1.Category.DeleteCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.GetAllCategories;
 using HeadphoneStore.Application.UseCases.V1.Category.GetAllCategoriesPaged;
 using HeadphoneStore.Application.UseCases.V1.Category.GetAllCategoriesWithSubCategories;
+using HeadphoneStore.Application.UseCases.V1.Category.GetAllFirstLevelCategories;
 using HeadphoneStore.Application.UseCases.V1.Category.GetAllSubCategories;
 using HeadphoneStore.Application.UseCases.V1.Category.GetCategoryById;
 using HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
@@ -139,6 +140,24 @@ public class CategoryController : BaseApiController
     public async Task<IActionResult> GetAllCategories()
     {
         var query = new GetAllCategoriesQuery();
+
+        var response = await _mediator.Send(query);
+
+        if (response.IsFailure)
+            return HandlerFailure(response);
+
+        return Ok(response);
+    }
+
+    [HttpGet("all-first-level")]
+    [RequirePermission(Permissions.Function.CATEGORY, Permissions.Command.VIEW)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CategoryDto>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetAllFirstLevelCategories()
+    {
+        var query = new GetAllFirstLevelCategoriesQuery();
 
         var response = await _mediator.Send(query);
 

@@ -29,7 +29,17 @@ public class CategoryRepository : RepositoryBase<Category, Guid>, ICategoryRepos
         {
             Id = x.Id,
             Name = x.Name,
-            Description = x.Description
+            Description = x.Description,
+            CreatedBy = x.CreatedBy,
+            UpdatedBy = x.UpdatedBy,
+            Parent = x.Parent != null ? new CategoryDto
+            {
+                Id = x.Parent.Id,
+                Name = x.Parent.Name,
+                Description = x.Parent.Description,
+                CreatedBy = x.Parent.CreatedBy,
+                UpdatedBy = x.Parent.UpdatedBy,
+            } : null,
         });
 
         return await PagedResult<CategoryDto>.InitializeAsync(result, pageIndex, pageSize);

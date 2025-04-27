@@ -24,7 +24,7 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
         Name = name ?? throw new ArgumentNullException(nameof(name));
         Description = description ?? throw new ArgumentNullException(nameof(description));
         CreatedBy = createdBy;
-        CreatedDateTime  = DateTime.UtcNow;
+        CreatedDateTime = DateTime.UtcNow;
         Parent = parent;
         ParentId = parent?.Id;
     }
@@ -45,6 +45,7 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
         Description = description ?? throw new ArgumentNullException(nameof(description));
         UpdatedBy = updatedBy;
         Parent = parent;
+        ParentId = parent is not null ? parent.Id : null;
         UpdatedDateTime = DateTime.UtcNow;
     }
 

@@ -18,5 +18,15 @@ public static partial class Exceptions
             code: "Category.AlreadyDeleted",
             description: "Category already deleted."
         );
+
+        public sealed class HasSubCategories() : DomainException.ValidationException(
+            code: "Category.HasSubCategories",
+            description: "Category which has sub-categories cannot have parent."
+        );
+
+        public sealed class CannotReferenceThemself() : DomainException.ValidationException(
+            code: "Category.CannotReferenceThemself",
+            description: "Category cannot reference themself."
+        );
     }
 }

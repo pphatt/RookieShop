@@ -10,7 +10,8 @@ import { TBrand, TBrandAdd, TBrandDelete } from "@/@types/brand.type"
 import { toast } from "react-toastify"
 import { handleError } from "@/utils"
 import { useMutation } from "@tanstack/react-query"
-import { AddNewBrand, DeleteBrand } from "@/services/brand.service"
+import { TCategoryDelete } from "@/@types/category.type"
+import { DeleteCategory } from "@/services/category.service"
 
 interface Props {
   open: boolean
@@ -19,7 +20,7 @@ interface Props {
   refetch: () => void
 }
 
-export function BrandsDeleteDialog({
+export function CategoriesDeleteDialog({
   open,
   onOpenChange,
   currentRow,
@@ -32,13 +33,13 @@ export function BrandsDeleteDialog({
 
     onOpenChange(false)
 
-    deleteBrandMutation.mutate(
+    deleteCategoryMutation.mutate(
       {
         id: currentRow.id,
       },
       {
         onSuccess: () => {
-          toast.success("Delete new brand successfully.")
+          toast.success("Delete new category successfully.")
           refetch()
         },
         onError: (error: any) => {
@@ -48,8 +49,8 @@ export function BrandsDeleteDialog({
     )
   }
 
-  const deleteBrandMutation = useMutation({
-    mutationFn: (body: TBrandDelete) => DeleteBrand(body),
+  const deleteCategoryMutation = useMutation({
+    mutationFn: (body: TCategoryDelete) => DeleteCategory(body),
   })
 
   return (
@@ -58,14 +59,14 @@ export function BrandsDeleteDialog({
       onOpenChange={onOpenChange}
       handleConfirm={handleDelete}
       disabled={value.trim() !== currentRow.name}
-      isLoading={deleteBrandMutation.isLoading}
+      isLoading={deleteCategoryMutation.isLoading}
       title={
         <span className="text-destructive">
           <TriangleAlert
             className="stroke-destructive mr-1 inline-block"
             size={18}
           />
-          Delete Brand
+          Delete Category
         </span>
       }
       desc={
@@ -79,11 +80,11 @@ export function BrandsDeleteDialog({
           </p>
 
           <Label className="my-2">
-            Brand:
+            Category:
             <Input
               value={value}
               onChange={(e) => setValue(e.target.value)}
-              placeholder="Enter brand to confirm deletion."
+              placeholder="Enter category to confirm deletion."
             />
           </Label>
 

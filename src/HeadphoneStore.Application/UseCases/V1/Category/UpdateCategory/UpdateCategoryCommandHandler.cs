@@ -2,6 +2,8 @@
 using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Domain.Abstracts.Repositories;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
 
 using Exceptions = Domain.Exceptions.Exceptions;
@@ -26,7 +28,7 @@ public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryComman
         var parentCategoryId = request.ParentCategoryId;
         var updatedBy = request.UpdatedBy;
 
-        var categoryFromDb = await _categoryRepository.FindByIdAsync(request.Id);
+        var categoryFromDb = await _categoryRepository.FindByIdAsync(request.Id, cancellationToken, x => x.SubCategories);
 
         if (categoryFromDb is null)
             throw new Exceptions.Category.NotFound();
@@ -35,6 +37,12 @@ public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryComman
 
         if (duplicateName is not null && duplicateName.Id != categoryFromDb.Id)
             throw new Exceptions.Category.DuplicateName();
+
+        if (categoryFromDb.SubCategories.Count > 0)
+            throw new Exceptions.Category.HasSubCategories();
+
+        if (categoryFromDb.Id == parentCategoryId)
+            throw new Exceptions.Category.CannotReferenceThemself();
 
         var parentCategory = parentCategoryId is not null
             ? await _categoryRepository.FindByIdAsync((Guid)parentCategoryId)

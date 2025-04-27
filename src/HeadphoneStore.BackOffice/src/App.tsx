@@ -4,6 +4,7 @@ import { AdminMainLayout } from "@/pages/root"
 import AdminGuard from "@/guards/AdminGuard"
 import UnauthenticatedGuard from "@/guards/UnauthenticatedGuard"
 import BrandDashboard from "@/pages/admin/brands"
+import CategoryDashboard from "@/pages/admin/categories"
 
 const Login = lazy(() => import("@/pages/auth/Login"))
 
@@ -47,7 +48,7 @@ function App() {
             path={"/categories"}
             element={
               <AdminMainLayout>
-                <>Categories dashboard</>
+                <CategoryDashboard />
               </AdminMainLayout>
             }
           ></Route>
