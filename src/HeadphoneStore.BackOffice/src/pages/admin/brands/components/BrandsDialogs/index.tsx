@@ -25,12 +25,12 @@ export function BrandsDialogs({ refetch }: BrandsDialogsProps) {
             open={open === "edit"}
             onOpenChange={() => {
               setOpen("edit")
-              setTimeout(() => {
-                setCurrentRow(null)
-              }, 500)
             }}
             currentRow={currentRow}
-            refetch={refetch}
+            refetch={() => {
+              refetch()
+              setCurrentRow(null)
+            }}
           />
 
           <BrandsDeleteDialog
@@ -38,12 +38,12 @@ export function BrandsDialogs({ refetch }: BrandsDialogsProps) {
             open={open === "delete"}
             onOpenChange={() => {
               setOpen("delete")
-              setTimeout(() => {
-                setCurrentRow(null)
-              }, 500)
             }}
             currentRow={currentRow}
-            refetch={refetch}
+            refetch={() => {
+              refetch()
+              setCurrentRow(null)
+            }}
           />
         </>
       )}

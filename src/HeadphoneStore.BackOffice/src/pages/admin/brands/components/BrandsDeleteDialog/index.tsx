@@ -58,6 +58,7 @@ export function BrandsDeleteDialog({
       onOpenChange={onOpenChange}
       handleConfirm={handleDelete}
       disabled={value.trim() !== currentRow.name}
+      isLoading={deleteBrandMutation.isLoading}
       title={
         <span className="text-destructive">
           <TriangleAlert
