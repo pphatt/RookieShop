@@ -49,6 +49,7 @@ import { Button } from "@/components/ui/button"
 import { X } from "lucide-react"
 import IconSpinner from "@/components/icon-spinner"
 import { LoadingScreen } from "@/layouts/loading-screen"
+import SearchInput from "@/components/search"
 
 declare module "@tanstack/react-table" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -173,7 +174,7 @@ export default function BrandDashboard() {
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
 
-  const isFiltered = table.getState().columnFilters.length > 0
+  const isFiltered = !!queryConfig.searchTerm
 
   return (
     <BrandsProvider>
@@ -191,31 +192,12 @@ export default function BrandDashboard() {
         <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12">
           <div className="space-y-4">
             {/* Table search + filter */}
-            <div className="flex items-center justify-between">
-              <div className="flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2">
-                <Input
-                  placeholder="Filter brands..."
-                  value={
-                    (table.getColumn("name")?.getFilterValue() as string) ?? ""
-                  }
-                  onChange={(event) =>
-                    table.getColumn("name")?.setFilterValue(event.target.value)
-                  }
-                  className="h-8 w-[150px] lg:w-[250px]"
-                />
-
-                {isFiltered && (
-                  <Button
-                    variant="ghost"
-                    onClick={() => table.resetColumnFilters()}
-                    className="h-8 px-2 lg:px-3"
-                  >
-                    Reset
-                    <X className="ml-2 h-4 w-4" />
-                  </Button>
-                )}
-              </div>
-            </div>
+            <SearchInput
+              queryConfig={queryConfig}
+              path="/brands"
+              placeholder="Search in brands..."
+              isFiltered={isFiltered}
+            />
 
             <div className="rounded-md border">
               {isFetching && (

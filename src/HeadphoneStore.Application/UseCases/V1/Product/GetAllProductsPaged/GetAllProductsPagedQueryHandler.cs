@@ -18,7 +18,7 @@ public class GetAllProductsPagedQueryHandler : IQueryHandler<GetAllProductsPaged
     public async Task<Result<PagedResult<ProductDto>>> Handle(GetAllProductsPagedQuery request, CancellationToken cancellationToken)
     {
         var result = await _productRepository.GetAllProductPagination(
-            keyword: request.Keyword,
+            keyword: request.SearchTerm,
             pageIndex: request.PageIndex,
             pageSize: request.PageSize
         );

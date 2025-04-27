@@ -17,7 +17,7 @@ public class GetAllCategoriesPagedQueryHandler : IQueryHandler<GetAllCategoriesP
     public async Task<Result<PagedResult<CategoryDto>>> Handle(GetAllCategoriesPagedQuery request, CancellationToken cancellationToken)
     {
         var result = await _categoryRepository.GetAllCategoriesPagination(
-            keyword: request.Keyword,
+            keyword: request.SearchTerm,
             pageIndex: request.PageIndex,
             pageSize: request.PageSize
         );
