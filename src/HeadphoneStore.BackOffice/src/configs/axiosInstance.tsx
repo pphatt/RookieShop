@@ -141,11 +141,11 @@ const AxiosInterceptor = ({ children }: { children: React.ReactNode }) => {
         setIsAuthenticated(false)
         queryClient.clear()
         return navigate("/login")
-      } else if (error.response.status === 405) {
-        // do something for all 500 errors
-      } else {
-        // do something for all other error codes
+      } else if (error.response?.status === 405) {
+        return Promise.reject(error)
       }
+
+      return Promise.reject(error)
     }
   )
   return <>{children}</>

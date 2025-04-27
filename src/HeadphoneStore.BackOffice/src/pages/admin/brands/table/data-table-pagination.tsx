@@ -17,7 +17,6 @@ import { createSearchParams, useNavigate } from "react-router-dom"
 import { Table } from "@tanstack/react-table"
 import { JSX } from "react"
 import { PaginationType } from "@/@types/pagination.type"
-import { cn } from "@/lib/utils"
 
 const RANGE = 2
 

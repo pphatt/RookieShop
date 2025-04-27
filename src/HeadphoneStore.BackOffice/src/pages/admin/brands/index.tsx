@@ -41,9 +41,9 @@ import { DataTablePagination } from "@/pages/admin/brands/table/data-table-pagin
 import { Checkbox } from "@/components/ui/checkbox"
 import { cn } from "@/lib/utils"
 import styles from "@/pages/admin/brands/styles/column.module.scss"
-import { DataTableColumnHeader } from "@/pages/admin/users/table/data-table-column-header"
+import { DataTableColumnHeader } from "@/pages/admin/brands/table/data-table-column-header"
 import LongText from "@/components/long-text"
-import { DataTableRowActions } from "@/pages/admin/users/table/data-table-row-actions"
+import { DataTableRowActions } from "@/pages/admin/brands/table/data-table-row-actions"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { X } from "lucide-react"
@@ -114,7 +114,7 @@ export default function BrandDashboard() {
     {
       id: "id",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="id" />
+        <DataTableColumnHeader column={column} title="Id" />
       ),
       cell: ({ row }) => {
         const { id } = row.original
@@ -175,16 +175,6 @@ export default function BrandDashboard() {
 
   const isFiltered = table.getState().columnFilters.length > 0
 
-  if (isFetching) {
-    return (
-      <LoadingScreen>
-        <IconSpinner />
-      </LoadingScreen>
-    )
-  }
-
-  console.log(data)
-
   return (
     <BrandsProvider>
       <Main>
@@ -228,67 +218,75 @@ export default function BrandDashboard() {
             </div>
 
             <div className="rounded-md border">
-              <Table>
-                <TableHeader>
-                  {table.getHeaderGroups().map((headerGroup) => (
-                    <TableRow key={headerGroup.id} className="group/row">
-                      {headerGroup.headers.map((header) => {
-                        return (
-                          <TableHead
-                            key={header.id}
-                            colSpan={header.colSpan}
-                            className={
-                              header.column.columnDef.meta?.className ?? ""
-                            }
-                          >
-                            {header.isPlaceholder
-                              ? null
-                              : flexRender(
-                                  header.column.columnDef.header,
-                                  header.getContext()
-                                )}
-                          </TableHead>
-                        )
-                      })}
-                    </TableRow>
-                  ))}
-                </TableHeader>
+              {isFetching && (
+                <LoadingScreen>
+                  <IconSpinner />
+                </LoadingScreen>
+              )}
 
-                <TableBody>
-                  {table.getRowModel().rows?.length ? (
-                    table.getRowModel().rows.map((row) => (
-                      <TableRow
-                        key={row.id}
-                        data-state={row.getIsSelected() && "selected"}
-                        className="group/row"
-                      >
-                        {row.getVisibleCells().map((cell) => (
-                          <TableCell
-                            key={cell.id}
-                            className={
-                              cell.column.columnDef.meta?.className ?? ""
-                            }
-                          >
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                          </TableCell>
-                        ))}
+              {!isFetching && (
+                <Table>
+                  <TableHeader>
+                    {table.getHeaderGroups().map((headerGroup) => (
+                      <TableRow key={headerGroup.id} className="group/row">
+                        {headerGroup.headers.map((header) => {
+                          return (
+                            <TableHead
+                              key={header.id}
+                              colSpan={header.colSpan}
+                              className={
+                                header.column.columnDef.meta?.className ?? ""
+                              }
+                            >
+                              {header.isPlaceholder
+                                ? null
+                                : flexRender(
+                                    header.column.columnDef.header,
+                                    header.getContext()
+                                  )}
+                            </TableHead>
+                          )
+                        })}
                       </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell
-                        colSpan={columns.length}
-                        className="h-24 text-center"
-                      >
-                        No results.
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
+                    ))}
+                  </TableHeader>
+
+                  <TableBody>
+                    {table.getRowModel().rows?.length ? (
+                      table.getRowModel().rows.map((row) => (
+                        <TableRow
+                          key={row.id}
+                          data-state={row.getIsSelected() && "selected"}
+                          className="group/row"
+                        >
+                          {row.getVisibleCells().map((cell) => (
+                            <TableCell
+                              key={cell.id}
+                              className={
+                                cell.column.columnDef.meta?.className ?? ""
+                              }
+                            >
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell
+                          colSpan={columns.length}
+                          className="h-24 text-center"
+                        >
+                          No results.
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              )}
             </div>
 
             {!isFetching && (
@@ -310,7 +308,7 @@ export default function BrandDashboard() {
         </div>
       </Main>
 
-      <BrandsDialogs />
+      <BrandsDialogs refetch={refetch} />
     </BrandsProvider>
   )
 }

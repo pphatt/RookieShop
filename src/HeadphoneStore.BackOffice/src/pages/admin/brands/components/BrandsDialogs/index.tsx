@@ -2,7 +2,11 @@ import { BrandsActionDialog } from "@/pages/admin/brands/components/BrandsAction
 import { useBrands } from "@/pages/admin/brands/context/brands-context"
 import { BrandsDeleteDialog } from "@/pages/admin/brands/components/BrandsDeleteDialog"
 
-export function BrandsDialogs() {
+interface BrandsDialogsProps {
+  refetch: () => any
+}
+
+export function BrandsDialogs({ refetch }: BrandsDialogsProps) {
   const { open, setOpen, currentRow, setCurrentRow } = useBrands()
 
   return (
@@ -11,6 +15,7 @@ export function BrandsDialogs() {
         key="brand-add"
         open={open === "add"}
         onOpenChange={() => setOpen("add")}
+        refetch={refetch}
       />
 
       {currentRow && (
@@ -25,6 +30,7 @@ export function BrandsDialogs() {
               }, 500)
             }}
             currentRow={currentRow}
+            refetch={refetch}
           />
 
           <BrandsDeleteDialog
