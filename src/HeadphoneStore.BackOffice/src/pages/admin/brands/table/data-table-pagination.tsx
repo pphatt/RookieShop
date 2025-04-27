@@ -17,13 +17,14 @@ import { createSearchParams, useNavigate } from "react-router-dom"
 import { Table } from "@tanstack/react-table"
 import { JSX } from "react"
 import { PaginationType } from "@/@types/pagination.type"
+import { FilterType } from "@/@types/filter.type"
 
 const RANGE = 2
 
 interface DataTablePaginationProps<TData> extends PaginationType {
   table: Table<TData>
   path?: string
-  queryConfig?: any
+  queryConfig?: FilterType
   className?: string
 }
 
@@ -86,6 +87,7 @@ export function DataTablePagination<TData>({
       pathname: path,
       search: createSearchParams({
         ...queryConfig,
+        pageIndex: "1",
         pageSize: newPageSize,
       }).toString(),
     })
