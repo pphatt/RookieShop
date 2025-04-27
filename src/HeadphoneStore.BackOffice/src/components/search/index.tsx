@@ -26,8 +26,6 @@ export default function SearchInput({
 
   const onSearchChange = React.useCallback(
     debounce((searchValue: string) => {
-      setSearch(searchValue)
-
       if (searchValue) {
         navigate({
           pathname: path,
@@ -47,11 +45,12 @@ export default function SearchInput({
           }).toString(),
         })
       }
-    }, 100),
+    }, 300),
     [navigate, path, queryConfig]
   )
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value)
     onSearchChange(event.target.value)
   }
 

@@ -224,7 +224,7 @@ export default function CategoryDashboard() {
             {/* Table search + filter */}
             <SearchInput
               queryConfig={queryConfig}
-              path="/brands"
+              path="/categories"
               placeholder="Search in categories..."
               isFiltered={isFiltered}
             />
