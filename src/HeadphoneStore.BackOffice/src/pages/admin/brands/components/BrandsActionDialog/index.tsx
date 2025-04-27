@@ -21,10 +21,10 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { TBrand, TBrandAdd } from "@/@types/brand.type"
+import { TBrand, TBrandAdd, TBrandUpdate } from "@/@types/brand.type"
 import { Textarea } from "@/components/ui/textarea"
 import { useMutation } from "@tanstack/react-query"
-import { AddNewBrand } from "@/services/brand.service"
+import { AddNewBrand, UpdateBrand } from "@/services/brand.service"
 import { toast } from "react-toastify"
 import IconSpinner from "@/components/icon-spinner"
 
@@ -55,27 +55,53 @@ export function BrandsActionDialog({
 }: BrandsActionDialogProps) {
   const isEdit = !!currentRow
 
-  // const form = useForm<BrandForm>({
-  //   resolver: zodResolver(schema),
-  // })
-
-  // const onSubmit = (values: BrandForm) => {
-  //   form.reset()
-  //   onOpenChange(false)
-  // }
-
   const defaultValues: TDefaultValue = {
     name: "",
     description: "",
   }
 
   const form = useForm({
-    mode: "onChange",
-    defaultValues,
+    defaultValues: isEdit ? currentRow : defaultValues,
     resolver: zodResolver(schema),
   })
 
   const onSubmit = (data: TDefaultValue) => {
+    if (isEdit) {
+      updateBrandMutation.mutate(
+        {
+          id: currentRow?.id,
+          name: data.name,
+          description: data.description,
+        },
+        {
+          onSuccess: () => {
+            toast.success("Update brand successfully.")
+            refetch()
+            handleResetDialog()
+          },
+          onError: (error: any) => {
+            if (error?.response?.data?.title) {
+              let errorMessage = error.response.data.title
+
+              if (error?.response?.data?.description) {
+                errorMessage += ` - ${error.response.data.description}`
+              }
+
+              toast.error(errorMessage)
+            } else if (error?.response?.data?.Error?.Message) {
+              toast.error(error.response.data.Error.Message)
+            } else if (error?.response?.data?.message) {
+              toast.error(error.response.data.message)
+            } else {
+              toast.error("Something went wrong")
+            }
+          },
+        }
+      )
+
+      return
+    }
+
     createBrandMutation.mutate(data, {
       onSuccess: () => {
         toast.success("Add new brand successfully.")
@@ -106,6 +132,10 @@ export function BrandsActionDialog({
     mutationFn: (body: TBrandAdd) => AddNewBrand(body),
   })
 
+  const updateBrandMutation = useMutation({
+    mutationFn: (body: TBrandUpdate) => UpdateBrand(body),
+  })
+
   const handleResetDialog = () => {
     onOpenChange(false)
     form.reset(defaultValues)
@@ -115,7 +145,7 @@ export function BrandsActionDialog({
     <Dialog
       open={open}
       onOpenChange={(state) => {
-        form.reset(defaultValues)
+        form.reset()
         onOpenChange(state)
       }}
     >
@@ -185,9 +215,12 @@ export function BrandsActionDialog({
           <Button
             type="submit"
             form="brand-form"
-            disabled={createBrandMutation.isLoading}
+            disabled={
+              createBrandMutation.isLoading || updateBrandMutation.isLoading
+            }
           >
-            {createBrandMutation.isLoading && <IconSpinner />}
+            {(createBrandMutation.isLoading ||
+              updateBrandMutation.isLoading) && <IconSpinner />}
             Save changes
           </Button>
         </DialogFooter>

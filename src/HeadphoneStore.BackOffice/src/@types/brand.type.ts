@@ -12,6 +12,12 @@ export type TBrandAdd = {
   description: string
 }
 
+export type TBrandUpdate = {
+  id: string
+  name: string
+  description: string
+}
+
 export type ResponseListBrands = {
   items: TBrand[]
 } & PaginationType
