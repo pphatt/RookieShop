@@ -6,22 +6,51 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ConfirmDialog } from "@/components/form/confirm-dialog"
 import { TriangleAlert } from "lucide-react"
-import { TBrand } from "@/@types/brand.type"
+import { TBrand, TBrandAdd, TBrandDelete } from "@/@types/brand.type"
+import { toast } from "react-toastify"
+import { handleError } from "@/utils"
+import { useMutation } from "@tanstack/react-query"
+import { AddNewBrand, DeleteBrand } from "@/services/brand.service"
 
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
   currentRow: TBrand
+  refetch: () => void
 }
 
-export function BrandsDeleteDialog({ open, onOpenChange, currentRow }: Props) {
+export function BrandsDeleteDialog({
+  open,
+  onOpenChange,
+  currentRow,
+  refetch,
+}: Props) {
   const [value, setValue] = useState("")
 
   const handleDelete = () => {
     if (value.trim() !== currentRow.name) return
 
     onOpenChange(false)
+
+    deleteBrandMutation.mutate(
+      {
+        id: currentRow.id,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Delete new brand successfully.")
+          refetch()
+        },
+        onError: (error: any) => {
+          handleError(error)
+        },
+      }
+    )
   }
+
+  const deleteBrandMutation = useMutation({
+    mutationFn: (body: TBrandDelete) => DeleteBrand(body),
+  })
 
   return (
     <ConfirmDialog

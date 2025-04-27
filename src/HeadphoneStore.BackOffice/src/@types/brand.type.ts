@@ -18,6 +18,10 @@ export type TBrandUpdate = {
   description: string
 }
 
+export type TBrandDelete = {
+  id: string
+}
+
 export type ResponseListBrands = {
   items: TBrand[]
 } & PaginationType

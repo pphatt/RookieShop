@@ -43,6 +43,7 @@ export function BrandsDialogs({ refetch }: BrandsDialogsProps) {
               }, 500)
             }}
             currentRow={currentRow}
+            refetch={refetch}
           />
         </>
       )}

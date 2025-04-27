@@ -5,6 +5,7 @@ import {
   BrandQueryConfig,
   ResponseListBrands,
   TBrandAdd,
+  TBrandDelete,
   TBrandUpdate,
 } from "@/@types/brand.type"
 
@@ -29,3 +30,6 @@ export const UpdateBrand = async (data: TBrandUpdate) =>
       "Content-Type": "multipart/form-data",
     },
   })
+
+export const DeleteBrand = async (data: TBrandDelete) =>
+  await instanceAxios.delete(`${BRAND_API.DELETE}/${data.id}`)
