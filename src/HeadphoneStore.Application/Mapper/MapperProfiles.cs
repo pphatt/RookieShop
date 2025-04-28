@@ -14,6 +14,7 @@ using HeadphoneStore.Application.UseCases.V1.Category.DeleteCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.GetAllCategoriesPaged;
 using HeadphoneStore.Application.UseCases.V1.Category.GetCategoryById;
 using HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
+using HeadphoneStore.Application.UseCases.V1.Identity.CreateUser;
 using HeadphoneStore.Application.UseCases.V1.Identity.Login;
 using HeadphoneStore.Application.UseCases.V1.Identity.RefreshToken;
 using HeadphoneStore.Application.UseCases.V1.Identity.Register;
@@ -35,6 +36,7 @@ using HeadphoneStore.Contract.Services.Category.Delete;
 using HeadphoneStore.Contract.Services.Category.GetAllPaged;
 using HeadphoneStore.Contract.Services.Category.GetCategoryById;
 using HeadphoneStore.Contract.Services.Category.Update;
+using HeadphoneStore.Contract.Services.Identity.CreateUser;
 using HeadphoneStore.Contract.Services.Identity.Login;
 using HeadphoneStore.Contract.Services.Identity.RefreshToken;
 using HeadphoneStore.Contract.Services.Identity.Register;
@@ -55,6 +57,9 @@ public class MapperProfiles : Profile
         CreateMap<LoginRequestDto, LoginCommand>();
         CreateMap<RegisterRequestDto, RegisterCommand>();
         CreateMap<RefreshTokenRequestDto, RefreshTokenCommand>();
+
+        // User
+        CreateMap<CreateUserRequestDto, CreateUserCommand>();
 
         // Role
         CreateMap<AppRole, RoleDto>();

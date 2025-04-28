@@ -4,7 +4,10 @@ using AutoMapper;
 
 using HeadphoneStore.API.Authorization;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
+using HeadphoneStore.Application.UseCases.V1.Identity.CreateUser;
 using HeadphoneStore.Application.UseCases.V1.Identity.WhoAmI;
+using HeadphoneStore.Contract.Abstracts.Shared;
+using HeadphoneStore.Contract.Services.Identity.CreateUser;
 using HeadphoneStore.Contract.Services.Product.Create;
 using HeadphoneStore.Domain.Constants;
 
@@ -44,5 +47,22 @@ public class UserController : BaseApiController
             return HandlerFailure(response);
 
         return Ok(response);
+    }
+
+    [HttpPost("create")]
+    [RequirePermission(Permissions.Function.USER, Permissions.Command.CREATE)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    public async Task<IActionResult> CreateUser([FromForm] CreateUserRequestDto request)
+    {
+        var mapper = _mapper.Map<CreateUserCommand>(request);
+
+        var result = await _mediator.Send(mapper);
+
+        if (result.IsFailure)
+            return HandlerFailure(result);
+
+        return Ok(result);
     }
 }
