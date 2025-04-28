@@ -5,10 +5,12 @@ using AutoMapper;
 using HeadphoneStore.API.Authorization;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Application.UseCases.V1.Identity.CreateUser;
+using HeadphoneStore.Application.UseCases.V1.Identity.DeleteUser;
 using HeadphoneStore.Application.UseCases.V1.Identity.UpdateUser;
 using HeadphoneStore.Application.UseCases.V1.Identity.WhoAmI;
 using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Contract.Services.Identity.CreateUser;
+using HeadphoneStore.Contract.Services.Identity.DeleteUser;
 using HeadphoneStore.Contract.Services.Identity.UpdateUser;
 using HeadphoneStore.Contract.Services.Product.Create;
 using HeadphoneStore.Domain.Constants;
@@ -76,6 +78,23 @@ public class UserController : BaseApiController
     public async Task<IActionResult> UpdateUser(UpdateUserRequestDto request)
     {
         var mapper = _mapper.Map<UpdateUserCommand>(request);
+
+        var result = await _mediator.Send(mapper);
+
+        if (result.IsFailure)
+            return HandlerFailure(result);
+
+        return Ok(result);
+    }
+
+    [HttpDelete("{Id}")]
+    [RequirePermission(Permissions.Function.USER, Permissions.Command.DELETE)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    public async Task<IActionResult> DeleteUser(DeleteUserRequestDto request)
+    {
+        var mapper = _mapper.Map<DeleteUserCommand>(request);
 
         var result = await _mediator.Send(mapper);
 

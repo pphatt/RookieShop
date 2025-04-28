@@ -28,5 +28,10 @@ public static partial class Exceptions
             code: "User.FailResetPassword",
             description: "Error occurs while resetting password."
         );
+
+        public sealed class CannotDelete() : DomainException.ForbiddenException(
+            code: "User.CannotDelete",
+            description: "This user cannot be deleted."
+        );
     }
 }
