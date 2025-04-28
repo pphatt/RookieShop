@@ -1,4 +1,6 @@
 ﻿using HeadphoneStore.Contract.Abstracts.Shared;
+using HeadphoneStore.Contract.Dtos.Brand;
+using HeadphoneStore.Contract.Dtos.Category;
 using HeadphoneStore.Contract.Dtos.Product;
 using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
@@ -38,18 +40,28 @@ public class ProductRepository : RepositoryBase<Product, Guid>, IProductReposito
             Description = x.Description,
             Quantity = x.Quantity,
             Sku = x.Sku,
-            CategoryName = x.Category.Name,
-            BrandName = x.Brand.Name,
+            Category = new CategoryDto
+            {
+                Id = x.Category.Id,
+                Name = x.Category.Name
+            },
+            Brand = new BrandDto
+            {
+                Id = x.Brand.Id,
+                Name = x.Brand.Name
+            },
             ProductStatus = x.ProductStatus.ToString(),
             ProductPrice = x.ProductPrice.Amount,
             AverageRating = x.AverageRating,
             TotalReviews = x.TotalReviews,
-            Media = x.Media.Select(x => new ProductMediaDto
+            Media = x.Media.OrderBy(x => x.Order).Select(x => new ProductMediaDto
             {
+                Id = x.Id,
                 ImageUrl = x.ImageUrl,
                 Name = x.Name,
                 Path = x.Path,
-                PublicId = x.PublicId
+                PublicId = x.PublicId,
+                Order = x.Order
             }).ToList().AsReadOnly()
         });
 

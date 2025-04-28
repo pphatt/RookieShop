@@ -3,16 +3,16 @@ import { Main } from "@/components/layout/main"
 import useParams from "@/hooks/use-params"
 import { isUndefined, omitBy } from "lodash"
 import {
-  BrandQueryConfig,
-  BrandQueryParams,
-  ResponseListBrands,
-  TBrand,
-} from "@/@types/brand.type"
-import { useQuery } from "@tanstack/react-query"
-import { GetAllBrandsPagination } from "@/services/brand.service"
-import { BrandFormButton } from "@/pages/admin/brands/components/BrandFormButton"
-import BrandsProvider from "@/pages/admin/brands/context/brands-context"
-import { BrandsDialogs } from "@/pages/admin/brands/components/BrandsDialogs"
+  ProductQueryConfig,
+  ProductQueryParams,
+  ResponseListProducts,
+  TProduct,
+} from "@/@types/product.type"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { GetAllProductsPagination } from "@/services/product.service"
+import { ProductFormButton } from "@/pages/admin/products/components/ProductFormButton"
+import ProductsProvider from "@/pages/admin/products/context/products-context"
+import { ProductsDialogs } from "@/pages/admin/products/components/ProductsDialogs"
 import { useState } from "react"
 import {
   ColumnDef,
@@ -37,19 +37,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { DataTablePagination } from "@/pages/admin/brands/table/data-table-pagination"
+import { DataTablePagination } from "@/pages/admin/products/table/data-table-pagination"
 import { Checkbox } from "@/components/ui/checkbox"
 import { cn } from "@/lib/utils"
-import styles from "@/pages/admin/brands/styles/column.module.scss"
-import { DataTableColumnHeader } from "@/pages/admin/brands/table/data-table-column-header"
+import styles from "@/pages/admin/products/styles/column.module.scss"
+import { DataTableColumnHeader } from "@/pages/admin/products/table/data-table-column-header"
 import LongText from "@/components/long-text"
-import { DataTableRowActions } from "@/pages/admin/brands/table/data-table-row-actions"
+import { DataTableRowActions } from "@/pages/admin/products/table/data-table-row-actions"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { X } from "lucide-react"
 import IconSpinner from "@/components/icon-spinner"
 import { LoadingScreen } from "@/layouts/loading-screen"
 import SearchInput from "@/components/search"
+import { all } from "axios"
+import { GetAllSubCategories } from "@/services/category.service"
+import { GetAllBrands } from "@/services/brand.service"
+import { TBrand } from "@/@types/brand.type"
+import { TCategory } from "@/@types/category.type"
 
 declare module "@tanstack/react-table" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -58,9 +63,11 @@ declare module "@tanstack/react-table" {
   }
 }
 
-export default function BrandDashboard() {
-  const queryParams: BrandQueryParams = useParams()
-  const queryConfig: BrandQueryConfig = omitBy(
+export default function ProductDashboard() {
+  const queryClient = useQueryClient()
+
+  const queryParams: ProductQueryParams = useParams()
+  const queryConfig: ProductQueryConfig = omitBy(
     {
       searchTerm: queryParams.searchTerm,
       pageIndex: queryParams.pageIndex || "1",
@@ -69,18 +76,34 @@ export default function BrandDashboard() {
     isUndefined
   )
 
-  const { data, isFetching, refetch } = useQuery({
-    queryKey: ["brands", queryConfig],
-    queryFn: () => GetAllBrandsPagination(queryConfig),
+  const { data, isFetching } = useQuery({
+    queryKey: ["products", queryConfig],
+    queryFn: () => GetAllProductsPagination(queryConfig),
     select: (res) => res.data.value,
   })
+
+  const { data: categories, isFetching: isFetchingCategories } = useQuery({
+    queryKey: ["all-sub-categories"],
+    queryFn: () => GetAllSubCategories(),
+    select: (res) => res.data.value,
+  })
+
+  const { data: brands, isFetching: isFetchingBrands } = useQuery({
+    queryKey: ["all-brands"],
+    queryFn: () => GetAllBrands(),
+    select: (res) => res.data.value,
+  })
+
+  const refetch = async () => {
+    await queryClient.invalidateQueries(["products", queryConfig])
+  }
 
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
 
-  const columns: ColumnDef<TBrand>[] = [
+  const columns: ColumnDef<TProduct>[] = [
     {
       id: "select",
       header: ({ table }) => (
@@ -119,10 +142,7 @@ export default function BrandDashboard() {
       ),
       cell: ({ row }) => {
         const { id } = row.original
-        return <LongText className={styles["id-column"]}>{id}</LongText>
-      },
-      meta: {
-        className: styles["id-column"],
+        return <LongText>{id}</LongText>
       },
     },
     {
@@ -133,6 +153,46 @@ export default function BrandDashboard() {
       cell: ({ row }) => {
         const { name } = row.original
         return <LongText>{name}</LongText>
+      },
+    },
+    {
+      id: "quantity",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Quantity" />
+      ),
+      cell: ({ row }) => {
+        const { quantity } = row.original
+        return <LongText>{quantity}</LongText>
+      },
+    },
+    {
+      id: "sku",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Sku" />
+      ),
+      cell: ({ row }) => {
+        const { sku } = row.original
+        return <LongText>{sku}</LongText>
+      },
+    },
+    {
+      id: "price",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Price" />
+      ),
+      cell: ({ row }) => {
+        const { productPrice } = row.original
+        return <LongText>{productPrice}</LongText>
+      },
+    },
+    {
+      id: "status",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Status" />
+      ),
+      cell: ({ row }) => {
+        const { productStatus } = row.original
+        return <LongText>{productStatus}</LongText>
       },
     },
     {
@@ -177,16 +237,18 @@ export default function BrandDashboard() {
   const isFiltered = !!queryConfig.searchTerm
 
   return (
-    <BrandsProvider>
+    <ProductsProvider>
       <Main>
         <div className="mb-2 flex flex-wrap items-center justify-between space-y-2">
           <div>
-            <h2 className="text-2xl font-bold tracking-tight">Brand List</h2>
+            <h2 className="text-2xl font-bold tracking-tight">Product List</h2>
 
-            <p className="text-muted-foreground">Manage store's brands here.</p>
+            <p className="text-muted-foreground">
+              Manage store's products here.
+            </p>
           </div>
 
-          <BrandFormButton />
+          <ProductFormButton />
         </div>
 
         <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12">
@@ -194,8 +256,8 @@ export default function BrandDashboard() {
             {/* Table search + filter */}
             <SearchInput
               queryConfig={queryConfig}
-              path="/brands"
-              placeholder="Search in brands..."
+              path="/products"
+              placeholder="Search in products..."
               isFiltered={isFiltered}
             />
 
@@ -290,7 +352,15 @@ export default function BrandDashboard() {
         </div>
       </Main>
 
-      <BrandsDialogs refetch={refetch} />
-    </BrandsProvider>
+      {(!isFetchingCategories || !isFetchingBrands) && (
+        <ProductsDialogs
+          categories={
+            categories ?? ([{ id: "", name: "No category" }] as TCategory[])
+          }
+          brands={brands ?? ([{ id: "", name: "No brand" }] as TBrand[])}
+          refetch={refetch}
+        />
+      )}
+    </ProductsProvider>
   )
 }

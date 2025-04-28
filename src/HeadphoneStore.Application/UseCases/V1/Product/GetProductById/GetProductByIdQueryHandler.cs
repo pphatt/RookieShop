@@ -1,6 +1,8 @@
 ﻿using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Contract.Abstracts.Queries;
 using HeadphoneStore.Contract.Abstracts.Shared;
+using HeadphoneStore.Contract.Dtos.Brand;
+using HeadphoneStore.Contract.Dtos.Category;
 using HeadphoneStore.Contract.Dtos.Product;
 using HeadphoneStore.Domain.Abstracts.Repositories;
 
@@ -39,18 +41,28 @@ public class GetProductByIdQueryHandler : IQueryHandler<GetProductByIdQuery, Pro
             Description = product.Description,
             Quantity = product.Quantity,
             Sku = product.Sku,
-            CategoryName = product.Category.Name,
-            BrandName = product.Brand.Name,
+            Category = new CategoryDto
+            {
+                Id = product.Category.Id,
+                Name = product.Category.Name
+            },
+            Brand = new BrandDto
+            {
+                Id = product.Brand.Id,
+                Name = product.Brand.Name
+            },
             ProductStatus = product.ProductStatus.ToString().FormatPascalCaseString(),
             ProductPrice = product.ProductPrice.Amount,
             AverageRating = product.AverageRating,
             TotalReviews = product.TotalReviews,
-            Media = product.Media.Select(x => new ProductMediaDto
+            Media = product.Media.OrderBy(x => x.Order).Select(x => new ProductMediaDto
             {
+                Id = x.Id,
                 ImageUrl = x.ImageUrl,
                 Name = x.Name,
                 Path = x.Path,
-                PublicId = x.PublicId
+                PublicId = x.PublicId,
+                Order = x.Order
             }).ToList().AsReadOnly()
         };
 

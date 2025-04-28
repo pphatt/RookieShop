@@ -211,7 +211,7 @@ public class CloudinaryService : ICloudinaryService
                 var fileDetails = new FileDto
                 {
                     Path = uploadResult.Url.ToString(),
-                    Name = file.Name,
+                    Name = uploadResult.DisplayName,
                     Extension = extension,
                     PublicId = uploadResult.PublicId,
                     Type = dto.type

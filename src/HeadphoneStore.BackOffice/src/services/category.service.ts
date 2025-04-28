@@ -18,6 +18,9 @@ export const GetAllCategoriesPagination = async (params: CategoryQueryConfig) =>
     }
   )
 
+export const GetAllSubCategories = async () =>
+  await instanceAxios.get<ResponseData<TCategory[]>>(CATEGORY_API.ALL_SUB)
+
 export const GetAllFirstLevelCategoriesPagination = async () =>
   await instanceAxios.get<ResponseData<TCategory[]>>(
     CATEGORY_API.GET_ALL_FIRST_LEVEL

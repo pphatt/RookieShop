@@ -3,7 +3,7 @@ import { useCategories } from "@/pages/admin/categories/context/categories-conte
 import { CategoriesDeleteDialog } from "@/pages/admin/categories/components/CategoriesDeleteDialog"
 import { TCategory } from "@/@types/category.type"
 
-interface BrandsDialogsProps {
+interface CategoriesDialogsProps {
   allFirstLevelCategories?: TCategory[]
   refetch: () => any
 }
@@ -11,7 +11,7 @@ interface BrandsDialogsProps {
 export function CategoriesDialogs({
   allFirstLevelCategories,
   refetch,
-}: BrandsDialogsProps) {
+}: CategoriesDialogsProps) {
   const { open, setOpen, currentRow, setCurrentRow } = useCategories()
 
   return (

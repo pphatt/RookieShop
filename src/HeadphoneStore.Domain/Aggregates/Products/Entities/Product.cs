@@ -57,6 +57,7 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
     public void Update(
         string name,
         string description,
+        ProductStatus productStatus,
         ProductPrice productPrice,
         string sku,
         Category category,
@@ -65,6 +66,7 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         Description = description ?? throw new ArgumentNullException(nameof(description));
+        ProductStatus = productStatus;
         ProductPrice = productPrice.Amount >= 0 ? productPrice : throw new ArgumentException("Price cannot be negative.");
         Sku = sku ?? throw new ArgumentNullException(nameof(sku));
         Category = category;

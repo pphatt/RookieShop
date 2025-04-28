@@ -1,5 +1,5 @@
 ﻿using HeadphoneStore.Contract.Abstracts.Commands;
-using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
+using HeadphoneStore.Contract.Services.Product.Update;
 
 using Microsoft.AspNetCore.Http;
 
@@ -11,12 +11,13 @@ public class UpdateProductCommand : ICommand
     public string Name { get; set; }
     public string Description { get; set; }
     public int Quantity { get; set; }
-    public int Sku { get; set; }
-    public ProductStatus ProductStatus { get; set; }
+    public string Sku { get; set; }
+    public string ProductStatus { get; set; }
     public int ProductPrice { get; set; }
     public Guid CategoryId { get; set; }
     public Guid BrandId { get; set; }
-    public List<Guid>? OldFiles { get; set; }
-    public List<IFormFile>? NewFiles { get; set; }
+    public List<Guid>? OldImages { get; set; }
+    public List<IFormFile>? NewImages { get; set; }
+    public List<string> ListOrder { get; set; }
     public Guid UpdatedBy { get; set; }
 }

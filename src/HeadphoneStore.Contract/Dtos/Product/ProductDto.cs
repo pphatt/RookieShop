@@ -1,4 +1,7 @@
-﻿namespace HeadphoneStore.Contract.Dtos.Product;
+﻿using HeadphoneStore.Contract.Dtos.Brand;
+using HeadphoneStore.Contract.Dtos.Category;
+
+namespace HeadphoneStore.Contract.Dtos.Product;
 
 public class ProductDto
 {
@@ -11,8 +14,8 @@ public class ProductDto
     public decimal ProductPrice { get; set; }
     public double AverageRating { get; set; }
     public int TotalReviews { get; set; }
-    public string CategoryName { get; set; }
-    public string BrandName { get; set; }
+    public CategoryDto Category { get; set; }
+    public BrandDto Brand { get; set; }
 
     public IReadOnlyCollection<ProductMediaDto> Media { get; set; }
 }

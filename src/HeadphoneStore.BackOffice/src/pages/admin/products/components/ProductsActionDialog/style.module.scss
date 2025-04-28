@@ -1,0 +1,38 @@
+.form-item-wrapper {
+  color: var(--foreground);
+
+  margin-top: 24px;
+}
+
+.form-item-span {
+  display: flex;
+  align-items: center;
+
+  color: var(--foreground);
+
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.form-item-image-upload-tips {
+  color: var(--foreground);
+
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.form-item-image-upload-wrapper {
+  //display: flex;
+  //flex-wrap: wrap;
+
+  margin-top: 16px;
+  margin-right: -8px;
+  margin-bottom: -16px;
+}
+
+.upload-files {
+  margin-top: 1rem;
+}

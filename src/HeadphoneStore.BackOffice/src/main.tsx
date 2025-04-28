@@ -9,6 +9,8 @@ import { AppProvider } from "@/context/app-context"
 import { AxiosInterceptor } from "@/configs/axiosInstance"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
+import "@/styles/vendor/file-pond.scss"
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

@@ -1,11 +1,10 @@
 import { URL } from ".."
 
-export const BASE_URL = `${URL}/Brand`
+export const BASE_URL = `${URL}/Product`
 
-export const BRAND_API = {
+export const PRODUCT_API = {
   CREATE: `${BASE_URL}/create`,
   UPDATE: `${BASE_URL}`,
   DELETE: `${BASE_URL}`,
   PAGINATION: `${BASE_URL}/pagination`,
-  ALL: `${BASE_URL}/all`,
 }

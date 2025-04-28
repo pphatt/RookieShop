@@ -71,7 +71,7 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
 
         product.Quantity = request.Quantity;
 
-        if (request.Files != null && request.Files.Any())
+        if (request.Images != null && request.Images.Any())
         {
             var required = new FileRequiredParamsDto
             {
@@ -80,16 +80,17 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
                 productId = product.Id
             };
 
-            var uploadResult = await _cloudinaryService.UploadFilesToCloudinary(request.Files, required);
+            var uploadResult = await _cloudinaryService.UploadFilesToCloudinary(request.Images, required);
 
-            foreach (var info in uploadResult)
+            foreach (var info in uploadResult.Select((value, i) => (value, i)))
             {
                 var media = new ProductMedia(
                     productId: product.Id,
-                    imageUrl: info.Path,
-                    publicId: info.PublicId,
-                    path: info.Path,
-                    name: info.Name,
+                    imageUrl: info.value.Path,
+                    publicId: info.value.PublicId,
+                    path: info.value.Path,
+                    name: info.value.Name,
+                    order: info.i + 1,
                     createdBy: request.CreatedBy);
 
                 product.AddMedia(media);

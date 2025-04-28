@@ -7,5 +7,6 @@ export const CATEGORY_API = {
   UPDATE: `${BASE_URL}`,
   DELETE: `${BASE_URL}`,
   PAGINATION: `${BASE_URL}/pagination`,
+  ALL_SUB: `${BASE_URL}/all-sub`,
   GET_ALL_FIRST_LEVEL: `${BASE_URL}/all-first-level`,
 }

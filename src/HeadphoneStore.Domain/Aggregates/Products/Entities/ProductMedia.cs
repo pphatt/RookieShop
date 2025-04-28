@@ -8,6 +8,7 @@ public class ProductMedia : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEnti
     public string PublicId { get; set; }
     public string Path { get; set; }
     public string Name { get; set; }
+    public int Order { get; set; }
     public Guid CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
 
@@ -16,13 +17,14 @@ public class ProductMedia : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEnti
 
     protected ProductMedia() { } // For EF Core
 
-    public ProductMedia(Guid productId, string imageUrl, string publicId, string path, string name, Guid createdBy) : base(Guid.NewGuid())
+    public ProductMedia(Guid productId, string imageUrl, string publicId, string path, string name, int order, Guid createdBy) : base(Guid.NewGuid())
     {
         ProductId = productId;
         ImageUrl = imageUrl ?? throw new ArgumentNullException(nameof(imageUrl));
         PublicId = publicId;
         Path = path;
         Name = name;
+        Order = order;
         CreatedBy = createdBy;
         CreatedDateTime = DateTime.UtcNow;
     }

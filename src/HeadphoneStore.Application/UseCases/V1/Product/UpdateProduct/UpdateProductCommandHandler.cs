@@ -4,9 +4,11 @@ using HeadphoneStore.Contract.Abstracts.Shared;
 using HeadphoneStore.Contract.Dtos.Media;
 using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
+using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
 using HeadphoneStore.Domain.Aggregates.Products.ValueObjects;
 using HeadphoneStore.Domain.Constraints;
 
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace HeadphoneStore.Application.UseCases.V1.Product.UpdateProduct;
@@ -66,14 +68,16 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
         if (brand is null)
             throw new Exceptions.Brand.NotFound();
 
+        var countOldImages = 0;
+
         // handle remove old images if changes.
-        if (request.OldFiles is not null &&
-            request.OldFiles.Count() > 0 &&
+        if (request.OldImages is not null &&
+            request.OldImages.Count() > 0 &&
             product.Media.Count() > 0)
         {
             var oldImages = new List<DeleteFileDto>();
 
-            var oldImagesRequest = request.OldFiles;
+            var oldImagesRequest = request.OldImages;
 
             foreach (var image in product.Media.ToList())
             {
@@ -87,16 +91,32 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
 
                     _productMediaRepository.Remove(image);
                 }
+                else
+                {
+                    countOldImages++;
+                }
             }
 
             if (oldImages.Count() > 0)
             {
                 await _cloudinaryService.RemoveFilesFromCloudinary(oldImages);
             }
+
+            var oldImagesOrder = request.ListOrder
+                .Where(x => x.Split("-")[0] == "old")
+                .Select(x => x.Split("-")[1])
+                .ToList();
+
+            foreach (var imageInfo in request.OldImages.Select((value, i) => (value, i)))
+            {
+                var image = await _productMediaRepository.FindByIdAsync(imageInfo.value);
+
+                image.Order = Int32.Parse(oldImagesOrder[imageInfo.i]);
+            }
         }
 
         // handle add new images if added.
-        if (request.NewFiles is not null && request.NewFiles.Count() > 0)
+        if (request.NewImages is not null && request.NewImages.Count() > 0)
         {
             var required = new FileRequiredParamsDto
             {
@@ -105,25 +125,33 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
                 productId = product.Id,
             };
 
-            var filesInfo = await _cloudinaryService.UploadFilesToCloudinary(request.NewFiles, required);
+            var filesInfo = await _cloudinaryService.UploadFilesToCloudinary(request.NewImages, required);
+            var newImagesOrder = request.ListOrder
+                .Where(x => x.Split("-")[0] == "new")
+                .Select(x => x.Split("-")[1])
+                .ToList();
 
-            foreach (var info in filesInfo)
+            foreach (var info in filesInfo.Select((value, i) => (value, i)))
             {
                 var file = new ProductMedia(
                     productId: product.Id,
-                    imageUrl: info.Path,
-                    publicId: info.PublicId,
-                    path: info.Path,
-                    name: info.Name,
+                    imageUrl: info.value.Path,
+                    publicId: info.value.PublicId,
+                    path: info.value.Path,
+                    name: info.value.Name,
+                    order: Int32.Parse(newImagesOrder[info.i]),
                     createdBy: request.UpdatedBy);
 
                 _productMediaRepository.Add(file);
             }
         }
 
+        Enum.TryParse<ProductStatus>(request.ProductStatus, false, out var status);
+
         product.Update(
             name: request.Name,
             description: request.Description,
+            productStatus: status,
             productPrice: new ProductPrice(request.ProductPrice),
             sku: request.Sku.ToString(),
             category: category,
