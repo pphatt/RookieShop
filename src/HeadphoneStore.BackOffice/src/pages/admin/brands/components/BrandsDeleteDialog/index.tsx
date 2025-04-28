@@ -38,7 +38,7 @@ export function BrandsDeleteDialog({
       },
       {
         onSuccess: () => {
-          toast.success("Delete new brand successfully.")
+          toast.success("Delete brand successfully.")
           refetch()
         },
         onError: (error: any) => {

@@ -39,7 +39,7 @@ export function ProductsDeleteDialog({
       },
       {
         onSuccess: () => {
-          toast.success("Delete new product successfully.")
+          toast.success("Delete product successfully.")
           refetch()
         },
         onError: (error: any) => {

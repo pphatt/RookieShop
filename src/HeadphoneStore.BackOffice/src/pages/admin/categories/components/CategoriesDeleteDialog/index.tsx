@@ -39,7 +39,7 @@ export function CategoriesDeleteDialog({
       },
       {
         onSuccess: () => {
-          toast.success("Delete new category successfully.")
+          toast.success("Delete category successfully.")
           refetch()
         },
         onError: (error: any) => {
