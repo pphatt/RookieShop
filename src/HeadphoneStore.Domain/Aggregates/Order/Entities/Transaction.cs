@@ -21,7 +21,7 @@ public class Transaction : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdated
         UserId = userId;
         Status = "Pending";
         CreatedBy = createdBy;
-        CreatedDateTime  = DateTime.UtcNow;
+        CreatedDateTime = DateTime.UtcNow;
     }
 
     public void UpdateStatus(string newStatus, Guid updatedBy)

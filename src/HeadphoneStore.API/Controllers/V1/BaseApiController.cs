@@ -1,6 +1,6 @@
 ﻿using Asp.Versioning;
 
-using HeadphoneStore.Contract.Abstracts.Shared;
+using HeadphoneStore.Shared.Abstracts.Shared;
 
 using MediatR;
 

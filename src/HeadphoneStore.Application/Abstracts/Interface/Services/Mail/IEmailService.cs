@@ -1,6 +1,4 @@
-﻿using AutoMapper.Internal;
-
-namespace HeadphoneStore.Application.Abstracts.Interface.Services.Mail;
+﻿namespace HeadphoneStore.Application.Abstracts.Interface.Services.Mail;
 
 public interface IEmailService
 {

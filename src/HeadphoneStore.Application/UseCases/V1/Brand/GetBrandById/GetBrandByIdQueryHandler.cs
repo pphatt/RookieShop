@@ -1,7 +1,7 @@
-﻿using HeadphoneStore.Contract.Abstracts.Commands;
-using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Contract.Dtos.Brand;
-using HeadphoneStore.Domain.Abstracts.Repositories;
+﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+using HeadphoneStore.Shared.Abstracts.Commands;
+using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Dtos.Brand;
 
 namespace HeadphoneStore.Application.UseCases.V1.Brand.GetBrandById;
 

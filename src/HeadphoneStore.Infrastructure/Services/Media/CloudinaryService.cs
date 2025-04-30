@@ -5,9 +5,9 @@ using CloudinaryDotNet.Actions;
 
 using HeadphoneStore.Application.Abstracts.Interface.Services.Datetime;
 using HeadphoneStore.Application.Abstracts.Interface.Services.Media;
-using HeadphoneStore.Contract.Dtos.Media;
 using HeadphoneStore.Domain.Constraints;
 using HeadphoneStore.Infrastructure.DependencyInjection.Options;
+using HeadphoneStore.Shared.Dtos.Media;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;

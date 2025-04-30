@@ -1,5 +1,4 @@
-﻿using HeadphoneStore.Contract.Abstracts.Commands;
-using HeadphoneStore.Contract.Services.Product.Update;
+﻿using HeadphoneStore.Shared.Abstracts.Commands;
 
 using Microsoft.AspNetCore.Http;
 

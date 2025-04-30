@@ -1,8 +1,8 @@
 ﻿using HeadphoneStore.Application.DependencyInjection.Extensions;
-using HeadphoneStore.Contract.Abstracts.Queries;
-using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Contract.Dtos.Product;
 using HeadphoneStore.Domain.Abstracts.Repositories;
+using HeadphoneStore.Shared.Abstracts.Queries;
+using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Dtos.Product;
 
 namespace HeadphoneStore.Application.UseCases.V1.Product.GetAllProductsPaged;
 

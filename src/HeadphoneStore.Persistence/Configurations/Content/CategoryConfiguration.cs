@@ -1,5 +1,4 @@
 ﻿using HeadphoneStore.Domain.Aggregates.Categories.Entities;
-using HeadphoneStore.Domain.Aggregates.Products.Entities;
 using HeadphoneStore.Domain.Constraints;
 
 using Microsoft.EntityFrameworkCore;

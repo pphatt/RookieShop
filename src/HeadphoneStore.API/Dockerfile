@@ -14,7 +14,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/HeadphoneStore.API/HeadphoneStore.API.csproj", "src/HeadphoneStore.API/"]
 COPY ["src/HeadphoneStore.Application/HeadphoneStore.Application.csproj", "src/HeadphoneStore.Application/"]
-COPY ["src/HeadphoneStore.Contract/HeadphoneStore.Contract.csproj", "src/HeadphoneStore.Contract/"]
+COPY ["src/HeadphoneStore.Shared/HeadphoneStore.Shared.csproj", "src/HeadphoneStore.Shared/"]
 COPY ["src/HeadphoneStore.Domain/HeadphoneStore.Domain.csproj", "src/HeadphoneStore.Domain/"]
 COPY ["src/HeadphoneStore.Infrastructure/HeadphoneStore.Infrastructure.csproj", "src/HeadphoneStore.Infrastructure/"]
 COPY ["src/HeadphoneStore.Persistence/HeadphoneStore.Persistence.csproj", "src/HeadphoneStore.Persistence/"]

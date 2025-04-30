@@ -1,5 +1,5 @@
-﻿using HeadphoneStore.Contract.Abstracts.Queries;
-using HeadphoneStore.Contract.Dtos.Identity.User;
+﻿using HeadphoneStore.Shared.Abstracts.Queries;
+using HeadphoneStore.Shared.Dtos.Identity.User;
 
 namespace HeadphoneStore.Application.UseCases.V1.Identity.WhoAmI;
 

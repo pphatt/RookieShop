@@ -20,7 +20,7 @@ internal class OrderDetailConfiguration : IEntityTypeConfiguration<OrderDetail>
         builder.Property(od => od.ProductPrice).HasPrecision(18, 2).IsRequired();
         builder.Property(od => od.ProductPriceDiscount).HasPrecision(18, 2);
         builder.Property(od => od.CreatedBy).IsRequired();
-        builder.Property(od => od.CreatedDateTime ).IsRequired();
+        builder.Property(od => od.CreatedDateTime).IsRequired();
         builder.Property(od => od.IsDeleted).IsRequired();
 
         // One OrderDetail belongs to One Order

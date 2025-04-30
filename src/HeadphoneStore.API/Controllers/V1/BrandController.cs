@@ -11,15 +11,15 @@ using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrands;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrandsPaged;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetBrandById;
 using HeadphoneStore.Application.UseCases.V1.Brand.UpdateBrand;
-using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Contract.Dtos.Brand;
-using HeadphoneStore.Contract.Services.Brand.BulkDelete;
-using HeadphoneStore.Contract.Services.Brand.Create;
-using HeadphoneStore.Contract.Services.Brand.Delete;
-using HeadphoneStore.Contract.Services.Brand.GetAllPaged;
-using HeadphoneStore.Contract.Services.Brand.GetById;
-using HeadphoneStore.Contract.Services.Brand.Update;
 using HeadphoneStore.Domain.Constants;
+using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Dtos.Brand;
+using HeadphoneStore.Shared.Services.Brand.BulkDelete;
+using HeadphoneStore.Shared.Services.Brand.Create;
+using HeadphoneStore.Shared.Services.Brand.Delete;
+using HeadphoneStore.Shared.Services.Brand.GetAllPaged;
+using HeadphoneStore.Shared.Services.Brand.GetById;
+using HeadphoneStore.Shared.Services.Brand.Update;
 
 using MediatR;
 

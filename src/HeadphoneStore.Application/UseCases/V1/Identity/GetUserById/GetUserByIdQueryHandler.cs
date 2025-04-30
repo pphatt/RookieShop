@@ -1,9 +1,9 @@
-﻿using HeadphoneStore.Contract.Abstracts.Queries;
-using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Contract.Dtos.Identity.Role;
-using HeadphoneStore.Contract.Dtos.Identity.User;
-using HeadphoneStore.Domain.Aggregates.Identity.Entities;
+﻿using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Domain.Enumeration;
+using HeadphoneStore.Shared.Abstracts.Queries;
+using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Dtos.Identity.Role;
+using HeadphoneStore.Shared.Dtos.Identity.User;
 
 using Microsoft.AspNetCore.Identity;
 

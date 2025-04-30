@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 
-using HeadphoneStore.Contract.Dtos.Identity.Role;
 using HeadphoneStore.Domain.Constants;
+using HeadphoneStore.Shared.Dtos.Identity.Role;
 
 namespace HeadphoneStore.Application.DependencyInjection.Extensions;
 

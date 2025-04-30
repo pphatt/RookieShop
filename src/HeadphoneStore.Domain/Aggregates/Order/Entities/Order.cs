@@ -32,7 +32,7 @@ public class Order : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEnti
         Status = "Pending";
         IsFeedback = false;
         Total = 0;
-        CreatedDateTime  = DateTime.UtcNow;
+        CreatedDateTime = DateTime.UtcNow;
         CreatedBy = createdBy;
     }
 

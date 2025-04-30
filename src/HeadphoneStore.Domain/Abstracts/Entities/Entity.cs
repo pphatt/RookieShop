@@ -9,19 +9,19 @@ public abstract class Entity<T> : IEntity<T>, IAuditableEntity where T : notnull
     public T Id { get; protected set; } = default!;
     public bool IsDeleted { get; protected set; }
 
-    public DateTimeOffset CreatedDateTime  { get; protected set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset CreatedDateTime { get; protected set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset? UpdatedDateTime { get; protected set; }
 
     protected Entity()
     {
-        CreatedDateTime  = DateTimeOffset.UtcNow;
+        CreatedDateTime = DateTimeOffset.UtcNow;
     }
 
     protected Entity(T Id)
     {
         this.Id = Id ?? throw new ArgumentNullException(nameof(Id));
 
-        CreatedDateTime  = DateTimeOffset.UtcNow;
+        CreatedDateTime = DateTimeOffset.UtcNow;
     }
 
     /// <summary>

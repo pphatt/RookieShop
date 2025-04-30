@@ -1,6 +1,6 @@
-﻿using HeadphoneStore.Contract.Abstracts.Commands;
-using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Domain.Abstracts.Repositories;
+﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+using HeadphoneStore.Shared.Abstracts.Commands;
+using HeadphoneStore.Shared.Abstracts.Shared;
 
 namespace HeadphoneStore.Application.UseCases.V1.Category.CreateCategory;
 
@@ -32,8 +32,8 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
         if (duplicateName is not null)
             throw new Exceptions.Category.DuplicateName();
 
-        var parentCategory = parentCategoryId is not null 
-            ? await _categoryRepository.FindByIdAsync((Guid)parentCategoryId) 
+        var parentCategory = parentCategoryId is not null
+            ? await _categoryRepository.FindByIdAsync((Guid)parentCategoryId)
             : null;
 
         var category = Category.Create(

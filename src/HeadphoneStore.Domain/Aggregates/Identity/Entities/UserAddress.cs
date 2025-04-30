@@ -16,7 +16,7 @@ public class UserAddress : Entity<Guid>
         Street = street ?? throw new ArgumentNullException(nameof(street));
         Province = province ?? throw new ArgumentNullException(nameof(province));
         PhoneNumber = phoneNumber ?? throw new ArgumentNullException(nameof(phoneNumber));
-        CreatedDateTime  = DateTime.UtcNow;
+        CreatedDateTime = DateTime.UtcNow;
     }
 
     public void Update(string street, string province, string phoneNumber)

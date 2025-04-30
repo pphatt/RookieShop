@@ -1,4 +1,4 @@
-﻿using HeadphoneStore.Contract.Dtos.Media;
+﻿using HeadphoneStore.Shared.Dtos.Media;
 
 using Microsoft.AspNetCore.Http;
 

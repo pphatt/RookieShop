@@ -4,7 +4,6 @@ using System.Security.Cryptography;
 using System.Text;
 
 using HeadphoneStore.Application.Abstracts.Interface.Services.Authentication;
-using HeadphoneStore.Application.Abstracts.Interface.Services.Datetime;
 using HeadphoneStore.Infrastructure.DependencyInjection.Options;
 
 using Microsoft.Extensions.Options;

@@ -1,10 +1,10 @@
-﻿using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Contract.Dtos.Brand;
-using HeadphoneStore.Contract.Dtos.Category;
-using HeadphoneStore.Contract.Dtos.Product;
-using HeadphoneStore.Domain.Abstracts.Repositories;
+﻿using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
 using HeadphoneStore.Persistence.Repository;
+using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Dtos.Brand;
+using HeadphoneStore.Shared.Dtos.Category;
+using HeadphoneStore.Shared.Dtos.Product;
 
 using Microsoft.EntityFrameworkCore;
 

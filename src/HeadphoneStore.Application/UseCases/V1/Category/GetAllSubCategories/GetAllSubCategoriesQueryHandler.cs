@@ -1,7 +1,7 @@
-﻿using HeadphoneStore.Contract.Abstracts.Queries;
-using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Contract.Dtos.Category;
-using HeadphoneStore.Domain.Abstracts.Repositories;
+﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+using HeadphoneStore.Shared.Abstracts.Queries;
+using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Dtos.Category;
 
 using Microsoft.EntityFrameworkCore;
 

@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HeadphoneStore.Contract\HeadphoneStore.Contract.csproj" />
+    <ProjectReference Include="..\HeadphoneStore.Shared\HeadphoneStore.Shared.csproj" />
     <ProjectReference Include="..\HeadphoneStore.Domain\HeadphoneStore.Domain.csproj" />
   </ItemGroup>
 

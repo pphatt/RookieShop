@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadphoneStore.API", "src\H
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadphoneStore.Application", "src\HeadphoneStore.Application\HeadphoneStore.Application.csproj", "{8BFE47A0-14C6-47C7-81FD-F04D9B051563}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadphoneStore.Contract", "src\HeadphoneStore.Contract\HeadphoneStore.Contract.csproj", "{45BCAFE9-32B6-4C30-B324-B789ADECDC10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadphoneStore.Shared", "src\HeadphoneStore.Shared\HeadphoneStore.Shared.csproj", "{45BCAFE9-32B6-4C30-B324-B789ADECDC10}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeadphoneStore.Domain", "src\HeadphoneStore.Domain\HeadphoneStore.Domain.csproj", "{E28B602C-992E-4840-8762-683CAA464005}"
 EndProject

@@ -1,6 +1,6 @@
-﻿using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Contract.Dtos.Brand;
-using HeadphoneStore.Domain.Aggregates.Products.Entities;
+﻿using HeadphoneStore.Domain.Aggregates.Products.Entities;
+using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Dtos.Brand;
 
 namespace HeadphoneStore.Domain.Abstracts.Repositories;
 

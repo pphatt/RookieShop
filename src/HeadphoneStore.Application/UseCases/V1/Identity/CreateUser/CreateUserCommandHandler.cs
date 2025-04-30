@@ -1,13 +1,9 @@
-﻿using AutoMapper;
-
-using HeadphoneStore.Application.Abstracts.Interface.Services.Datetime;
-using HeadphoneStore.Application.Abstracts.Interface.Services.Mail;
-using HeadphoneStore.Application.Abstracts.Interface.Services.Media;
-using HeadphoneStore.Contract.Abstracts.Commands;
-using HeadphoneStore.Contract.Abstracts.Shared;
+﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Mail;
 using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Domain.Exceptions;
+using HeadphoneStore.Shared.Abstracts.Commands;
+using HeadphoneStore.Shared.Abstracts.Shared;
 
 using Microsoft.AspNetCore.Identity;
 

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-using HeadphoneStore.Domain.Abstracts.ValueObjects;
+﻿using HeadphoneStore.Domain.Abstracts.ValueObjects;
 
 namespace HeadphoneStore.Domain.Aggregates.Products.ValueObjects;
 

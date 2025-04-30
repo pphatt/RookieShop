@@ -3,11 +3,12 @@
     "Name": "HeadphoneStore.Up",
     "Projects": [
       {
-        "Path": "src\\HeadphoneStore.API\\HeadphoneStore.API.csproj",
-        "Action": "Start"
+        "Path": "src\\HeadphoneStore.StoreFrontEnd\\HeadphoneStore.StoreFrontEnd.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
       },
       {
-        "Path": "src\\HeadphoneStore.StoreFrontEnd\\HeadphoneStore.StoreFrontEnd.csproj",
+        "Path": "docker-compose.dcproj",
         "Action": "Start"
       }
     ]

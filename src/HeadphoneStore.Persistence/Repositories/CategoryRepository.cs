@@ -1,8 +1,8 @@
-﻿using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Contract.Dtos.Category;
-using HeadphoneStore.Domain.Abstracts.Repositories;
+﻿using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Categories.Entities;
 using HeadphoneStore.Persistence.Repository;
+using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Dtos.Category;
 
 namespace HeadphoneStore.Persistence.Repositories;
 

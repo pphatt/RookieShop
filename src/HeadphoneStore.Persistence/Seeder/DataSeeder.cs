@@ -1,6 +1,4 @@
-﻿using ErrorOr;
-
-using HeadphoneStore.Domain.Aggregates.Categories.Entities;
+﻿using HeadphoneStore.Domain.Aggregates.Categories.Entities;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
 using HeadphoneStore.Domain.Constants;

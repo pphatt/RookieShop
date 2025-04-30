@@ -1,4 +1,4 @@
-﻿using HeadphoneStore.Contract.Abstracts.Commands;
+﻿using HeadphoneStore.Shared.Abstracts.Commands;
 
 namespace HeadphoneStore.Application.UseCases.V1.Category.DeleteCategory;
 

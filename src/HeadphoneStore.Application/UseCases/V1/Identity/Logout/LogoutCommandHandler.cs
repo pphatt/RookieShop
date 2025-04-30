@@ -2,10 +2,10 @@
 
 using HeadphoneStore.Application.Abstracts.Interface.Services.Authentication;
 using HeadphoneStore.Application.Abstracts.Interface.Services.Caching;
-using HeadphoneStore.Contract.Abstracts.Commands;
-using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Contract.Services.Identity.Login;
 using HeadphoneStore.Domain.Abstracts.Repositories;
+using HeadphoneStore.Shared.Abstracts.Commands;
+using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Services.Identity.Login;
 
 using Microsoft.Extensions.Logging;
 

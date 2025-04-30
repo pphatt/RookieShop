@@ -2,11 +2,11 @@
 
 using HeadphoneStore.Application.Abstracts.Interface.Services.Authentication;
 using HeadphoneStore.Application.Abstracts.Interface.Services.Caching;
-using HeadphoneStore.Contract.Abstracts.Commands;
-using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Contract.Services.Identity.Login;
-using HeadphoneStore.Contract.Services.Identity.RefreshToken;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
+using HeadphoneStore.Shared.Abstracts.Commands;
+using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Services.Identity.Login;
+using HeadphoneStore.Shared.Services.Identity.RefreshToken;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;

@@ -13,14 +13,14 @@ using HeadphoneStore.Application.UseCases.V1.Category.GetAllFirstLevelCategories
 using HeadphoneStore.Application.UseCases.V1.Category.GetAllSubCategories;
 using HeadphoneStore.Application.UseCases.V1.Category.GetCategoryById;
 using HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
-using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Contract.Dtos.Category;
-using HeadphoneStore.Contract.Services.Category.Create;
-using HeadphoneStore.Contract.Services.Category.Delete;
-using HeadphoneStore.Contract.Services.Category.GetAllPaged;
-using HeadphoneStore.Contract.Services.Category.GetCategoryById;
-using HeadphoneStore.Contract.Services.Category.Update;
 using HeadphoneStore.Domain.Constants;
+using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Dtos.Category;
+using HeadphoneStore.Shared.Services.Category.Create;
+using HeadphoneStore.Shared.Services.Category.Delete;
+using HeadphoneStore.Shared.Services.Category.GetAllPaged;
+using HeadphoneStore.Shared.Services.Category.GetCategoryById;
+using HeadphoneStore.Shared.Services.Category.Update;
 
 using MediatR;
 

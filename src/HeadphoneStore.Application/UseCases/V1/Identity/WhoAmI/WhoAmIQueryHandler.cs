@@ -1,18 +1,16 @@
 ﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Caching;
-using HeadphoneStore.Contract.Abstracts.Queries;
-using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Contract.Dtos.Identity.Role;
-using HeadphoneStore.Contract.Dtos.Identity.User;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Domain.Enumeration;
 using HeadphoneStore.Domain.Enumerations;
+using HeadphoneStore.Shared.Abstracts.Queries;
+using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Dtos.Identity.Role;
+using HeadphoneStore.Shared.Dtos.Identity.User;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace HeadphoneStore.Application.UseCases.V1.Identity.WhoAmI;
-
-using static HeadphoneStore.Domain.Exceptions.Exceptions;
 
 using Exceptions = Domain.Exceptions.Exceptions;
 

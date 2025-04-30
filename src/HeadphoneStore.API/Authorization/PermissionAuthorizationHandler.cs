@@ -1,5 +1,3 @@
-using System.Security.Claims;
-
 using HeadphoneStore.Application.Abstracts.Interface.Services.Identity;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 

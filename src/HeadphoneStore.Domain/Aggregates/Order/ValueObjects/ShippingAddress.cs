@@ -1,5 +1,4 @@
 ﻿using HeadphoneStore.Domain.Abstracts.ValueObjects;
-using HeadphoneStore.Domain.Constraints;
 
 namespace HeadphoneStore.Domain.Aggregates.Order.ValueObjects;
 

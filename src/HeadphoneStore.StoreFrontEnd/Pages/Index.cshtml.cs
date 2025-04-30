@@ -1,7 +1,4 @@
-﻿using HeadphoneStore.StoreFrontEnd.Pages.Components;
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace HeadphoneStore.StoreFrontEnd.Pages;
 public class IndexModel : PageModel

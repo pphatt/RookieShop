@@ -19,7 +19,7 @@ public class AppUser : IdentityUser<Guid>, IAuditableEntity
     public string? Bio { get; set; }
     public UserStatus Status { get; set; }
     public bool IsDeleted { get; set; }
-    public DateTimeOffset CreatedDateTime  { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset CreatedDateTime { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset? UpdatedDateTime { get; set; }
 
     public virtual ICollection<IdentityUserRole<Guid>> UserRoles { get; set; } // UserRoles
@@ -43,7 +43,7 @@ public class AppUser : IdentityUser<Guid>, IAuditableEntity
         IsActive = true;
         Status = UserStatus.Active; // set this to Active
         IsDeleted = false;
-        CreatedDateTime  = DateTimeOffset.UtcNow;
+        CreatedDateTime = DateTimeOffset.UtcNow;
         UserName = Email;
         EmailConfirmed = true; // don't need to confirm
         NormalizedUserName = NormalizedEmail;

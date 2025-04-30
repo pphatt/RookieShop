@@ -1,5 +1,5 @@
-﻿using HeadphoneStore.Contract.Abstracts.Queries;
-using HeadphoneStore.Contract.Dtos.Brand;
+﻿using HeadphoneStore.Shared.Abstracts.Queries;
+using HeadphoneStore.Shared.Dtos.Brand;
 
 namespace HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrands;
 

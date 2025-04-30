@@ -1,0 +1,65 @@
+﻿<header>
+    <div class="topbar-wrapper">
+        <div class="topbar-navigate-wrapper">
+            <div class="information-text">
+                <a href="/">Tin tức</a>
+            </div>
+
+            <div class="information-text">
+                <a href="/lien-he">Liên hệ</a>
+            </div>
+
+            <div class="information-text">
+                <a href="/huong-dan-mua-hang">Hướng dẫn mua hàng</a>
+            </div>
+
+            <div class="information-text">
+                <a href="/thoi-gian-mo-cua">Giờ mở cửa: 8h - 21h</a>
+            </div>
+        </div>
+
+        <div class="">
+            <ul class="topbar-menu-wrapper">
+                <li class="topbar-menu-item-wrapper">
+                    <i class="material-icons-outlined">shopping_cart</i>
+
+                    <a href="/gio-hang">Giỏ Hàng (0)</a>
+                </li>
+
+                <li class="topbar-menu-item-wrapper">
+                    <i class="material-icons-outlined">lock</i>
+
+                    <a href="/dang-nhap">Đăng Nhập</a>
+
+                    <div class="divide">|</div>
+
+                    <a href="/dang-ky" style="padding-left: 0px">Đăng Ký</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div>
+        <div class="header-layout-wrapper">
+            <div class="header-logo-wrapper">
+                <a href="/" class="header-logo-container">
+                    <img class="logo-image" src="~/images/headphone-store-logo.png"/>
+
+                    <div class="site-name-text">Headphone Store</div>
+                </a>
+            </div>
+
+            <div class="search-bar-wrapper">
+                <form class="search-bar-form-wrapper">
+                    <input class="search-input" placeholder="Bạn muốn tìm sản phẩm gì ?"/>
+
+                    <button class="search-button">
+                        <i class="material-icons-outlined">search</i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        @await Component.InvokeAsync("CategoryMenu");
+    </div>
+</header>

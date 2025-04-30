@@ -10,15 +10,15 @@ using HeadphoneStore.Application.UseCases.V1.Identity.GetAllUserPaged;
 using HeadphoneStore.Application.UseCases.V1.Identity.GetUserById;
 using HeadphoneStore.Application.UseCases.V1.Identity.UpdateUser;
 using HeadphoneStore.Application.UseCases.V1.Identity.WhoAmI;
-using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Contract.Dtos.Identity.User;
-using HeadphoneStore.Contract.Services.Identity.CreateUser;
-using HeadphoneStore.Contract.Services.Identity.DeleteUser;
-using HeadphoneStore.Contract.Services.Identity.GetAllUserPaged;
-using HeadphoneStore.Contract.Services.Identity.GetUserById;
-using HeadphoneStore.Contract.Services.Identity.UpdateUser;
-using HeadphoneStore.Contract.Services.Product.Create;
 using HeadphoneStore.Domain.Constants;
+using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Dtos.Identity.User;
+using HeadphoneStore.Shared.Services.Identity.CreateUser;
+using HeadphoneStore.Shared.Services.Identity.DeleteUser;
+using HeadphoneStore.Shared.Services.Identity.GetAllUserPaged;
+using HeadphoneStore.Shared.Services.Identity.GetUserById;
+using HeadphoneStore.Shared.Services.Identity.UpdateUser;
+using HeadphoneStore.Shared.Services.Product.Create;
 
 using MediatR;
 

@@ -6,10 +6,10 @@ using HeadphoneStore.Application.UseCases.V1.Identity.Login;
 using HeadphoneStore.Application.UseCases.V1.Identity.Logout;
 using HeadphoneStore.Application.UseCases.V1.Identity.RefreshToken;
 using HeadphoneStore.Application.UseCases.V1.Identity.Register;
-using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Contract.Services.Identity.Login;
-using HeadphoneStore.Contract.Services.Identity.RefreshToken;
-using HeadphoneStore.Contract.Services.Identity.Register;
+using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Services.Identity.Login;
+using HeadphoneStore.Shared.Services.Identity.RefreshToken;
+using HeadphoneStore.Shared.Services.Identity.Register;
 
 using MediatR;
 

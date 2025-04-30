@@ -9,14 +9,14 @@ using HeadphoneStore.Application.UseCases.V1.Product.DeleteProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.GetAllProductsPaged;
 using HeadphoneStore.Application.UseCases.V1.Product.GetProductById;
 using HeadphoneStore.Application.UseCases.V1.Product.UpdateProduct;
-using HeadphoneStore.Contract.Abstracts.Shared;
-using HeadphoneStore.Contract.Dtos.Product;
-using HeadphoneStore.Contract.Services.Product.Create;
-using HeadphoneStore.Contract.Services.Product.Delete;
-using HeadphoneStore.Contract.Services.Product.GetAllPaged;
-using HeadphoneStore.Contract.Services.Product.GetById;
-using HeadphoneStore.Contract.Services.Product.Update;
 using HeadphoneStore.Domain.Constants;
+using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Dtos.Product;
+using HeadphoneStore.Shared.Services.Product.Create;
+using HeadphoneStore.Shared.Services.Product.Delete;
+using HeadphoneStore.Shared.Services.Product.GetAllPaged;
+using HeadphoneStore.Shared.Services.Product.GetById;
+using HeadphoneStore.Shared.Services.Product.Update;
 
 using MediatR;
 

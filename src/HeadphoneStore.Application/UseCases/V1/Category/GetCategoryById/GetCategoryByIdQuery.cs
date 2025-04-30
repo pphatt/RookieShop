@@ -1,5 +1,5 @@
-﻿using HeadphoneStore.Contract.Abstracts.Queries;
-using HeadphoneStore.Contract.Dtos.Category;
+﻿using HeadphoneStore.Shared.Abstracts.Queries;
+using HeadphoneStore.Shared.Dtos.Category;
 
 namespace HeadphoneStore.Application.UseCases.V1.Category.GetCategoryById;
 

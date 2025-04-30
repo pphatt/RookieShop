@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-using HeadphoneStore.Domain.Abstracts.Aggregates;
+﻿using HeadphoneStore.Domain.Abstracts.Aggregates;
 using HeadphoneStore.Domain.Abstracts.Entities;
 using HeadphoneStore.Domain.Aggregates.Categories.Entities;
 using HeadphoneStore.Domain.Aggregates.Products.Enumerations;

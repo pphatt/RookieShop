@@ -2,10 +2,9 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using HeadphoneStore.Contract.Abstracts.Shared;
+using HeadphoneStore.Shared.Abstracts.Shared;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Options;
 
 namespace HeadphoneStore.API.Middlewares;

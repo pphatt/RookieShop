@@ -20,7 +20,7 @@ internal class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
         builder.Property(t => t.UserId).IsRequired();
         builder.Property(t => t.Status).HasMaxLength(50).IsRequired();
         builder.Property(t => t.CreatedBy).IsRequired();
-        builder.Property(t => t.CreatedDateTime ).IsRequired();
+        builder.Property(t => t.CreatedDateTime).IsRequired();
         builder.Property(t => t.IsDeleted).IsRequired();
 
         // One Transaction is associated with one User

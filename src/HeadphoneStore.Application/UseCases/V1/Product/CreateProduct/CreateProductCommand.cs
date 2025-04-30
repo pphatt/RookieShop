@@ -1,5 +1,5 @@
-﻿using HeadphoneStore.Contract.Abstracts.Commands;
-using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
+﻿using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
+using HeadphoneStore.Shared.Abstracts.Commands;
 
 using Microsoft.AspNetCore.Http;
 

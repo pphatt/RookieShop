@@ -17,7 +17,7 @@ internal class ProductMediaConfiguration : IEntityTypeConfiguration<ProductMedia
         builder.Property(m => m.ProductId).IsRequired();
         builder.Property(m => m.ImageUrl).HasMaxLength(1000).IsRequired();
         builder.Property(m => m.CreatedBy).IsRequired();
-        builder.Property(m => m.CreatedDateTime ).IsRequired();
+        builder.Property(m => m.CreatedDateTime).IsRequired();
         builder.Property(m => m.IsDeleted).IsRequired();
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 
 using HeadphoneStore.Application.Behaviors;

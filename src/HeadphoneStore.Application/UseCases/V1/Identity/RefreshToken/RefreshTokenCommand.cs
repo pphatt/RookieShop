@@ -1,5 +1,5 @@
-﻿using HeadphoneStore.Contract.Abstracts.Commands;
-using HeadphoneStore.Contract.Services.Identity.RefreshToken;
+﻿using HeadphoneStore.Shared.Abstracts.Commands;
+using HeadphoneStore.Shared.Services.Identity.RefreshToken;
 
 namespace HeadphoneStore.Application.UseCases.V1.Identity.RefreshToken;
 
