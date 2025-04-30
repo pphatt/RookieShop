@@ -381,6 +381,7 @@
   max-width: 1740px;
 
   margin: auto;
+  padding: 0 20px;
 
   z-index: 0;
 }
@@ -388,13 +389,9 @@
 .ending-section-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 1px;
+  column-gap: 10px;
 
   width: 100%;
-
-  @media screen and (min-width: 1500px) {
-    column-gap: 1rem;
-  }
 }
 
 .ending-section-item-wrapper {

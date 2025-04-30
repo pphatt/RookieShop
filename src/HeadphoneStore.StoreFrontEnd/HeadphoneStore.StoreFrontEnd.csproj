@@ -37,4 +37,8 @@
     <_ContentIncludedByDefault Remove="wwwroot\js\swiper\inject-swiper.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HeadphoneStore.Shared\HeadphoneStore.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
