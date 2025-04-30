@@ -26,9 +26,11 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@types/swiper": "^6.0.0",
     "fast-glob": "^3.3.3",
     "npm-check-updates": "^17.1.18",
     "rimraf": "^6.0.1",
-    "sass": "^1.86.3"
+    "sass": "^1.86.3",
+    "swiper": "^11.2.6"
   }
 }

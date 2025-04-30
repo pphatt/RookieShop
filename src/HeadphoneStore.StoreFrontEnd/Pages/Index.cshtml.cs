@@ -7,7 +7,6 @@ namespace HeadphoneStore.StoreFrontEnd.Pages;
 public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
-    public CategoryDropdownModel CategoryDropdown { get; set; }
 
     public IndexModel(ILogger<IndexModel> logger)
     {
@@ -16,8 +15,5 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-        CategoryDropdown = new CategoryDropdownModel
-        {
-        };
     }
 }

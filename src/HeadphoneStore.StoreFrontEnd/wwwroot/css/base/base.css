@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 @font-face {
   font-family: "Inter";
   src: url("../../fonts/font-headphone-Regular.otf") format("opentype");
@@ -68,12 +67,3 @@ ul {
         color-scheme: dark;
     }
 }*/
-@font-face {
-  font-family: "Inter";
-  src: url("../../fonts/font-headphone-Regular.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-}
-body {
-  font-family: "Roboto", "Inter", Arial, sans-serif;
-}

@@ -2,7 +2,7 @@
 
 namespace HeadphoneStore.StoreFrontEnd.Pages.Components;
 
-public class Footer : PageModel
+public class Carousel : PageModel
 {
     public void OnGet()
     {

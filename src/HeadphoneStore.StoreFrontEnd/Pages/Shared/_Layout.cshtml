@@ -5,25 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - HeadphoneStore.StoreFrontEnd</title>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    @* Swiper setup *@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
+    
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 
-    <link rel="stylesheet" href="~/HeadphoneStore.StoreFrontEnd.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/base/base.css" asp-append-version="true" />
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <script src="https://unpkg.com/lucide@latest"></script>
 
     @* Layout css *@
-    <link rel="stylesheet" href="~/css/application/root-layout.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/css/application/root-layout.css" asp-append-version="true" /> *@
 
     @* Header css *@
     <link rel="stylesheet" href="~/css/components/layout/header.css" asp-append-version="true" />
 
     @* Search css *@
-    <link rel="stylesheet" href="~/css/components/search.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/css/components/search.css" asp-append-version="true" /> *@
 
     @* Footer css *@
     <link rel="stylesheet" href="~/css/components/layout/footer.css" asp-append-version="true" />
@@ -36,7 +38,7 @@
         @await Html.PartialAsync("Components/Header")
 
         @* Search section *@
-        @await Html.PartialAsync("Components/Search")
+        @* @await Html.PartialAsync("Components/Search") *@
 
         @RenderBody()
 
@@ -48,37 +50,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var swiper = new Swiper('.main-swiper', {
-                slidesPerView: 1,
-                spaceBetween: 16,
-                loop: true,
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                breakpoints: {
-                    576: {
-                        slidesPerView: 2,
-                        spaceBetween: 15,
-                    },
-                    768: {
-                        slidesPerView: 3,
-                        spaceBetween: 16,
-                    },
-                    992: {
-                        slidesPerView: 4,
-                        spaceBetween: 16,
-                    },
-                    1200: {
-                        slidesPerView: 5,
-                        spaceBetween: 16,
-                    },
-                },
-            });
-        });
-    </script>
+    @* Swiper setup *@
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

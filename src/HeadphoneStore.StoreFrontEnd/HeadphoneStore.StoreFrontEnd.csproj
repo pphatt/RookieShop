@@ -12,12 +12,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\scss\application\home\" />
-    <Folder Include="Assets\scss\components\layout\" />
     <Folder Include="Assets\scss\vendors\" />
     <Folder Include="Assets\scss\theme\" />
-    <Folder Include="wwwroot\css\abstract\" />
     <Folder Include="wwwroot\js\customer\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\css\abstract\functions.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\abstract\mixins.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\abstract\variables.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\application\home\layout.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\application\home\list-product-section.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\application\home\new-product-section.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\application\root-layout.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\base\base.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\base\fonts.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\base\helpers.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\components\category-dropdown.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\components\layout\footer.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\components\layout\header.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\components\search.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\theme\default.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\vendors\normalize.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\swiper\inject-swiper.js" />
   </ItemGroup>
 
 </Project>

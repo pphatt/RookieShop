@@ -1,3 +1,5 @@
+using Microsoft.Extensions.FileProviders;
+
 namespace HeadphoneStore.StoreFrontEnd;
 
 public class Program
