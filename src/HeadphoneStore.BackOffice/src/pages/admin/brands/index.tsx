@@ -76,9 +76,7 @@ export default function BrandDashboard() {
   })
 
   const [rowSelection, setRowSelection] = useState({})
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
-    id: false,
-  })
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
 
@@ -114,7 +112,7 @@ export default function BrandDashboard() {
       enableHiding: false,
     },
     {
-      id: "id",
+      accessorKey: "id",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Id" />
       ),
@@ -128,7 +126,7 @@ export default function BrandDashboard() {
       enableHiding: true,
     },
     {
-      id: "name",
+      accessorKey: "name",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Name" />
       ),
@@ -139,7 +137,7 @@ export default function BrandDashboard() {
       enableHiding: true,
     },
     {
-      id: "status",
+      accessorKey: "status",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Status" />
       ),

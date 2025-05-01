@@ -137,7 +137,7 @@ export default function ProductDashboard() {
       enableHiding: false,
     },
     {
-      id: "id",
+      accessorKey: "id",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Id" />
       ),
@@ -147,7 +147,7 @@ export default function ProductDashboard() {
       },
     },
     {
-      id: "name",
+      accessorKey: "name",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Name" />
       ),
@@ -158,7 +158,45 @@ export default function ProductDashboard() {
       enableHiding: false,
     },
     {
-      id: "quantity",
+      accessorKey: "category",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Category" />
+      ),
+      cell: ({ row }) => {
+        const { category } = row.original
+        return <LongText>{category.name}</LongText>
+      },
+      enableHiding: false,
+    },
+    {
+      accessorKey: "brand",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Brand" />
+      ),
+      cell: ({ row }) => {
+        const { brand } = row.original
+        return <LongText>{brand.name}</LongText>
+      },
+      enableHiding: false,
+    },
+    {
+      accessorKey: "price",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Price" />
+      ),
+      cell: ({ row }) => {
+        const { productPrice } = row.original
+        const formattedPrice = new Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(productPrice)
+
+        return <LongText>{formattedPrice}</LongText>
+      },
+      enableHiding: true,
+    },
+    {
+      accessorKey: "quantity",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Quantity" />
       ),
@@ -169,7 +207,7 @@ export default function ProductDashboard() {
       enableHiding: true,
     },
     {
-      id: "sku",
+      accessorKey: "sku",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Sku" />
       ),
@@ -180,18 +218,18 @@ export default function ProductDashboard() {
       enableHiding: true,
     },
     {
-      id: "price",
+      accessorKey: "product-status",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Price" />
+        <DataTableColumnHeader column={column} title="Product Status" />
       ),
       cell: ({ row }) => {
-        const { productPrice } = row.original
-        return <LongText>{productPrice}</LongText>
+        const { productStatus } = row.original
+        return <LongText>{productStatus}</LongText>
       },
       enableHiding: true,
     },
     {
-      id: "status",
+      accessorKey: "status",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Status" />
       ),
@@ -206,17 +244,6 @@ export default function ProductDashboard() {
             </Badge>
           </div>
         )
-      },
-      enableHiding: true,
-    },
-    {
-      id: "product-status",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Product Status" />
-      ),
-      cell: ({ row }) => {
-        const { productStatus } = row.original
-        return <LongText>{productStatus}</LongText>
       },
       enableHiding: true,
     },
