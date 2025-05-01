@@ -53,6 +53,7 @@ public class ProductRepository : RepositoryBase<Product, Guid>, IProductReposito
             Slug = x.Slug,
             Description = x.Description,
             Stock = x.Stock,
+            Sold = x.Sold,
             Sku = x.Sku,
             Category = new CategoryDto
             {

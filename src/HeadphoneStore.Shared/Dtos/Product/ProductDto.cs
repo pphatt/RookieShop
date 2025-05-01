@@ -10,6 +10,7 @@ public class ProductDto
     public string Slug { get; set; }
     public string Description { get; set; }
     public int Stock { get; set; }
+    public int Sold { get; set; }
     public string Sku { get; set; }
     public string ProductStatus { get; set; } = "In stock";
     public decimal ProductPrice { get; set; }

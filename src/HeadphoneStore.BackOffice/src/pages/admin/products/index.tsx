@@ -223,6 +223,17 @@ export default function ProductDashboard() {
       enableHiding: true,
     },
     {
+      accessorKey: "sold",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Sold" />
+      ),
+      cell: ({ row }) => {
+        const { sold } = row.original
+        return <LongText>{sold}</LongText>
+      },
+      enableHiding: true,
+    },
+    {
       accessorKey: "sku",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Sku" />

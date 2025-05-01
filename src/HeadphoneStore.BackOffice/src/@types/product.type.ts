@@ -33,6 +33,7 @@ export type TProduct = {
   slug: string
   description: string
   stock: number
+  sold: number
   sku: string
   productStatus: ProductStatus
   status: string

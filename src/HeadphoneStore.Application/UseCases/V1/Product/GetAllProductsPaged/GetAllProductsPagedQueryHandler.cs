@@ -30,6 +30,7 @@ public class GetAllProductsPagedQueryHandler : IQueryHandler<GetAllProductsPaged
             Slug = x.Slug,
             Description = x.Description,
             Stock = x.Stock,
+            Sold = x.Sold,
             Sku = x.Sku,
             Category = x.Category,
             Brand = x.Brand,
