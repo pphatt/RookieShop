@@ -29,6 +29,11 @@ public static partial class Exceptions
             description: "Category has already been inactivated."
         );
 
+        public sealed class SlugExists() : DomainException.ValidationException(
+            code: "Category.SlugExists",
+            description: "Please enter another name. Current name is already exist."
+        );
+
         public sealed class HasSubCategories() : DomainException.ValidationException(
             code: "Category.HasSubCategories",
             description: "Category which has sub-categories cannot have parent."

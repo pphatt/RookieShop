@@ -150,18 +150,19 @@ public partial class DataSeeder
 
         var taiNghe = Category.Create(
             name: "Tai Nghe",
+            slug: "tai-nghe",
             description: "Danh mục các loại tai nghe chất lượng cao.",
             createdBy: createdBy
         );
 
         var taiNgheSubCategories = new[]
         {
-            Category.Create("Tai Nghe In Ear", "Tai nghe nhét tai nhỏ gọn, tiện lợi.", createdBy, taiNghe),
-            Category.Create("Tai Nghe Over Ear", "Tai nghe trùm tai với chất lượng âm thanh vượt trội.", createdBy, taiNghe),
-            Category.Create("Tai Nghe Phòng Thu", "Tai nghe chuyên dụng cho phòng thu âm.", createdBy, taiNghe),
-            Category.Create("Tai Nghe Chống Ồn", "Tai nghe với công nghệ chống ồn chủ động.", createdBy, taiNghe),
-            Category.Create("Tai Nghe Bluetooth", "Tai nghe không dây sử dụng công nghệ Bluetooth.", createdBy, taiNghe),
-            Category.Create("Tai Nghe True Wireless", "Tai nghe không dây hoàn toàn, nhỏ gọn và hiện đại.", createdBy, taiNghe)
+            Category.Create("Tai Nghe In Ear", "tai-nghe-in-ear", "Tai nghe nhét tai nhỏ gọn, tiện lợi.", createdBy, taiNghe),
+            Category.Create("Tai Nghe Over Ear", "tai-nghe-over-ear", "Tai nghe trùm tai với chất lượng âm thanh vượt trội.", createdBy, taiNghe),
+            Category.Create("Tai Nghe Phòng Thu", "tai-nghe-phong-thu", "Tai nghe chuyên dụng cho phòng thu âm.", createdBy, taiNghe),
+            Category.Create("Tai Nghe Chống Ồn", "tai-nghe-chong-on", "Tai nghe với công nghệ chống ồn chủ động.", createdBy, taiNghe),
+            Category.Create("Tai Nghe Bluetooth", "tai-nghe-bluetooth", "Tai nghe không dây sử dụng công nghệ Bluetooth.", createdBy, taiNghe),
+            Category.Create("Tai Nghe True Wireless", "tai-nghe-true-wireless", "Tai nghe không dây hoàn toàn, nhỏ gọn và hiện đại.", createdBy, taiNghe)
         };
 
         foreach (var subCategory in taiNgheSubCategories)
@@ -170,15 +171,16 @@ public partial class DataSeeder
         }
 
         var dacAmp = Category.Create(
-            name: "DAC - AMP",
-            description: "Danh mục các thiết bị DAC và AMP cải thiện chất lượng âm thanh.",
+            name: "DACs & Amplifiers",
+            slug: "dac-amp",
+            description: "Danh mục các thiết bị DAC và Amplifier cải thiện chất lượng âm thanh.",
             createdBy: createdBy
         );
 
         var dacAmpSubCategories = new[]
         {
-            Category.Create("DAC", "Thiết bị chuyển đổi tín hiệu số sang analog.", createdBy, dacAmp),
-            Category.Create("DAC/AMP Di Động", "Thiết bị DAC và AMP nhỏ gọn, phù hợp di chuyển.", createdBy, dacAmp)
+            Category.Create("DAC", "dac-may-tinh", "Thiết bị chuyển đổi tín hiệu số sang analog.", createdBy, dacAmp),
+            Category.Create("DAC/AMP Di Động", "dac-di-dong", "Thiết bị DAC và AMP nhỏ gọn, phù hợp di chuyển.", createdBy, dacAmp)
         };
 
         foreach (var subCategory in dacAmpSubCategories)
@@ -204,40 +206,40 @@ public partial class DataSeeder
 
         var brands = new List<Brand>
         {
-            Brand.Create(name: "Sony", description: "Sony", createdBy: adminId),
-            Brand.Create(name: "64 Audio", description: "64 Audio", createdBy: adminId),
-            Brand.Create(name: "AAW", description: "AAW", createdBy: adminId),
-            Brand.Create(name: "Apple", description: "Apple", createdBy: adminId),
-            Brand.Create(name: "Fiil", description: "Fiil", createdBy: adminId),
-            Brand.Create(name: "JBL", description: "JBL", createdBy: adminId),
-            Brand.Create(name: "Audio-technica", description: "Audio-technica", createdBy: adminId),
-            Brand.Create(name: "Auglamour", description: "Auglamour", createdBy: adminId),
-            Brand.Create(name: "Skullcandy", description: "Skullcandy", createdBy: adminId),
-            Brand.Create(name: "SoundPeats", description: "SoundPeats", createdBy: adminId),
-            Brand.Create(name: "Beats", description: "Beats", createdBy: adminId),
-            Brand.Create(name: "Beyerdynamic", description: "Beyerdynamic", createdBy: adminId),
-            Brand.Create(name: "B&O", description: "B&O", createdBy: adminId),
-            Brand.Create(name: "Bose", description: "Bose", createdBy: adminId),
-            Brand.Create(name: "Campfire", description: "Campfire", createdBy: adminId),
-            Brand.Create(name: "Focal", description: "Focal", createdBy: adminId),
-            Brand.Create(name: "Denon", description: "Denon", createdBy: adminId),
-            Brand.Create(name: "Grado", description: "Grado", createdBy: adminId),
-            Brand.Create(name: "Hifiman", description: "Hifiman", createdBy: adminId),
-            Brand.Create(name: "Jabra", description: "Jabra", createdBy: adminId),
-            Brand.Create(name: "Sennheiser", description: "Sennheiser", createdBy: adminId),
-            Brand.Create(name: "Shozy", description: "Shozy", createdBy: adminId),
-            Brand.Create(name: "Shure", description: "Shure", createdBy: adminId),
-            Brand.Create(name: "Tribit", description: "Tribit", createdBy: adminId),
-            Brand.Create(name: "SoundMAGIC", description: "SoundMAGIC", createdBy: adminId),
-            Brand.Create(name: "iBasso", description: "iBasso", createdBy: adminId),
-            Brand.Create(name: "Fiio", description: "Fiio", createdBy: adminId),
-            Brand.Create(name: "Sabbat", description: "Sabbat", createdBy: adminId),
-            Brand.Create(name: "Moondrop", description: "Moondrop", createdBy: adminId),
-            Brand.Create(name: "Marshall", description: "Marshall", createdBy: adminId),
-            Brand.Create(name: "Westone", description: "Westone", createdBy: adminId),
-            Brand.Create(name: "Dunu", description: "Dunu", createdBy: adminId),
-            Brand.Create(name: "Yuin", description: "Yuin", createdBy: adminId),
-            Brand.Create(name: "Campire", description: "Campire", createdBy: adminId)
+            Brand.Create(name: "Sony", slug: "sony", description: "Sony", createdBy: adminId),
+            Brand.Create(name: "64 Audio", slug: "64-audio", description: "64 Audio", createdBy: adminId),
+            Brand.Create(name: "AAW", slug: "aaw", description: "AAW", createdBy: adminId),
+            Brand.Create(name: "Apple", slug: "apple", description: "Apple", createdBy: adminId),
+            Brand.Create(name: "Fiil", slug: "fiil", description: "Fiil", createdBy: adminId),
+            Brand.Create(name: "JBL", slug: "jbl", description: "JBL", createdBy: adminId),
+            Brand.Create(name: "Audio-technica", slug: "audio-technica", description: "Audio-technica", createdBy: adminId),
+            Brand.Create(name: "Auglamour", slug: "auglamour", description: "Auglamour", createdBy: adminId),
+            Brand.Create(name: "Skullcandy", slug: "skullcandy", description: "Skullcandy", createdBy: adminId),
+            Brand.Create(name: "SoundPeats", slug: "soundpeats", description: "SoundPeats", createdBy: adminId),
+            Brand.Create(name: "Beats", slug: "beats", description: "Beats", createdBy: adminId),
+            Brand.Create(name: "Beyerdynamic", slug: "beyerdynamic", description: "Beyerdynamic", createdBy: adminId),
+            Brand.Create(name: "B&O", slug: "bo", description: "B&O", createdBy: adminId),
+            Brand.Create(name: "Bose", slug: "bose", description: "Bose", createdBy: adminId),
+            Brand.Create(name: "Campfire", slug: "campfire", description: "Campfire", createdBy: adminId),
+            Brand.Create(name: "Focal", slug: "focal", description: "Focal", createdBy: adminId),
+            Brand.Create(name: "Denon", slug: "denon", description: "Denon", createdBy: adminId),
+            Brand.Create(name: "Grado", slug: "grado", description: "Grado", createdBy: adminId),
+            Brand.Create(name: "Hifiman", slug: "hifiman", description: "Hifiman", createdBy: adminId),
+            Brand.Create(name: "Jabra", slug: "jabra", description: "Jabra", createdBy: adminId),
+            Brand.Create(name: "Sennheiser", slug: "sennheiser", description: "Sennheiser", createdBy: adminId),
+            Brand.Create(name: "Shozy", slug: "shozy", description: "Shozy", createdBy: adminId),
+            Brand.Create(name: "Shure", slug: "shure", description: "Shure", createdBy: adminId),
+            Brand.Create(name: "Tribit", slug: "tribit", description: "Tribit", createdBy: adminId),
+            Brand.Create(name: "SoundMAGIC", slug: "soundmagic", description: "SoundMAGIC", createdBy: adminId),
+            Brand.Create(name: "iBasso", slug: "ibasso", description: "iBasso", createdBy: adminId),
+            Brand.Create(name: "Fiio", slug: "fiio", description: "Fiio", createdBy: adminId),
+            Brand.Create(name: "Sabbat", slug: "sabbat", description: "Sabbat", createdBy: adminId),
+            Brand.Create(name: "Moondrop", slug: "moondrop", description: "Moondrop", createdBy: adminId),
+            Brand.Create(name: "Marshall", slug: "marshall", description: "Marshall", createdBy: adminId),
+            Brand.Create(name: "Westone", slug: "westone", description: "Westone", createdBy: adminId),
+            Brand.Create(name: "Dunu", slug: "dunu", description: "Dunu", createdBy: adminId),
+            Brand.Create(name: "Yuin", slug: "yuin", description: "Yuin", createdBy: adminId),
+            Brand.Create(name: "Campire", slug: "campire", description: "Campire", createdBy: adminId)
         };
 
         context.Brands.AddRange(brands);

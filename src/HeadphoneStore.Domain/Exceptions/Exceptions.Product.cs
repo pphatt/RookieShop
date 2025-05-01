@@ -29,6 +29,11 @@ public static partial class Exceptions
             description: "Product has already been inactivated."
         );
 
+        public sealed class SlugExists() : DomainException.ValidationException(
+            code: "Product.SlugExists",
+            description: "Please enter another name. Current name is already exist."
+        );
+
         public sealed class InvalidPrice() : DomainException.ValidationException(
             code: "Product.InvalidPrice",
             description: "Product's price is invalid."

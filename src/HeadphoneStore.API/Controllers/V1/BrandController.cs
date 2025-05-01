@@ -52,6 +52,7 @@ public class BrandController : BaseApiController
     {
         var mapper = _mapper.Map<CreateBrandCommand>(request);
 
+        mapper.Slug = request.Slug ?? mapper.Name.Slugify();
         mapper.CreatedBy = User.GetUserId();
 
         var result = await _mediator.Send(mapper);

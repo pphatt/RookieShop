@@ -1,4 +1,5 @@
-﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+﻿using HeadphoneStore.Application.DependencyInjection.Extensions;
+using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Commands;
@@ -43,6 +44,12 @@ public class UpdateBrandCommandHandler : ICommandHandler<UpdateBrandCommand>
         if (duplicateName is not null && duplicateName.Id != brandFromDb.Id)
             throw new Exceptions.Brand.DuplicateName();
 
+        var slug = brandFromDb.Name != request.Name ? request.Name.Slugify() : request.Slug;
+        var isSlugAlreadyExisted = await _brandRepository.IsSlugAlreadyExisted(slug, brandFromDb.Id);
+
+        if (isSlugAlreadyExisted)
+            throw new Exceptions.Brand.SlugExists();
+
         if (brandFromDb.IsDeleted)
             throw new Exceptions.Brand.AlreadyDeleted();
 
@@ -50,6 +57,7 @@ public class UpdateBrandCommandHandler : ICommandHandler<UpdateBrandCommand>
 
         brandFromDb.Update(
             name: request.Name,
+            slug: slug,
             description: request.Description,
             updatedBy: request.UpdatedBy,
             status: status

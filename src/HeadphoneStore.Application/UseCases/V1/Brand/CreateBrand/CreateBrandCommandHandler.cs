@@ -26,10 +26,16 @@ public class CreateBrandCommandHandler : ICommandHandler<CreateBrandCommand>
         if (duplicateName is not null)
             throw new Exceptions.Brand.DuplicateName();
 
+        var isSlugAlreadyExisted = await _brandRepository.IsSlugAlreadyExisted(request.Slug);
+
+        if (isSlugAlreadyExisted)
+            throw new Exceptions.Brand.SlugExists();
+
         Enum.TryParse<EntityStatus>(request.Status, true, out var status);
 
         var category = Brand.Create(
             name: request.Name,
+            slug: request.Slug!,
             description: request.Description,
             createdBy: request.CreatedBy,
             status: status

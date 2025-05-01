@@ -8,8 +8,9 @@ namespace HeadphoneStore.Application.UseCases.V1.Product.CreateProduct;
 public class CreateProductCommand : ICommand
 {
     public string Name { get; set; }
+    public string? Slug { get; set; }
     public string Description { get; set; }
-    public int Quantity { get; set; }
+    public int Stock { get; set; }
     public string Sku { get; set; }
     public string ProductStatus { get; set; }
     public int ProductPrice { get; set; }

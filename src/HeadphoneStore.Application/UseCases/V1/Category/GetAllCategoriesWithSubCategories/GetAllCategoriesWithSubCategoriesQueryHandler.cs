@@ -29,6 +29,7 @@ public class GetAllCategoriesWithSubCategoriesQueryHandler : IQueryHandler<GetAl
             {
                 Id = x.Id,
                 Name = x.Name,
+                Slug = x.Slug,
                 Description = x.Description,
                 Status = x.Status.ToString(),
                 CreatedBy = x.CreatedBy,
@@ -37,6 +38,7 @@ public class GetAllCategoriesWithSubCategoriesQueryHandler : IQueryHandler<GetAl
                 {
                     Id = x.Parent.Id,
                     Name = x.Parent.Name,
+                    Slug = x.Parent.Slug,
                     Description = x.Parent.Description,
                     Status = x.Parent.Status.ToString(),
                     CreatedBy = x.Parent.CreatedBy,
@@ -46,6 +48,7 @@ public class GetAllCategoriesWithSubCategoriesQueryHandler : IQueryHandler<GetAl
                 {
                     Id = c.Id,
                     Name = c.Name,
+                    Slug = c.Slug,
                     Description = c.Description,
                     Status = c.Status.ToString(),
                     CreatedBy = c.CreatedBy,

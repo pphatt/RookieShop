@@ -7,9 +7,10 @@ public class ProductDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
+    public string Slug { get; set; }
     public string Description { get; set; }
-    public int Quantity { get; set; }
-    public string Sku { get; set; } // Slug
+    public int Stock { get; set; }
+    public string Sku { get; set; }
     public string ProductStatus { get; set; } = "In stock";
     public decimal ProductPrice { get; set; }
     public double AverageRating { get; set; }

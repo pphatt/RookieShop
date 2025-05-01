@@ -11,8 +11,10 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
 {
     public string Name { get; private set; }
     public string Description { get; private set; }
-    public int Quantity { get; set; }
-    public string Sku { get; private set; } // Slug
+    public int Stock { get; set; }
+    public string Sku { get; private set; }
+    public string Slug { get; private set; }
+    public int Sold { get; set; }
     public ProductStatus ProductStatus { get; private set; } = ProductStatus.InStock;
     public ProductPrice ProductPrice { get; private set; } = ProductPrice.CreateEmpty();
     public double AverageRating { get; private set; }
@@ -33,9 +35,12 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
     public Product(
         string name,
         string description,
+        int stock,
         ProductStatus productStatus,
         ProductPrice productPrice,
         string sku,
+        string slug,
+        int sold,
         Category category,
         Brand brand,
         Guid createdBy,
@@ -43,9 +48,12 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
     {
         Name = name;
         Description = description;
+        Stock = stock;
         ProductStatus = productStatus;
         ProductPrice = productPrice;
         Sku = sku;
+        Slug = slug;
+        Sold = sold;
         Category = category;
         Brand = brand;
         Status = status;
@@ -56,9 +64,12 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
     public void Update(
         string name,
         string description,
+        int stock,
         ProductStatus productStatus,
         ProductPrice productPrice,
         string sku,
+        string slug,
+        int sold,
         Category category,
         Brand brand,
         EntityStatus status,
@@ -66,9 +77,12 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         Description = description ?? throw new ArgumentNullException(nameof(description));
+        Stock = stock;
         ProductStatus = productStatus;
         ProductPrice = productPrice.Amount >= 0 ? productPrice : throw new ArgumentException("Price cannot be negative.");
         Sku = sku ?? throw new ArgumentNullException(nameof(sku));
+        Slug = slug;
+        Sold = sold;
         Category = category;
         Brand = brand;
         Status = status;

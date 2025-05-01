@@ -16,14 +16,22 @@ internal class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(p => p.Name).HasMaxLength(256).IsRequired();
         builder.Property(p => p.Description).HasMaxLength(1000).IsRequired();
-        builder.Property(p => p.Quantity).IsRequired();
+        builder.Property(p => p.Slug).HasMaxLength(256).IsRequired();
+        builder.Property(p => p.Stock).IsRequired();
         builder.Property(p => p.Sku).HasMaxLength(50).IsRequired();
+        builder.Property(p => p.Sold).IsRequired();
+        builder.Property(p => p.Status).IsRequired();
         builder.Property(p => p.ProductStatus).IsRequired();
         builder.Property(p => p.AverageRating).IsRequired();
         builder.Property(p => p.TotalReviews).IsRequired();
         builder.Property(p => p.CreatedBy).IsRequired();
         builder.Property(p => p.CreatedDateTime).IsRequired();
         builder.Property(p => p.IsDeleted).IsRequired();
+
+        // Indexing slug
+        builder
+            .HasIndex(p => p.Slug)
+            .IsUnique();
 
         // Setup ProductPrice ValueObject
         builder.OwnsOne(c => c.ProductPrice, price =>

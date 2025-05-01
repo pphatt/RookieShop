@@ -12,8 +12,21 @@ namespace HeadphoneStore.Persistence.Repositories;
 
 public class ProductRepository : RepositoryBase<Product, Guid>, IProductRepository
 {
+    private readonly ApplicationDbContext _context;
+
     public ProductRepository(ApplicationDbContext context) : base(context)
     {
+        _context = context;
+    }
+
+    public async Task<bool> IsSlugAlreadyExisted(string slug, Guid? productId = null)
+    {
+        if (productId is not null)
+        {
+            return await _context.Products.AnyAsync(x => x.Slug == slug && x.Id != productId);
+        }
+
+        return await _context.Products.AnyAsync(x => x.Slug == slug);
     }
 
     public async Task<PagedResult<ProductDto>> GetAllProductPagination(string? keyword, int pageIndex, int pageSize)
@@ -37,8 +50,9 @@ public class ProductRepository : RepositoryBase<Product, Guid>, IProductReposito
         {
             Id = x.Id,
             Name = x.Name,
+            Slug = x.Slug,
             Description = x.Description,
-            Quantity = x.Quantity,
+            Stock = x.Stock,
             Sku = x.Sku,
             Category = new CategoryDto
             {

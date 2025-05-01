@@ -1,4 +1,5 @@
-﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+﻿using HeadphoneStore.Application.DependencyInjection.Extensions;
+using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Commands;
 using HeadphoneStore.Shared.Abstracts.Shared;
@@ -43,6 +44,12 @@ public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryComman
         if (categoryFromDb.Id == parentCategoryId)
             throw new Exceptions.Category.CannotReferenceThemself();
 
+        var slug = categoryFromDb.Name != name ? name.Slugify() : request.Slug;
+        var isSlugAlreadyExisted = await _categoryRepository.IsSlugAlreadyExisted(slug, categoryFromDb.Id);
+
+        if (isSlugAlreadyExisted)
+            throw new Exceptions.Category.SlugExists();
+
         if (categoryFromDb.IsDeleted)
             throw new Exceptions.Category.AlreadyDeleted();
 
@@ -59,6 +66,8 @@ public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryComman
             status: status,
             updatedBy: updatedBy
         );
+
+        categoryFromDb.Slug = slug;
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

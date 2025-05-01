@@ -28,5 +28,10 @@ public static partial class Exceptions
             code: "Brand.AlreadyInactive",
             description: "Brand has already been inactivated."
         );
+
+        public sealed class SlugExists() : DomainException.ValidationException(
+            code: "Brand.SlugExists",
+            description: "Please enter another name. Current name is already exist."
+        );
     }
 }

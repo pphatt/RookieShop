@@ -27,6 +27,7 @@ public class GetAllBrandsQueryHandler : IQueryHandler<GetAllBrandsQuery, List<Br
             {
                 Id = x.Id,
                 Name = x.Name,
+                Slug = x.Slug,
                 Description = x.Description,
                 Status = x.Status.ToString(),
             });

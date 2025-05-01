@@ -38,6 +38,7 @@ public class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, C
         {
             Id = category.Id,
             Name = category.Name,
+            Slug = category.Slug,
             Description = category.Description,
             Status = category.Status.ToString(),
             CreatedBy = category.CreatedBy,
@@ -46,6 +47,7 @@ public class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, C
             {
                 Id = category.Parent.Id,
                 Name = category.Parent.Name,
+                Slug = category.Parent.Slug,
                 Description = category.Parent.Description,
                 Status = category.Parent.Status.ToString(),
                 CreatedBy = category.Parent.CreatedBy,
@@ -55,6 +57,7 @@ public class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, C
             {
                 Id = x.Id,
                 Name = x.Name,
+                Slug = x.Slug,
                 Description = x.Description,
                 Status = x.Status.ToString(),
                 CreatedBy = x.CreatedBy,

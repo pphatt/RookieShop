@@ -38,9 +38,9 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
 
     public async Task<Result> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
-        var productFromDb = _productRepository.FindByCondition(x => x.Name == request.Name).SingleOrDefault();
+        var duplicateName = _productRepository.FindByCondition(x => x.Name == request.Name).SingleOrDefault();
 
-        if (productFromDb is not null)
+        if (duplicateName is not null)
             throw new Exceptions.Product.DuplicateName();
 
         if (request.ProductPrice < 0)
@@ -56,6 +56,11 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
         if (brand is null)
             throw new Exceptions.Brand.NotFound();
 
+        var isSlugAlreadyExisted = await _productRepository.IsSlugAlreadyExisted(request.Slug!);
+
+        if (isSlugAlreadyExisted)
+            throw new Exceptions.Product.SlugExists();
+
         var productPrice = ProductPrice.Create(request.ProductPrice);
 
         var sku = request.Sku.ToString();
@@ -69,13 +74,14 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
             productStatus: productStatus,
             productPrice: productPrice,
             sku: sku,
+            slug: request.Slug!,
+            stock: request.Stock,
+            sold: 0,
             category: category,
             brand: brand,
             status: status,
             createdBy: request.CreatedBy
         );
-
-        product.Quantity = request.Quantity;
 
         if (request.Images != null && request.Images.Any())
         {

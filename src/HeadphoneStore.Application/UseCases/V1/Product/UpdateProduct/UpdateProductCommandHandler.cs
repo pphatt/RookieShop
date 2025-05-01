@@ -1,4 +1,5 @@
 ﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Media;
+using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
 using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
@@ -60,6 +61,12 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
 
         if (duplicateName is not null && duplicateName.Id != product.Id)
             throw new Exceptions.Product.DuplicateName();
+
+        var slug = product.Name != request.Name ? request.Name.Slugify() : request.Slug;
+        var isSlugAlreadyExisted = await _categoryRepository.IsSlugAlreadyExisted(slug, product.Id);
+
+        if (isSlugAlreadyExisted)
+            throw new Exceptions.Product.SlugExists();
 
         var category = await _categoryRepository.FindByIdAsync(request.CategoryId);
 
@@ -155,9 +162,12 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
         product.Update(
             name: request.Name,
             description: request.Description,
+            stock: request.Stock,
             productStatus: status,
             productPrice: new ProductPrice(request.ProductPrice),
-            sku: request.Sku.ToString(),
+            sku: slug,
+            slug: slug,
+            sold: 0,
             category: category,
             brand: brand,
             status: entityStatus,

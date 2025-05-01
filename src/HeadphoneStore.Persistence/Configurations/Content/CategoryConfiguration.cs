@@ -16,9 +16,15 @@ internal class CategoryConfiguration : IEntityTypeConfiguration<Category>
 
         builder.Property(c => c.Name).HasMaxLength(256).IsRequired();
         builder.Property(c => c.Description).HasMaxLength(1000).IsRequired();
+        builder.Property(p => p.Slug).HasMaxLength(256).IsRequired();
         builder.Property(c => c.CreatedBy).IsRequired();
         builder.Property(c => c.CreatedDateTime).IsRequired();
         builder.Property(c => c.IsDeleted).IsRequired();
+
+        // Indexing slug
+        builder
+            .HasIndex(p => p.Slug)
+            .IsUnique();
 
         // Self-referencing relationship
         builder

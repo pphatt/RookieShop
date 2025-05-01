@@ -53,6 +53,7 @@ public class CategoryController : BaseApiController
     {
         var mapper = _mapper.Map<CreateCategoryCommand>(request);
 
+        mapper.Slug = request.Slug ?? mapper.Name.Slugify();
         mapper.CreatedBy = User.GetUserId();
 
         var result = await _mediator.Send(mapper);

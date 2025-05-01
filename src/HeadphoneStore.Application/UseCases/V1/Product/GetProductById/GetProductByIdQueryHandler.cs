@@ -38,8 +38,9 @@ public class GetProductByIdQueryHandler : IQueryHandler<GetProductByIdQuery, Pro
         {
             Id = product.Id,
             Name = product.Name,
+            Slug = product.Slug,
             Description = product.Description,
-            Quantity = product.Quantity,
+            Stock = product.Stock,
             Sku = product.Sku,
             Category = new CategoryDto
             {

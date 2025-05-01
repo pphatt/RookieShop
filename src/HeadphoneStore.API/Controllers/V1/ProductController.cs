@@ -53,6 +53,7 @@ public class ProductController : BaseApiController
     {
         var mapper = _mapper.Map<CreateProductCommand>(request);
 
+        mapper.Slug = request.Slug ?? mapper.Name.Slugify();
         mapper.Sku = mapper.Name.Slugify();
         mapper.CreatedBy = User.GetUserId();
 
@@ -73,7 +74,6 @@ public class ProductController : BaseApiController
     {
         var mapper = _mapper.Map<UpdateProductCommand>(request);
 
-        mapper.Sku = mapper.Name.Slugify();
         mapper.UpdatedBy = User.GetUserId();
 
         var result = await _mediator.Send(mapper);

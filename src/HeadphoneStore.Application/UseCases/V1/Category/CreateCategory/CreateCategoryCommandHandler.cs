@@ -33,6 +33,11 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
         if (duplicateName is not null)
             throw new Exceptions.Category.DuplicateName();
 
+        var isSlugAlreadyExisted = await _categoryRepository.IsSlugAlreadyExisted(request.Slug!);
+
+        if (isSlugAlreadyExisted)
+            throw new Exceptions.Category.SlugExists();
+
         var parentCategory = parentCategoryId is not null
             ? await _categoryRepository.FindByIdAsync((Guid)parentCategoryId)
             : null;
@@ -41,6 +46,7 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
 
         var category = Category.Create(
             name: name,
+            slug: request.Slug!,
             description: description,
             createdBy: createdBy,
             parent: parentCategory,

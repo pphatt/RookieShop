@@ -7,6 +7,7 @@ public class Brand : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<Guid
 {
     public string Name { get; private set; }
     public string? Description { get; private set; }
+    public string Slug { get; private set; }
     public Guid CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
 
@@ -15,23 +16,25 @@ public class Brand : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<Guid
 
     protected Brand() { }
 
-    public Brand(string name, string? description, Guid createdBy, EntityStatus status = EntityStatus.Active) : base(Guid.NewGuid())
+    public Brand(string name, string slug, string? description, Guid createdBy, EntityStatus status = EntityStatus.Active) : base(Guid.NewGuid())
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
+        Slug = slug;
         Description = description;
         CreatedBy = createdBy;
         CreatedDateTime = DateTime.UtcNow;
         Status = status;
     }
 
-    public static Brand Create(string name, string? description, Guid createdBy, EntityStatus status = EntityStatus.Active)
+    public static Brand Create(string name, string slug, string? description, Guid createdBy, EntityStatus status = EntityStatus.Active)
     {
-        return new(name, description, createdBy, status);
+        return new(name, slug, description, createdBy, status);
     }
 
-    public void Update(string name, string? description, Guid updatedBy, EntityStatus status)
+    public void Update(string name, string slug, string? description, Guid updatedBy, EntityStatus status)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
+        Slug = slug;
         Description = description;
         UpdatedBy = updatedBy;
         UpdatedDateTime = DateTime.UtcNow;

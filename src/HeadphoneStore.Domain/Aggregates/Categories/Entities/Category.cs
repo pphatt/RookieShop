@@ -8,6 +8,7 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
 {
     public string Name { get; private set; }
     public string Description { get; private set; }
+    public string Slug { get; set; }
     public Guid CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
 
@@ -20,9 +21,10 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
 
     protected Category() { }
 
-    public Category(string name, string description, Guid createdBy, Category? parent = null, EntityStatus status = EntityStatus.Active) : base(Guid.NewGuid())
+    public Category(string name, string slug, string description, Guid createdBy, Category? parent = null, EntityStatus status = EntityStatus.Active) : base(Guid.NewGuid())
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
+        Slug = slug;
         Description = description ?? throw new ArgumentNullException(nameof(description));
         CreatedBy = createdBy;
         CreatedDateTime = DateTime.UtcNow;
@@ -30,9 +32,9 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
         ParentId = parent?.Id;
     }
 
-    public static Category Create(string name, string description, Guid createdBy, Category? parent = null, EntityStatus status = EntityStatus.Active)
+    public static Category Create(string name, string slug, string description, Guid createdBy, Category? parent = null, EntityStatus status = EntityStatus.Active)
     {
-        return new(name, description, createdBy, parent, status);
+        return new(name, slug, description, createdBy, parent, status);
     }
 
     public void Update(string name, string description, Category? parent, Guid updatedBy, EntityStatus status)

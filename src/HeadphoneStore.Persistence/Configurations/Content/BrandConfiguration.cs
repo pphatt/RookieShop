@@ -14,28 +14,19 @@ internal class BrandConfiguration : IEntityTypeConfiguration<Brand>
 
         builder.HasKey(b => b.Id);
 
-        builder.Property(b => b.Name)
-            .HasMaxLength(256)
-            .IsRequired();
+        builder.Property(b => b.Name).HasMaxLength(256).IsRequired();
+        builder.Property(b => b.Description).HasMaxLength(1000).IsRequired(false);
+        builder.Property(p => p.Slug).HasMaxLength(256).IsRequired();
+        builder.Property(b => b.CreatedBy).IsRequired();
+        builder.Property(b => b.CreatedDateTime).IsRequired();
+        builder.Property(b => b.UpdatedBy).IsRequired(false);
+        builder.Property(b => b.UpdatedDateTime).IsRequired(false);
+        builder.Property(b => b.IsDeleted).IsRequired();
 
-        builder.Property(b => b.Description)
-            .HasMaxLength(1000)
-            .IsRequired(false);
-
-        builder.Property(b => b.CreatedBy)
-            .IsRequired();
-
-        builder.Property(b => b.CreatedDateTime)
-            .IsRequired();
-
-        builder.Property(b => b.UpdatedBy)
-            .IsRequired(false);
-
-        builder.Property(b => b.UpdatedDateTime)
-            .IsRequired(false);
-
-        builder.Property(b => b.IsDeleted)
-            .IsRequired();
+        // Indexing slug
+        builder
+            .HasIndex(p => p.Slug)
+            .IsUnique();
 
         // One Brand has many Products
         builder.HasMany(b => b.Products)

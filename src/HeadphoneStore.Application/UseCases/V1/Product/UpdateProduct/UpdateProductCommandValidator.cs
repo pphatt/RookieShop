@@ -18,7 +18,7 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
             .NotNull()
             .NotEmpty();
 
-        RuleFor(x => x.Quantity)
+        RuleFor(x => x.Stock)
             .NotNull()
             .NotEmpty()
             .GreaterThan(0);

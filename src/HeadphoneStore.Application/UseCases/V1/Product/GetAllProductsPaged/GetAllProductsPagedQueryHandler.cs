@@ -27,8 +27,9 @@ public class GetAllProductsPagedQueryHandler : IQueryHandler<GetAllProductsPaged
         {
             Id = x.Id,
             Name = x.Name,
+            Slug = x.Slug,
             Description = x.Description,
-            Quantity = x.Quantity,
+            Stock = x.Stock,
             Sku = x.Sku,
             Category = x.Category,
             Brand = x.Brand,
