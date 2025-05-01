@@ -1,4 +1,5 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Commands;
 using HeadphoneStore.Shared.Abstracts.Shared;
 
@@ -25,10 +26,13 @@ public class CreateBrandCommandHandler : ICommandHandler<CreateBrandCommand>
         if (duplicateName is not null)
             throw new Exceptions.Brand.DuplicateName();
 
+        Enum.TryParse<EntityStatus>(request.Status, true, out var status);
+
         var category = Brand.Create(
             name: request.Name,
             description: request.Description,
-            createdBy: request.CreatedBy
+            createdBy: request.CreatedBy,
+            status: status
         );
 
         _brandRepository.Add(category);

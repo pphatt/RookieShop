@@ -4,21 +4,25 @@ using AutoMapper;
 
 using HeadphoneStore.API.Authorization;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
+using HeadphoneStore.Application.UseCases.V1.Brand.ActiveBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.BulkDeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.DeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrands;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrandsPaged;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetBrandById;
+using HeadphoneStore.Application.UseCases.V1.Brand.InactiveBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.UpdateBrand;
 using HeadphoneStore.Domain.Constants;
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Brand;
+using HeadphoneStore.Shared.Services.Brand.ActiveBrand;
 using HeadphoneStore.Shared.Services.Brand.BulkDelete;
 using HeadphoneStore.Shared.Services.Brand.Create;
 using HeadphoneStore.Shared.Services.Brand.Delete;
 using HeadphoneStore.Shared.Services.Brand.GetAllPaged;
 using HeadphoneStore.Shared.Services.Brand.GetById;
+using HeadphoneStore.Shared.Services.Brand.InactiveBrand;
 using HeadphoneStore.Shared.Services.Brand.Update;
 
 using MediatR;
@@ -50,17 +54,17 @@ public class BrandController : BaseApiController
 
         mapper.CreatedBy = User.GetUserId();
 
-        var response = await _mediator.Send(mapper);
+        var result = await _mediator.Send(mapper);
 
-        if (response.IsFailure)
-            return HandlerFailure(response);
+        if (result.IsFailure)
+            return HandlerFailure(result);
 
-        return Ok(response);
+        return Ok(result);
     }
 
     [HttpPut("{Id}")]
     [RequirePermission(Permissions.Function.BRAND, Permissions.Command.EDIT)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UpdateBrandRequestDto))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
     public async Task<IActionResult> UpdateBrand([FromForm] UpdateBrandRequestDto request)
@@ -69,17 +73,51 @@ public class BrandController : BaseApiController
 
         mapper.UpdatedBy = User.GetUserId();
 
-        var response = await _mediator.Send(mapper);
+        var result = await _mediator.Send(mapper);
 
-        if (response.IsFailure)
-            return HandlerFailure(response);
+        if (result.IsFailure)
+            return HandlerFailure(result);
 
-        return Ok(response);
+        return Ok(result);
+    }
+
+    [HttpPut("{Id}/activate")]
+    [RequirePermission(Permissions.Function.BRAND, Permissions.Command.EDIT)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    public async Task<IActionResult> ActiveBrand([FromRoute] ActivateBrandRequestDto request)
+    {
+        var mapper = _mapper.Map<ActivateBrandCommand>(request);
+
+        var result = await _mediator.Send(mapper);
+
+        if (result.IsFailure)
+            return HandlerFailure(result);
+
+        return Ok(result);
+    }
+
+    [HttpPut("{Id}/inactivate")]
+    [RequirePermission(Permissions.Function.BRAND, Permissions.Command.EDIT)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    public async Task<IActionResult> InactiveBrand([FromRoute] InactivateBrandRequestDto request)
+    {
+        var mapper = _mapper.Map<InactivateBrandCommand>(request);
+
+        var result = await _mediator.Send(mapper);
+
+        if (result.IsFailure)
+            return HandlerFailure(result);
+
+        return Ok(result);
     }
 
     [HttpDelete("{Id}")]
     [RequirePermission(Permissions.Function.BRAND, Permissions.Command.DELETE)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeleteBrandResponseDto))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
     public async Task<IActionResult> DeleteBrand([FromRoute] DeleteBrandRequestDto request)
@@ -88,29 +126,29 @@ public class BrandController : BaseApiController
 
         mapper.UpdatedBy = User.GetUserId();
 
-        var response = await _mediator.Send(mapper);
+        var result = await _mediator.Send(mapper);
 
-        if (response.IsFailure)
-            return HandlerFailure(response);
+        if (result.IsFailure)
+            return HandlerFailure(result);
 
-        return Ok(response);
+        return Ok(result);
     }
 
     [HttpDelete("bulk-delete")]
     [RequirePermission(Permissions.Function.BRAND, Permissions.Command.DELETE)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BulkDeleteBrandResponseDto))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
     public async Task<IActionResult> BulkDeleteBrand([FromForm] BulkDeleteBrandRequestDto request)
     {
         var mapper = _mapper.Map<BulkDeleteBrandCommand>(request);
 
-        var response = await _mediator.Send(mapper);
+        var result = await _mediator.Send(mapper);
 
-        if (response.IsFailure)
-            return HandlerFailure(response);
+        if (result.IsFailure)
+            return HandlerFailure(result);
 
-        return Ok(response);
+        return Ok(result);
     }
 
     [HttpGet("{Id}")]
@@ -123,12 +161,12 @@ public class BrandController : BaseApiController
     {
         var mapper = _mapper.Map<GetBrandByIdQuery>(request);
 
-        var response = await _mediator.Send(mapper);
+        var result = await _mediator.Send(mapper);
 
-        if (response.IsFailure)
-            return HandlerFailure(response);
+        if (result.IsFailure)
+            return HandlerFailure(result);
 
-        return Ok(response);
+        return Ok(result);
     }
 
     [HttpGet("all")]
@@ -141,12 +179,12 @@ public class BrandController : BaseApiController
     {
         var query = new GetAllBrandsQuery();
 
-        var response = await _mediator.Send(query);
+        var result = await _mediator.Send(query);
 
-        if (response.IsFailure)
-            return HandlerFailure(response);
+        if (result.IsFailure)
+            return HandlerFailure(result);
 
-        return Ok(response);
+        return Ok(result);
     }
 
     [HttpGet("pagination")]
@@ -159,11 +197,11 @@ public class BrandController : BaseApiController
     {
         var mapper = _mapper.Map<GetAllBrandsPagedQuery>(request);
 
-        var response = await _mediator.Send(mapper);
+        var result = await _mediator.Send(mapper);
 
-        if (response.IsFailure)
-            return HandlerFailure(response);
+        if (result.IsFailure)
+            return HandlerFailure(result);
 
-        return Ok(response);
+        return Ok(result);
     }
 }

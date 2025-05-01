@@ -1,4 +1,5 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Queries;
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Category;
@@ -20,11 +21,13 @@ public class GetAllCategoriesQueryHandler : IQueryHandler<GetAllCategoriesQuery,
     {
         var categories = _categoryRepository
             .FindAll(x => x.ParentId == null)
+            .Where(x => x.Status == EntityStatus.Active)
             .Select(x => new CategoryDto
             {
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
+                Status = x.Status.ToString(),
                 CreatedBy = x.CreatedBy,
                 UpdatedBy = x.UpdatedBy,
                 SubCategories = x.SubCategories.Select(c => new CategoryDto
@@ -32,6 +35,7 @@ public class GetAllCategoriesQueryHandler : IQueryHandler<GetAllCategoriesQuery,
                     Id = c.Id,
                     Name = c.Name,
                     Description = c.Description,
+                    Status = c.Status.ToString(),
                     CreatedBy = c.CreatedBy,
                     UpdatedBy = c.UpdatedBy,
                 })

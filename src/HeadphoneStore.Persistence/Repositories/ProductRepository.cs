@@ -54,6 +54,7 @@ public class ProductRepository : RepositoryBase<Product, Guid>, IProductReposito
             ProductPrice = x.ProductPrice.Amount,
             AverageRating = x.AverageRating,
             TotalReviews = x.TotalReviews,
+            Status = x.Status.ToString(),
             Media = x.Media.OrderBy(x => x.Order).Select(x => new ProductMediaDto
             {
                 Id = x.Id,

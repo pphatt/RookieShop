@@ -32,6 +32,7 @@ public class BrandRepository : RepositoryBase<Brand, Guid>, IBrandRepository
             Id = x.Id,
             Name = x.Name,
             Description = x.Description,
+            Status = x.Status.ToString(),
         });
 
         return await PagedResult<BrandDto>.InitializeAsync(result, pageIndex, pageSize);

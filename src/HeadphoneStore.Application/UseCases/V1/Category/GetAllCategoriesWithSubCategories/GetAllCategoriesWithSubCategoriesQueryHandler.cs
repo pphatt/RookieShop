@@ -1,4 +1,5 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Queries;
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Category;
@@ -21,6 +22,7 @@ public class GetAllCategoriesWithSubCategoriesQueryHandler : IQueryHandler<GetAl
         var query = _categoryRepository
             .GetQueryableSet()
             .AsNoTracking()
+            .Where(x => x.Status == EntityStatus.Active)
             .Include(x => x.SubCategories)
             .Include(x => x.Parent)
             .Select(x => new CategoryDto
@@ -28,6 +30,7 @@ public class GetAllCategoriesWithSubCategoriesQueryHandler : IQueryHandler<GetAl
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
+                Status = x.Status.ToString(),
                 CreatedBy = x.CreatedBy,
                 UpdatedBy = x.UpdatedBy,
                 Parent = x.Parent != null ? new CategoryDto
@@ -35,6 +38,7 @@ public class GetAllCategoriesWithSubCategoriesQueryHandler : IQueryHandler<GetAl
                     Id = x.Parent.Id,
                     Name = x.Parent.Name,
                     Description = x.Parent.Description,
+                    Status = x.Parent.Status.ToString(),
                     CreatedBy = x.Parent.CreatedBy,
                     UpdatedBy = x.Parent.UpdatedBy,
                 } : null,
@@ -43,6 +47,7 @@ public class GetAllCategoriesWithSubCategoriesQueryHandler : IQueryHandler<GetAl
                     Id = c.Id,
                     Name = c.Name,
                     Description = c.Description,
+                    Status = c.Status.ToString(),
                     CreatedBy = c.CreatedBy,
                     UpdatedBy = c.UpdatedBy,
                 })

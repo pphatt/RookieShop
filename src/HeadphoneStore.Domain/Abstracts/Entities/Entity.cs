@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using HeadphoneStore.Domain.Enumerations;
+
 namespace HeadphoneStore.Domain.Abstracts.Entities;
 
 public abstract class Entity<T> : IEntity<T>, IAuditableEntity where T : notnull
@@ -8,6 +10,7 @@ public abstract class Entity<T> : IEntity<T>, IAuditableEntity where T : notnull
     //[DatabaseGenerated(DatabaseGeneratedOption.Identity)] //Equivalents to [Key] (generate primary key) but have auto-increment.
     public T Id { get; protected set; } = default!;
     public bool IsDeleted { get; protected set; }
+    public EntityStatus Status { get; set; } = EntityStatus.Active;
 
     public DateTimeOffset CreatedDateTime { get; protected set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset? UpdatedDateTime { get; protected set; }
@@ -54,11 +57,22 @@ public abstract class Entity<T> : IEntity<T>, IAuditableEntity where T : notnull
     public void Delete(string? updatedBy)
     {
         IsDeleted = true;
+        Status = EntityStatus.Inactive;
         UpdatedDateTime = DateTimeOffset.UtcNow;
+    }
+
+    public void Delete()
+    {
+        IsDeleted = true;
+        Status = EntityStatus.Inactive;
     }
 
     protected void UpdateAudit(string? updatedBy)
     {
         UpdatedDateTime = DateTimeOffset.UtcNow;
     }
+
+    public void Activate() => Status = EntityStatus.Active;
+
+    public void Inactivate() => Status = EntityStatus.Inactive;
 }

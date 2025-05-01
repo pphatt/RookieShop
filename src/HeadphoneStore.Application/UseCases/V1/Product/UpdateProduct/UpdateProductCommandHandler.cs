@@ -4,6 +4,7 @@ using HeadphoneStore.Domain.Aggregates.Products.Entities;
 using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
 using HeadphoneStore.Domain.Aggregates.Products.ValueObjects;
 using HeadphoneStore.Domain.Constraints;
+using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Commands;
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Media;
@@ -49,6 +50,9 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
 
         if (product is null)
             throw new Exceptions.Product.NotFound();
+
+        if (product.IsDeleted)
+            throw new Exceptions.Product.AlreadyDeleted();
 
         var duplicateName = _productRepository
             .FindByCondition(x => x.Name == request.Name)
@@ -146,6 +150,7 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
         }
 
         Enum.TryParse<ProductStatus>(request.ProductStatus, false, out var status);
+        Enum.TryParse<EntityStatus>(request.Status, false, out var entityStatus);
 
         product.Update(
             name: request.Name,
@@ -155,6 +160,7 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
             sku: request.Sku.ToString(),
             category: category,
             brand: brand,
+            status: entityStatus,
             updatedBy: request.UpdatedBy
         );
 

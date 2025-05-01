@@ -16,6 +16,7 @@ public class ProductDto
     public int TotalReviews { get; set; }
     public CategoryDto Category { get; set; }
     public BrandDto Brand { get; set; }
+    public string Status { get; set; }
 
     public IReadOnlyCollection<ProductMediaDto> Media { get; set; }
 }

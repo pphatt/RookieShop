@@ -1,16 +1,20 @@
 ﻿using AutoMapper;
 
+using HeadphoneStore.Application.UseCases.V1.Brand.ActiveBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.BulkDeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.DeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrands;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrandsPaged;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetBrandById;
+using HeadphoneStore.Application.UseCases.V1.Brand.InactiveBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.UpdateBrand;
+using HeadphoneStore.Application.UseCases.V1.Category.ActivateCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.CreateCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.DeleteCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.GetAllCategoriesPaged;
 using HeadphoneStore.Application.UseCases.V1.Category.GetCategoryById;
+using HeadphoneStore.Application.UseCases.V1.Category.InactivateCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.UpdateCategory;
 using HeadphoneStore.Application.UseCases.V1.Identity.CreateUser;
 using HeadphoneStore.Application.UseCases.V1.Identity.DeleteUser;
@@ -20,24 +24,30 @@ using HeadphoneStore.Application.UseCases.V1.Identity.Login;
 using HeadphoneStore.Application.UseCases.V1.Identity.RefreshToken;
 using HeadphoneStore.Application.UseCases.V1.Identity.Register;
 using HeadphoneStore.Application.UseCases.V1.Identity.UpdateUser;
+using HeadphoneStore.Application.UseCases.V1.Product.ActivateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.CreateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.DeleteProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.GetAllProductsPaged;
 using HeadphoneStore.Application.UseCases.V1.Product.GetProductById;
+using HeadphoneStore.Application.UseCases.V1.Product.InactivateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.UpdateProduct;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Shared.Dtos.Identity.Role;
+using HeadphoneStore.Shared.Services.Brand.ActiveBrand;
 using HeadphoneStore.Shared.Services.Brand.BulkDelete;
 using HeadphoneStore.Shared.Services.Brand.Create;
 using HeadphoneStore.Shared.Services.Brand.Delete;
 using HeadphoneStore.Shared.Services.Brand.GetAll;
 using HeadphoneStore.Shared.Services.Brand.GetAllPaged;
 using HeadphoneStore.Shared.Services.Brand.GetById;
+using HeadphoneStore.Shared.Services.Brand.InactiveBrand;
 using HeadphoneStore.Shared.Services.Brand.Update;
+using HeadphoneStore.Shared.Services.Category.ActivateCategory;
 using HeadphoneStore.Shared.Services.Category.Create;
 using HeadphoneStore.Shared.Services.Category.Delete;
 using HeadphoneStore.Shared.Services.Category.GetAllPaged;
 using HeadphoneStore.Shared.Services.Category.GetCategoryById;
+using HeadphoneStore.Shared.Services.Category.InactivateCategory;
 using HeadphoneStore.Shared.Services.Category.Update;
 using HeadphoneStore.Shared.Services.Identity.CreateUser;
 using HeadphoneStore.Shared.Services.Identity.DeleteUser;
@@ -47,10 +57,12 @@ using HeadphoneStore.Shared.Services.Identity.Login;
 using HeadphoneStore.Shared.Services.Identity.RefreshToken;
 using HeadphoneStore.Shared.Services.Identity.Register;
 using HeadphoneStore.Shared.Services.Identity.UpdateUser;
+using HeadphoneStore.Shared.Services.Product.ActivateProduct;
 using HeadphoneStore.Shared.Services.Product.Create;
 using HeadphoneStore.Shared.Services.Product.Delete;
 using HeadphoneStore.Shared.Services.Product.GetAllPaged;
 using HeadphoneStore.Shared.Services.Product.GetById;
+using HeadphoneStore.Shared.Services.Product.InactivateProduct;
 using HeadphoneStore.Shared.Services.Product.Update;
 
 namespace HeadphoneStore.Application.Mapper;
@@ -80,6 +92,8 @@ public class MapperProfiles : Profile
         CreateMap<DeleteCategoryRequestDto, DeleteCategoryCommand>();
         CreateMap<GetCategoryByIdRequestDto, GetCategoryByIdQuery>();
         CreateMap<GetAllCategoriesPagedRequestDto, GetAllCategoriesPagedQuery>();
+        CreateMap<ActivateCategoryRequestDto, ActivateCategoryCommand>();
+        CreateMap<InactivateCategoryRequestDto, InactivateCategoryCommand>();
 
         // Brand
         CreateMap<CreateBrandRequestDto, CreateBrandCommand>();
@@ -89,6 +103,8 @@ public class MapperProfiles : Profile
         CreateMap<GetBrandByIdRequestDto, GetBrandByIdQuery>();
         CreateMap<GetAllBrandsRequestDto, GetAllBrandsQuery>();
         CreateMap<GetAllBrandsPagedRequestDto, GetAllBrandsPagedQuery>();
+        CreateMap<ActivateBrandRequestDto, ActivateBrandCommand>();
+        CreateMap<InactivateBrandRequestDto, InactivateBrandCommand>();
 
         // Product
         CreateMap<CreateProductRequestDto, CreateProductCommand>();
@@ -96,5 +112,7 @@ public class MapperProfiles : Profile
         CreateMap<DeleteProductRequestDto, DeleteProductCommand>();
         CreateMap<GetProductByIdRequestDto, GetProductByIdQuery>();
         CreateMap<GetAllProductPagedRequestDto, GetAllProductsPagedQuery>();
+        CreateMap<ActivateProductRequestDto, ActivateProductCommand>();
+        CreateMap<InactivateProductRequestDto, InactivateProductCommand>();
     }
 }

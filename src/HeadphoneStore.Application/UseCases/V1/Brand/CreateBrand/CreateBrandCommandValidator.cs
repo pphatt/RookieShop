@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 
+using HeadphoneStore.Domain.Enumerations;
+
 namespace HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
 
 public class CreateBrandCommandValidator : AbstractValidator<CreateBrandCommand>

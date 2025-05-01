@@ -28,6 +28,7 @@ public class GetBrandByIdQueryHandler : ICommandHandler<GetBrandByIdQuery, Brand
             Id = brand.Id,
             Name = brand.Name,
             Description = brand.Description,
+            Status = brand.Status.ToString(),
         };
 
         return Result.Success(result);

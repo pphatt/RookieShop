@@ -18,5 +18,6 @@ public class UpdateProductCommand : ICommand
     public List<Guid>? OldImages { get; set; }
     public List<IFormFile>? NewImages { get; set; }
     public List<string> ListOrder { get; set; }
+    public string Status { get; set; }
     public Guid UpdatedBy { get; set; }
 }

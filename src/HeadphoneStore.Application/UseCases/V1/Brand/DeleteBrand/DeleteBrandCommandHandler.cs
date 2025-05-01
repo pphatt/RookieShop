@@ -37,6 +37,9 @@ public class DeleteBrandCommandHandler : ICommandHandler<DeleteBrandCommand>
         if (brand is null)
             throw new Exceptions.Brand.NotFound();
 
+        if (brand.IsDeleted)
+            throw new Exceptions.Brand.AlreadyDeleted();
+
         brand.Delete();
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);

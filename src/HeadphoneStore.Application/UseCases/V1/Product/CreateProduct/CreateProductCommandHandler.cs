@@ -1,8 +1,10 @@
 ﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Media;
 using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
+using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
 using HeadphoneStore.Domain.Aggregates.Products.ValueObjects;
 using HeadphoneStore.Domain.Constraints;
+using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Commands;
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Media;
@@ -58,14 +60,18 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
 
         var sku = request.Sku.ToString();
 
+        Enum.TryParse<ProductStatus>(request.ProductStatus, true, out var productStatus);
+        Enum.TryParse<EntityStatus>(request.Status, true, out var status);
+
         var product = new Product(
             name: request.Name,
             description: request.Description,
-            productStatus: request.ProductStatus,
+            productStatus: productStatus,
             productPrice: productPrice,
             sku: sku,
             category: category,
             brand: brand,
+            status: status,
             createdBy: request.CreatedBy
         );
 

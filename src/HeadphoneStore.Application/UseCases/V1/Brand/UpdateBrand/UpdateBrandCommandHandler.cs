@@ -1,5 +1,6 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
+using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Commands;
 using HeadphoneStore.Shared.Abstracts.Shared;
 
@@ -42,10 +43,16 @@ public class UpdateBrandCommandHandler : ICommandHandler<UpdateBrandCommand>
         if (duplicateName is not null && duplicateName.Id != brandFromDb.Id)
             throw new Exceptions.Brand.DuplicateName();
 
+        if (brandFromDb.IsDeleted)
+            throw new Exceptions.Brand.AlreadyDeleted();
+
+        Enum.TryParse<EntityStatus>(request.Status, true, out var status);
+
         brandFromDb.Update(
             name: request.Name,
             description: request.Description,
-            updatedBy: request.UpdatedBy
+            updatedBy: request.UpdatedBy,
+            status: status
         );
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);

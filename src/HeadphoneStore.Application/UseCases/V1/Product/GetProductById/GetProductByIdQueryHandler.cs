@@ -55,6 +55,7 @@ public class GetProductByIdQueryHandler : IQueryHandler<GetProductByIdQuery, Pro
             ProductPrice = product.ProductPrice.Amount,
             AverageRating = product.AverageRating,
             TotalReviews = product.TotalReviews,
+            Status = product.Status.ToString(),
             Media = product.Media.OrderBy(x => x.Order).Select(x => new ProductMediaDto
             {
                 Id = x.Id,

@@ -1,4 +1,5 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Commands;
 using HeadphoneStore.Shared.Abstracts.Shared;
 
@@ -36,11 +37,14 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
             ? await _categoryRepository.FindByIdAsync((Guid)parentCategoryId)
             : null;
 
+        Enum.TryParse<EntityStatus>(request.Status, true, out var status);
+
         var category = Category.Create(
             name: name,
             description: description,
             createdBy: createdBy,
-            parent: parentCategory
+            parent: parentCategory,
+            status: status
         );
 
         _categoryRepository.Add(category);

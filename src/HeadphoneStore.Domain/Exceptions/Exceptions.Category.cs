@@ -16,7 +16,17 @@ public static partial class Exceptions
 
         public sealed class AlreadyDeleted() : DomainException.ValidationException(
             code: "Category.AlreadyDeleted",
-            description: "Category already deleted."
+            description: "Category has already been deleted."
+        );
+
+        public sealed class AlreadyActive() : DomainException.ValidationException(
+            code: "Category.AlreadyActive",
+            description: "Category has already been activated."
+        );
+
+        public sealed class AlreadyInactivate() : DomainException.ValidationException(
+            code: "Category.AlreadyInactive",
+            description: "Category has already been inactivated."
         );
 
         public sealed class HasSubCategories() : DomainException.ValidationException(

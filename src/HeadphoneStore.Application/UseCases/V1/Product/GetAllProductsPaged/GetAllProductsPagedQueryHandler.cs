@@ -36,6 +36,7 @@ public class GetAllProductsPagedQueryHandler : IQueryHandler<GetAllProductsPaged
             ProductPrice = x.ProductPrice,
             AverageRating = x.AverageRating,
             TotalReviews = x.TotalReviews,
+            Status = x.Status,
             Media = x.Media
         }).ToList();
 

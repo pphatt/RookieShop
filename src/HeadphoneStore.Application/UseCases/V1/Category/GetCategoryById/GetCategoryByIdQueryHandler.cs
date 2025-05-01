@@ -29,20 +29,17 @@ public class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, C
             .SingleOrDefaultAsync();
 
         if (category is null)
-        {
             throw new Exceptions.Category.NotFound();
-        }
 
         if (category.IsDeleted)
-        {
             throw new Exceptions.Category.AlreadyDeleted();
-        }
 
         var result = new CategoryDto()
         {
             Id = category.Id,
             Name = category.Name,
             Description = category.Description,
+            Status = category.Status.ToString(),
             CreatedBy = category.CreatedBy,
             UpdatedBy = category.UpdatedBy,
             Parent = category.Parent != null ? new CategoryDto
@@ -50,6 +47,7 @@ public class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, C
                 Id = category.Parent.Id,
                 Name = category.Parent.Name,
                 Description = category.Parent.Description,
+                Status = category.Parent.Status.ToString(),
                 CreatedBy = category.Parent.CreatedBy,
                 UpdatedBy = category.Parent.UpdatedBy,
             } : null,
@@ -58,6 +56,7 @@ public class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, C
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
+                Status = x.Status.ToString(),
                 CreatedBy = x.CreatedBy,
                 UpdatedBy = x.UpdatedBy,
             })

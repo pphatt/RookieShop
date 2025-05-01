@@ -14,6 +14,21 @@ public static partial class Exceptions
             description: "Product's name already exists."
         );
 
+        public sealed class AlreadyDeleted() : DomainException.ValidationException(
+            code: "Product.AlreadyDeleted",
+            description: "Product has already been deleted."
+        );
+
+        public sealed class AlreadyActive() : DomainException.ValidationException(
+            code: "Product.AlreadyActive",
+            description: "Product has already been activated."
+        );
+
+        public sealed class AlreadyInactivate() : DomainException.ValidationException(
+            code: "Product.AlreadyInactive",
+            description: "Product has already been inactivated."
+        );
+
         public sealed class InvalidPrice() : DomainException.ValidationException(
             code: "Product.InvalidPrice",
             description: "Product's price is invalid."

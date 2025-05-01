@@ -29,6 +29,9 @@ public class BulkDeleteBrandCommandHandler : ICommandHandler<BulkDeleteBrandComm
             if (brand is null)
                 throw new Exceptions.Brand.NotFound();
 
+            if (brand.IsDeleted)
+                throw new Exceptions.Brand.AlreadyDeleted();
+
             brand.Delete();
 
             successfullyDeletedItems.Add(id);

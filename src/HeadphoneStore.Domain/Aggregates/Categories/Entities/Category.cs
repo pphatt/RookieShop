@@ -1,5 +1,6 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Entities;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
+using HeadphoneStore.Domain.Enumerations;
 
 namespace HeadphoneStore.Domain.Aggregates.Categories.Entities;
 
@@ -19,7 +20,7 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
 
     protected Category() { }
 
-    public Category(string name, string description, Guid createdBy, Category? parent = null) : base(Guid.NewGuid())
+    public Category(string name, string description, Guid createdBy, Category? parent = null, EntityStatus status = EntityStatus.Active) : base(Guid.NewGuid())
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         Description = description ?? throw new ArgumentNullException(nameof(description));
@@ -29,14 +30,12 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
         ParentId = parent?.Id;
     }
 
-    public static Category Create(string name, string description, Guid createdBy, Category? parent = null)
+    public static Category Create(string name, string description, Guid createdBy, Category? parent = null, EntityStatus status = EntityStatus.Active)
     {
-        return new(name, description, createdBy, parent);
+        return new(name, description, createdBy, parent, status);
     }
 
-    public void Delete() => IsDeleted = true;
-
-    public void Update(string name, string description, Category? parent, Guid updatedBy)
+    public void Update(string name, string description, Category? parent, Guid updatedBy, EntityStatus status)
     {
         if (name.Length > 256)
             throw new ArgumentException("Name cannot exceed 256 characters.");
@@ -46,6 +45,7 @@ public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<G
         UpdatedBy = updatedBy;
         Parent = parent;
         ParentId = parent is not null ? parent.Id : null;
+        Status = status;
         UpdatedDateTime = DateTime.UtcNow;
     }
 

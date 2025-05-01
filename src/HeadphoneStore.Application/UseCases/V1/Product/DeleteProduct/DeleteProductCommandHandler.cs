@@ -24,6 +24,9 @@ public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand>
         if (product is null)
             throw new Exceptions.Product.NotFound();
 
+        if (product.IsDeleted)
+            throw new Exceptions.Product.AlreadyDeleted();
+
         product.Delete();
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);

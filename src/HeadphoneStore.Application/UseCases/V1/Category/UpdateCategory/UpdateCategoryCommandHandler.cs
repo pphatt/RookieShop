@@ -1,4 +1,5 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Commands;
 using HeadphoneStore.Shared.Abstracts.Shared;
 
@@ -42,14 +43,20 @@ public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryComman
         if (categoryFromDb.Id == parentCategoryId)
             throw new Exceptions.Category.CannotReferenceThemself();
 
+        if (categoryFromDb.IsDeleted)
+            throw new Exceptions.Category.AlreadyDeleted();
+
         var parentCategory = parentCategoryId is not null
             ? await _categoryRepository.FindByIdAsync((Guid)parentCategoryId)
             : null;
+
+        Enum.TryParse<EntityStatus>(request.Status, true, out var status);
 
         categoryFromDb.Update(
             name: name,
             description: description,
             parent: parentCategory,
+            status: status,
             updatedBy: updatedBy
         );
 

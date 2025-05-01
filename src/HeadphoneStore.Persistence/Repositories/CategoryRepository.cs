@@ -30,6 +30,7 @@ public class CategoryRepository : RepositoryBase<Category, Guid>, ICategoryRepos
             Id = x.Id,
             Name = x.Name,
             Description = x.Description,
+            Status = x.Status.ToString(),
             CreatedBy = x.CreatedBy,
             UpdatedBy = x.UpdatedBy,
             Parent = x.Parent != null ? new CategoryDto
@@ -37,6 +38,7 @@ public class CategoryRepository : RepositoryBase<Category, Guid>, ICategoryRepos
                 Id = x.Parent.Id,
                 Name = x.Parent.Name,
                 Description = x.Parent.Description,
+                Status = x.Parent.Status.ToString(),
                 CreatedBy = x.Parent.CreatedBy,
                 UpdatedBy = x.Parent.UpdatedBy,
             } : null,

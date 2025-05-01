@@ -1,4 +1,5 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Entities;
+using HeadphoneStore.Domain.Enumerations;
 
 namespace HeadphoneStore.Domain.Aggregates.Products.Entities;
 
@@ -14,26 +15,26 @@ public class Brand : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<Guid
 
     protected Brand() { }
 
-    public Brand(string name, string? description, Guid createdBy) : base(Guid.NewGuid())
+    public Brand(string name, string? description, Guid createdBy, EntityStatus status = EntityStatus.Active) : base(Guid.NewGuid())
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         Description = description;
         CreatedBy = createdBy;
         CreatedDateTime = DateTime.UtcNow;
+        Status = status;
     }
 
-    public static Brand Create(string name, string? description, Guid createdBy)
+    public static Brand Create(string name, string? description, Guid createdBy, EntityStatus status = EntityStatus.Active)
     {
-        return new(name, description, createdBy);
+        return new(name, description, createdBy, status);
     }
 
-    public void Update(string name, string? description, Guid updatedBy)
+    public void Update(string name, string? description, Guid updatedBy, EntityStatus status)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         Description = description;
         UpdatedBy = updatedBy;
         UpdatedDateTime = DateTime.UtcNow;
+        Status = status;
     }
-
-    public void Delete() => IsDeleted = true;
 }

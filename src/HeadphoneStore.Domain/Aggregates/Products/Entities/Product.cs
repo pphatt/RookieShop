@@ -3,6 +3,7 @@ using HeadphoneStore.Domain.Abstracts.Entities;
 using HeadphoneStore.Domain.Aggregates.Categories.Entities;
 using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
 using HeadphoneStore.Domain.Aggregates.Products.ValueObjects;
+using HeadphoneStore.Domain.Enumerations;
 
 namespace HeadphoneStore.Domain.Aggregates.Products.Entities;
 
@@ -37,7 +38,8 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
         string sku,
         Category category,
         Brand brand,
-        Guid createdBy) : base(Guid.NewGuid())
+        Guid createdBy,
+        EntityStatus status = EntityStatus.Active) : base(Guid.NewGuid())
     {
         Name = name;
         Description = description;
@@ -46,11 +48,10 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
         Sku = sku;
         Category = category;
         Brand = brand;
+        Status = status;
         CreatedBy = createdBy;
         CreatedDateTime = DateTime.UtcNow;
     }
-
-    public void Delete() => IsDeleted = true;
 
     public void Update(
         string name,
@@ -60,6 +61,7 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
         string sku,
         Category category,
         Brand brand,
+        EntityStatus status,
         Guid updatedBy)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
@@ -69,6 +71,7 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
         Sku = sku ?? throw new ArgumentNullException(nameof(sku));
         Category = category;
         Brand = brand;
+        Status = status;
         UpdatedBy = updatedBy;
         UpdatedDateTime = DateTime.UtcNow;
     }

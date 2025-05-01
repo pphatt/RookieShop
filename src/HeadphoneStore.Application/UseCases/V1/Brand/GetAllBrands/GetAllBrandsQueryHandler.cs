@@ -1,4 +1,5 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Queries;
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Brand;
@@ -21,12 +22,13 @@ public class GetAllBrandsQueryHandler : IQueryHandler<GetAllBrandsQuery, List<Br
         var brands = _brandRepository
             .GetQueryableSet()
             .AsNoTracking()
-            .Where(x => !x.IsDeleted)
+            .Where(x => !x.IsDeleted && x.Status == EntityStatus.Active)
             .Select(x => new BrandDto
             {
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
+                Status = x.Status.ToString(),
             });
 
         var result = await brands.ToListAsync();
