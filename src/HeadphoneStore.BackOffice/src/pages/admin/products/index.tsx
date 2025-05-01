@@ -44,17 +44,16 @@ import styles from "@/pages/admin/products/styles/column.module.scss"
 import { DataTableColumnHeader } from "@/pages/admin/products/table/data-table-column-header"
 import LongText from "@/components/long-text"
 import { DataTableRowActions } from "@/pages/admin/products/table/data-table-row-actions"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { X } from "lucide-react"
 import IconSpinner from "@/components/icon-spinner"
 import { LoadingScreen } from "@/layouts/loading-screen"
 import SearchInput from "@/components/search"
-import { all } from "axios"
 import { GetAllSubCategories } from "@/services/category.service"
 import { GetAllBrands } from "@/services/brand.service"
 import { TBrand } from "@/@types/brand.type"
 import { TCategory } from "@/@types/category.type"
+import { DataTableViewOptions } from "@/pages/admin/products/table/data-table-view-options"
+import { callTypes, EntityStatus } from "@/data"
+import { Badge } from "@/components/ui/badge"
 
 declare module "@tanstack/react-table" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -99,7 +98,9 @@ export default function ProductDashboard() {
   }
 
   const [rowSelection, setRowSelection] = useState({})
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    id: false,
+  })
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
 
@@ -154,6 +155,7 @@ export default function ProductDashboard() {
         const { name } = row.original
         return <LongText>{name}</LongText>
       },
+      enableHiding: false,
     },
     {
       id: "quantity",
@@ -164,6 +166,7 @@ export default function ProductDashboard() {
         const { quantity } = row.original
         return <LongText>{quantity}</LongText>
       },
+      enableHiding: true,
     },
     {
       id: "sku",
@@ -174,6 +177,7 @@ export default function ProductDashboard() {
         const { sku } = row.original
         return <LongText>{sku}</LongText>
       },
+      enableHiding: true,
     },
     {
       id: "price",
@@ -184,6 +188,7 @@ export default function ProductDashboard() {
         const { productPrice } = row.original
         return <LongText>{productPrice}</LongText>
       },
+      enableHiding: true,
     },
     {
       id: "status",
@@ -191,9 +196,29 @@ export default function ProductDashboard() {
         <DataTableColumnHeader column={column} title="Status" />
       ),
       cell: ({ row }) => {
+        const { status } = row.original
+        const badgeColor = callTypes.get(status.toLowerCase() as EntityStatus)
+
+        return (
+          <div className="flex space-x-2">
+            <Badge variant="outline" className={cn("capitalize", badgeColor)}>
+              {status}
+            </Badge>
+          </div>
+        )
+      },
+      enableHiding: true,
+    },
+    {
+      id: "product-status",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Product Status" />
+      ),
+      cell: ({ row }) => {
         const { productStatus } = row.original
         return <LongText>{productStatus}</LongText>
       },
+      enableHiding: true,
     },
     {
       accessorKey: "description",
@@ -201,8 +226,10 @@ export default function ProductDashboard() {
         <DataTableColumnHeader column={column} title="Description" />
       ),
       cell: ({ row }) => <LongText>{row.getValue("description")}</LongText>,
-      enableSorting: false,
-      enableHiding: false,
+      meta: {
+        className: styles["description-column"],
+      },
+      enableHiding: true,
     },
     {
       id: "actions",
@@ -253,13 +280,17 @@ export default function ProductDashboard() {
 
         <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12">
           <div className="space-y-4">
-            {/* Table search + filter */}
-            <SearchInput
-              queryConfig={queryConfig}
-              path="/products"
-              placeholder="Search in products..."
-              isFiltered={isFiltered}
-            />
+            <div className="flex items-center justify-between">
+              {/* Table search + filter */}
+              <SearchInput
+                queryConfig={queryConfig}
+                path="/products"
+                placeholder="Search in products..."
+                isFiltered={isFiltered}
+              />
+
+              <DataTableViewOptions table={table} />
+            </div>
 
             <div className="rounded-md border">
               {isFetching && (

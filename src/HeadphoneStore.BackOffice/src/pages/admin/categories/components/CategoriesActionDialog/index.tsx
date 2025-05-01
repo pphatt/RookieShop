@@ -33,11 +33,13 @@ import {
 } from "@/@types/category.type"
 import { AddNewCategory, UpdateCategory } from "@/services/category.service"
 import { SelectDropdown } from "@/components/select-dropdown"
+import * as React from "react"
 
 const schema = z.object({
   name: z.string().min(1, { message: "Last Name is required." }),
   description: z.string().min(1, { message: "Username is required." }),
-  parentId: z.string().optional(),
+  parentCategoryId: z.string().optional(),
+  status: z.string(),
 })
 
 type CategoryForm = z.infer<typeof schema>
@@ -53,7 +55,8 @@ interface CategoriesActionDialogProps {
 type TDefaultValue = {
   name: string
   description: string
-  parentId?: string
+  parentCategoryId?: string
+  status: string
 }
 
 export function CategoriesActionDialog({
@@ -66,8 +69,9 @@ export function CategoriesActionDialog({
   const isEdit = !!currentRow
 
   const defaultValues: TDefaultValue = {
-    name: "No category",
+    name: "",
     description: "",
+    status: "Active",
   }
 
   const form = useForm({
@@ -75,7 +79,8 @@ export function CategoriesActionDialog({
       ? {
           name: currentRow.name,
           description: currentRow?.description,
-          parentId: currentRow?.parent?.id,
+          parentCategoryId: currentRow?.parent?.id,
+          status: currentRow?.status,
         }
       : defaultValues,
     resolver: zodResolver(schema),
@@ -88,7 +93,8 @@ export function CategoriesActionDialog({
           id: currentRow?.id,
           name: data.name,
           description: data.description,
-          parentCategoryId: data.parentId,
+          parentCategoryId: data.parentCategoryId,
+          status: data.status,
         },
         {
           onSuccess: () => {
@@ -182,6 +188,29 @@ export function CategoriesActionDialog({
 
               <FormField
                 control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
+                    <FormLabel className="col-span-2 text-right">
+                      Status
+                    </FormLabel>
+                    <SelectDropdown
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                      placeholder="Select status"
+                      className="col-span-4"
+                      items={[
+                        { value: "Active", label: "Active" },
+                        { value: "Inactive", label: "Inactive" },
+                      ]}
+                    />
+                    <FormMessage className="col-span-4 col-start-3" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
                 name="description"
                 render={({ field }) => (
                   <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
@@ -204,7 +233,7 @@ export function CategoriesActionDialog({
               {allFirstLevelCategories && (
                 <FormField
                   control={form.control}
-                  name="parentId"
+                  name="parentCategoryId"
                   render={({ field }) => (
                     <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
                       <FormLabel className="col-span-2 text-right">

@@ -53,7 +53,12 @@ export default function LongText({
               </div>
             </TooltipTrigger>
             <TooltipContent>
-              <p className={contentClassName}>{children}</p>
+              <p
+                style={{ maxWidth: "400px" }}
+                className={cn("truncate", contentClassName)}
+              >
+                {children}
+              </p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

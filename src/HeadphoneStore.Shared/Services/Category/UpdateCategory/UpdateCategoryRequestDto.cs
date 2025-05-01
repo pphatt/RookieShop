@@ -9,4 +9,5 @@ public class UpdateCategoryRequestDto
     public required string Name { get; set; }
     public required string Description { get; set; }
     public Guid? ParentCategoryId { get; set; }
+    public string Status { get; set; }
 }

@@ -67,6 +67,7 @@ const schema = z.object({
   quantity: z
     .number({ invalid_type_error: "Quantity must be a number." })
     .min(1, { message: "Quantity must be at least 1." }),
+  status: z.string(),
   productStatus: z.enum(["InStock", "OutOfStock", "Discontinued"] as const),
   productPrice: z
     .number({ invalid_type_error: "Price must be a number." })
@@ -84,12 +85,6 @@ interface ProductsActionDialogProps {
   refetch: () => any
   open: boolean
   onOpenChange: (open: boolean) => void
-}
-
-type TDefaultValue = {
-  name: string
-  description: string
-  parentId?: string
 }
 
 export function ProductsActionDialog({
@@ -117,6 +112,7 @@ export function ProductsActionDialog({
     name: "",
     description: "",
     quantity: 1,
+    status: "Active",
     productStatus: "InStock",
     productPrice: 0,
     categoryId: "",
@@ -150,6 +146,7 @@ export function ProductsActionDialog({
           name: currentRow.name,
           description: currentRow.description,
           quantity: currentRow.quantity,
+          status: currentRow.status,
           productStatus: mapProductStatusToString(currentRow.productStatus),
           productPrice: currentRow.productPrice,
           categoryId: currentRow?.category.id,
@@ -168,18 +165,18 @@ export function ProductsActionDialog({
   })
 
   const onSubmit = (data: ProductForm) => {
-    const productStatusEnum = mapStringToProductStatus(data.productStatus)
-
     const productData = {
       ...data,
+      status: data.status,
       productPrice: Number(data.productPrice),
-      productStatus: productStatusEnum,
+      productStatus: data.productStatus,
     }
 
     const formData = new FormData()
     formData.append("name", productData.name)
     formData.append("description", productData.description)
     formData.append("quantity", productData.quantity.toString())
+    formData.append("status", productData.status.toString())
     formData.append("productStatus", productData.productStatus.toString())
     formData.append("productPrice", productData.productPrice.toString())
     formData.append("categoryId", productData.categoryId)
@@ -220,6 +217,7 @@ export function ProductsActionDialog({
           handleError(error)
         },
       })
+
       return
     }
 
@@ -354,11 +352,34 @@ export function ProductsActionDialog({
 
               <FormField
                 control={form.control}
-                name="productStatus"
+                name="status"
                 render={({ field }) => (
                   <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
                     <FormLabel className="col-span-2 text-right">
                       Status
+                    </FormLabel>
+                    <SelectDropdown
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                      placeholder="Select status"
+                      className="col-span-4"
+                      items={[
+                        { value: "Active", label: "Active" },
+                        { value: "Inactive", label: "Inactive" },
+                      ]}
+                    />
+                    <FormMessage className="col-span-4 col-start-3" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="productStatus"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
+                    <FormLabel className="col-span-2 text-right">
+                      Product Status
                     </FormLabel>
                     <SelectDropdown
                       defaultValue={field.value}

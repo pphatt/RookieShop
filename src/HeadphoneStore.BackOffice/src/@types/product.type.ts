@@ -34,6 +34,7 @@ export type TProduct = {
   quantity: number
   sku: string
   productStatus: ProductStatus
+  status: string
   productPrice: number
   averageRating: number
   totalView: number
@@ -47,6 +48,7 @@ export type TProductAdd = {
   description: string
   quantity: number
   productStatus: ProductStatus
+  status: string
   productPrice: number
   categoryId: string
   brandId: string
@@ -58,6 +60,7 @@ export type TProductUpdate = {
   description: string
   quantity: number
   productStatus: ProductStatus
+  status: string
   productPrice: number
   categoryId: string
   brandId: string

@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ArrowDown, ArrowUp, ChevronsUpDown, EyeOff } from "lucide-react"
 
+import styles from "@/pages/admin/brands/styles/column.module.scss"
+
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>
@@ -22,7 +24,7 @@ export function DataTableColumnHeader<TData, TValue>({
   title,
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
-  if (!column.getCanSort()) {
+  if (!column.getCanSort() && !column.getCanHide()) {
     return <div className={cn(className)}>{title}</div>
   }
 
@@ -33,7 +35,7 @@ export function DataTableColumnHeader<TData, TValue>({
           <Button
             variant="ghost"
             size="sm"
-            className="data-[state=open]:bg-accent -ml-3 h-8"
+            className={`data-[state=open]:bg-accent -ml-3 h-8 ${styles["no-focus-shadow"]}`}
           >
             <span>{title}</span>
 
@@ -48,14 +50,20 @@ export function DataTableColumnHeader<TData, TValue>({
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="start">
-          <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-            <ArrowUp className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
-            Asc
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-            <ArrowDown className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
-            Desc
-          </DropdownMenuItem>
+          {column.getCanSort() && (
+            <>
+              <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
+                <ArrowUp className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
+                Asc
+              </DropdownMenuItem>
+
+              <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
+                <ArrowDown className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
+                Desc
+              </DropdownMenuItem>
+            </>
+          )}
+
           {column.getCanHide() && (
             <>
               <DropdownMenuSeparator />

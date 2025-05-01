@@ -70,27 +70,25 @@ export default function SearchInput({
   }
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2">
-        <Input
-          placeholder={placeholder}
-          defaultValue={queryConfig.searchTerm}
-          value={search}
-          onChange={handleInputChange}
-          className="h-8 w-[150px] lg:w-[250px]"
-        />
+    <div className="flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2">
+      <Input
+        placeholder={placeholder}
+        defaultValue={queryConfig.searchTerm}
+        value={search}
+        onChange={handleInputChange}
+        className="h-8 w-[150px] lg:w-[250px]"
+      />
 
-        {isFiltered && (
-          <Button
-            variant="ghost"
-            onClick={resetFiltered}
-            className="h-8 px-2 lg:px-3"
-          >
-            Reset
-            <X className="ml-2 h-4 w-4" />
-          </Button>
-        )}
-      </div>
+      {isFiltered && (
+        <Button
+          variant="ghost"
+          onClick={resetFiltered}
+          className="h-8 px-2 lg:px-3"
+        >
+          Reset
+          <X className="ml-2 h-4 w-4" />
+        </Button>
+      )}
     </div>
   )
 }

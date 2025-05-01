@@ -28,10 +28,13 @@ import { AddNewBrand, UpdateBrand } from "@/services/brand.service"
 import { toast } from "react-toastify"
 import IconSpinner from "@/components/icon-spinner"
 import { handleError } from "@/utils"
+import { SelectDropdown } from "@/components/select-dropdown"
+import * as React from "react"
 
 const schema = z.object({
   name: z.string().min(1, { message: "Last Name is required." }),
   description: z.string().min(1, { message: "Username is required." }),
+  status: z.string(),
 })
 
 type BrandForm = z.infer<typeof schema>
@@ -46,6 +49,7 @@ interface BrandsActionDialogProps {
 type TDefaultValue = {
   name: string
   description: string
+  status: string
 }
 
 export function BrandsActionDialog({
@@ -59,6 +63,7 @@ export function BrandsActionDialog({
   const defaultValues: TDefaultValue = {
     name: "",
     description: "",
+    status: "Active",
   }
 
   const form = useForm({
@@ -73,6 +78,7 @@ export function BrandsActionDialog({
           id: currentRow?.id,
           name: data.name,
           description: data.description,
+          status: data.status,
         },
         {
           onSuccess: () => {
@@ -155,6 +161,29 @@ export function BrandsActionDialog({
                         {...field}
                       />
                     </FormControl>
+                    <FormMessage className="col-span-4 col-start-3" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
+                    <FormLabel className="col-span-2 text-right">
+                      Status
+                    </FormLabel>
+                    <SelectDropdown
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                      placeholder="Select status"
+                      className="col-span-4"
+                      items={[
+                        { value: "Active", label: "Active" },
+                        { value: "Inactive", label: "Inactive" },
+                      ]}
+                    />
                     <FormMessage className="col-span-4 col-start-3" />
                   </FormItem>
                 )}

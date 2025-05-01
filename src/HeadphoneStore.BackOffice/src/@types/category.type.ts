@@ -6,12 +6,14 @@ export type TCategory = {
   name: string
   description: string
   parent?: TCategory
+  status: string
 }
 
 export type TCategoryAdd = {
   name: string
   description: string
   parentCategoryId?: string
+  status: string
 }
 
 export type TCategoryUpdate = {
@@ -19,6 +21,7 @@ export type TCategoryUpdate = {
   name: string
   description: string
   parentCategoryId?: string
+  status: string
 }
 
 export type TCategoryDelete = {

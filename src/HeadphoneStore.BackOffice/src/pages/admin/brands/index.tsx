@@ -44,12 +44,12 @@ import styles from "@/pages/admin/brands/styles/column.module.scss"
 import { DataTableColumnHeader } from "@/pages/admin/brands/table/data-table-column-header"
 import LongText from "@/components/long-text"
 import { DataTableRowActions } from "@/pages/admin/brands/table/data-table-row-actions"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { X } from "lucide-react"
 import IconSpinner from "@/components/icon-spinner"
 import { LoadingScreen } from "@/layouts/loading-screen"
 import SearchInput from "@/components/search"
+import { callTypes, EntityStatus } from "@/data"
+import { Badge } from "@/components/ui/badge"
+import { DataTableViewOptions } from "@/pages/admin/brands/table/data-table-view-options"
 
 declare module "@tanstack/react-table" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -76,7 +76,9 @@ export default function BrandDashboard() {
   })
 
   const [rowSelection, setRowSelection] = useState({})
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    id: false,
+  })
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
 
@@ -109,7 +111,6 @@ export default function BrandDashboard() {
           "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"
         ),
       },
-      enableSorting: false,
       enableHiding: false,
     },
     {
@@ -124,6 +125,7 @@ export default function BrandDashboard() {
       meta: {
         className: styles["id-column"],
       },
+      enableHiding: true,
     },
     {
       id: "name",
@@ -134,6 +136,26 @@ export default function BrandDashboard() {
         const { name } = row.original
         return <LongText>{name}</LongText>
       },
+      enableHiding: true,
+    },
+    {
+      id: "status",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Status" />
+      ),
+      cell: ({ row }) => {
+        const { status } = row.original
+        const badgeColor = callTypes.get(status.toLowerCase() as EntityStatus)
+
+        return (
+          <div className="flex space-x-2">
+            <Badge variant="outline" className={cn("capitalize", badgeColor)}>
+              {status}
+            </Badge>
+          </div>
+        )
+      },
+      enableHiding: true,
     },
     {
       accessorKey: "description",
@@ -142,7 +164,7 @@ export default function BrandDashboard() {
       ),
       cell: ({ row }) => <LongText>{row.getValue("description")}</LongText>,
       enableSorting: false,
-      enableHiding: false,
+      enableHiding: true,
     },
     {
       id: "actions",
@@ -150,6 +172,7 @@ export default function BrandDashboard() {
       meta: {
         className: styles["action-column"],
       },
+      enableHiding: false,
     },
   ]
 
@@ -191,13 +214,17 @@ export default function BrandDashboard() {
 
         <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12">
           <div className="space-y-4">
-            {/* Table search + filter */}
-            <SearchInput
-              queryConfig={queryConfig}
-              path="/brands"
-              placeholder="Search in brands..."
-              isFiltered={isFiltered}
-            />
+            <div className="flex items-center justify-between">
+              {/* Table search + filter */}
+              <SearchInput
+                queryConfig={queryConfig}
+                path="/brands"
+                placeholder="Search in brands..."
+                isFiltered={isFiltered}
+              />
+
+              <DataTableViewOptions table={table} />
+            </div>
 
             <div className="rounded-md border">
               {isFetching && (

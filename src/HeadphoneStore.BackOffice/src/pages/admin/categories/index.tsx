@@ -5,7 +5,6 @@ import { isUndefined, omitBy } from "lodash"
 import {
   CategoryQueryConfig,
   CategoryQueryParams,
-  ResponseListCategories,
   TCategory,
 } from "@/@types/category.type"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
@@ -47,13 +46,12 @@ import styles from "@/pages/admin/categories/styles/column.module.scss"
 import { DataTableColumnHeader } from "@/pages/admin/categories/table/data-table-column-header"
 import LongText from "@/components/long-text"
 import { DataTableRowActions } from "@/pages/admin/categories/table/data-table-row-actions"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { X } from "lucide-react"
 import IconSpinner from "@/components/icon-spinner"
 import { LoadingScreen } from "@/layouts/loading-screen"
 import SearchInput from "@/components/search"
-import { all } from "axios"
+import { callTypes, EntityStatus } from "@/data"
+import { Badge } from "@/components/ui/badge"
+import { DataTableViewOptions } from "@/pages/admin/categories/table/data-table-view-options"
 
 declare module "@tanstack/react-table" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -94,7 +92,9 @@ export default function CategoryDashboard() {
   }
 
   const [rowSelection, setRowSelection] = useState({})
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    id: false,
+  })
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
 
@@ -142,6 +142,7 @@ export default function CategoryDashboard() {
       meta: {
         className: styles["id-column"],
       },
+      enableHiding: true,
     },
     {
       id: "name",
@@ -162,6 +163,26 @@ export default function CategoryDashboard() {
         const { parent } = row.original
         return <LongText>{parent?.name ?? "-"}</LongText>
       },
+      enableHiding: true,
+    },
+    {
+      id: "status",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Status" />
+      ),
+      cell: ({ row }) => {
+        const { status } = row.original
+        const badgeColor = callTypes.get(status.toLowerCase() as EntityStatus)
+
+        return (
+          <div className="flex space-x-2">
+            <Badge variant="outline" className={cn("capitalize", badgeColor)}>
+              {status}
+            </Badge>
+          </div>
+        )
+      },
+      enableHiding: true,
     },
     {
       accessorKey: "description",
@@ -170,7 +191,7 @@ export default function CategoryDashboard() {
       ),
       cell: ({ row }) => <LongText>{row.getValue("description")}</LongText>,
       enableSorting: false,
-      enableHiding: false,
+      enableHiding: true,
     },
     {
       id: "actions",
@@ -221,13 +242,17 @@ export default function CategoryDashboard() {
 
         <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12">
           <div className="space-y-4">
-            {/* Table search + filter */}
-            <SearchInput
-              queryConfig={queryConfig}
-              path="/categories"
-              placeholder="Search in categories..."
-              isFiltered={isFiltered}
-            />
+            <div className="flex items-center justify-between">
+              {/* Table search + filter */}
+              <SearchInput
+                queryConfig={queryConfig}
+                path="/categories"
+                placeholder="Search in categories..."
+                isFiltered={isFiltered}
+              />
+
+              <DataTableViewOptions table={table} />
+            </div>
 
             <div className="rounded-md border">
               {isFetching && (

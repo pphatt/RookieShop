@@ -3,6 +3,7 @@ import {
   LayoutDashboard,
   LayoutList,
   LayoutPanelLeft,
+  Tag,
   Users,
 } from "lucide-react"
 
@@ -63,7 +64,7 @@ export const sidebarData: SidebarData = {
         {
           title: "Category",
           url: "/categories",
-          icon: LayoutList,
+          icon: Tag,
         },
         {
           title: "Brand",
