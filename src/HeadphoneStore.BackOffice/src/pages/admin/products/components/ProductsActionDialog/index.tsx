@@ -63,10 +63,12 @@ registerPlugin(
 
 const schema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
+  slug: z.string(),
   description: z.string().min(1, { message: "Description is required." }),
-  quantity: z
+  stock: z
     .number({ invalid_type_error: "Quantity must be a number." })
     .min(1, { message: "Quantity must be at least 1." }),
+  sku: z.string(),
   status: z.string(),
   productStatus: z.enum(["InStock", "OutOfStock", "Discontinued"] as const),
   productPrice: z
@@ -110,8 +112,10 @@ export function ProductsActionDialog({
 
   const defaultValues: ProductForm = {
     name: "",
+    slug: "",
     description: "",
-    quantity: 1,
+    stock: 1,
+    sku: "",
     status: "Active",
     productStatus: "InStock",
     productPrice: 0,
@@ -144,8 +148,10 @@ export function ProductsActionDialog({
     defaultValues: isEdit
       ? {
           name: currentRow.name,
+          slug: currentRow.slug,
           description: currentRow.description,
-          quantity: currentRow.quantity,
+          stock: currentRow.stock,
+          sku: currentRow.sku,
           status: currentRow.status,
           productStatus: mapProductStatusToString(currentRow.productStatus),
           productPrice: currentRow.productPrice,
@@ -175,7 +181,8 @@ export function ProductsActionDialog({
     const formData = new FormData()
     formData.append("name", productData.name)
     formData.append("description", productData.description)
-    formData.append("quantity", productData.quantity.toString())
+    formData.append("stock", productData.stock.toString())
+    formData.append("slug", productData.slug.toString())
     formData.append("status", productData.status.toString())
     formData.append("productStatus", productData.productStatus.toString())
     formData.append("productPrice", productData.productPrice.toString())
@@ -184,6 +191,7 @@ export function ProductsActionDialog({
 
     if (isEdit) {
       formData.append("id", currentRow!.id)
+      formData.append("sku", currentRow!.sku.toString())
 
       const oldImagesId = currentRow.media.map(
         ({ imageUrl }) => imageUrl.split("/")[10]
@@ -306,6 +314,52 @@ export function ProductsActionDialog({
                 )}
               />
 
+              {isEdit && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="slug"
+                    render={({ field }) => (
+                      <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
+                        <FormLabel className="col-span-2 text-right">
+                          Slug
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Slug"
+                            className="col-span-4"
+                            autoComplete="off"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="col-span-4 col-start-3" />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="sku"
+                    render={({ field }) => (
+                      <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
+                        <FormLabel className="col-span-2 text-right">
+                          Sku
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Product Sku"
+                            className="col-span-4"
+                            autoComplete="off"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="col-span-4 col-start-3" />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
+
               <FormField
                 control={form.control}
                 name="description"
@@ -329,16 +383,16 @@ export function ProductsActionDialog({
 
               <FormField
                 control={form.control}
-                name="quantity"
+                name="stock"
                 render={({ field }) => (
                   <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
                     <FormLabel className="col-span-2 text-right">
-                      Quantity
+                      Stock
                     </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Quantity"
+                        placeholder="Stock"
                         className="col-span-4"
                         autoComplete="off"
                         {...field}

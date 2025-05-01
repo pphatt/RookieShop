@@ -5,7 +5,6 @@ import { isUndefined, omitBy } from "lodash"
 import {
   ProductQueryConfig,
   ProductQueryParams,
-  ResponseListProducts,
   TProduct,
 } from "@/@types/product.type"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
@@ -52,7 +51,12 @@ import { GetAllBrands } from "@/services/brand.service"
 import { TBrand } from "@/@types/brand.type"
 import { TCategory } from "@/@types/category.type"
 import { DataTableViewOptions } from "@/pages/admin/products/table/data-table-view-options"
-import { callTypes, EntityStatus } from "@/data"
+import {
+  entityStatusTypes,
+  ProductStatus,
+  EntityStatus,
+  productStatusTypes,
+} from "@/data"
 import { Badge } from "@/components/ui/badge"
 
 declare module "@tanstack/react-table" {
@@ -100,6 +104,7 @@ export default function ProductDashboard() {
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     id: false,
+    slug: false,
   })
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
@@ -155,7 +160,18 @@ export default function ProductDashboard() {
         const { name } = row.original
         return <LongText>{name}</LongText>
       },
-      enableHiding: false,
+      enableHiding: true,
+    },
+    {
+      accessorKey: "slug",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Slug" />
+      ),
+      cell: ({ row }) => {
+        const { slug } = row.original
+        return <LongText>{slug}</LongText>
+      },
+      enableHiding: true,
     },
     {
       accessorKey: "category",
@@ -166,7 +182,7 @@ export default function ProductDashboard() {
         const { category } = row.original
         return <LongText>{category.name}</LongText>
       },
-      enableHiding: false,
+      enableHiding: true,
     },
     {
       accessorKey: "brand",
@@ -177,7 +193,7 @@ export default function ProductDashboard() {
         const { brand } = row.original
         return <LongText>{brand.name}</LongText>
       },
-      enableHiding: false,
+      enableHiding: true,
     },
     {
       accessorKey: "price",
@@ -196,13 +212,13 @@ export default function ProductDashboard() {
       enableHiding: true,
     },
     {
-      accessorKey: "quantity",
+      accessorKey: "stock",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Quantity" />
+        <DataTableColumnHeader column={column} title="Stock" />
       ),
       cell: ({ row }) => {
-        const { quantity } = row.original
-        return <LongText>{quantity}</LongText>
+        const { stock } = row.original
+        return <LongText>{stock}</LongText>
       },
       enableHiding: true,
     },
@@ -224,7 +240,22 @@ export default function ProductDashboard() {
       ),
       cell: ({ row }) => {
         const { productStatus } = row.original
-        return <LongText>{productStatus}</LongText>
+        const statusMap: Record<string, ProductStatus> = {
+          ["In stock"]: "in-stock",
+          ["Out of stock"]: "out-of-stock",
+          ["Discontinued"]: "discontinued",
+        }
+
+        const statusKey = statusMap[productStatus]
+        const badgeColor = productStatusTypes.get(statusKey as ProductStatus)
+
+        return (
+          <div className="flex space-x-2">
+            <Badge variant="outline" className={cn("capitalize", badgeColor)}>
+              {productStatus}
+            </Badge>
+          </div>
+        )
       },
       enableHiding: true,
     },
@@ -235,7 +266,9 @@ export default function ProductDashboard() {
       ),
       cell: ({ row }) => {
         const { status } = row.original
-        const badgeColor = callTypes.get(status.toLowerCase() as EntityStatus)
+        const badgeColor = entityStatusTypes.get(
+          status.toLowerCase() as EntityStatus
+        )
 
         return (
           <div className="flex space-x-2">

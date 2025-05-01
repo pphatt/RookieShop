@@ -4,12 +4,14 @@ import { FilterType } from "@/@types/filter.type"
 export type TBrand = {
   id: string
   name: string
+  slug: string
   status: string
   description: string
 }
 
 export type TBrandAdd = {
   name: string
+  slug: string
   description: string
   status: string
 }
@@ -17,6 +19,7 @@ export type TBrandAdd = {
 export type TBrandUpdate = {
   id: string
   name: string
+  slug: string
   description: string
   status: string
 }

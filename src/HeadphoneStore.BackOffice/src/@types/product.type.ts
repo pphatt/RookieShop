@@ -30,8 +30,9 @@ export type TProductImageUpload = {
 export type TProduct = {
   id: string
   name: string
+  slug: string
   description: string
-  quantity: number
+  stock: number
   sku: string
   productStatus: ProductStatus
   status: string
@@ -46,7 +47,7 @@ export type TProduct = {
 export type TProductAdd = {
   name: string
   description: string
-  quantity: number
+  stock: number
   productStatus: ProductStatus
   status: string
   productPrice: number
@@ -58,7 +59,7 @@ export type TProductUpdate = {
   id: string
   name: string
   description: string
-  quantity: number
+  stock: number
   productStatus: ProductStatus
   status: string
   productPrice: number

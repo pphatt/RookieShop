@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ArrowDown, ArrowUp, ChevronsUpDown, EyeOff } from "lucide-react"
 
+import styles from "@/pages/admin/categories/styles/column.module.scss"
+
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>
@@ -33,7 +35,7 @@ export function DataTableColumnHeader<TData, TValue>({
           <Button
             variant="ghost"
             size="sm"
-            className="data-[state=open]:bg-accent -ml-3 h-8"
+            className={`data-[state=open]:bg-accent -ml-3 h-8 ${styles["no-focus-shadow"]}`}
           >
             <span>{title}</span>
 

@@ -47,7 +47,7 @@ import { DataTableRowActions } from "@/pages/admin/brands/table/data-table-row-a
 import IconSpinner from "@/components/icon-spinner"
 import { LoadingScreen } from "@/layouts/loading-screen"
 import SearchInput from "@/components/search"
-import { callTypes, EntityStatus } from "@/data"
+import { entityStatusTypes, EntityStatus } from "@/data"
 import { Badge } from "@/components/ui/badge"
 import { DataTableViewOptions } from "@/pages/admin/brands/table/data-table-view-options"
 
@@ -137,13 +137,26 @@ export default function BrandDashboard() {
       enableHiding: true,
     },
     {
+      accessorKey: "slug",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Slug" />
+      ),
+      cell: ({ row }) => {
+        const { slug } = row.original
+        return <LongText>{slug}</LongText>
+      },
+      enableHiding: true,
+    },
+    {
       accessorKey: "status",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Status" />
       ),
       cell: ({ row }) => {
         const { status } = row.original
-        const badgeColor = callTypes.get(status.toLowerCase() as EntityStatus)
+        const badgeColor = entityStatusTypes.get(
+          status.toLowerCase() as EntityStatus
+        )
 
         return (
           <div className="flex space-x-2">

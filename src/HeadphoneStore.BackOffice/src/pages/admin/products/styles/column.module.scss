@@ -13,3 +13,9 @@
 .action-column {
   width: 190px;
 }
+
+.no-focus-shadow {
+  &:focus-visible {
+    box-shadow: none !important;
+  }
+}

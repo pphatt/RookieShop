@@ -33,6 +33,7 @@ import * as React from "react"
 
 const schema = z.object({
   name: z.string().min(1, { message: "Last Name is required." }),
+  slug: z.string(),
   description: z.string().min(1, { message: "Username is required." }),
   status: z.string(),
 })
@@ -48,6 +49,7 @@ interface BrandsActionDialogProps {
 
 type TDefaultValue = {
   name: string
+  slug: string
   description: string
   status: string
 }
@@ -62,6 +64,7 @@ export function BrandsActionDialog({
 
   const defaultValues: TDefaultValue = {
     name: "",
+    slug: "",
     description: "",
     status: "Active",
   }
@@ -77,6 +80,7 @@ export function BrandsActionDialog({
         {
           id: currentRow?.id,
           name: data.name,
+          slug: data.slug,
           description: data.description,
           status: data.status,
         },
@@ -165,6 +169,29 @@ export function BrandsActionDialog({
                   </FormItem>
                 )}
               />
+
+              {isEdit && (
+                <FormField
+                  control={form.control}
+                  name="slug"
+                  render={({ field }) => (
+                    <FormItem className="grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1">
+                      <FormLabel className="col-span-2 text-right">
+                        Slug
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="sony"
+                          className="col-span-4"
+                          autoComplete="off"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="col-span-4 col-start-3" />
+                    </FormItem>
+                  )}
+                />
+              )}
 
               <FormField
                 control={form.control}
