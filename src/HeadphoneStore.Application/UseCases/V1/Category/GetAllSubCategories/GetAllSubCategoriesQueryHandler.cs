@@ -25,6 +25,7 @@ public class GetAllSubCategoriesQueryHandler : IQueryHandler<GetAllSubCategories
             .Where(x => x.Status == EntityStatus.Active)
             .Include(x => x.SubCategories)
             .SelectMany(c => c.SubCategories)
+            .Where(x => x.Status == EntityStatus.Active)
             .Select(x => new CategoryDto
             {
                 Id = x.Id,

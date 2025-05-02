@@ -216,7 +216,7 @@
 }
 @media screen and (min-width: 990px) {
   .card-image {
-    transition: transform 0.5s ease;
+    transition: transform 0.3s ease-out;
   }
 }
 

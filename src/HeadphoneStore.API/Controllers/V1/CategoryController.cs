@@ -131,7 +131,7 @@ public class CategoryController : BaseApiController
         if (result.IsFailure)
             return HandlerFailure(result);
 
-        return Ok();
+        return Ok(result);
     }
 
     [HttpGet("{Id}")]

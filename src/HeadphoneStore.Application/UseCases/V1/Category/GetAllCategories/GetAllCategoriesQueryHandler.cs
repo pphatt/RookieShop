@@ -22,6 +22,7 @@ public class GetAllCategoriesQueryHandler : IQueryHandler<GetAllCategoriesQuery,
         var categories = _categoryRepository
             .FindAll(x => x.ParentId == null)
             .Where(x => x.Status == EntityStatus.Active)
+            .OrderBy(x => x.CreatedDateTime)
             .Select(x => new CategoryDto
             {
                 Id = x.Id,
@@ -31,16 +32,19 @@ public class GetAllCategoriesQueryHandler : IQueryHandler<GetAllCategoriesQuery,
                 Status = x.Status.ToString(),
                 CreatedBy = x.CreatedBy,
                 UpdatedBy = x.UpdatedBy,
-                SubCategories = x.SubCategories.Select(c => new CategoryDto
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Slug = c.Slug,
-                    Description = c.Description,
-                    Status = c.Status.ToString(),
-                    CreatedBy = c.CreatedBy,
-                    UpdatedBy = c.UpdatedBy,
-                })
+                SubCategories = x.SubCategories
+                    .Where(x => x.Status == EntityStatus.Active)
+                    .OrderBy(x => x.CreatedDateTime)
+                    .Select(c => new CategoryDto
+                    {
+                        Id = c.Id,
+                        Name = c.Name,
+                        Slug = c.Slug,
+                        Description = c.Description,
+                        Status = c.Status.ToString(),
+                        CreatedBy = c.CreatedBy,
+                        UpdatedBy = c.UpdatedBy,
+                    })
             });
 
         var result = await categories.ToListAsync();

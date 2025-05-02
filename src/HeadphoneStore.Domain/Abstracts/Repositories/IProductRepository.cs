@@ -8,7 +8,8 @@ public interface IProductRepository : IRepositoryBase<Product, Guid>
 {
     Task<bool> IsSlugAlreadyExisted(string slug, Guid? productId = null);
 
-    Task<PagedResult<ProductDto>> GetAllProductPagination(string? keyword,
+    Task<PagedResult<ProductDto>> GetAllProductPagination(string? categorySlug, 
+                                                          string? keyword,
                                                           int pageIndex,
                                                           int pageSize);
 }

@@ -8,6 +8,8 @@ namespace HeadphoneStore.Application.UseCases.V1.Product.GetAllProductsPaged;
 
 public class GetAllProductsPagedQuery : PagedDto, IQuery<PagedResult<ProductDto>>, ICacheable
 {
+    public string? CategorySlug { get; set; }
+
     public bool BypassCache => false;
     public string CacheKey
     {
@@ -19,6 +21,11 @@ public class GetAllProductsPagedQuery : PagedDto, IQuery<PagedResult<ProductDto>
             if (SearchTerm != null)
             {
                 builder.Append($":SearchTerm:{SearchTerm}");
+            }
+
+            if (CategorySlug != null)
+            {
+                builder.Append($":Category:{CategorySlug}");
             }
 
             builder.Append($":Page:{PageIndex}:{PageSize}");
