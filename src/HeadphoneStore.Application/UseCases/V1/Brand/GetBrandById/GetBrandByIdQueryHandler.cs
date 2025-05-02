@@ -1,5 +1,5 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Repositories;
-using HeadphoneStore.Shared.Abstracts.Commands;
+using HeadphoneStore.Shared.Abstracts.Queries;
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Brand;
 
@@ -7,7 +7,7 @@ namespace HeadphoneStore.Application.UseCases.V1.Brand.GetBrandById;
 
 using Exceptions = Domain.Exceptions.Exceptions;
 
-public class GetBrandByIdQueryHandler : ICommandHandler<GetBrandByIdQuery, BrandDto>
+public class GetBrandByIdQueryHandler : IQueryHandler<GetBrandByIdQuery, BrandDto>
 {
     private readonly IBrandRepository _brandRepository;
 

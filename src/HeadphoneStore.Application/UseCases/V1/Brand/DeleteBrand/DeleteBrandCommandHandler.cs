@@ -1,4 +1,5 @@
-﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Caching;
+using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Shared.Abstracts.Commands;
 using HeadphoneStore.Shared.Abstracts.Shared;
@@ -14,15 +15,18 @@ public class DeleteBrandCommandHandler : ICommandHandler<DeleteBrandCommand>
     private readonly UserManager<AppUser> _userManager;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IBrandRepository _brandRepository;
+    private readonly ICacheService _cacheService;
 
     public DeleteBrandCommandHandler(
         UserManager<AppUser> userManager,
         IUnitOfWork unitOfWork,
-        IBrandRepository brandRepository)
+        IBrandRepository brandRepository,
+        ICacheService cacheService)
     {
         _userManager = userManager;
         _unitOfWork = unitOfWork;
         _brandRepository = brandRepository;
+        _cacheService = cacheService;
     }
 
     public async Task<Result> Handle(DeleteBrandCommand request, CancellationToken cancellationToken)
@@ -43,6 +47,8 @@ public class DeleteBrandCommandHandler : ICommandHandler<DeleteBrandCommand>
         brand.Delete();
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await _cacheService.RemoveByPrefixAsync("Brands", cancellationToken);
 
         return Result.Success("Delete brand successfully.");
     }

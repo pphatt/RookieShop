@@ -20,6 +20,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(AssemblyReference.Assembly));
 
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(CachingPipelineBehavior<,>));
 
         services.AddValidatorsFromAssembly(AssemblyReference.Assembly)
             .AddFluentValidationAutoValidation();

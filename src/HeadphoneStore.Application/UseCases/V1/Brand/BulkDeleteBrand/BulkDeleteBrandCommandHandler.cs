@@ -1,4 +1,5 @@
-﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Caching;
+using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Shared.Abstracts.Commands;
 using HeadphoneStore.Shared.Abstracts.Shared;
 
@@ -10,11 +11,13 @@ public class BulkDeleteBrandCommandHandler : ICommandHandler<BulkDeleteBrandComm
 {
     private readonly IBrandRepository _brandRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ICacheService _cacheService;
 
-    public BulkDeleteBrandCommandHandler(IBrandRepository brandRepository, IUnitOfWork unitOfWork)
+    public BulkDeleteBrandCommandHandler(IBrandRepository brandRepository, IUnitOfWork unitOfWork, ICacheService cacheService)
     {
         _brandRepository = brandRepository;
         _unitOfWork = unitOfWork;
+        _cacheService = cacheService;
     }
 
     public async Task<Result> Handle(BulkDeleteBrandCommand request, CancellationToken cancellationToken)
@@ -41,6 +44,8 @@ public class BulkDeleteBrandCommandHandler : ICommandHandler<BulkDeleteBrandComm
             return Result.Success("Nothing was deleted.");
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await _cacheService.RemoveByPrefixAsync("Brands", cancellationToken);
 
         return Result.Success(messages: new List<string>
         {

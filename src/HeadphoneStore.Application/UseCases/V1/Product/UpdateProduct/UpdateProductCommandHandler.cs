@@ -1,4 +1,5 @@
-﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Media;
+﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Caching;
+using HeadphoneStore.Application.Abstracts.Interface.Services.Media;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
@@ -24,6 +25,7 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
     private readonly IProductMediaRepository _productMediaRepository;
     private readonly ICloudinaryService _cloudinaryService;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ICacheService _cacheService;
 
     public UpdateProductCommandHandler(
         IProductRepository productRepository,
@@ -31,7 +33,8 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
         IBrandRepository brandRepository,
         IProductMediaRepository productMediaRepository,
         ICloudinaryService cloudinaryService,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        ICacheService cacheService)
     {
         _productRepository = productRepository;
         _categoryRepository = categoryRepository;
@@ -39,6 +42,7 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
         _productMediaRepository = productMediaRepository;
         _cloudinaryService = cloudinaryService;
         _unitOfWork = unitOfWork;
+        _cacheService = cacheService;
     }
 
     public async Task<Result> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -175,6 +179,8 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
         );
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await _cacheService.RemoveByPrefixAsync("Products", cancellationToken);
 
         return Result.Success("Update product successfully.");
     }

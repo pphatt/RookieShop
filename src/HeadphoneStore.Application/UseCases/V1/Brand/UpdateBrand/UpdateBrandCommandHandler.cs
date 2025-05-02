@@ -1,4 +1,5 @@
-﻿using HeadphoneStore.Application.DependencyInjection.Extensions;
+﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Caching;
+using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Domain.Enumerations;
@@ -16,15 +17,18 @@ public class UpdateBrandCommandHandler : ICommandHandler<UpdateBrandCommand>
     private readonly UserManager<AppUser> _userManager;
     private readonly IBrandRepository _brandRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ICacheService _cacheService;
 
     public UpdateBrandCommandHandler(
         UserManager<AppUser> userManager,
         IBrandRepository brandRepository,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        ICacheService cacheService)
     {
         _userManager = userManager;
         _brandRepository = brandRepository;
         _unitOfWork = unitOfWork;
+        _cacheService = cacheService;
     }
 
     public async Task<Result> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
@@ -64,6 +68,8 @@ public class UpdateBrandCommandHandler : ICommandHandler<UpdateBrandCommand>
         );
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await _cacheService.RemoveByPrefixAsync("Brands", cancellationToken);
 
         return Result.Success("Update brand successfully.");
     }

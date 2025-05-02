@@ -1,4 +1,5 @@
-﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Caching;
+using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Commands;
 using HeadphoneStore.Shared.Abstracts.Shared;
@@ -11,11 +12,13 @@ public class InactivateBrandCommandHandler : ICommandHandler<InactivateBrandComm
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IBrandRepository _brandRepository;
+    private readonly ICacheService _cacheService;
 
-    public InactivateBrandCommandHandler(IUnitOfWork unitOfWork, IBrandRepository brandRepository)
+    public InactivateBrandCommandHandler(IUnitOfWork unitOfWork, IBrandRepository brandRepository, ICacheService cacheService)
     {
         _unitOfWork = unitOfWork;
         _brandRepository = brandRepository;
+        _cacheService = cacheService;
     }
 
     public async Task<Result> Handle(InactivateBrandCommand request, CancellationToken cancellationToken)
@@ -34,6 +37,8 @@ public class InactivateBrandCommandHandler : ICommandHandler<InactivateBrandComm
         brand.Inactivate();
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await _cacheService.RemoveByPrefixAsync("Brands", cancellationToken);
 
         return Result.Success("Inactive brand successfully.");
     }

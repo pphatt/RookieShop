@@ -1,4 +1,5 @@
-﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Caching;
+using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Shared.Abstracts.Commands;
 using HeadphoneStore.Shared.Abstracts.Shared;
 
@@ -10,11 +11,13 @@ public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IProductRepository _productRepository;
+    private readonly ICacheService _cacheService;
 
-    public DeleteProductCommandHandler(IUnitOfWork unitOfWork, IProductRepository productRepository)
+    public DeleteProductCommandHandler(IUnitOfWork unitOfWork, IProductRepository productRepository, ICacheService cacheService)
     {
         _unitOfWork = unitOfWork;
         _productRepository = productRepository;
+        _cacheService = cacheService;
     }
 
     public async Task<Result> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
@@ -30,6 +33,8 @@ public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand>
         product.Delete();
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await _cacheService.RemoveByPrefixAsync("Products", cancellationToken);
 
         return Result.Success("Delete product successfully.");
     }

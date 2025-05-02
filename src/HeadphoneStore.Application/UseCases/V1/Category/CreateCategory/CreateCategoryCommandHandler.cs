@@ -1,4 +1,5 @@
-﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Caching;
+using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Commands;
 using HeadphoneStore.Shared.Abstracts.Shared;
@@ -12,13 +13,16 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICategoryRepository _categoryRepository;
+    private readonly ICacheService _cacheService;
 
     public CreateCategoryCommandHandler(
         IUnitOfWork unitOfWork,
-        ICategoryRepository categoryRepository)
+        ICategoryRepository categoryRepository,
+        ICacheService cacheService)
     {
         _unitOfWork = unitOfWork;
         _categoryRepository = categoryRepository;
+        _cacheService = cacheService;
     }
 
     public async Task<Result> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
@@ -56,6 +60,8 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
         _categoryRepository.Add(category);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await _cacheService.RemoveByPrefixAsync("Categories", cancellationToken);
 
         return Result.Success("Create category successfully.");
     }

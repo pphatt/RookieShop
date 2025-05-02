@@ -1,4 +1,5 @@
-﻿using HeadphoneStore.Application.DependencyInjection.Extensions;
+﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Caching;
+using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Commands;
@@ -12,13 +13,16 @@ public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryComman
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICategoryRepository _categoryRepository;
+    private readonly ICacheService _cacheService;
 
     public UpdateCategoryCommandHandler(
         IUnitOfWork unitOfWork,
-        ICategoryRepository categoryRepository)
+        ICategoryRepository categoryRepository,
+        ICacheService cacheService)
     {
         _unitOfWork = unitOfWork;
         _categoryRepository = categoryRepository;
+        _cacheService = cacheService;
     }
 
     public async Task<Result> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
@@ -70,6 +74,8 @@ public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryComman
         categoryFromDb.Slug = slug;
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await _cacheService.RemoveByPrefixAsync("Categories", cancellationToken);
 
         return Result.Success("Update category successfully.");
     }

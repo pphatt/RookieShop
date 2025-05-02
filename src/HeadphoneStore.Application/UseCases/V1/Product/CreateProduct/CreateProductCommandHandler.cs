@@ -1,4 +1,5 @@
-﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Media;
+﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Caching;
+using HeadphoneStore.Application.Abstracts.Interface.Services.Media;
 using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
 using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
@@ -21,19 +22,22 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
     private readonly IBrandRepository _brandRepository;
     private readonly ICloudinaryService _cloudinaryService;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ICacheService _cacheService;
 
     public CreateProductCommandHandler(
         IProductRepository productRepository,
         ICategoryRepository categoryRepository,
         IBrandRepository brandRepository,
         ICloudinaryService cloudinaryService,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        ICacheService cacheService)
     {
         _productRepository = productRepository;
         _categoryRepository = categoryRepository;
         _brandRepository = brandRepository;
         _cloudinaryService = cloudinaryService;
         _unitOfWork = unitOfWork;
+        _cacheService = cacheService;
     }
 
     public async Task<Result> Handle(CreateProductCommand request, CancellationToken cancellationToken)
@@ -112,6 +116,8 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
         _productRepository.Add(product);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await _cacheService.RemoveByPrefixAsync("Products", cancellationToken);
 
         return Result.Success("Create new product successfully.");
     }
