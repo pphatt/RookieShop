@@ -41,12 +41,14 @@ public class CloudinaryService : ICloudinaryService
         _cloudinary = new Cloudinary(account);
     }
 
-    public async Task SaveFilesAsync(List<IFormFile> files, string type)
+    public async Task<List<FileDto>> SaveFilesAsync(List<IFormFile> files, string productId)
     {
         if (files is null || files.Count == 0)
         {
             throw new ArgumentException("Files are empty or null", nameof(files));
         }
+
+        var filesDetailsResult = new List<FileDto>();
 
         var now = _dateTimeProvider.UtcNow;
         var wwwRootPath = _hostEnvironment.WebRootPath;
@@ -59,9 +61,9 @@ public class CloudinaryService : ICloudinaryService
         foreach (var file in files)
         {
             var ext = Path.GetExtension(file.FileName);
-            var fileName = $"{Guid.NewGuid()}{ext}";
+            var fileName = $"{Guid.NewGuid()}{ext}"; // image.jpg
 
-            var relativeFolder = $@"{_mediaOption.MediaFolder}\{type}\{now:MM-yyyy}\{now:D}";
+            var relativeFolder = Path.Combine(_mediaOption.MediaFolder ?? "media", productId, "images");
 
             var absoluteFolderPath = Path.Combine(wwwRootPath, relativeFolder);
 
@@ -76,6 +78,17 @@ public class CloudinaryService : ICloudinaryService
                 await using var stream = new FileStream(absoluteFilePath, FileMode.Create);
                 await file.CopyToAsync(stream);
 
+                var fileDto = new FileDto
+                {
+                    Name = fileName,
+                    Path = relativeFilePath,
+                    PublicId = "",
+                    Type = FileType.Image,
+                    Extension = ext,
+                };
+
+                filesDetailsResult.Add(fileDto);
+
                 Console.WriteLine(relativeFilePath);
             }
             catch (Exception ex)
@@ -83,6 +96,8 @@ public class CloudinaryService : ICloudinaryService
                 throw new IOException($"Failed to save file: {ex.Message}", ex);
             }
         }
+
+        return filesDetailsResult;
     }
 
     public Task RemoveFiles(List<string> paths)
@@ -94,12 +109,13 @@ public class CloudinaryService : ICloudinaryService
 
         foreach (var path in paths)
         {
-            var absolutePath = Path.Combine(_hostEnvironment.WebRootPath, path.Replace("/", "\\"));
+            var normalizedPath = path.Replace('/', Path.DirectorySeparatorChar)
+                                     .Replace('\\', Path.DirectorySeparatorChar);
+
+            var absolutePath = Path.Combine(_hostEnvironment.WebRootPath, normalizedPath);
 
             if (!File.Exists(absolutePath))
-            {
                 throw new ArgumentException("File path is not exist", nameof(absolutePath));
-            }
 
             File.Delete(absolutePath);
         }

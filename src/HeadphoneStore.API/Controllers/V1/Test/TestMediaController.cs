@@ -20,6 +20,28 @@ public class TestMediaController : TestApiController
         _cloudinaryService = cloudinaryService;
     }
 
+    [HttpPost("upload-images-local")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    public async Task<IActionResult> UploadFilesLocal([FromForm] List<IFormFile> files, [FromForm] FileRequiredParamsDto request)
+    {
+        await _cloudinaryService.SaveFilesAsync(files, Guid.NewGuid().ToString());
+
+        return Ok("Save files successfully.");
+    }
+
+    [HttpDelete("delete-images-local")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    public async Task<IActionResult> DeleteFilesLocal(List<string> request)
+    {
+        await _cloudinaryService.RemoveFiles(request);
+
+        return Ok("Remove files successfully.");
+    }
+
     [HttpPost("upload-files")]
     [FileValidationFilter(5 * 1024 * 1024)]
     [ProducesResponseType(StatusCodes.Status200OK)]

@@ -6,7 +6,7 @@ namespace HeadphoneStore.Application.Abstracts.Interface.Services.Media;
 
 public interface ICloudinaryService
 {
-    Task SaveFilesAsync(List<IFormFile> files, string type);
+    Task<List<FileDto>> SaveFilesAsync(List<IFormFile> files, string productId);
 
     Task RemoveFiles(List<string> paths);
 
