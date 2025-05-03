@@ -1,0 +1,70 @@
+﻿@page
+@model HeadphoneStore.StoreFrontEnd.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/css/application/login/style.css")" rel="stylesheet" type="text/css"
+          asp-append-version="true"/>
+}
+
+<div class="main-layout-wrapper">
+    <div class="main-layout-container">
+        <div class="login-layout-wrapper">
+            <div class="login-layout-container">
+                <div class="login-layout-overlay">
+                    <div class="authenticate-tab-switch-wrapper">
+                        <a asp-page="/Login" class="tab-link tab-link-active">Đăng Nhập</a>
+
+                        <a asp-page="/Register" class="tab-link">Đăng Ký</a>
+                    </div>
+
+                    <form method="post" class="login-form-layout-wrapper">
+                        @Html.AntiForgeryToken()
+                        
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger" style="margin-bottom: 0">
+                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                {
+                                    <p style="margin-bottom: 0">@error.ErrorMessage</p>
+                                }
+                            </div>
+                        }
+
+                        <div>
+                            <input asp-for="LoginRequest.Email" class="form-control rounded-3 form-input"
+                                   placeholder="Email" type="email" required/>
+                        </div>
+
+                        <div>
+                            <input asp-for="LoginRequest.Password" class="form-control rounded-3 form-input"
+                                   placeholder="Password" type="password" required/>
+                        </div>
+
+                        <div class="form-check">
+                            <input asp-for="RememberMe" class="form-check-input form-checkbox" type="checkbox"/>
+                            <label asp-for="RememberMe" class="form-check-label">Ghi nhớ đăng nhập</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 login-btn">Login</button>
+
+                        <div class="auth-layout-bottom-wrapper">
+                            <a asp-page="/ForgotPassword" class="auth-layout-bottom-item">Forgot password</a>
+
+                            <a asp-page="/Register" class="auth-layout-bottom-item">
+                                Not a member? Create a free
+                                account
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}

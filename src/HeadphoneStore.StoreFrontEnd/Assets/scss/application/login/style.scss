@@ -1,0 +1,151 @@
+﻿.main-layout-wrapper {
+  padding: 0 16px;
+}
+
+.main-layout-container {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+
+  max-width: 1200px;
+
+  border-radius: 8px;
+
+  padding: 80px 40px;
+  margin: 50px auto;
+
+  overflow: hidden;
+}
+
+.login-layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 1;
+
+  max-width: 825px;
+
+  padding: 24px;
+  border-radius: 8px;
+  border: 1px solid #d2cdc9;
+  background: #fefefe;
+
+  z-index: 1;
+}
+
+.login-layout-container {
+  max-width: 1000px;
+  width: 100%;
+
+  padding: 0 0 12px;
+  margin-inline: auto;
+}
+
+.login-layout-overlay {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+  flex-wrap: nowrap;
+
+  inline-size: 100%;
+}
+
+.authenticate-tab-switch-wrapper {
+  display: flex;
+  gap: 12px;
+}
+
+.tab-link {
+  display: block;
+
+  color: rgb(0, 0, 0);
+
+  border-bottom: 3px solid rgb(0, 0, 0, 0.25);
+
+  padding: 0 16px 16px;
+
+  text-decoration: none;
+}
+
+.tab-link-active {
+  color: rgb(0, 0, 0);
+  border-bottom: 3px solid rgb(0, 0, 0);
+}
+
+.login-form-layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+
+  inline-size: 100%;
+}
+
+.form-input {
+  color: #000;
+
+  border-radius: 4px !important;
+
+  &:focus {
+    color: #000;
+    background-color: #fff;
+
+    border-color: transparent;
+
+    outline: 0;
+
+    box-shadow: 0 0 0 2px #b2b2b2;
+  }
+}
+
+.form-checkbox {
+  &:checked {
+    background-color: #000;
+
+    border-color: #000;
+  }
+
+  &:focus {
+    border-color: #000;
+    outline: 0;
+    box-shadow: 0 0 0 2px #b2b2b2;
+  }
+}
+
+.login-btn {
+  color: #fff;
+  background-color: rgb(42, 48, 47);
+
+  border-radius: 40px;
+
+  &:hover {
+    color: #fff;
+    background-color: rgb(42, 48, 47);
+  }
+
+  &:focus {
+    color: #fff;
+    background-color: rgb(42, 48, 47);
+    border-color: #000;
+    box-shadow: 0 0 0 2px #b2b2b2;
+  }
+}
+
+.auth-layout-bottom-wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.auth-layout-bottom-item {
+  color: rgb(18, 18, 18);
+
+  font-size: 14px;
+
+  text-decoration: underline;
+}
