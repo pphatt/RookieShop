@@ -5,30 +5,60 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ConfirmDialog } from "@/components/form/confirm-dialog"
-import { User } from "@/@types/user.type"
 import { TriangleAlert } from "lucide-react"
+import { toast } from "react-toastify"
+import { handleError } from "@/utils"
+import { useMutation } from "@tanstack/react-query"
+import { TUser, TUserDelete } from "@/@types/user.type"
+import { DeleteUser } from "@/services/user.service"
 
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
-  currentRow: User
+  currentRow: TUser
+  refetch: () => void
 }
 
-export function UsersDeleteDialog({ open, onOpenChange, currentRow }: Props) {
+export function UsersDeleteDialog({
+  open,
+  onOpenChange,
+  currentRow,
+  refetch,
+}: Props) {
   const [value, setValue] = useState("")
 
   const handleDelete = () => {
-    if (value.trim() !== currentRow.username) return
+    if (value.trim() !== currentRow.firstName + currentRow.lastName) return
 
     onOpenChange(false)
+
+    deleteUserMutation.mutate(
+      {
+        id: currentRow.id,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Delete user successfully.")
+          refetch()
+        },
+        onError: (error: any) => {
+          handleError(error)
+        },
+      }
+    )
   }
+
+  const deleteUserMutation = useMutation({
+    mutationFn: (body: TUserDelete) => DeleteUser(body),
+  })
 
   return (
     <ConfirmDialog
       open={open}
       onOpenChange={onOpenChange}
       handleConfirm={handleDelete}
-      disabled={value.trim() !== currentRow.username}
+      disabled={value.trim() !== currentRow.firstName + currentRow.lastName}
+      isLoading={deleteUserMutation.isLoading}
       title={
         <span className="text-destructive">
           <TriangleAlert
@@ -42,21 +72,21 @@ export function UsersDeleteDialog({ open, onOpenChange, currentRow }: Props) {
         <div className="space-y-4">
           <p className="mb-2">
             Are you sure you want to delete{" "}
-            <span className="font-bold">{currentRow.username}</span>?
-            <br />
-            This action will permanently remove the user with the role of{" "}
             <span className="font-bold">
-              {currentRow.role.toUpperCase()}
-            </span>{" "}
-            from the system. This cannot be undone.
+              {currentRow.firstName + currentRow.lastName}
+            </span>
+            ?
+            <br />
+            This action will permanently remove the user from the system. This
+            cannot be undone.
           </p>
 
           <Label className="my-2">
-            Username:
+            User:
             <Input
               value={value}
               onChange={(e) => setValue(e.target.value)}
-              placeholder="Enter username to confirm deletion."
+              placeholder="Enter user to confirm deletion."
             />
           </Label>
 

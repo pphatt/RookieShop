@@ -6,6 +6,7 @@ import UnauthenticatedGuard from "@/guards/UnauthenticatedGuard"
 import BrandDashboard from "@/pages/admin/brands"
 import CategoryDashboard from "@/pages/admin/categories"
 import ProductDashboard from "@/pages/admin/products"
+import UserDashboard from "@/pages/admin/users"
 
 const Login = lazy(() => import("@/pages/auth/Login"))
 
@@ -31,7 +32,7 @@ function App() {
             path={"/users"}
             element={
               <AdminMainLayout>
-                <>User dashboard</>
+                <UserDashboard />
               </AdminMainLayout>
             }
           ></Route>

@@ -1,6 +1,7 @@
 ﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Mail;
 using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
+using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Domain.Exceptions;
 using HeadphoneStore.Shared.Abstracts.Commands;
 using HeadphoneStore.Shared.Abstracts.Shared;
@@ -42,16 +43,20 @@ public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand>
         if (role is null)
             throw new Exceptions.Role.NotFound();
 
-
-        string password = GenerateRandomPassword(12);
+        Enum.TryParse<EntityStatus>(request.Status, true, out var status);
 
         var newUser = AppUser.Create(
             email: request.Email,
             firstName: request.FirstName,
             lastName: request.LastName,
-            password: password,
             phoneNumber: request.PhoneNumber
         );
+
+        string password = GenerateRandomPassword(12);
+        string hashPassword = new PasswordHasher<AppUser>().HashPassword(newUser, password);
+
+        newUser.PasswordHash = hashPassword;
+        newUser.Status = status;
 
         var createNewUserResult = await _userManager.CreateAsync(newUser);
 

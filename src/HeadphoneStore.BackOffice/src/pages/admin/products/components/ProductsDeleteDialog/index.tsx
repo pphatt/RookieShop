@@ -6,17 +6,16 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ConfirmDialog } from "@/components/form/confirm-dialog"
 import { TriangleAlert } from "lucide-react"
-import { TBrand, TBrandAdd, TBrandDelete } from "@/@types/brand.type"
 import { toast } from "react-toastify"
 import { handleError } from "@/utils"
 import { useMutation } from "@tanstack/react-query"
-import { TProductDelete } from "@/@types/product.type"
+import { TProduct, TProductDelete } from "@/@types/product.type"
 import { DeleteProduct } from "@/services/product.service"
 
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
-  currentRow: TBrand
+  currentRow: TProduct
   refetch: () => void
 }
 
@@ -75,8 +74,8 @@ export function ProductsDeleteDialog({
             Are you sure you want to delete{" "}
             <span className="font-bold">{currentRow.name}</span>?
             <br />
-            This action will permanently remove the brand from the system. This
-            cannot be undone.
+            This action will permanently remove the product from the system.
+            This cannot be undone.
           </p>
 
           <Label className="my-2">

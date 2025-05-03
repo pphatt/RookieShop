@@ -12,11 +12,11 @@ public class UserDto
     public DateTimeOffset? DayOfBirth { get; set; }
     public string Avatar { get; set; }
     public string Bio { get; set; }
-    public string UserStatus { get; set; }
+    public string Status { get; set; }
     public IEnumerable<UserAddressDto> UserAddress { get; set; }
     public DateTimeOffset CreatedDateTime { get; set; }
     public DateTimeOffset? UpdatedDateTime { get; set; }
-    public IEnumerable<RoleDto> Roles { get; set; }
+    public RoleDto Roles { get; set; }
 }
 
 public class UserAddressDto

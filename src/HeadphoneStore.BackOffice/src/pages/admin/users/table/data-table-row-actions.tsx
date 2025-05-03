@@ -9,15 +9,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Ellipsis, SquarePen, Trash2 } from "lucide-react"
-import { TBrand } from "@/@types/brand.type"
-import { useBrands } from "@/pages/admin/brands/context/brands-context"
+import { TUser } from "@/@types/user.type"
+import { useUsers } from "@/pages/admin/users/context/users-context"
 
 interface DataTableRowActionsProps {
-  row: Row<TBrand>
+  row: Row<TUser>
 }
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {
-  const { setOpen, setCurrentRow } = useBrands()
+  const { setOpen, setCurrentRow } = useUsers()
 
   return (
     <>
@@ -43,7 +43,9 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
               <SquarePen size={16} />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
+
           <DropdownMenuSeparator />
+
           <DropdownMenuItem
             onClick={() => {
               setCurrentRow(row.original)

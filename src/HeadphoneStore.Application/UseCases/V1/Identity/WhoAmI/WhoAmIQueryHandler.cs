@@ -54,7 +54,7 @@ public class WhoAmIQueryHandler : IQueryHandler<WhoAmIQuery, UserDto>
             DayOfBirth = userFromDb.DayOfBirth,
             Avatar = userFromDb.Avatar,
             Bio = userFromDb.Bio,
-            UserStatus = Enum.GetName(typeof(UserStatus), (int)userFromDb.Status) ?? UserStatus.Inactive.ToString(),
+            Status = Enum.GetName(typeof(UserStatus), (int)userFromDb.Status) ?? UserStatus.Inactive.ToString(),
             CreatedDateTime = userFromDb.CreatedDateTime,
             UpdatedDateTime = userFromDb.UpdatedDateTime,
             UserAddress = userFromDb.Addresses.Select(x => new UserAddressDto
@@ -70,7 +70,7 @@ public class WhoAmIQueryHandler : IQueryHandler<WhoAmIQuery, UserDto>
                 Name = x.Name!,
                 DisplayName = x.DisplayName,
                 RoleStatus = Enum.GetName(typeof(RoleStatus), (int)x.Status) ?? RoleStatus.Inactive.ToString(),
-            })
+            }).First()
         };
 
         await _cacheService.SetAsync($"User:{userFromDb.Email!}:Profile:WhoAmI", response, null, cancellationToken);

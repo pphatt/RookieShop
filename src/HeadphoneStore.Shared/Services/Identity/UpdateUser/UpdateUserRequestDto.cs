@@ -10,4 +10,5 @@ public class UpdateUserRequestDto
     public string LastName { get; set; }
     public string PhoneNumber { get; set; }
     public Guid RoleId { get; set; }
+    public string Status { get; set; }
 }

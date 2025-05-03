@@ -1,6 +1,6 @@
 import instanceAxios from "@/configs/axiosInstance"
 import { ResponseData } from "@/@types/response.type"
-import { Role } from "@/@types/role.type"
+import { TRole } from "@/@types/role.type"
 import { UserAPI } from "@/apis/user.api"
 
 export interface GetMeResponse {
@@ -14,7 +14,7 @@ export interface GetMeResponse {
   userStatus: string
   createdDateTime: string
   updatedDateTime: string
-  roles: Role[]
+  roles: TRole
 }
 
 export const WhoAmI = async () =>

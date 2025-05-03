@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
+import { PlusCircle } from "lucide-react"
 import { useUsers } from "@/pages/admin/users/context/users-context"
-import { UserPlus } from "lucide-react"
 
 export function UserFormButton() {
   const { setOpen } = useUsers()
@@ -10,7 +10,7 @@ export function UserFormButton() {
       <Button className="space-x-1" onClick={() => setOpen("add")}>
         <span>Add User</span>
 
-        <UserPlus size={18} />
+        <PlusCircle size={18} />
       </Button>
     </div>
   )

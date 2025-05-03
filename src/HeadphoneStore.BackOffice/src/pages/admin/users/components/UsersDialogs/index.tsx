@@ -1,8 +1,14 @@
-import { useUsers } from "@/pages/admin/users/context/users-context"
 import { UsersActionDialog } from "@/pages/admin/users/components/UsersActionDialog"
+import { useUsers } from "@/pages/admin/users/context/users-context"
 import { UsersDeleteDialog } from "@/pages/admin/users/components/UsersDeleteDialog"
+import { TRole } from "@/@types/user.type"
 
-export function UsersDialogs() {
+interface UsersDialogsProps {
+  roles: TRole[]
+  refetch: () => any
+}
+
+export function UsersDialogs({ roles, refetch }: UsersDialogsProps) {
   const { open, setOpen, currentRow, setCurrentRow } = useUsers()
 
   return (
@@ -11,6 +17,8 @@ export function UsersDialogs() {
         key="user-add"
         open={open === "add"}
         onOpenChange={() => setOpen("add")}
+        allRoles={roles}
+        refetch={refetch}
       />
 
       {currentRow && (
@@ -20,11 +28,13 @@ export function UsersDialogs() {
             open={open === "edit"}
             onOpenChange={() => {
               setOpen("edit")
-              setTimeout(() => {
-                setCurrentRow(null)
-              }, 500)
             }}
             currentRow={currentRow}
+            allRoles={roles}
+            refetch={() => {
+              refetch()
+              setCurrentRow(null)
+            }}
           />
 
           <UsersDeleteDialog
@@ -32,11 +42,12 @@ export function UsersDialogs() {
             open={open === "delete"}
             onOpenChange={() => {
               setOpen("delete")
-              setTimeout(() => {
-                setCurrentRow(null)
-              }, 500)
             }}
             currentRow={currentRow}
+            refetch={() => {
+              refetch()
+              setCurrentRow(null)
+            }}
           />
         </>
       )}

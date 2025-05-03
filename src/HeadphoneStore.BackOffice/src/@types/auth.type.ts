@@ -6,7 +6,7 @@ export type User = {
   lastName?: string
   avatar?: string
   userStatus?: string
-  roles: string[]
+  roles: string
 }
 
 export type Role = {

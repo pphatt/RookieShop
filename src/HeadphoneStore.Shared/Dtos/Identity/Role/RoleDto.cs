@@ -8,6 +8,6 @@ public class RoleDto
 
     public string DisplayName { get; set; } = default!;
     public string? RoleStatus { get; set; }
-    public DateTimeOffset CreatedDateTime { get; set; }
+    public DateTimeOffset? CreatedDateTime { get; set; }
     public DateTimeOffset? UpdatedDateTime { get; set; }
 }

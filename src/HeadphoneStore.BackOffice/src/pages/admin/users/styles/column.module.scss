@@ -1,0 +1,21 @@
+.checkbox {
+  width: 85px;
+}
+
+.id-column {
+  //width: 500px;
+}
+
+.description-column {
+  max-width: 200px;
+}
+
+.action-column {
+  width: 190px;
+}
+
+.no-focus-shadow {
+  &:focus-visible {
+    box-shadow: none !important;
+  }
+}

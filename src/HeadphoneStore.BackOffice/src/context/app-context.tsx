@@ -9,7 +9,6 @@ import {
 
 import { User } from "@/@types/auth.type"
 import { WhoAmI } from "@/services/user.services"
-import { Role } from "@/@types/role.type"
 import { toast } from "react-toastify"
 
 type TInitialState = {
@@ -65,7 +64,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
           userStatus,
           userId,
           phoneNumber,
-          roles: roles.map((item: Role) => item.name),
+          roles: roles.name,
         })
 
         setProfile({
@@ -76,7 +75,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
           userStatus,
           userId,
           phoneNumber,
-          roles: roles.map((item: Role) => item.name),
+          roles: roles.name,
         })
       }
     },

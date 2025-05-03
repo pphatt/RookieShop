@@ -41,6 +41,8 @@ public class ClaimsTransformer : IClaimsTransformation
             new(ClaimTypes.NameIdentifier, user.UserName ?? string.Empty),
             new(UserClaims.Username, user.UserName ?? string.Empty),
             new(ClaimTypes.Name, user.UserName ?? string.Empty),
+            new(UserClaims.FirstName, user.FirstName ?? string.Empty),
+            new(UserClaims.LastName, user.LastName ?? string.Empty),
             new(UserClaims.Email, user.Email ?? string.Empty),
             new(UserClaims.PhoneNumber, user.PhoneNumber ?? string.Empty),
             new(UserClaims.Avatar, user.Avatar ?? string.Empty),

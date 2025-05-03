@@ -1,32 +1,50 @@
-import { z } from "zod"
+import { PaginationType } from "@/@types/pagination.type"
+import { FilterType } from "@/@types/filter.type"
 
-const userStatusSchema = z.union([
-  z.literal("active"),
-  z.literal("inactive"),
-  z.literal("suspended"),
-])
+export type TRole = {
+  id: string
+  displayName: string
+}
 
-export type UserStatus = z.infer<typeof userStatusSchema>
+export type TUser = {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  phoneNumber: string
+  roles: TRole
+  status: string
+}
 
-const userRoleSchema = z.union([
-  z.literal("superadmin"),
-  z.literal("admin"),
-  z.literal("cashier"),
-  z.literal("manager"),
-])
+export type TUserAdd = {
+  email: string
+  firstName: string
+  lastName: string
+  phoneNumber: string
+  roleId: string
+  status: string
+}
 
-const userSchema = z.object({
-  id: z.string(),
-  firstName: z.string(),
-  lastName: z.string(),
-  username: z.string(),
-  email: z.string(),
-  phoneNumber: z.string(),
-  status: userStatusSchema,
-  role: userRoleSchema,
-  createdAt: z.coerce.date(),
-  updatedAt: z.coerce.date(),
-})
-export type User = z.infer<typeof userSchema>
+export type TUserUpdate = {
+  id: string
+  email: string
+  firstName: string
+  lastName: string
+  phoneNumber: string
+  roleId: string
+  status: string
+}
 
-export const userListSchema = z.array(userSchema)
+export type TUserDelete = {
+  id: string
+}
+
+export type ResponseListUsers = {
+  items: TUser[]
+} & PaginationType
+
+export type UserQueryParams = {} & FilterType
+
+export type UserQueryConfig = {
+  [key in keyof UserQueryParams]: string
+}

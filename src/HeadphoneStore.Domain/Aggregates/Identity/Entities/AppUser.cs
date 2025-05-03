@@ -2,6 +2,7 @@
 
 using HeadphoneStore.Domain.Abstracts.Entities;
 using HeadphoneStore.Domain.Enumeration;
+using HeadphoneStore.Domain.Enumerations;
 
 using Microsoft.AspNetCore.Identity;
 
@@ -17,7 +18,7 @@ public class AppUser : IdentityUser<Guid>, IAuditableEntity
     public DateTimeOffset? LastLoginDate { get; set; }
     public string? Avatar { get; set; } = default!;
     public string? Bio { get; set; }
-    public UserStatus Status { get; set; }
+    public EntityStatus Status { get; set; }
     public bool IsDeleted { get; set; }
     public DateTimeOffset CreatedDateTime { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset? UpdatedDateTime { get; set; }
@@ -41,11 +42,12 @@ public class AppUser : IdentityUser<Guid>, IAuditableEntity
         Email = email;
         NormalizedEmail = email.ToUpperInvariant();
         IsActive = true;
-        Status = UserStatus.Active; // set this to Active
+        Status = EntityStatus.Active; // set this to Active
         IsDeleted = false;
         CreatedDateTime = DateTimeOffset.UtcNow;
         UserName = Email;
         EmailConfirmed = true; // don't need to confirm
+        LockoutEnabled = false; // don't need to confirm email
         NormalizedUserName = NormalizedEmail;
         SecurityStamp = Guid.NewGuid().ToString();
     }
@@ -63,6 +65,7 @@ public class AppUser : IdentityUser<Guid>, IAuditableEntity
 
         FirstName = firstName;
         LastName = lastName;
+        PhoneNumber = phoneNumber;
     }
 
     private AppUser(string email, string firstName, string lastName, string phoneNumber, string passwordHash)
@@ -74,7 +77,7 @@ public class AppUser : IdentityUser<Guid>, IAuditableEntity
     public string GetFullName() => $"{FirstName} {LastName}";
 
     public bool IsActiveUser()
-        => UserStatus.Active == Status && EmailConfirmed && !string.IsNullOrWhiteSpace(PasswordHash);
+        => EntityStatus.Active == Status && EmailConfirmed && !string.IsNullOrWhiteSpace(PasswordHash);
 
     public bool CanBeResetPasswordAfterConfirmedEmail()
         => !IsActiveUser();
@@ -83,7 +86,7 @@ public class AppUser : IdentityUser<Guid>, IAuditableEntity
     {
         return new(email, firstName, lastName, phoneNumber);
     }
-
+   
     public static AppUser Create(string email)
     {
         return new(email);
@@ -91,7 +94,7 @@ public class AppUser : IdentityUser<Guid>, IAuditableEntity
 
     public static AppUser Create(string email, string firstName, string lastName, string phoneNumber, string password)
     {
-        return new(email, firstName, lastName, password, phoneNumber);
+        return new(email, firstName, lastName, phoneNumber, password);
     }
 
     public void Update(string firstName, string lastName)

@@ -27,6 +27,7 @@ import {
   saveUserToLS,
 } from "@/utils/auth.utils"
 import IconSpinner from "@/components/icon-spinner"
+import { handleError } from "@/utils"
 
 type UserAuthFormProps = HTMLAttributes<HTMLFormElement>
 
@@ -60,8 +61,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const { isLoading, mutate } = useMutation({
     mutationFn: (body: TLogin) => login(body),
     onError: (err: any) => {
-      const errMsg = err.response.data.error.message
-      toast.error(errMsg || "error when login")
+      handleError(err)
     },
   })
 
@@ -78,6 +78,16 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           dataDetail as any
 
         const roleData = JSON.parse(roles)
+
+        if (!roleData.includes("admin"))
+          throw {
+            response: {
+              data: {
+                title: "This account is not allowed to sign in",
+                description: "Only admin accounts can access this dashboard.",
+              },
+            },
+          }
 
         saveAccessTokenToLS(accessToken)
         saveRefreshTokenToLS(refreshToken as string, exp)

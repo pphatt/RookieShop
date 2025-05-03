@@ -1,5 +1,5 @@
 ﻿using HeadphoneStore.Domain.Aggregates.Identity.Entities;
-using HeadphoneStore.Domain.Enumeration;
+using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Queries;
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Identity.Role;
@@ -27,7 +27,7 @@ public class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, UserDto>
         if (user is null)
             throw new Exceptions.Identity.NotFound();
 
-        if (user.Status == UserStatus.Inactive)
+        if (user.Status == EntityStatus.Inactive)
             throw new Exceptions.Identity.InactiveOrLockedOut();
 
         var result = new UserDto
@@ -40,7 +40,7 @@ public class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, UserDto>
             DayOfBirth = user.DayOfBirth,
             Avatar = user.Avatar,
             Bio = user.Bio,
-            UserStatus = user.IsActive.ToString(),
+            Status = user.IsActive.ToString(),
         };
 
         var roles = await _userManager.GetRolesAsync(user);
@@ -49,8 +49,8 @@ public class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, UserDto>
         {
             result.Roles = roles.Select(x => new RoleDto
             {
-                Name = x,
-            });
+                DisplayName = x,
+            }).First();
         }
 
         return Result.Success(result);

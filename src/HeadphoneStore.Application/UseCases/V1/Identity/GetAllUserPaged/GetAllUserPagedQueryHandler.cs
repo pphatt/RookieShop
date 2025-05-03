@@ -3,6 +3,7 @@
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Shared.Abstracts.Queries;
 using HeadphoneStore.Shared.Abstracts.Shared;
+using HeadphoneStore.Shared.Dtos.Identity.Role;
 using HeadphoneStore.Shared.Dtos.Identity.User;
 
 using Microsoft.AspNetCore.Identity;
@@ -12,18 +13,21 @@ namespace HeadphoneStore.Application.UseCases.V1.Identity.GetAllUserPaged;
 
 public class GetAllUserPagedQueryHandler : IQueryHandler<GetAllUserPagedQuery, PagedResult<UserDto>>
 {
-    private readonly IMapper _mapper;
     private readonly UserManager<AppUser> _userManager;
+    private readonly RoleManager<AppRole> _roleManager;
 
-    public GetAllUserPagedQueryHandler(IMapper mapper, UserManager<AppUser> userManager)
+    public GetAllUserPagedQueryHandler(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
     {
-        _mapper = mapper;
         _userManager = userManager;
+        _roleManager = roleManager;
     }
 
     public async Task<Result<PagedResult<UserDto>>> Handle(GetAllUserPagedQuery request, CancellationToken cancellationToken)
     {
         var query = _userManager.Users;
+        var roles = _roleManager.Roles.AsQueryable();
+
+        query = query.Where(u => !u.UserRoles.Any(ur => roles.FirstOrDefault(x => x.Name == "admin").Id == ur.RoleId));
 
         if (!string.IsNullOrWhiteSpace(request.SearchTerm))
         {
@@ -54,8 +58,12 @@ public class GetAllUserPagedQueryHandler : IQueryHandler<GetAllUserPagedQuery, P
             PhoneNumber = x.PhoneNumber,
             DayOfBirth = x.DayOfBirth,
             Avatar = x.Avatar,
-            Bio = x.Bio,
-            UserStatus = x.IsActive.ToString(),
+            Roles = x.UserRoles.Select(r => new RoleDto
+            {
+                Id = roles.FirstOrDefault(x => x.Id == r.RoleId)!.Id,
+                DisplayName = roles.FirstOrDefault(x => x.Id == r.RoleId)!.DisplayName ?? "Customer",
+            }).First(),
+            Status = x.Status.ToString(),
         }).ToListAsync();
 
         var result = new PagedResult<UserDto>(
