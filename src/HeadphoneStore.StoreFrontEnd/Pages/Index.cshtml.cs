@@ -2,7 +2,7 @@
 
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Product;
-using HeadphoneStore.StoreFrontEnd.Apis;
+using HeadphoneStore.StoreFrontEnd.Apis.Endpoints;
 using HeadphoneStore.StoreFrontEnd.Constants;
 
 using Microsoft.AspNetCore.Mvc.RazorPages;

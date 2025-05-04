@@ -2,6 +2,6 @@
 
 namespace HeadphoneStore.Shared.Services.Identity.RefreshToken;
 
-public class RefreshTokenResponseDto : AuthenticatedTokenResponse
+public class RefreshTokenResponseDto : TokenResponse
 {
 }

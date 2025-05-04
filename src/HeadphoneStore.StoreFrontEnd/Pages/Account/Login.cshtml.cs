@@ -4,7 +4,7 @@ using System.Text.Json;
 
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Services.Identity.Login;
-using HeadphoneStore.StoreFrontEnd.Apis;
+using HeadphoneStore.StoreFrontEnd.Apis.Endpoints;
 using HeadphoneStore.StoreFrontEnd.Models;
 
 using Microsoft.AspNetCore.Authentication;

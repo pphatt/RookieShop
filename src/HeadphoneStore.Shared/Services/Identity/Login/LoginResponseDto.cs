@@ -2,6 +2,6 @@
 
 namespace HeadphoneStore.Shared.Services.Identity.Login;
 
-public class LoginResponseDto : AuthenticatedTokenResponse
+public class LoginResponseDto : TokenResponse
 {
 }

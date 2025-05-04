@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Headers;
 
-using HeadphoneStore.StoreFrontEnd.Apis;
+using HeadphoneStore.StoreFrontEnd.Apis.Endpoints;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
