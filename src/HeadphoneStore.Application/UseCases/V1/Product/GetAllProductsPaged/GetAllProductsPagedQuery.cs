@@ -8,7 +8,7 @@ namespace HeadphoneStore.Application.UseCases.V1.Product.GetAllProductsPaged;
 
 public class GetAllProductsPagedQuery : PagedDto, IQuery<PagedResult<ProductDto>>, ICacheable
 {
-    public string? CategorySlug { get; set; }
+    public List<Guid> CategoryIds { get; set; }
 
     public bool BypassCache => false;
     public string CacheKey
@@ -23,9 +23,18 @@ public class GetAllProductsPagedQuery : PagedDto, IQuery<PagedResult<ProductDto>
                 builder.Append($":SearchTerm:{SearchTerm}");
             }
 
-            if (CategorySlug != null)
+            if (CategoryIds is not null && CategoryIds.Any())
             {
-                builder.Append($":Category:{CategorySlug}");
+                builder.Append($":Category:");
+
+                var ids = new StringBuilder();
+
+                foreach (var id in CategoryIds)
+                {
+                    ids.Append(id);
+                }
+
+                builder.Append(string.Join("-", ids));
             }
 
             builder.Append($":Page:{PageIndex}:{PageSize}");

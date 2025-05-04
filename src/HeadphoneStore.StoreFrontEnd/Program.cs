@@ -31,6 +31,7 @@ builder.Services.AddScoped<IApiInstance, ApiInstance>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
 
 // Configure API options
 builder.Services.Configure<ApiOptions>(builder.Configuration.GetSection("ApiOptions"));

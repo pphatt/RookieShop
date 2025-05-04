@@ -29,7 +29,7 @@ public class ProductRepository : RepositoryBase<Product, Guid>, IProductReposito
         return await _context.Products.AnyAsync(x => x.Slug == slug);
     }
 
-    public async Task<PagedResult<ProductDto>> GetAllProductPagination(string? categorySlug, string? keyword, int pageIndex, int pageSize)
+    public async Task<PagedResult<ProductDto>> GetAllProductPagination(List<Guid> categoryIds, string? keyword, int pageIndex, int pageSize)
     {
         var query = GetQueryableSet()
             .Include(x => x.Category)
@@ -39,12 +39,14 @@ public class ProductRepository : RepositoryBase<Product, Guid>, IProductReposito
 
         if (!string.IsNullOrWhiteSpace(keyword))
         {
-            query = query.Where(x => x.Name.Contains(keyword));
+            query = query.Where(x => 
+                x.Name.ToLowerInvariant().Contains(keyword.ToLowerInvariant()) ||
+                x.Description.ToLowerInvariant().Contains(keyword.ToLowerInvariant()));
         }
 
-        if (!string.IsNullOrWhiteSpace(categorySlug))
+        if (categoryIds != null && categoryIds.Any())
         {
-            query = query.Where(x => x.Category.Slug.Contains(categorySlug));
+            query = query.Where(x => categoryIds.Contains(x.CategoryId));
         }
 
         query = query

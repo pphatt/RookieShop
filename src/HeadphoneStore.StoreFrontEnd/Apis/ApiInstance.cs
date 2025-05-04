@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -39,7 +40,8 @@ public class ApiInstance : IApiInstance
         // Configure JSON serialization options
         _jsonOptions = new JsonSerializerOptions
         {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = false
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = false
         };
     }
 
@@ -49,7 +51,22 @@ public class ApiInstance : IApiInstance
 
         if (!string.IsNullOrEmpty(accessToken))
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            // Parse JWT token
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(accessToken);
+            var tokenExp = token.Claims.First(claim => claim.Type.Equals("exp")).Value;
+            var tokenDate = DateTimeOffset.FromUnixTimeSeconds(long.Parse(tokenExp)).UtcDateTime;
+            var now = DateTimeOffset.UtcNow;
+
+            if (tokenDate > now)
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            }
+            else
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = null;
+                _logger.LogWarning("Access token was expired.");
+            }
         }
         else
         {
@@ -96,22 +113,12 @@ public class ApiInstance : IApiInstance
 
     public async Task<TResponse?> PostAsync<TRequest, TResponse>(string endpoint, TRequest data)
     {
-        var jsonContent = new StringContent(
-            JsonSerializer.Serialize(data, _jsonOptions),
-            Encoding.UTF8,
-            "application/json");
-
-        return await ExecuteWithRetryAsync<TResponse>(async () => await _httpClient.PostAsync(endpoint, jsonContent));
+        return await ExecuteWithRetryAsync<TResponse?>(async () => await _httpClient.PostAsJsonAsync(endpoint, data));
     }
 
     public async Task<TResponse?> PutAsync<TRequest, TResponse>(string endpoint, TRequest data)
     {
-        var jsonContent = new StringContent(
-            JsonSerializer.Serialize(data, _jsonOptions),
-            Encoding.UTF8,
-            "application/json");
-
-        return await ExecuteWithRetryAsync<TResponse>(async () => await _httpClient.PutAsync(endpoint, jsonContent));
+        return await ExecuteWithRetryAsync<TResponse>(async () => await _httpClient.PutAsJsonAsync(endpoint, data));
     }
 
     public async Task<bool> DeleteAsync(string endpoint)
@@ -140,13 +147,8 @@ public class ApiInstance : IApiInstance
                 RefreshToken = refreshToken
             };
 
-            var jsonContent = new StringContent(
-                JsonSerializer.Serialize(tokenRequest, _jsonOptions),
-                Encoding.UTF8,
-                "application/json");
-
             _httpClient.DefaultRequestHeaders.Authorization = null; // this can be not necessary (api side still allows anonymous)
-            var response = await _httpClient.PostAsync(AuthenticationApi.RefreshTokenEndpoint, jsonContent);
+            var response = await _httpClient.PostAsJsonAsync(AuthenticationApi.RefreshTokenEndpoint, tokenRequest);
 
             if (!response.IsSuccessStatusCode)
             {

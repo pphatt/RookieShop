@@ -19,7 +19,7 @@ public class ProductService : IProductService
     public async Task<Result<PagedResult<ProductDto>>> GetAllProducts(int pageIndex = 1,
                                                                       int pageSize = 10,
                                                                       string? searchTerm = null,
-                                                                      string? categorySlug = null)
+                                                                      List<Guid>? categoryIds = null)
     {
         // Build query params
         var queryParams = new List<string>
@@ -33,9 +33,12 @@ public class ProductService : IProductService
             queryParams.Add($"searchTerm={Uri.EscapeDataString(searchTerm)}");
         }
 
-        if (!string.IsNullOrWhiteSpace(categorySlug))
+        if (categoryIds != null && categoryIds.Any())
         {
-            queryParams.Add($"categorySlug={Uri.EscapeDataString(categorySlug)}");
+            foreach (var id in categoryIds)
+            {
+                queryParams.Add($"categoryIds={id}");
+            }
         }
 
         string endpoint = $"{ProductApi.GetProductByCategory}?{string.Join("&", queryParams)}";

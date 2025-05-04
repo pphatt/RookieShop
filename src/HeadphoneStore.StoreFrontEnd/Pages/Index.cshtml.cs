@@ -9,22 +9,14 @@ public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
     private readonly IProductService _productService;
+    private readonly ICategoryService _categoryService;
 
-    public IndexModel(ILogger<IndexModel> logger, IProductService productService)
+    public IndexModel(ILogger<IndexModel> logger, IProductService productService, ICategoryService categoryService)
     {
         _logger = logger;
         _productService = productService;
+        _categoryService = categoryService;
     }
-
-    /// <summary>
-    /// "Tai Nghe" category
-    /// </summary>
-    private readonly string _headphoneCategorySlug = "tai-nghe";
-
-    /// <summary>
-    /// "Dac" category
-    /// </summary>
-    private readonly string _dacCategorySlug = "dac";
 
     public List<ProductDto> Headphones { get; set; } = [];
 
@@ -34,19 +26,22 @@ public class IndexModel : PageModel
     {
         try
         {
+            var headphoneCategory = await _categoryService.GetAllCategories(searchTerm: "Tai Nghe");
+            var dacCategory = await _categoryService.GetAllCategories(searchTerm: "Dac");
+
             var headphone = await _productService.GetAllProducts(
-                categorySlug: _headphoneCategorySlug
+                categoryIds: headphoneCategory.FirstOrDefault()?.SubCategories?.Select(x => x.Id).ToList()
             );
 
             var dac = await _productService.GetAllProducts(
-                categorySlug: _dacCategorySlug
+                categoryIds: dacCategory.FirstOrDefault()?.SubCategories?.Select(x => x.Id).ToList()
             );
 
             if (headphone?.Value is not null)
             {
                 Headphones = headphone.Value.Items;
             }
-            
+
             if (dac?.Value is not null)
             {
                 Dacs = dac.Value.Items;

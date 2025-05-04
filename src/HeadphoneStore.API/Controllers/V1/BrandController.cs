@@ -9,6 +9,7 @@ using HeadphoneStore.Application.UseCases.V1.Brand.BulkDeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.DeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrands;
+using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrandsByProductProperties;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrandsPaged;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetBrandById;
 using HeadphoneStore.Application.UseCases.V1.Brand.InactiveBrand;
@@ -20,6 +21,7 @@ using HeadphoneStore.Shared.Services.Brand.ActiveBrand;
 using HeadphoneStore.Shared.Services.Brand.BulkDelete;
 using HeadphoneStore.Shared.Services.Brand.Create;
 using HeadphoneStore.Shared.Services.Brand.Delete;
+using HeadphoneStore.Shared.Services.Brand.GetAllBrandsByProductProperties;
 using HeadphoneStore.Shared.Services.Brand.GetAllPaged;
 using HeadphoneStore.Shared.Services.Brand.GetById;
 using HeadphoneStore.Shared.Services.Brand.InactiveBrand;
@@ -197,6 +199,21 @@ public class BrandController : BaseApiController
     public async Task<IActionResult> GetAllBrandsPagination([FromQuery] GetAllBrandsPagedRequestDto request)
     {
         var mapper = _mapper.Map<GetAllBrandsPagedQuery>(request);
+
+        var result = await _mediator.Send(mapper);
+
+        if (result.IsFailure)
+            return HandlerFailure(result);
+
+        return Ok(result);
+    }
+
+    [HttpGet("all-brands-filtered-by-product-properties")]
+    [MapToApiVersion(1)]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetAllBrandsFilteredByProductProperties([FromQuery] GetAllBrandsByProductPropertiesRequestDto request)
+    {
+        var mapper = _mapper.Map<GetAllBrandsByProductPropertiesQuery>(request);
 
         var result = await _mediator.Send(mapper);
 

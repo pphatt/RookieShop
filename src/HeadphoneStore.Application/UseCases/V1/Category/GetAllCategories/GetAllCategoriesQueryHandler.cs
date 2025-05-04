@@ -21,7 +21,14 @@ public class GetAllCategoriesQueryHandler : IQueryHandler<GetAllCategoriesQuery,
     {
         var categories = _categoryRepository
             .FindAll(x => x.ParentId == null)
-            .Where(x => x.Status == EntityStatus.Active)
+            .Where(x => x.Status == EntityStatus.Active);
+
+        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
+        {
+            categories = categories.Where(x => x.Name.Contains(request.SearchTerm));
+        }
+
+        var result = await categories
             .OrderBy(x => x.CreatedDateTime)
             .Select(x => new CategoryDto
             {
@@ -45,9 +52,8 @@ public class GetAllCategoriesQueryHandler : IQueryHandler<GetAllCategoriesQuery,
                         CreatedBy = c.CreatedBy,
                         UpdatedBy = c.UpdatedBy,
                     })
-            });
-
-        var result = await categories.ToListAsync();
+            })
+            .ToListAsync();
 
         return Result.Success(result);
     }

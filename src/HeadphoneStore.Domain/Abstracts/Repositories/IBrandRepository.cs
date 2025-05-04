@@ -11,4 +11,6 @@ public interface IBrandRepository : IRepositoryBase<Brand, Guid>
     Task<PagedResult<BrandDto>> GetBrandsPagination(string? keyword,
                                                     int pageIndex,
                                                     int pageSize);
+
+    Task<List<BrandDto>> GetBrandsFilteredByProductProperties(List<Guid>? categoryIds);
 }

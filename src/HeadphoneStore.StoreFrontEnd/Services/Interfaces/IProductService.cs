@@ -8,5 +8,5 @@ public interface IProductService
     Task<Result<PagedResult<ProductDto>>> GetAllProducts(int pageIndex = 1,
                                                          int pageSize = 10,
                                                          string? searchTerm = null,
-                                                         string? categorySlug = null);
+                                                         List<Guid>? categoryIds = null);
 }

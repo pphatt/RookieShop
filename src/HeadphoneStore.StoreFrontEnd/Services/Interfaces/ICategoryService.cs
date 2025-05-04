@@ -4,5 +4,5 @@ namespace HeadphoneStore.StoreFrontEnd.Services.Interfaces;
 
 public interface ICategoryService
 {
-    Task<List<CategoryDto>> GetAllCategories();
+    Task<List<CategoryDto>> GetAllCategories(string? searchTerm = null);
 }

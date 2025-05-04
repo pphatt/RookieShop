@@ -1,0 +1,123 @@
+﻿@page
+@model HeadphoneStore.StoreFrontEnd.Pages.Products.IndexModel
+@{
+    ViewData["Title"] = "Browse Headphones";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/css/application/product/list-product.css")" rel="stylesheet" type="text/css"
+          asp-append-version="true"/>
+
+    <link href="@Url.Content("~/css/components/product-card.css")" rel="stylesheet" type="text/css"
+          asp-append-version="true"/>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css">
+}
+
+<main>
+    <div class="list-hero">
+        <h3 class="list-hero-text">Headphones</h3>
+    </div>
+
+    <div class="list-product-wrapper">
+        <div class="filtered-section-wrapper">
+            <form method="get" class="filtered-section-wrapper">
+                <div class="filtered-section-item-wrapper">
+                    <div class="filtered-section-item-title-wrapper">
+                        Brands
+                    </div>
+
+                    <ul class="filtered-section-item-container">
+                        @foreach (var brand in Model.Brands)
+                        {
+                            <li class="filtered-item-container">
+                                <label for="@brand.Slug" class="filtered-item-overlay">
+                                    <input type="checkbox" id="@brand.Slug" value="@brand.Id" name="brandId" class="filtered-item-checkbox"/>
+
+                                    <span class="filtered-item-checkbox-text">@brand.Name</span>
+                                </label>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <div class=""></div>
+
+                <div class="filtered-section-item-wrapper">
+                    <div class="filtered-section-item-title-wrapper">
+                        Availability
+                    </div>
+
+                    <ul class="filtered-section-item-container">
+                        <li class="filtered-item-container">
+                            <label for="in-stock" class="filtered-item-overlay">
+                                <input type="checkbox" id="in-stock" name="brandId" class="filtered-item-checkbox"/>
+
+                                <span class="filtered-item-checkbox-text">In Stock (0)</span>
+                            </label>
+                        </li>
+
+                        <li class="filtered-item-container">
+                            <label for="out-of-stock" class="filtered-item-overlay">
+                                <input type="checkbox" id="out-of-stock" name="brandId" class="filtered-item-checkbox"/>
+
+                                <span class="filtered-item-checkbox-text">Out of Stock (0)</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div>
+            <div class="sort-layout-wrapper">
+                <div></div>
+                
+                <div class="sort-layout-container">
+                    <div class="sort-layout-overlay">
+                        <label class="sort-label">Sort by:</label>
+
+                        <div class="sort-select-wrapper">
+                            <form method="get">
+                                <select class="sort-select" id="sortOption" name="sortBy" onchange="this.form.submit()">
+                                    <option value="title_asc" selected="@(Model.SortBy == "title_asc")">Alphabetically, A-Z</option>
+                                    <option value="title_desc" selected="@(Model.SortBy == "title_desc")">Alphabetically, Z-A</option>
+                                    <option value="price_asc" selected="@(Model.SortBy == "price_asc")">Price, low to high</option>
+                                    <option value="price_desc" selected="@(Model.SortBy == "price_desc")">Price, high to low</option>
+                                    <option value="created_asc" selected="@(Model.SortBy == "created_asc")">Date, old to new</option>
+                                    <option value="created_desc" selected="@(Model.SortBy == "created_desc")">Date, new to old</option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="products-list-layout-wrapper">
+                <div class="products-list-layout-container">
+                    @foreach (var item in Model.Headphones)
+                    {
+                        @await Html.PartialAsync("Shared/Components/_ProductCard", item)
+                    }
+                </div>
+
+                <div class="product-list-pagination-wrapper">
+                    <div class="pagination-item-icon-wrapper">
+                        <i class="bi bi-chevron-left pagination-item-icon"></i>
+                    </div>
+
+                    @for (var i = 1; i < 7; i++)
+                    {
+                        <div class="product-list-pagination-item-wrapper">
+                            <a href="/" class="product-list-pagination-item">@i</a>
+                        </div>
+                    }
+
+                    <div class="pagination-item-icon-wrapper" style="margin-left: -10px;">
+                        <i class="bi bi-chevron-right pagination-item-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

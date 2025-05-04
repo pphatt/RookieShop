@@ -15,9 +15,19 @@ public class CategoryService : ICategoryService
         _apiInstance = apiInstance;
     }
 
-    public async Task<List<CategoryDto>> GetAllCategories()
+    public async Task<List<CategoryDto>> GetAllCategories(string? searchTerm = null)
     {
-        var result = await _apiInstance.GetAsync<Result<List<CategoryDto>>>(CategoryApi.GetAllCategories);
+        // Build query params
+        var queryParams = new List<string>();
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            queryParams.Add($"searchTerm={Uri.EscapeDataString(searchTerm)}");
+        }
+
+        string endpoint = $"{CategoryApi.GetAllCategories}?{string.Join("&", queryParams)}";
+        
+        var result = await _apiInstance.GetAsync<Result<List<CategoryDto>>>(endpoint);
 
         return result!.Value;
     }

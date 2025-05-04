@@ -21,6 +21,7 @@ using HeadphoneStore.Shared.Dtos.Category;
 using HeadphoneStore.Shared.Services.Category.ActivateCategory;
 using HeadphoneStore.Shared.Services.Category.Create;
 using HeadphoneStore.Shared.Services.Category.Delete;
+using HeadphoneStore.Shared.Services.Category.GetAllCategories;
 using HeadphoneStore.Shared.Services.Category.GetAllPaged;
 using HeadphoneStore.Shared.Services.Category.GetCategoryById;
 using HeadphoneStore.Shared.Services.Category.InactivateCategory;
@@ -176,11 +177,11 @@ public class CategoryController : BaseApiController
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
     [AllowAnonymous]
-    public async Task<IActionResult> GetAllCategories()
+    public async Task<IActionResult> GetAllCategories([FromQuery] GetAllCategoriesRequestDto request)
     {
-        var query = new GetAllCategoriesQuery();
+        var mapper = _mapper.Map<GetAllCategoriesQuery>(request);
 
-        var result = await _mediator.Send(query);
+        var result = await _mediator.Send(mapper);
 
         if (result.IsFailure)
             return HandlerFailure(result);

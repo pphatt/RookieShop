@@ -15,32 +15,29 @@
 }
 @media screen and (min-width: 990px) {
   .card-wrapper:hover img {
-    transform: scale(1.2);
+    transform: scale(1.05);
   }
 }
 
 .card-container {
   position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   color: #000;
   background-color: #fff;
   max-width: 100%;
   width: 100%;
-  border-radius: 15px;
+  height: 95%;
+  border-radius: 8px;
   padding: 15px 30px;
   text-align: left;
   text-decoration: none;
   --ratio-percent: 100%;
-  box-shadow: 0 39.36px 24px rgba(0, 0, 0, 0.01), 0 17.28px 17.28px rgba(0, 0, 0, 0.04), 0 4.8px 9.6px rgba(0, 0, 0, 0.04), 0 0 0 rgba(0, 0, 0, 0.04);
+  box-shadow: -39.36px -39.36px 24px rgba(0, 0, 0, 0.01), -17.28px -17.28px 17.28px rgba(0, 0, 0, 0.02), -4.8px -4.8px 9.6px rgba(0, 0, 0, 0.02), 39.36px -39.36px 24px rgba(0, 0, 0, 0.01), 17.28px -17.28px 17.28px rgba(0, 0, 0, 0.02), 4.8px -4.8px 9.6px rgba(0, 0, 0, 0.02), -39.36px 39.36px 24px rgba(0, 0, 0, 0.01), -17.28px 17.28px 17.28px rgba(0, 0, 0, 0.02), -4.8px 4.8px 9.6px rgba(0, 0, 0, 0.02), 39.36px 39.36px 24px rgba(0, 0, 0, 0.01), 17.28px 17.28px 17.28px rgba(0, 0, 0, 0.02), 4.8px 4.8px 9.6px rgba(0, 0, 0, 0.02), 0 0 9.6px rgba(0, 0, 0, 0.04);
   transition: 0.3s ease-out;
 }
-.card-container:not(.ratio) {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
 .card-container:hover {
-  box-shadow: 0 99px 40px rgba(0, 0, 0, 0.01), 0 56px 33px rgba(0, 0, 0, 0.04), 0 25px 25px rgba(0, 0, 0, 0.07), 0 6px 14px rgba(0, 0, 0, 0.08), 0 0 0 rgba(0, 0, 0, 0.08);
+  box-shadow: -60px -60px 40px rgba(0, 0, 0, 0.02), -30px -30px 30px rgba(0, 0, 0, 0.04), -10px -10px 20px rgba(0, 0, 0, 0.05), 60px -60px 40px rgba(0, 0, 0, 0.02), 30px -30px 30px rgba(0, 0, 0, 0.04), 10px -10px 20px rgba(0, 0, 0, 0.05), -60px 60px 40px rgba(0, 0, 0, 0.02), -30px 30px 30px rgba(0, 0, 0, 0.04), -10px 10px 20px rgba(0, 0, 0, 0.05), 60px 60px 40px rgba(0, 0, 0, 0.02), 30px 30px 30px rgba(0, 0, 0, 0.04), 10px 10px 20px rgba(0, 0, 0, 0.05), 0 0 20px rgba(0, 0, 0, 0.06);
 }
 
 .card-image-wrapper {

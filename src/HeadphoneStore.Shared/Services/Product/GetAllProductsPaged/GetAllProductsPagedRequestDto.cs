@@ -4,5 +4,5 @@ namespace HeadphoneStore.Shared.Services.Product.GetAllPaged;
 
 public class GetAllProductPagedRequestDto : PagedRequestDto
 {
-    public string? CategorySlug { get; set; }
+    public List<Guid> CategoryIds { get; set; }
 }

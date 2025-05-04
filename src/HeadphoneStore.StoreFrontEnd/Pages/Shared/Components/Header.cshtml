@@ -1,9 +1,4 @@
-﻿@{
-    var isLoggedIn = User.Identity?.IsAuthenticated ?? false;
-    var username = User.FindFirst("unique_name")?.Value ?? "Guest";
-}
-
-<header>
+﻿<header>
     <div class="topbar-wrapper">
         <div class="topbar-navigate-wrapper">
             <div class="information-text">
@@ -31,34 +26,7 @@
                     <a href="/gio-hang">Giỏ Hàng (0)</a>
                 </li>
 
-                @if (isLoggedIn)
-                {
-                    <li class="topbar-menu-item-wrapper user-dropdown">
-                        <div class="user-dropdown-item">@username</div>
-                    
-                        <div class="dropdown-submenu">
-                            <form asp-page="/Account/Logout" method="post">
-                                @Html.AntiForgeryToken()
-                                
-                                <button type="submit" class="box-item">
-                                    Logout
-                                </button>
-                            </form>
-                        </div>
-                    </li>
-                }
-                else
-                {
-                    <li class="topbar-menu-item-wrapper">
-                        <i class="material-icons-outlined">lock</i>
-
-                        <a asp-page="/Account/Login">Đăng Nhập</a>
-
-                        <div class="divide">|</div>
-
-                        <a asp-page="/Account/SignUp" style="padding-left: 0px">Đăng Ký</a>
-                    </li>
-                }
+                <partial name="Components/_LoginPartial" />
             </ul>
         </div>
     </div>

@@ -5,6 +5,7 @@ using HeadphoneStore.Application.UseCases.V1.Brand.BulkDeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.DeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrands;
+using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrandsByProductProperties;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrandsPaged;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetBrandById;
 using HeadphoneStore.Application.UseCases.V1.Brand.InactiveBrand;
@@ -12,6 +13,7 @@ using HeadphoneStore.Application.UseCases.V1.Brand.UpdateBrand;
 using HeadphoneStore.Application.UseCases.V1.Category.ActivateCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.CreateCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.DeleteCategory;
+using HeadphoneStore.Application.UseCases.V1.Category.GetAllCategories;
 using HeadphoneStore.Application.UseCases.V1.Category.GetAllCategoriesPaged;
 using HeadphoneStore.Application.UseCases.V1.Category.GetCategoryById;
 using HeadphoneStore.Application.UseCases.V1.Category.InactivateCategory;
@@ -38,6 +40,7 @@ using HeadphoneStore.Shared.Services.Brand.BulkDelete;
 using HeadphoneStore.Shared.Services.Brand.Create;
 using HeadphoneStore.Shared.Services.Brand.Delete;
 using HeadphoneStore.Shared.Services.Brand.GetAll;
+using HeadphoneStore.Shared.Services.Brand.GetAllBrandsByProductProperties;
 using HeadphoneStore.Shared.Services.Brand.GetAllPaged;
 using HeadphoneStore.Shared.Services.Brand.GetById;
 using HeadphoneStore.Shared.Services.Brand.InactiveBrand;
@@ -45,6 +48,7 @@ using HeadphoneStore.Shared.Services.Brand.Update;
 using HeadphoneStore.Shared.Services.Category.ActivateCategory;
 using HeadphoneStore.Shared.Services.Category.Create;
 using HeadphoneStore.Shared.Services.Category.Delete;
+using HeadphoneStore.Shared.Services.Category.GetAllCategories;
 using HeadphoneStore.Shared.Services.Category.GetAllPaged;
 using HeadphoneStore.Shared.Services.Category.GetCategoryById;
 using HeadphoneStore.Shared.Services.Category.InactivateCategory;
@@ -92,6 +96,7 @@ public class MapperProfiles : Profile
         CreateMap<DeleteCategoryRequestDto, DeleteCategoryCommand>();
         CreateMap<GetCategoryByIdRequestDto, GetCategoryByIdQuery>();
         CreateMap<GetAllCategoriesPagedRequestDto, GetAllCategoriesPagedQuery>();
+        CreateMap<GetAllCategoriesRequestDto, GetAllCategoriesQuery>();
         CreateMap<ActivateCategoryRequestDto, ActivateCategoryCommand>();
         CreateMap<InactivateCategoryRequestDto, InactivateCategoryCommand>();
 
@@ -105,6 +110,7 @@ public class MapperProfiles : Profile
         CreateMap<GetAllBrandsPagedRequestDto, GetAllBrandsPagedQuery>();
         CreateMap<ActivateBrandRequestDto, ActivateBrandCommand>();
         CreateMap<InactivateBrandRequestDto, InactivateBrandCommand>();
+        CreateMap<GetAllBrandsByProductPropertiesRequestDto, GetAllBrandsByProductPropertiesQuery>();
 
         // Product
         CreateMap<CreateProductRequestDto, CreateProductCommand>();

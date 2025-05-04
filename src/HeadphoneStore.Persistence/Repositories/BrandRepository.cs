@@ -51,4 +51,29 @@ public class BrandRepository : RepositoryBase<Brand, Guid>, IBrandRepository
 
         return await PagedResult<BrandDto>.InitializeAsync(result, pageIndex, pageSize);
     }
+
+    public async Task<List<BrandDto>> GetBrandsFilteredByProductProperties(List<Guid>? categoryIds)
+    {
+        var query = GetQueryableSet()
+            .Include(x => x.Products)
+                .ThenInclude(x => x.Category)
+            .AsNoTracking();
+
+        if (categoryIds != null && categoryIds.Any())
+        {
+            query = query
+                .Where(x => x.Products.Where(x => categoryIds.Contains(x.CategoryId)).Any());
+        }
+
+        var result = query.Select(x => new BrandDto
+        {
+            Id = x.Id,
+            Name = x.Name,
+            Slug = x.Slug,
+            Description = x.Description,
+            Status = x.Status.ToString(),
+        }).ToList();
+
+        return result;
+    }
 }
