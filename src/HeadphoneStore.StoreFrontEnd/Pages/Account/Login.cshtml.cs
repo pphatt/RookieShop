@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -6,6 +7,7 @@ using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Services.Identity.Login;
 using HeadphoneStore.StoreFrontEnd.Apis.Endpoints;
 using HeadphoneStore.StoreFrontEnd.Models;
+using HeadphoneStore.StoreFrontEnd.Services.Interfaces;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -18,84 +20,111 @@ namespace HeadphoneStore.StoreFrontEnd.Pages.Account;
 public class LoginModel : PageModel
 {
     private readonly ILogger<LoginModel> _logger;
-    private readonly IHttpClientFactory _httpClientFactory;
-
-    [BindProperty] public LoginRequestDto LoginRequest { get; init; } = null!;
-    [BindProperty] public bool RememberMe { get; set; }
+    private readonly IAccountService _accountService;
 
     public LoginModel(
         ILogger<LoginModel> logger,
-        IHttpClientFactory httpClientFactory)
+        IAccountService accountService)
     {
         _logger = logger;
-        _httpClientFactory = httpClientFactory;
+        _accountService = accountService;
     }
 
-    public void OnGet(string returnUrl = null)
+    [BindProperty]
+    public InputModel Input { get; init; } = null!;
+
+    public string? ReturnUrl { get; set; }
+
+    [TempData]
+    public string? ErrorMessage { get; set; }
+
+    public class InputModel
     {
-        ViewData["ReturnUrl"] = returnUrl;
+        [Required(ErrorMessage = "Email is required")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Password is required")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; } = string.Empty;
     }
 
-    public async Task<IActionResult> OnPost(string returnUrl = null)
+    public void OnGet(string? returnUrl = null)
     {
-        if (User.Identity?.IsAuthenticated ?? false) return LocalRedirect("/Index");
+        if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            ModelState.AddModelError(string.Empty, ErrorMessage);
+        }
+
+        ReturnUrl = returnUrl ?? Url.Content("~/");
+    }
+
+    public async Task<IActionResult> OnPost(string? returnUrl = null)
+    {
+        returnUrl ??= Url.Content("~/");
+
+        if (User.Identity?.IsAuthenticated ?? false) return LocalRedirect(returnUrl);
 
         if (!ModelState.IsValid)
         {
+            ModelState.AddModelError(string.Empty, "Invalid login attempt. Please check your credentials and try again.");
             return Page();
         }
 
         try
         {
-            var client = _httpClientFactory.CreateClient();
-            var response = await client.PostAsJsonAsync(AuthenticationApi.LoginEndpoint, LoginRequest);
-            var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            //var client = _httpClientFactory.CreateClient();
+            //var response = await client.PostAsJsonAsync(AuthenticationApi.LoginEndpoint, LoginRequest);
+            //var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-            if (!response.IsSuccessStatusCode)
+            var loginRequest = new LoginRequestDto
             {
-                var errorStream = await response.Content.ReadAsStreamAsync();
-                var errorResponse = await JsonSerializer.DeserializeAsync<ErrorResponse>(errorStream, jsonOptions);
+                Email = Input.Email,
+                Password = Input.Password
+            };
 
-                if (errorResponse?.Errors != null)
-                {
-                    foreach (var error in errorResponse.Errors)
-                    {
-                        foreach (var message in error.Value)
-                        {
-                            ModelState.AddModelError(error.Key, message);
-                        }
-                    }
-                }
-                else if (!string.IsNullOrEmpty(errorResponse?.Title))
-                {
-                    ModelState.AddModelError(string.Empty, "Email or password is incorrect.");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "An error occurred during login.");
-                }
+            var result = await _accountService.LoginAsync(loginRequest);
+
+            if (result is null)
+            {
+                //var errorStream = await response.Content.ReadAsStreamAsync();
+                //var errorResponse = await JsonSerializer.DeserializeAsync<ErrorResponse>(errorStream, jsonOptions);
+
+                //if (errorResponse?.Errors != null)
+                //{
+                //    foreach (var error in errorResponse.Errors)
+                //    {
+                //        foreach (var message in error.Value)
+                //        {
+                //            ModelState.AddModelError(error.Key, message);
+                //        }
+                //    }
+                //}
+                //else if (!string.IsNullOrEmpty(errorResponse?.Title))
+                //{
+                //    ModelState.AddModelError(string.Empty, "Email or password is incorrect.");
+                //}
+                //else
+                //{
+                //    ModelState.AddModelError(string.Empty, "An error occurred during login.");
+                //}
 
                 return Page();
             }
 
-            using var responseStream = await response.Content.ReadAsStreamAsync();
-            var apiResponse = await JsonSerializer
-                .DeserializeAsync<Result<LoginResponseDto>>(responseStream, jsonOptions);
-
-            var user = apiResponse!.Value;
-
+            // Parse JWT token
             var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(user.AccessToken);
-            var claims = jwtToken.Claims.Select(c => new Claim(c.Type, c.Value)).ToList();
-            
-            claims.Add(new Claim("access_token", user.AccessToken));
+            var token = handler.ReadJwtToken(result.AccessToken);
 
+            // Setup claim and identity
+            var claims = token.Claims.ToList();
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principle = new ClaimsPrincipal(claimsIdentity);
+
             var authProperties = new AuthenticationProperties
             {
-                IsPersistent = RememberMe,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30),
-                RedirectUri = returnUrl ?? "/Index"
+                IsPersistent = true,
+                ExpiresUtc = result.RefreshTokenExpiryTime,
+                RedirectUri = returnUrl
             };
 
             await HttpContext.SignInAsync(
@@ -103,7 +132,7 @@ public class LoginModel : PageModel
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
 
-            return LocalRedirect(returnUrl ?? "/Index");
+            return LocalRedirect(returnUrl);
         }
         catch (Exception e)
         {

@@ -34,18 +34,13 @@
                         }
 
                         <div>
-                            <input asp-for="LoginRequest.Email" class="form-control rounded-3 form-input"
+                            <input asp-for="Input.Email" class="form-control rounded-3 form-input"
                                    placeholder="Email" type="email" required/>
                         </div>
 
                         <div>
-                            <input asp-for="LoginRequest.Password" class="form-control rounded-3 form-input"
+                            <input asp-for="Input.Password" class="form-control rounded-3 form-input"
                                    placeholder="Password" type="password" required/>
-                        </div>
-
-                        <div class="form-check">
-                            <input asp-for="RememberMe" class="form-check-input form-checkbox" type="checkbox"/>
-                            <label asp-for="RememberMe" class="form-check-label">Ghi nhớ đăng nhập</label>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100 login-btn">Login</button>

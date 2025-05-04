@@ -1,4 +1,8 @@
+using HeadphoneStore.StoreFrontEnd.Apis;
+using HeadphoneStore.StoreFrontEnd.Apis.Interfaces;
 using HeadphoneStore.StoreFrontEnd.Common.Options;
+using HeadphoneStore.StoreFrontEnd.Services;
+using HeadphoneStore.StoreFrontEnd.Services.Interfaces;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -20,6 +24,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
         options.SlidingExpiration = true;
     });
+
+// Register DI services
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IApiInstance, ApiInstance>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 // Configure API options
 builder.Services.Configure<ApiOptions>(builder.Configuration.GetSection("ApiOptions"));

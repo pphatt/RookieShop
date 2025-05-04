@@ -27,10 +27,10 @@ public class ApiInstance : IApiInstance
         IOptions<ApiOptions> apiOptions,
         ILogger<ApiInstance> logger)
     {
-        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-        _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-        _apiOptions = apiOptions?.Value ?? throw new ArgumentNullException(nameof(apiOptions));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _httpClient = httpClient;
+        _httpContextAccessor = httpContextAccessor;
+        _apiOptions = apiOptions!.Value;
+        _logger = logger;
 
         // Configure HttpClient
         _httpClient.BaseAddress = new Uri($"{_apiOptions.BaseUrl}/{_apiOptions.ApiVersion}/");

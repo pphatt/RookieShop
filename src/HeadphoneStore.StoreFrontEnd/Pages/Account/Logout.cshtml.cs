@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Headers;
-
-using HeadphoneStore.StoreFrontEnd.Apis.Endpoints;
+﻿using HeadphoneStore.StoreFrontEnd.Services.Interfaces;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -15,12 +13,16 @@ namespace HeadphoneStore.StoreFrontEnd.Pages.Account;
 public class LogoutModel : PageModel
 {
     private readonly ILogger<LogoutModel> _logger;
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IAccountService _accountService;
 
-    public LogoutModel(ILogger<LogoutModel> logger, IHttpClientFactory httpClientFactory)
+    public LogoutModel(ILogger<LogoutModel> logger, IAccountService accountService)
     {
         _logger = logger;
-        _httpClientFactory = httpClientFactory;
+        _accountService = accountService;
+    }
+
+    public void OnGet()
+    {
     }
 
     public async Task<IActionResult> OnPost()
@@ -29,23 +31,20 @@ public class LogoutModel : PageModel
 
         try
         {
-            var accessToken = User.FindFirst("access_token")?.Value;
-
-            if (!string.IsNullOrEmpty(accessToken))
-            {
-                var client = _httpClientFactory.CreateClient();
-                
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-                
-                await client.PostAsync(AuthenticationApi.LogoutEndpoint, null);
-            }
+            // Call logout API
+            await _accountService.LogoutAsync();
         }
         catch (Exception ex)
         {
             _logger.LogWarning(ex, "Failed to call API logout endpoint");
         }
 
+        // Remove authentication cookie
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+        // Clear cookies
+        Response.Cookies.Delete("AccessToken");
+        Response.Cookies.Delete("RefreshToken");
 
         return RedirectToPage("/Index");
     }

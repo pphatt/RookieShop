@@ -1,9 +1,5 @@
-﻿using System.Text.Json;
-
-using HeadphoneStore.Shared.Abstracts.Shared;
-using HeadphoneStore.Shared.Dtos.Product;
-using HeadphoneStore.StoreFrontEnd.Apis.Endpoints;
-using HeadphoneStore.StoreFrontEnd.Constants;
+﻿using HeadphoneStore.Shared.Dtos.Product;
+using HeadphoneStore.StoreFrontEnd.Services.Interfaces;
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -12,7 +8,13 @@ namespace HeadphoneStore.StoreFrontEnd.Pages;
 public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IProductService _productService;
+
+    public IndexModel(ILogger<IndexModel> logger, IProductService productService)
+    {
+        _logger = logger;
+        _productService = productService;
+    }
 
     /// <summary>
     /// "Tai Nghe" category
@@ -28,55 +30,26 @@ public class IndexModel : PageModel
 
     public List<ProductDto> Dacs { get; set; } = [];
 
-    public IndexModel(ILogger<IndexModel> logger, IHttpClientFactory httpClientFactory)
-    {
-        _logger = logger;
-        _httpClientFactory = httpClientFactory;
-    }
-
     public async Task OnGet()
     {
         try
         {
-            var client = _httpClientFactory.CreateClient();
+            var headphone = await _productService.GetAllProducts(
+                categorySlug: _headphoneCategorySlug
+            );
 
-            string headphoneUri = ProductApi.GetProductByCategory
-                                  + $"?CategorySlug={_headphoneCategorySlug}"
-                                  + $"&{PaginationConstants.PageSizePathParam}={PaginationConstants.PageSize}";
-            
-            string dacUri = ProductApi.GetProductByCategory
-                            + $"?CategorySlug={_dacCategorySlug}"
-                            + $"&{PaginationConstants.PageSizePathParam}={PaginationConstants.PageSize}";
+            var dac = await _productService.GetAllProducts(
+                categorySlug: _dacCategorySlug
+            );
 
-            var jsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true, };
-
-            // Send both requests concurrently
-            var headphoneTask = client.GetAsync(headphoneUri);
-            var dacTask = client.GetAsync(dacUri);
-            await Task.WhenAll(headphoneTask, dacTask);
-
-            // Headphones response
-            if (headphoneTask.Result.IsSuccessStatusCode)
+            if (headphone?.Value is not null)
             {
-                using var stream = await headphoneTask.Result.Content.ReadAsStreamAsync();
-
-                var headphoneResponse = await JsonSerializer
-                    .DeserializeAsync<Result<PagedResult<ProductDto>>>(stream, jsonOptions);
-
-                if (headphoneResponse?.IsSuccessful == true)
-                    Headphones = headphoneResponse.Value!.Items.ToList();
+                Headphones = headphone.Value.Items;
             }
             
-            // Dacs response
-            if (dacTask.Result.IsSuccessStatusCode)
+            if (dac?.Value is not null)
             {
-                using var stream = await dacTask.Result.Content.ReadAsStreamAsync();
-
-                var dacResponse = await JsonSerializer
-                    .DeserializeAsync<Result<PagedResult<ProductDto>>>(stream, jsonOptions);
-
-                if (dacResponse?.IsSuccessful == true)
-                    Dacs = dacResponse.Value!.Items.ToList();
+                Dacs = dac.Value.Items;
             }
         }
         catch (Exception e)

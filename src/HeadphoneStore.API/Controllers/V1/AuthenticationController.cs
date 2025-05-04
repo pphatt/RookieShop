@@ -20,7 +20,6 @@ using Microsoft.Net.Http.Headers;
 namespace HeadphoneStore.API.Controllers.V1;
 
 [ApiVersion(1)]
-[Authorize]
 public class AuthenticationController : BaseApiController
 {
     private readonly IMapper _mapper;
@@ -34,7 +33,6 @@ public class AuthenticationController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
-    [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
     {
         var mapper = _mapper.Map<LoginCommand>(request);
@@ -51,7 +49,6 @@ public class AuthenticationController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RegisterResponseDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
-    [AllowAnonymous]
     public async Task<IActionResult> Register([FromBody] RegisterRequestDto request)
     {
         var mapper = _mapper.Map<RegisterCommand>(request);
@@ -68,7 +65,6 @@ public class AuthenticationController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
-    [AllowAnonymous]
     public async Task<IActionResult> Logout()
     {
         var accessTokenFromHeader = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
@@ -90,7 +86,6 @@ public class AuthenticationController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
-    [AllowAnonymous]
     public async Task<IActionResult> RefreshToken([FromForm] RefreshTokenRequestDto request)
     {
         var mapper = _mapper.Map<RefreshTokenCommand>(request);
