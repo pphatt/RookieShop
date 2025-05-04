@@ -35,7 +35,7 @@
 <body>
     <div class="page-wrapper">
         @* Header section *@
-        @await Html.PartialAsync("Shared/Header")
+        @await Html.PartialAsync("Components/Header")
 
         @* Search section *@
         @* @await Html.PartialAsync("Components/Search") *@
@@ -43,7 +43,7 @@
         @RenderBody()
 
         @* Footer section *@
-        @await Html.PartialAsync("Shared/Footer")
+        @await Html.PartialAsync("Components/Footer")
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

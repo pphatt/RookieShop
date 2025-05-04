@@ -6,7 +6,7 @@ using HeadphoneStore.StoreFrontEnd.Apis;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace HeadphoneStore.StoreFrontEnd.Pages.Shared.ViewComponents;
+namespace HeadphoneStore.StoreFrontEnd.Pages.Shared.Components.CategoryMenu;
 
 public class CategoryMenuViewComponent : ViewComponent
 {

@@ -71,7 +71,7 @@
     </script>
 }
 
-@await Html.PartialAsync("Shared/Carousel")
+@await Html.PartialAsync("Shared/Components/Carousel")
 
 <div class="usps-section-wrapper">
     <div class="usps-item-wrapper">
@@ -157,7 +157,7 @@
                 <div class="products-list-content-wrapper">
                     @foreach (var item in Model.Headphones)
                     {
-                        @await Html.PartialAsync("_ProductCard", item)
+                        @await Html.PartialAsync("Shared/Components/_ProductCard", item)
                     }
                 </div>
             </div>
@@ -182,7 +182,7 @@
                 <div class="products-list-content-wrapper">
                     @foreach (var item in Model.Dacs)
                     {
-                        @await Html.PartialAsync("_ProductCard", item)
+                        @await Html.PartialAsync("Shared/Components/_ProductCard", item)
                     }
                 </div>
             </div>

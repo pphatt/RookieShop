@@ -37,7 +37,7 @@
                         <div class="user-dropdown-item">@username</div>
                     
                         <div class="dropdown-submenu">
-                            <form asp-page="/Logout" method="post">
+                            <form asp-page="/Account/Logout" method="post">
                                 @Html.AntiForgeryToken()
                                 
                                 <button type="submit" class="box-item">
@@ -52,11 +52,11 @@
                     <li class="topbar-menu-item-wrapper">
                         <i class="material-icons-outlined">lock</i>
 
-                        <a asp-page="/Login">Đăng Nhập</a>
+                        <a asp-page="/Account/Login">Đăng Nhập</a>
 
                         <div class="divide">|</div>
 
-                        <a asp-page="/SignUp" style="padding-left: 0px">Đăng Ký</a>
+                        <a asp-page="/Account/SignUp" style="padding-left: 0px">Đăng Ký</a>
                     </li>
                 }
             </ul>
