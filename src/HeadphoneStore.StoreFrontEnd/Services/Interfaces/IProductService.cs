@@ -9,4 +9,6 @@ public interface IProductService
                                                          int pageSize = 10,
                                                          string? searchTerm = null,
                                                          List<Guid>? categoryIds = null);
+
+    Task<Result<ProductDto>> GetProductById(Guid productId);
 }

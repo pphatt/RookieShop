@@ -252,9 +252,9 @@ export default function UserDashboard() {
       <Main>
         <div className="mb-2 flex flex-wrap items-center justify-between space-y-2">
           <div>
-            <h2 className="text-2xl font-bold tracking-tight">User List</h2>
+            <h2 className="text-2xl font-bold tracking-tight">Customer List</h2>
 
-            <p className="text-muted-foreground">Manage store's users here.</p>
+            <p className="text-muted-foreground">Manage store's customer here.</p>
           </div>
 
           <UserFormButton />

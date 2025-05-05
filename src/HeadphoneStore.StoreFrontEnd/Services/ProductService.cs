@@ -41,10 +41,19 @@ public class ProductService : IProductService
             }
         }
 
-        string endpoint = $"{ProductApi.GetProductByCategory}?{string.Join("&", queryParams)}";
+        string endpoint = $"{ProductApi.GetAllProducts}?{string.Join("&", queryParams)}";
 
         var result = await _apiInstance.GetAsync<Result<PagedResult<ProductDto>>>(endpoint);
 
-        return result!.Value;
+        return result.Value;
+    }
+
+    public async Task<Result<ProductDto>> GetProductById(Guid productId)
+    {
+        string endpoint = $"{ProductApi.GetProductById}/{productId}";
+        
+        var result = await _apiInstance.GetAsync<Result<ProductDto>>(endpoint);
+
+        return result.Value;
     }
 }

@@ -8,7 +8,7 @@ namespace HeadphoneStore.Application.UseCases.V1.Product.GetAllProductsPaged;
 
 public class GetAllProductsPagedQuery : PagedDto, IQuery<PagedResult<ProductDto>>, ICacheable
 {
-    public List<Guid> CategoryIds { get; set; }
+    public List<Guid>? CategoryIds { get; set; }
 
     public bool BypassCache => false;
     public string CacheKey

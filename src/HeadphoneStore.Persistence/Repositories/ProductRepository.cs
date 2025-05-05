@@ -29,7 +29,7 @@ public class ProductRepository : RepositoryBase<Product, Guid>, IProductReposito
         return await _context.Products.AnyAsync(x => x.Slug == slug);
     }
 
-    public async Task<PagedResult<ProductDto>> GetAllProductPagination(List<Guid> categoryIds, string? keyword, int pageIndex, int pageSize)
+    public async Task<PagedResult<ProductDto>> GetAllProductPagination(List<Guid>? categoryIds, string? keyword, int pageIndex, int pageSize)
     {
         var query = GetQueryableSet()
             .Include(x => x.Category)

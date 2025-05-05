@@ -29,7 +29,7 @@ function App() {
           ></Route>
 
           <Route
-            path={"/users"}
+            path={"/customers"}
             element={
               <AdminMainLayout>
                 <UserDashboard />

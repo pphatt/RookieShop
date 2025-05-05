@@ -77,8 +77,8 @@ export const sidebarData: SidebarData = {
       title: "Customer",
       items: [
         {
-          title: "Users",
-          url: "/users",
+          title: "Customer",
+          url: "/customers",
           icon: Users,
         },
       ],

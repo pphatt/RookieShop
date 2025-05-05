@@ -18,7 +18,7 @@
                 <div class="product-brand">@Model.Brand.Name</div>
 
                 <h3 class="product-name">
-                    <a asp-page="/">@Model.Name</a>
+                    <a asp-page="/Products/Details" asp-route-id="@Model.Id">@Model.Name</a>
                 </h3>
 
                 <div class="product-price-wrapper">

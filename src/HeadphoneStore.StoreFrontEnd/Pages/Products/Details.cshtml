@@ -1,0 +1,186 @@
+﻿@page "{productId:guid}"
+@model HeadphoneStore.StoreFrontEnd.Pages.Products.DetailsModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/css/application/product/details.css")" rel="stylesheet" type="text/css"
+          asp-append-version="true"/>
+
+    <link href="@Url.Content("~/css/components/carousel.css")" rel="stylesheet" type="text/css"
+          asp-append-version="true"/>
+}
+
+@section Scripts {
+    <script>
+        const mediaImages = @Html.Raw(Json.Serialize(Model.Product.Media));
+
+        const swiper = new Swiper(".mySwiper", {
+            allowTouchMove: false,
+            loop: true,
+            effect: "fade",
+            fadeEffect: {
+                crossFade: true,
+            },
+            pagination: {
+                el: ".page-detail-current-image-pagination-wrapper",
+                clickable: true,
+                renderBullet: function (index, className) {
+                    const image = mediaImages[index];
+                    return `
+                        <div class="page-detail-current-image-pagination-item-wrapper ${className}">
+                            <div class="page-detail-current-image-pagination-item-container">
+                                <img src="${image.imageUrl}" 
+                                     alt="${image.name}" 
+                                     class="page-detail-current-image-pagination-item"
+                                     aria-label="Show slide ${index + 1}"/>
+                            </div>
+                        </div>`;
+                },
+            },
+            preloadImages: true,
+            updateOnImagesReady: true,
+        });
+
+        swiper.on('init', function () {
+            const totalSlides = swiper.slides.length;
+            document.querySelectorAll('.page-detail-current-image-pagination-item-wrapper').forEach((bullet, index) => {
+                bullet.setAttribute('aria-label', `Show slide ${index + 1} of ${totalSlides}`);
+                bullet.setAttribute('aria-pressed', index === swiper.realIndex ? 'true' : 'false');
+                bullet.setAttribute('tabindex', index === swiper.realIndex ? '0' : '-1');
+                bullet.classList.toggle('image-active', index === swiper.realIndex);
+
+                // Ensure custom bullets are clickable
+                bullet.addEventListener('click', () => {
+                    swiper.slideToLoop(index);
+                });
+            });
+        });
+
+        swiper.on('slideChange', function () {
+            document.querySelectorAll('.page-detail-current-image-pagination-item-wrapper').forEach((bullet, index) => {
+                bullet.classList.toggle('image-active', index === swiper.realIndex);
+                bullet.setAttribute('aria-pressed', index === swiper.realIndex ? 'true' : 'false');
+                bullet.setAttribute('tabindex', index === swiper.realIndex ? '0' : '-1');
+            });
+        });
+    </script>
+}
+
+<div class="page-detail-wrapper">
+    <div class="page-detail-container" style="padding-bottom: 4.375rem;">
+        <div class="page-detail-breadcrumb-wrapper"></div>
+
+        <section class="page-detail-layout-wrapper">
+            <div class="page-detail-image-wrapper">
+                <div class="page-detail-image-container">
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            @foreach (var image in Model.Product.Media)
+                            {
+                                <img src="@image.ImageUrl" class="swiper-slide page-detail-current-image-container"
+                                     alt="@Model.Product.Name"/>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-detail-current-image-pagination-wrapper"></div>
+            </div>
+
+            <div class="product-detail-side-wrapper">
+                <div class="product-detail-side-container">
+                    <a href="/" class="product-brand">@Model.Product.Brand.Name</a>
+
+                    <div class="product-detail-name">
+                        <h1>@Model.Product.Name</h1>
+                    </div>
+
+                    <div class="product-detail-rating-wrapper">
+                        <div class="product-detail-rating-container">
+                            <div class="product-detail-rating-overlay" style="padding-left: 0">
+                                <div style="color: #222;
+                                            border-bottom: 1px solid #555;
+                                            padding-bottom: 1px;
+                                            margin-right: 7px;
+                                            font-size: 1rem;">
+                                    4.9
+                                </div>
+
+                                @for (var i = 0; i < 5; i++)
+                                {
+                                    <i class="bi bi-star-fill product-detail-rating-star product-detail-rating-star-active"></i>
+                                }
+                            </div>
+
+                            <div class="product-detail-rating-overlay"
+                                 style="border-left: 1px solid rgba(0, 0, 0, .14);">
+                                <div style="border-bottom: 1px solid #555;
+                                            color: #222;
+                                            font-size: 1rem;
+                                            margin-right: 5px;
+                                            padding-bottom: 1px;">
+                                    4.9
+                                </div>
+
+                                <div style="margin-right: 5px;
+                                            padding: 4px 0;
+                                            color: #767676;
+                                            font-size: .875rem;
+                                            text-transform: capitalize;">
+                                    Dánh Giá
+                                </div>
+                            </div>
+
+                            <div class="product-price-wrapper">
+                                <div class="product-price-container">
+                                    <div class="product-price-overlay">
+                                        <span style="font-size: 20px;">Giá:</span>
+                                        <div
+                                            class="product-price">@string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:N0}₫", Model.Product.ProductPrice)</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="product-quantity-wrapper">
+                                <div class="product-quantity-container">
+                                    <div class="product-quantity-overlay">
+                                        <h2 class="product-quantity-title">Số Lượng</h2>
+
+                                        <div class="product-quantity-input-wrapper">
+                                            <input type="number" name="quantity" min="1" max="10" value="1"
+                                                   class="product-quantity-input"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="product-add-to-cart-wrapper">
+                                <button class="product-add-to-cart-container">
+                                    <i class="bi bi-cart-fill"></i>
+                                    <span>Thêm Vào Giỏ Hàng</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-description-wrapper">
+            <div class="product-description-container">
+                <h2 class="product-description-title">MÔ TẢ SẢN PHẨM</h2>
+                <div class="product-description-text">@Model.Product.Description</div>
+            </div>
+        </section>
+        
+        <section class="product-rating-section-wrapper">
+            <div class="product-rating-section-title-wrapper">
+                <div class="product-rating-section-title">ĐÁNH GIÁ SẢN PHẨM</div>
+            </div>
+            
+            <div></div>
+        </section>
+    </div>
+</div>

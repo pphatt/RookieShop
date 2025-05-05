@@ -27,7 +27,19 @@ public class IndexModel : PageModel
 
     public List<BrandDto> Brands { get; set; } = [];
 
-    [BindProperty(SupportsGet = true)] public string SortBy { get; set; } = "title";
+    [BindProperty(SupportsGet = true)] 
+    public string SortBy { get; set; } = "title";
+    
+    [BindProperty(SupportsGet = true)]
+    public int PageIndex { get; set; } = 1;
+    
+    [BindProperty(SupportsGet = true)]
+    public int PageSize { get; set; } = 10;
+    
+    public int TotalCount { get; set; }
+    public int TotalPages { get; set; }
+    public bool HasPreviousPage { get; set; }
+    public bool HasNextPage { get; set; }
 
     public async Task OnGetAsync()
     {
@@ -41,12 +53,19 @@ public class IndexModel : PageModel
                 await _brandService.GetAllBrands(subCategoriesIds);
 
             var headphone = await _productService.GetAllProducts(
+                pageSize: PageSize,
+                pageIndex: PageIndex,
                 categoryIds: subCategoriesIds
             );
 
             if (headphone?.Value is not null)
             {
                 Headphones = headphone.Value.Items;
+                TotalCount = headphone.Value.TotalCount;
+                TotalPages = headphone.Value.TotalPage;
+                PageIndex = headphone.Value.PageIndex;
+                HasPreviousPage = headphone.Value.HasPreviousPage;
+                HasNextPage = headphone.Value.HasNextPage;
             }
 
             if (brands is not null)

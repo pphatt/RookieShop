@@ -207,7 +207,7 @@
   transform: translate(-50%);
 }
 
-.product-list-pagination-item__current {
+.product-list-pagination-item__current:after {
   position: absolute;
   content: "";
   bottom: 8px;
@@ -215,10 +215,8 @@
   display: block;
   background-color: currentColor;
   width: 20px;
-  transform: translate(-50%);
-}
-.product-list-pagination-item__current:after {
   height: 1px;
+  transform: translate(-50%);
 }
 
 .pagination-item-icon-wrapper {
