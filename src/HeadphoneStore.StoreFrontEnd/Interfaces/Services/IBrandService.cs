@@ -1,6 +1,6 @@
 ﻿using HeadphoneStore.Shared.Dtos.Brand;
 
-namespace HeadphoneStore.StoreFrontEnd.Services.Interfaces;
+namespace HeadphoneStore.StoreFrontEnd.Interfaces.Services;
 
 public interface IBrandService
 {

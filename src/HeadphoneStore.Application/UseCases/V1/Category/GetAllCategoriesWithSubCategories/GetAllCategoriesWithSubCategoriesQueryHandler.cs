@@ -22,9 +22,7 @@ public class GetAllCategoriesWithSubCategoriesQueryHandler : IQueryHandler<GetAl
         var query = _categoryRepository
             .GetQueryableSet()
             .AsNoTracking()
-            .Where(x => x.Status == EntityStatus.Active)
-            .Include(x => x.SubCategories)
-            .Include(x => x.Parent)
+            .Where(x => x.Status == EntityStatus.Active && x.Slug.Contains(request.CategorySlug))
             .Select(x => new CategoryDto
             {
                 Id = x.Id,
@@ -34,26 +32,6 @@ public class GetAllCategoriesWithSubCategoriesQueryHandler : IQueryHandler<GetAl
                 Status = x.Status.ToString(),
                 CreatedBy = x.CreatedBy,
                 UpdatedBy = x.UpdatedBy,
-                Parent = x.Parent != null ? new CategoryDto
-                {
-                    Id = x.Parent.Id,
-                    Name = x.Parent.Name,
-                    Slug = x.Parent.Slug,
-                    Description = x.Parent.Description,
-                    Status = x.Parent.Status.ToString(),
-                    CreatedBy = x.Parent.CreatedBy,
-                    UpdatedBy = x.Parent.UpdatedBy,
-                } : null,
-                SubCategories = x.SubCategories.Select(c => new CategoryDto
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Slug = c.Slug,
-                    Description = c.Description,
-                    Status = c.Status.ToString(),
-                    CreatedBy = c.CreatedBy,
-                    UpdatedBy = c.UpdatedBy,
-                })
             });
 
         var result = await query.ToListAsync();

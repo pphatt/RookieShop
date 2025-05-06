@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Services.Identity.Authenticated;
 using HeadphoneStore.StoreFrontEnd.Apis.Endpoints;
-using HeadphoneStore.StoreFrontEnd.Apis.Interfaces;
+using HeadphoneStore.StoreFrontEnd.Interfaces.Apis;
 using HeadphoneStore.StoreFrontEnd.Common.Options;
 
 namespace HeadphoneStore.StoreFrontEnd.Apis;

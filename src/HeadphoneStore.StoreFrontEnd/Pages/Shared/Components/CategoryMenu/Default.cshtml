@@ -13,7 +13,7 @@
                     continue;
 
                 <li class="category-menu-btn category-dropdown-menu">
-                    <summary class="category-menu-item">
+                    <a href="@Url.Page("/Products/Index", new { categorySlug = category.Slug })" class="category-menu-item">
                         <span class="category-item-title">@category.Name</span>
 
                         <svg aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 24 24"
@@ -21,12 +21,12 @@
                             <path fill="currentColor"
                             d="M17,9.17a1,1,0,0,0-1.41,0L12,12.71,8.46,9.17a1,1,0,0,0-1.41,0,1,1,0,0,0,0,1.42l4.24,4.24a1,1,0,0,0,1.42,0L17,10.59A1,1,0,0,0,17,9.17Z"></path>
                         </svg>
-                    </summary>
+                    </a>
 
                     <div class="dropdown-submenu">
                         @foreach (var subCategory in category.SubCategories!)
                         {
-                            <a href="/tai-nghe-in-ear" class="box-item">
+                            <a href="@Url.Page("/Products/Index", new { categorySlug = subCategory.Slug })" class="box-item">
                                 @subCategory.Name
                             </a>
                         }

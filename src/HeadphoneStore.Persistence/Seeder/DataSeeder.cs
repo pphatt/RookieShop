@@ -187,7 +187,7 @@ public partial class DataSeeder
 
         var dacAmp = Category.Create(
             name: "DACs & Amplifiers",
-            slug: "dac-amp",
+            slug: "dac",
             description: "Danh mục các thiết bị DAC và Amplifier cải thiện chất lượng âm thanh.",
             createdBy: createdBy
         );
@@ -602,32 +602,32 @@ public partial class DataSeeder
             new ProductMedia(
                 productId: products[2].Id,
                 imageUrl:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197880/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/bgldnigfpp61dymjfjnt.jpg",
-                publicId: "products/289c691c-60ab-4f79-881f-a79dc1cae032/images/bgldnigfpp61dymjfjnt",
+                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746497704/products/21bfd44a-1105-4c79-bc7e-1cf2c9c1b461/images/ag9nyap81oc1qbyvqdgr.jpg",
+                publicId: "products/21bfd44a-1105-4c79-bc7e-1cf2c9c1b461/images/ag9nyap81oc1qbyvqdgr",
                 path:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197880/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/bgldnigfpp61dymjfjnt.jpg",
-                name: "bgldnigfpp61dymjfjnt",
+                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746497704/products/21bfd44a-1105-4c79-bc7e-1cf2c9c1b461/images/ag9nyap81oc1qbyvqdgr.jpg",
+                name: "ag9nyap81oc1qbyvqdgr",
                 order: 1,
                 createdBy: adminId
             ),
             new ProductMedia(
                 productId: products[2].Id,
                 imageUrl:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197881/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/uxwy2velfty0dyhbbjsh.jpg",
-                publicId: "products/289c691c-60ab-4f79-881f-a79dc1cae032/images/uxwy2velfty0dyhbbjsh",
+                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746497705/products/21bfd44a-1105-4c79-bc7e-1cf2c9c1b461/images/rsyy0jiv9oplzbwfggid.jpg",
+                publicId: "products/21bfd44a-1105-4c79-bc7e-1cf2c9c1b461/images/rsyy0jiv9oplzbwfggid",
                 path:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197881/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/uxwy2velfty0dyhbbjsh.jpg",
-                name: "uxwy2velfty0dyhbbjsh",
+                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746497705/products/21bfd44a-1105-4c79-bc7e-1cf2c9c1b461/images/rsyy0jiv9oplzbwfggid.jpg",
+                name: "rsyy0jiv9oplzbwfggid",
                 order: 2,
                 createdBy: adminId
             ),
             new ProductMedia(
                 productId: products[2].Id,
                 imageUrl:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197882/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/xnmjksmrax8gm85rsum0.jpg",
-                publicId: "products/289c691c-60ab-4f79-881f-a79dc1cae032/images/xnmjksmrax8gm85rsum0",
+                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746497706/products/21bfd44a-1105-4c79-bc7e-1cf2c9c1b461/images/xrod3w3j5lnrlmfl5p7c.jpg",
+                publicId: "products/21bfd44a-1105-4c79-bc7e-1cf2c9c1b461/images/xrod3w3j5lnrlmfl5p7c",
                 path:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197882/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/xnmjksmrax8gm85rsum0.jpg",
+                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746497706/products/21bfd44a-1105-4c79-bc7e-1cf2c9c1b461/images/xrod3w3j5lnrlmfl5p7c.jpg",
                 name: "xnmjksmrax8gm85rsum0",
                 order: 3,
                 createdBy: adminId
@@ -635,23 +635,12 @@ public partial class DataSeeder
             new ProductMedia(
                 productId: products[2].Id,
                 imageUrl:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197883/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/mtj7qu91qypzvxe5gzrs.jpg",
-                publicId: "products/289c691c-60ab-4f79-881f-a79dc1cae032/images/mtj7qu91qypzvxe5gzrs",
+                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746497706/products/21bfd44a-1105-4c79-bc7e-1cf2c9c1b461/images/snfldvybqzdqyf3lrsgl.jpg",
+                publicId: "products/21bfd44a-1105-4c79-bc7e-1cf2c9c1b461/images/snfldvybqzdqyf3lrsgl",
                 path:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197883/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/mtj7qu91qypzvxe5gzrs.jpg",
-                name: "mtj7qu91qypzvxe5gzrs",
+                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746497706/products/21bfd44a-1105-4c79-bc7e-1cf2c9c1b461/images/snfldvybqzdqyf3lrsgl.jpg",
+                name: "snfldvybqzdqyf3lrsgl",
                 order: 4,
-                createdBy: adminId
-            ),
-            new ProductMedia(
-                productId: products[2].Id,
-                imageUrl:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197913/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/adtmznkcbmirt6ofltke.jpg",
-                publicId: "products/289c691c-60ab-4f79-881f-a79dc1cae032/images/adtmznkcbmirt6ofltke",
-                path:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197913/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/adtmznkcbmirt6ofltke.jpg",
-                name: "adtmznkcbmirt6ofltke",
-                order: 5,
                 createdBy: adminId
             ),
             new ProductMedia(

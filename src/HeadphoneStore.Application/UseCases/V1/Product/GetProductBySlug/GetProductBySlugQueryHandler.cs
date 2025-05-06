@@ -8,25 +8,25 @@ using HeadphoneStore.Shared.Dtos.Product;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace HeadphoneStore.Application.UseCases.V1.Product.GetProductById;
+namespace HeadphoneStore.Application.UseCases.V1.Product.GetProductBySlug;
 
 using Exceptions = Domain.Exceptions.Exceptions;
 
-public class GetProductByIdQueryHandler : IQueryHandler<GetProductByIdQuery, ProductDto>
+public class GetProductBySlugQueryHandler : IQueryHandler<GetProductBySlugQuery, ProductDto>
 {
     private readonly IProductRepository _productRepository;
 
-    public GetProductByIdQueryHandler(IProductRepository productRepository)
+    public GetProductBySlugQueryHandler(IProductRepository productRepository)
     {
         _productRepository = productRepository;
     }
 
-    public async Task<Result<ProductDto>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<ProductDto>> Handle(GetProductBySlugQuery request, CancellationToken cancellationToken)
     {
         var product = await _productRepository
             .GetQueryableSet()
             .AsNoTracking()
-            .Where(x => x.Id == request.Id)
+            .Where(x => x.Slug == request.Slug)
             .Include(x => x.Category)
             .Include(x => x.Brand)
             .Include(x => x.Media)

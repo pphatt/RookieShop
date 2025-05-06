@@ -1,5 +1,5 @@
 ﻿using HeadphoneStore.Shared.Dtos.Product;
-using HeadphoneStore.StoreFrontEnd.Services.Interfaces;
+using HeadphoneStore.StoreFrontEnd.Interfaces.Services;
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -37,14 +37,14 @@ public class IndexModel : PageModel
                 categoryIds: dacCategory.FirstOrDefault()?.SubCategories?.Select(x => x.Id).ToList()
             );
 
-            if (headphone?.Value is not null)
+            if (headphone is not null)
             {
-                Headphones = headphone.Value.Items;
+                Headphones = headphone.Items;
             }
 
-            if (dac?.Value is not null)
+            if (dac is not null)
             {
-                Dacs = dac.Value.Items;
+                Dacs = dac.Items;
             }
         }
         catch (Exception e)

@@ -1,4 +1,4 @@
-﻿using HeadphoneStore.StoreFrontEnd.Services.Interfaces;
+﻿using HeadphoneStore.StoreFrontEnd.Interfaces.Services;
 
 using Microsoft.AspNetCore.Mvc;
 

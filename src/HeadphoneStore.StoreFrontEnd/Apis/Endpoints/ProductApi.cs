@@ -9,7 +9,7 @@ public class ProductApi
     /// <br />
     /// Sample endpoint: https://localhost:8081/api/v1/Product/:id
     /// </summary>
-    public const string GetProductById = "Product";
+    public const string GetProduct = "Product";
     
     /// <summary>
     /// [AllowAnonymous]

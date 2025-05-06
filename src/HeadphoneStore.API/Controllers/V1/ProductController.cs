@@ -11,6 +11,7 @@ using HeadphoneStore.Application.UseCases.V1.Product.CreateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.DeleteProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.GetAllProductsPaged;
 using HeadphoneStore.Application.UseCases.V1.Product.GetProductById;
+using HeadphoneStore.Application.UseCases.V1.Product.GetProductBySlug;
 using HeadphoneStore.Application.UseCases.V1.Product.InactivateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.UpdateProduct;
 using HeadphoneStore.Domain.Constants;
@@ -23,6 +24,7 @@ using HeadphoneStore.Shared.Services.Product.Create;
 using HeadphoneStore.Shared.Services.Product.Delete;
 using HeadphoneStore.Shared.Services.Product.GetAllPaged;
 using HeadphoneStore.Shared.Services.Product.GetById;
+using HeadphoneStore.Shared.Services.Product.GetProductBySlug;
 using HeadphoneStore.Shared.Services.Product.InactivateProduct;
 using HeadphoneStore.Shared.Services.Product.Update;
 
@@ -162,6 +164,24 @@ public class ProductController : BaseApiController
     public async Task<IActionResult> GetAllProductsPagination([FromQuery] GetAllProductPagedRequestDto request)
     {
         var mapper = _mapper.Map<GetAllProductsPagedQuery>(request);
+
+        var result = await _mediator.Send(mapper);
+
+        if (result.IsFailure)
+            return HandlerFailure(result);
+
+        return Ok(result);
+    }
+
+    [HttpGet("slug/{Slug}")]
+    [RequirePermission(Permissions.Function.PRODUCT, Permissions.Command.VIEW)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
+    [MapToApiVersion(1)]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetProductBySlug([FromRoute] GetProductBySlugRequestDto request)
+    {
+        var mapper = _mapper.Map<GetProductBySlugQuery>(request);
 
         var result = await _mediator.Send(mapper);
 

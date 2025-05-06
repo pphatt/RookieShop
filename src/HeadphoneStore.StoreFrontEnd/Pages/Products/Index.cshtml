@@ -167,17 +167,24 @@
 </main>
 
 @functions {
-
     private string GetPageUrl(int pageIndex)
     {
         var routeValues = new Dictionary<string, string>
         {
             { "PageIndex", pageIndex.ToString() },
             { "PageSize", Model.PageSize.ToString() },
-            { "SortBy", Model.SortBy }
+            { "SortBy", Model.SortBy },
+            { "categorySlug", Request.Query["categorySlug"] }
         };
+
+        foreach (var key in routeValues.Keys.ToList())
+        {
+            if (string.IsNullOrEmpty(routeValues[key]))
+            {
+                routeValues.Remove(key);
+            }
+        }
 
         return Url.Page("./Index", routeValues);
     }
-
 }

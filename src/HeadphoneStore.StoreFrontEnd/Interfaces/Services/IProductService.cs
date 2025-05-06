@@ -1,14 +1,16 @@
 ﻿using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Product;
 
-namespace HeadphoneStore.StoreFrontEnd.Services.Interfaces;
+namespace HeadphoneStore.StoreFrontEnd.Interfaces.Services;
 
 public interface IProductService
 {
-    Task<Result<PagedResult<ProductDto>>> GetAllProducts(int pageIndex = 1,
+    Task<PagedResult<ProductDto>> GetAllProducts(int pageIndex = 1,
                                                          int pageSize = 10,
                                                          string? searchTerm = null,
                                                          List<Guid>? categoryIds = null);
 
-    Task<Result<ProductDto>> GetProductById(Guid productId);
+    Task<ProductDto> GetProductById(Guid productId);
+    
+    Task<ProductDto> GetProductBySlug(string slug);
 }

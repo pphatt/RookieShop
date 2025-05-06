@@ -1,22 +1,23 @@
-﻿
-using HeadphoneStore.Shared.Abstracts.Shared;
+﻿using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Product;
 using HeadphoneStore.StoreFrontEnd.Apis.Endpoints;
-using HeadphoneStore.StoreFrontEnd.Apis.Interfaces;
-using HeadphoneStore.StoreFrontEnd.Services.Interfaces;
+using HeadphoneStore.StoreFrontEnd.Interfaces.Apis;
+using HeadphoneStore.StoreFrontEnd.Interfaces.Services;
 
 namespace HeadphoneStore.StoreFrontEnd.Services;
 
 public class ProductService : IProductService
 {
     private readonly IApiInstance _apiInstance;
+    private readonly ILogger<ProductService> _logger;
 
-    public ProductService(IApiInstance apiInstance)
+    public ProductService(IApiInstance apiInstance, ILogger<ProductService> logger)
     {
         _apiInstance = apiInstance;
+        _logger = logger;
     }
 
-    public async Task<Result<PagedResult<ProductDto>>> GetAllProducts(int pageIndex = 1,
+    public async Task<PagedResult<ProductDto>> GetAllProducts(int pageIndex = 1,
                                                                       int pageSize = 10,
                                                                       string? searchTerm = null,
                                                                       List<Guid>? categoryIds = null)
@@ -44,15 +45,33 @@ public class ProductService : IProductService
         string endpoint = $"{ProductApi.GetAllProducts}?{string.Join("&", queryParams)}";
 
         var result = await _apiInstance.GetAsync<Result<PagedResult<ProductDto>>>(endpoint);
+        
+        if (result is null)
+            return null!;
 
         return result.Value;
     }
 
-    public async Task<Result<ProductDto>> GetProductById(Guid productId)
+    public async Task<ProductDto> GetProductById(Guid productId)
     {
-        string endpoint = $"{ProductApi.GetProductById}/{productId}";
+        string endpoint = $"{ProductApi.GetProduct}/{productId}";
         
         var result = await _apiInstance.GetAsync<Result<ProductDto>>(endpoint);
+        
+        if (result is null)
+            return null!;
+
+        return result.Value;
+    }
+
+    public async Task<ProductDto> GetProductBySlug(string slug)
+    {
+        string endpoint = $"{ProductApi.GetProduct}/slug/{slug}";
+        
+        var result = await _apiInstance.GetAsync<Result<ProductDto>>(endpoint);
+
+        if (result is null)
+            return null!;
 
         return result.Value;
     }

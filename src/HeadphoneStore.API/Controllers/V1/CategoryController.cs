@@ -231,9 +231,12 @@ public class CategoryController : BaseApiController
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
     [AllowAnonymous]
-    public async Task<IActionResult> GetAllCategoriesWithSubCategories()
+    public async Task<IActionResult> GetAllCategoriesWithSubCategories([FromQuery] string CategorySlug)
     {
-        var query = new GetAllCategoriesWithSubCategoriesQuery();
+        var query = new GetAllCategoriesWithSubCategoriesQuery()
+        {
+            CategorySlug = CategorySlug
+        };
 
         var result = await _mediator.Send(query);
 

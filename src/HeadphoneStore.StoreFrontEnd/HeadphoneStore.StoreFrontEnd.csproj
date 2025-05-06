@@ -14,6 +14,7 @@
   <ItemGroup>
     <Folder Include="Assets\scss\vendors\" />
     <Folder Include="Assets\scss\theme\" />
+    <Folder Include="Interfaces\Services\" />
     <Folder Include="wwwroot\js\customer\" />
   </ItemGroup>
 

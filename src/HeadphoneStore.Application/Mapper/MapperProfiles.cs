@@ -31,6 +31,7 @@ using HeadphoneStore.Application.UseCases.V1.Product.CreateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.DeleteProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.GetAllProductsPaged;
 using HeadphoneStore.Application.UseCases.V1.Product.GetProductById;
+using HeadphoneStore.Application.UseCases.V1.Product.GetProductBySlug;
 using HeadphoneStore.Application.UseCases.V1.Product.InactivateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.UpdateProduct;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
@@ -66,6 +67,7 @@ using HeadphoneStore.Shared.Services.Product.Create;
 using HeadphoneStore.Shared.Services.Product.Delete;
 using HeadphoneStore.Shared.Services.Product.GetAllPaged;
 using HeadphoneStore.Shared.Services.Product.GetById;
+using HeadphoneStore.Shared.Services.Product.GetProductBySlug;
 using HeadphoneStore.Shared.Services.Product.InactivateProduct;
 using HeadphoneStore.Shared.Services.Product.Update;
 
@@ -120,5 +122,6 @@ public class MapperProfiles : Profile
         CreateMap<GetAllProductPagedRequestDto, GetAllProductsPagedQuery>();
         CreateMap<ActivateProductRequestDto, ActivateProductCommand>();
         CreateMap<InactivateProductRequestDto, InactivateProductCommand>();
+        CreateMap<GetProductBySlugRequestDto, GetProductBySlugQuery>();
     }
 }

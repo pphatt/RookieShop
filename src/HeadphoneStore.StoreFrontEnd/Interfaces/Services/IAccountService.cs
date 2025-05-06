@@ -1,6 +1,6 @@
 ﻿using HeadphoneStore.Shared.Services.Identity.Login;
 
-namespace HeadphoneStore.StoreFrontEnd.Services.Interfaces;
+namespace HeadphoneStore.StoreFrontEnd.Interfaces.Services;
 
 public interface IAccountService
 {

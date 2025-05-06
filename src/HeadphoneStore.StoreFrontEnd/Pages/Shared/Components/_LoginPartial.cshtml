@@ -5,19 +5,37 @@
 
 @if (isLoggedIn)
 {
-    <li class="topbar-menu-item-wrapper user-dropdown">
-        <div class="user-dropdown-item">@username</div>
-                    
-        <div class="dropdown-submenu">
-            <form asp-page="/Account/Logout" method="post">
+    <div x-data="{ open: false }" class="relative">
+        <button @@click="open = !open"
+                class="user-dropdown-item">
+            <span>@username</span>
+
+            <i class="bi bi-chevron-down"></i>
+        </button>
+
+        <div x-show="open"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95"
+             class="user-dropdown"
+             @@click.away="open = false">
+            <a asp-page="/Account/Profile" class="dropdown-menu-item">Profile</a>
+            <a asp-page="/Orders/Index" class="dropdown-menu-item">My Orders</a>
+
+            <div class="divid"></div>
+
+            <form asp-page="/Account/Logout" method="post" style="width: 100%">
                 @Html.AntiForgeryToken()
-                                
-                <button type="submit" class="box-item">
+
+                <button type="submit" class="dropdown-menu-item" style="color: hsl(0deg 100% 50%); width: 100%">
                     Logout
                 </button>
             </form>
         </div>
-    </li>
+    </div>
 }
 else
 {

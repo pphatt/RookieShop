@@ -1,8 +1,8 @@
 ﻿using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Services.Identity.Login;
 using HeadphoneStore.StoreFrontEnd.Apis.Endpoints;
-using HeadphoneStore.StoreFrontEnd.Apis.Interfaces;
-using HeadphoneStore.StoreFrontEnd.Services.Interfaces;
+using HeadphoneStore.StoreFrontEnd.Interfaces.Apis;
+using HeadphoneStore.StoreFrontEnd.Interfaces.Services;
 
 namespace HeadphoneStore.StoreFrontEnd.Services;
 
@@ -10,11 +10,15 @@ public class AccountService : IAccountService
 {
     private readonly IApiInstance _apiInstance;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ILogger<AccountService> _logger;
 
-    public AccountService(IApiInstance apiInstance, IHttpContextAccessor httpContextAccessor)
+    public AccountService(IApiInstance apiInstance, 
+                          IHttpContextAccessor httpContextAccessor,
+                          ILogger<AccountService> logger)
     {
         _apiInstance = apiInstance;
         _httpContextAccessor = httpContextAccessor;
+        _logger = logger;
     }
 
     public async Task<LoginResponseDto> LoginAsync(LoginRequestDto model)

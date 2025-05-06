@@ -1,8 +1,8 @@
 ﻿using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Brand;
 using HeadphoneStore.StoreFrontEnd.Apis.Endpoints;
-using HeadphoneStore.StoreFrontEnd.Apis.Interfaces;
-using HeadphoneStore.StoreFrontEnd.Services.Interfaces;
+using HeadphoneStore.StoreFrontEnd.Interfaces.Apis;
+using HeadphoneStore.StoreFrontEnd.Interfaces.Services;
 
 namespace HeadphoneStore.StoreFrontEnd.Services;
 
@@ -10,9 +10,13 @@ public class BrandService : IBrandService
 {
     private readonly IApiInstance _apiInstance;
 
-    public BrandService(IApiInstance apiInstance)
+    private readonly ILogger<BrandService> _logger;
+
+    public BrandService(IApiInstance apiInstance,
+                        ILogger<BrandService> logger)
     {
         _apiInstance = apiInstance;
+        _logger = logger;
     }
 
     public async Task<List<BrandDto>> GetAllBrands(List<Guid>? categoryIds)

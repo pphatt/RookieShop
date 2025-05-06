@@ -3,7 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 using HeadphoneStore.Shared.Services.Identity.Login;
-using HeadphoneStore.StoreFrontEnd.Services.Interfaces;
+using HeadphoneStore.StoreFrontEnd.Interfaces.Services;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;

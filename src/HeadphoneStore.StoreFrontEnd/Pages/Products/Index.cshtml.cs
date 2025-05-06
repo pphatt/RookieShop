@@ -1,6 +1,6 @@
 ﻿using HeadphoneStore.Shared.Dtos.Brand;
 using HeadphoneStore.Shared.Dtos.Product;
-using HeadphoneStore.StoreFrontEnd.Services.Interfaces;
+using HeadphoneStore.StoreFrontEnd.Interfaces.Services;
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +26,7 @@ public class IndexModel : PageModel
     public List<ProductDto> Headphones { get; set; } = [];
 
     public List<BrandDto> Brands { get; set; } = [];
-
+    
     [BindProperty(SupportsGet = true)] 
     public string SortBy { get; set; } = "title";
     
@@ -41,13 +41,13 @@ public class IndexModel : PageModel
     public bool HasPreviousPage { get; set; }
     public bool HasNextPage { get; set; }
 
-    public async Task OnGetAsync()
+    public async Task OnGetAsync(string categorySlug)
     {
         try
         {
-            var categories = await _categoryService.GetAllCategories(searchTerm: "Tai Nghe");
+            var categories = await _categoryService.GetAllCategoriesWithSub(categorySlug: categorySlug);
 
-            var subCategoriesIds = categories.FirstOrDefault()?.SubCategories?.Select(x => x.Id).ToList();
+            var subCategoriesIds = categories.Select(x => x.Id).ToList();
 
             var brands =
                 await _brandService.GetAllBrands(subCategoriesIds);
@@ -58,14 +58,14 @@ public class IndexModel : PageModel
                 categoryIds: subCategoriesIds
             );
 
-            if (headphone?.Value is not null)
+            if (headphone is not null)
             {
-                Headphones = headphone.Value.Items;
-                TotalCount = headphone.Value.TotalCount;
-                TotalPages = headphone.Value.TotalPage;
-                PageIndex = headphone.Value.PageIndex;
-                HasPreviousPage = headphone.Value.HasPreviousPage;
-                HasNextPage = headphone.Value.HasNextPage;
+                Headphones = headphone.Items;
+                TotalCount = headphone.TotalCount;
+                TotalPages = headphone.TotalPage;
+                PageIndex = headphone.PageIndex;
+                HasPreviousPage = headphone.HasPreviousPage;
+                HasNextPage = headphone.HasNextPage;
             }
 
             if (brands is not null)

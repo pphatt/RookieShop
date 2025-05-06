@@ -1,4 +1,4 @@
-﻿namespace HeadphoneStore.StoreFrontEnd.Apis.Interfaces;
+﻿namespace HeadphoneStore.StoreFrontEnd.Interfaces.Apis;
 
 public interface IApiInstance
 {
