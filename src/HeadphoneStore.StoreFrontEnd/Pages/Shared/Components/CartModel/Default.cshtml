@@ -1,23 +1,23 @@
 ﻿@model HeadphoneStore.StoreFrontEnd.Models.Cart.CartViewModel
 
-<link rel="stylesheet" href="~/css/components/cart-dropdown.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/components/cart-dropdown.css" asp-append-version="true"/>
 
 <li x-data="{ open: false }" class="cart-menu-item">
     <button @@click="open = !open" style="gap: 10px;" class="topbar-menu-item-wrapper">
         <i class="material-icons-outlined"></i>
 
-        <span>Giỏ Hàng (@Model.TotalItems)</span>
-        
+        <span>Giỏ Hàng (@Model.TotalCartItems)</span>
+
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
              stroke-width="1.5" stroke="currentColor" class="dropdown-icon">
             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
         </svg>
     </button>
 
-    @if (Model.TotalItems > 0)
+    @if (Model.TotalCartItems > 0)
     {
         <div class="cart-dropdown-wrapper">
-            <div x-show="open" 
+            <div x-show="open"
                  class="cart-dropdown"
                  @@click.away="open = false"
                  x-transition:enter="transition ease-out duration-200"
@@ -28,7 +28,7 @@
                  x-transition:leave-end="opacity-0 scale-95"
             >
                 <div class="cart-header">
-                    <h3 class="cart-header-title">Sản phẩm mới thêm (@Model.TotalItems)</h3>
+                    <h3 class="cart-header-title">Sản phẩm mới thêm (@Model.TotalCartItems)</h3>
                 </div>
 
                 <div class="cart-items">
@@ -39,8 +39,8 @@
                             <div class="cart-item-details">
                                 <h4 class="cart-item-name">@item.Name</h4>
                                 <div class="cart-item-meta">
-                                    <span>@item.Quantity × @string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:N0}₫", item.Price)</span>
-                                    <span>@string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:N0}₫", item.Quantity * item.Price)</span>
+                                    <span>@item.Quantity × @string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:N0} ₫", item.Price)</span>
+                                    <span>@string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:N0} ₫", item.Quantity * item.Price)</span>
                                 </div>
                             </div>
                         </div>
@@ -50,9 +50,9 @@
                 <div class="cart-footer">
                     <div class="cart-total">
                         <span>Thành Tiền:</span>
-                        <span>@string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:N0}₫", Model.TotalPrice)</span>
+                        <span>@string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:N0} ₫", Model.TotalCartPrice)</span>
                     </div>
-                    
+
                     <div class="cart-actions">
                         <a asp-page="/Cart/Checkout" style="width: 100%" class="btn">Checkout</a>
                         <a asp-page="/Cart/Index" style="width: 100%" class="btn btn-outline">View Cart</a>
@@ -63,8 +63,8 @@
     }
     else
     {
-        <div class="cart-dropdown-wrapper">
-            <div x-show="open" 
+        <div class="cart-dropdown-wrapper" style="font-size: 1.5rem; text-align: center;">
+            <div x-show="open"
                  class="cart-dropdown"
                  @@click.away="open = false"
                  x-transition:enter="transition ease-out duration-200"
@@ -75,14 +75,14 @@
                  x-transition:leave-end="opacity-0 scale-95"
             >
                 <div class="cart-items">
-                    <div>Cart empty</div>
+                    <div style="margin: 3rem 0; font-size: 25px">Your cart is empty</div>
                 </div>
-                
+
                 <div class="divid"></div>
 
                 <div class="cart-footer">
                     <div class="cart-actions">
-                        <a asp-page="/" style="width: 100%" class="btn">Continue Shopping</a>
+                        <a asp-page="/Index" style="width: 100%" class="btn">Continue Shopping</a>
                         <a asp-page="/Cart/Index" style="width: 100%" class="btn btn-outline">View Cart</a>
                     </div>
                 </div>

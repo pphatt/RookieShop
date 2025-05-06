@@ -1,7 +1,191 @@
 ﻿@page
 @model HeadphoneStore.StoreFrontEnd.Pages.Cart.IndexModel
 @{
-    Layout = null;
+    ViewData["Title"] = "Cart";
 }
 
+@section Styles {
+    <link href="@Url.Content("~/css/application/cart/cart-detail.css")" rel="stylesheet" type="text/css"
+          asp-append-version="true"/>
+}
 
+@section Scripts {
+    <script>
+        function decreaseQuantity() {
+            const input = document.getElementById('quantity');
+
+            const currentValue = parseInt(input.value);
+
+            if (currentValue > 1) {
+                input.value = currentValue - 1;
+            }
+        }
+
+        function increaseQuantity() {
+            const input = document.getElementById('quantity');
+
+            const currentValue = parseInt(input.value);
+
+            const maxValue = parseInt(input.getAttribute('max'));
+
+            if (currentValue < maxValue) {
+                input.value = currentValue + 1;
+            }
+        }
+    </script>
+}
+
+<div class="cart-details-main-layout-wrapper">
+    <div class="cart-details-main-layout-container">
+        <div class="cart-details-title-wrapper">Giỏ hàng</div>
+
+        <table class="cart-details-table-wrapper">
+            <thead>
+            <tr class="table-header-wrapper">
+                <td>Tên sản phẩm</td>
+                <td>Số lượng</td>
+                <td>Đơn giá</td>
+                <td>Thành tiền</td>
+                <td>Xóa</td>
+            </tr>
+            </thead>
+
+            <tbody>
+            @if (Model.Cart.Items.Any())
+            {
+                @foreach (var item in @Model.Cart.Items)
+                {
+                    <tr>
+                        <td class="table-row-product-wrapper">
+                            <div class="table-row-product-container">
+                                <div class="table-row-product-overlay">
+                                    <img
+                                        src="@item.ImageUrl"
+                                        alt="@item.Name"
+                                        class="table-row-product-image">
+
+                                    <div class="table-row-product-title-wrapper">
+                                        <h4 class="table-row-product-title">@item.Name</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="quantity-input-container">
+                                <form method="post" class="quantity-input-wrapper">
+                                    <button type="submit"
+                                            asp-page-handler="DecreaseQuantity"
+                                            class="quantity-btn left">
+                                        <svg viewBox="0 0 10 10" x="0" y="0">
+                                            <polygon
+                                                points="4.5 4.5 3.5 4.5 0 4.5 0 5.5 3.5 5.5 4.5 5.5 10 5.5 10 4.5"></polygon>
+                                        </svg>
+                                    </button>
+
+                                    <input type="hidden" name="productId" value="@item.ProductId">
+
+                                    <input type="number" id="quantity" name="quantity" value="@item.Quantity" min="1"
+                                           class="quantity-input" readonly/>
+
+                                    <button type="submit"
+                                            asp-page-handler="IncreaseQuantity"
+                                            class="quantity-btn right">
+                                        <svg viewBox="0 0 10 10" x="0" y="0">
+                                            <polygon
+                                                points="10 4.5 5.5 4.5 5.5 0 4.5 0 4.5 4.5 0 4.5 0 5.5 4.5 5.5 4.5 10 5.5 10 5.5 5.5 10 5.5"></polygon>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+
+                        <td>@string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:N0} ₫", item.Price)</td>
+                        <td>@string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:N0} ₫", item.Quantity * item.Price)</td>
+
+                        <td style="width: 90px;">
+                            <form method="post">
+                                <button
+                                    type="submit"
+                                    asp-page-handler="RemoveCartItem"
+                                    class="trash-btn">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+
+                                <input type="hidden" name="productId" value="@item.ProductId">
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5">
+                        <div
+                            style="display: flex; justify-content: center; align-items: center; gap: 5px; height: 50px; font-weight: bold">
+                                <span style="font-size:18px; text-align: center;">
+                                    Your cart is empty
+                                </span>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+            <tr>
+                <td colspan="5">
+                    <div style="display: flex; justify-content: flex-end; gap: 5px;; font-weight: bold">
+                        <span style="height: 100%">Tổng tiền (@Model.Cart.TotalCartItems sản phẩm):
+                            <span style="color:red; height: 100%; font-size:18px;">
+                                @string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:N0} ₫", Model.Cart.TotalCartPrice)
+                            </span>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="5">
+                    <div style="display: flex; justify-content: flex-end; gap: 5px;; font-weight: bold">
+                        <span style="height: 100%">Phí ship:
+                            <span style="height: 100%; font-size:18px;">
+                                0 đ
+                            </span>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="5">
+                    <div style="display: flex; justify-content: flex-end; gap: 5px;; font-weight: bold">
+                        <span style="height: 100%">Thanh toán:
+                            <span style="color:red; height: 100%; font-size:18px;">
+                                @string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:N0} ₫", Model.Cart.TotalCartPrice)
+                            </span>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="5">
+                    <div style="display: flex; justify-content: flex-end; gap: 5px;; font-weight: bold">
+                        <form method="post">
+                            <button
+                                asp-page-handler="ClearCart"
+                                type="submit"
+                                style="width: 150px; color: hsl(0 0 98%)!important; background-color: hsl(0 72.22% 50.59%)!important;"
+                                class="btn">
+                                Empty Cart
+                            </button>
+                        </form>
+                        <a asp-page="/Index" style="width: 150px" class="btn btn-outline">Continue Shopping</a>
+                        <a asp-page="/Cart/Index" style="width: 150px" class="btn">Checkout</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

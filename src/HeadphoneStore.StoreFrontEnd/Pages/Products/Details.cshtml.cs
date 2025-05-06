@@ -34,6 +34,7 @@ public class DetailsModel : PageModel
     public async Task<IActionResult> OnPostAddToCartAsync(Guid productId, string productSlug, int quantity = 1)
     {
         await _cartService.AddToCartAsync(productId, quantity);
+        
         return RedirectToPage("/Products/Details", new { productSlug });
     }
 }

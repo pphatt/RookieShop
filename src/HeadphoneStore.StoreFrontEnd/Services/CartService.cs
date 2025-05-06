@@ -120,18 +120,12 @@ public class CartService : ICartService
 
     private void SaveCartToSession(CartViewModel cart)
     {
-        // Calculate totals before saving
-        RecalculateCart(cart);
+        cart.TotalCartItems = cart.Items.Count;
+        cart.TotalCartPrice = cart.Items.Sum(i => i.Price * i.Quantity);
         
         // Save to session
         var cartJson = JsonConvert.SerializeObject(cart);
         _httpContextAccessor.HttpContext?.Session.SetString(CartSessionKey, cartJson);
-    }
-
-    private void RecalculateCart(CartViewModel cart)
-    {
-        cart.TotalItems = cart.Items.Sum(i => i.Quantity);
-        cart.TotalPrice = cart.Items.Sum(i => i.Price * i.Quantity);
     }
 
     private async Task RefreshProductDetails(CartViewModel cart)
@@ -174,7 +168,8 @@ public class CartService : ICartService
         else
         {
             // Still recalculate in case prices have changed
-            RecalculateCart(cart);
+            cart.TotalCartItems = cart.Items.Count;
+            cart.TotalCartPrice = cart.Items.Sum(i => i.Price * i.Quantity);
         }
     }
 }
