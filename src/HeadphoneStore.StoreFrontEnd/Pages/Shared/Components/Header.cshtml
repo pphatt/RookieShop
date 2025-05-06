@@ -20,13 +20,9 @@
 
         <div>
             <ul class="topbar-menu-wrapper">
-                <li class="topbar-menu-item-wrapper">
-                    <i class="material-icons-outlined">shopping_cart</i>
-
-                    <a href="/gio-hang">Giỏ Hàng (0)</a>
-                </li>
-
-                <partial name="Components/_LoginPartial" />
+                @await Component.InvokeAsync("CartModel")
+                
+                <partial name="Components/_LoginPartial"/>
             </ul>
         </div>
     </div>

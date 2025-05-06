@@ -1,15 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HeadphoneStore.StoreFrontEnd.Interfaces.Services;
+
+using Microsoft.AspNetCore.Mvc;
 
 namespace HeadphoneStore.StoreFrontEnd.Pages.Shared.Components.CartModel;
 
 public class CartModelViewComponent : ViewComponent
 {
-    public CartModelViewComponent()
+    private readonly ICartService _cartService;
+    
+    public CartModelViewComponent(ICartService cartService)
     {
+        _cartService = cartService;
     }
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        return View();
+        var cart = await _cartService.GetCartAsync();
+        
+        return View(cart);
     }
 }

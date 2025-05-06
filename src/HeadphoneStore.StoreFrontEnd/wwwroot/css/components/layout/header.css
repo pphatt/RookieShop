@@ -55,15 +55,6 @@
   padding-right: 15px;
   margin-right: 15px;
 }
-.topbar-menu-item-wrapper:first-child:before {
-  position: absolute;
-  right: 0;
-  top: calc(50% - 9px);
-  content: "";
-  background: #d4d4d4;
-  width: 1px;
-  height: 18px;
-}
 .topbar-menu-item-wrapper a {
   padding-left: 8px;
 }
