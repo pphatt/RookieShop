@@ -1,16 +1,19 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Entities;
+using HeadphoneStore.Domain.Aggregates.Products.Entities;
 
 namespace HeadphoneStore.Domain.Aggregates.Order.Entities;
 
-public class OrderDetail : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<Guid?>
+public class OrderDetail : Entity<Guid>
 {
-    public Guid OrderId { get; private set; }
-    public Guid ProductId { get; private set; }
-    public int ProductQuantity { get; private set; }
-    public decimal ProductPrice { get; private set; }
-    public decimal? ProductPriceDiscount { get; private set; }
-    public Guid CreatedBy { get; set; }
-    public Guid? UpdatedBy { get; set; }
+    public int Quantity { get; set; }
+    public decimal Price { get; set; }
+    public decimal TotalPrice => Quantity * Price;
+
+    public Guid OrderId { get; set; }
+    public virtual Order Order { get; set; }
+
+    public Guid ProductId { get; set; }
+    public virtual Product Product { get; set; }
 
     private OrderDetail() { } // For EF Core
 
@@ -18,8 +21,8 @@ public class OrderDetail : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntit
     {
         OrderId = orderId;
         ProductId = productId;
-        ProductQuantity = quantity > 0 ? quantity : throw new ArgumentException("Quantity must be positive.");
-        ProductPrice = price >= 0 ? price : throw new ArgumentException("Price cannot be negative.");
+        Quantity = quantity > 0 ? quantity : throw new ArgumentException("Quantity must be positive.");
+        Price = price >= 0 ? price : throw new ArgumentException("Price cannot be negative.");
         CreatedDateTime = DateTime.UtcNow;
     }
 }

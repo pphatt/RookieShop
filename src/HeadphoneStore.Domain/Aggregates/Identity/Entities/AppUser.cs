@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
 using HeadphoneStore.Domain.Abstracts.Entities;
-using HeadphoneStore.Domain.Enumeration;
 using HeadphoneStore.Domain.Enumerations;
 
 using Microsoft.AspNetCore.Identity;
 
 namespace HeadphoneStore.Domain.Aggregates.Identity.Entities;
+
+using Order = Order.Entities.Order;
 
 [Table("AppUsers")]
 public class AppUser : IdentityUser<Guid>, IAuditableEntity
@@ -17,11 +18,13 @@ public class AppUser : IdentityUser<Guid>, IAuditableEntity
     public DateTimeOffset? DayOfBirth { get; set; }
     public DateTimeOffset? LastLoginDate { get; set; }
     public string? Avatar { get; set; } = default!;
-    public string? Bio { get; set; }
     public EntityStatus Status { get; set; }
     public bool IsDeleted { get; set; }
+
     public DateTimeOffset CreatedDateTime { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset? UpdatedDateTime { get; set; }
+
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public virtual ICollection<IdentityUserRole<Guid>> UserRoles { get; set; } // UserRoles
     public virtual ICollection<IdentityUserClaim<Guid>> Claims { get; set; } // UserClaims

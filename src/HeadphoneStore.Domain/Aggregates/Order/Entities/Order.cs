@@ -1,20 +1,23 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Aggregates;
-using HeadphoneStore.Domain.Abstracts.Entities;
 
 namespace HeadphoneStore.Domain.Aggregates.Order.Entities;
 
+using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Domain.Aggregates.Order.ValueObjects;
 
-public class Order : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<Guid?>
+public class Order : AggregateRoot<Guid>
 {
-    public Guid UserId { get; private set; }
-    public ShippingAddress ShippingAddress { get; private set; }
     public string Note { get; private set; }
+    public string Address { get; set; }
+    public string PhoneNumber { get; set; }
     public string Status { get; private set; }
     public bool IsFeedback { get; private set; }
-    public decimal Total { get; private set; }
-    public Guid CreatedBy { get; set; }
-    public Guid? UpdatedBy { get; set; }
+    public decimal TotalPrice { get; private set; }
+
+    public ShippingAddress ShippingAddress { get; private set; }
+
+    public Guid UserId { get; private set; }
+    public virtual AppUser User { get; set; }
 
     private readonly List<OrderDetail> _orderDetails = new();
     public virtual IReadOnlyCollection<OrderDetail> OrderDetails => _orderDetails.AsReadOnly();
