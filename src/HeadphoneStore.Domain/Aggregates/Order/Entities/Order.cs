@@ -27,16 +27,14 @@ public class Order : AggregateRoot<Guid>
 
     private Order() { } // For EF Core
 
-    public Order(Guid userId, ShippingAddress shippingAddress, string note, Guid createdBy) : base(Guid.NewGuid())
+    public Order(Guid userId, ShippingAddress shippingAddress, string note) : base(Guid.NewGuid())
     {
         UserId = userId;
         ShippingAddress = shippingAddress ?? throw new ArgumentNullException(nameof(shippingAddress));
         Note = note ?? string.Empty;
         Status = "Pending";
         IsFeedback = false;
-        Total = 0;
         CreatedDateTime = DateTime.UtcNow;
-        CreatedBy = createdBy;
     }
 
     public void AddOrderDetail(Guid orderId, Guid productId, int quantity, decimal price)
@@ -70,7 +68,6 @@ public class Order : AggregateRoot<Guid>
             throw new InvalidOperationException("Cannot revert a delivered order.");
 
         Status = newStatus;
-        UpdatedBy = updatedBy;
         UpdatedDateTime = DateTime.UtcNow;
     }
 
@@ -80,13 +77,12 @@ public class Order : AggregateRoot<Guid>
             throw new InvalidOperationException("Feedback can only be provided for delivered orders.");
 
         IsFeedback = true;
-        UpdatedBy = updatedBy;
         UpdatedDateTime = DateTime.UtcNow;
     }
 
     private void RecalculateTotal()
     {
-        Total = _orderDetails.Sum(d => d.ProductQuantity * (d.ProductPriceDiscount ?? d.ProductPrice));
+        TotalPrice = _orderDetails.Sum(d => d.Quantity * d.Price);
     }
 
     protected override void EnsureValidState()

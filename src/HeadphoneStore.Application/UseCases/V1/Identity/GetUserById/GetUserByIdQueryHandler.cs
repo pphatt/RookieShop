@@ -39,7 +39,6 @@ public class GetUserByIdQueryHandler : IQueryHandler<GetUserByIdQuery, UserDto>
             PhoneNumber = user.PhoneNumber,
             DayOfBirth = user.DayOfBirth,
             Avatar = user.Avatar,
-            Bio = user.Bio,
             Status = user.IsActive.ToString(),
         };
 

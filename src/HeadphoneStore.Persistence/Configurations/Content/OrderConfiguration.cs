@@ -19,8 +19,7 @@ internal class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(o => o.Note).HasMaxLength(1000);
         builder.Property(o => o.Status).HasMaxLength(50).IsRequired();
         builder.Property(o => o.IsFeedback).IsRequired();
-        builder.Property(o => o.Total).HasPrecision(18, 2).IsRequired();
-        builder.Property(o => o.CreatedBy).IsRequired();
+        builder.Property(o => o.TotalPrice).HasPrecision(18, 2).IsRequired();
         builder.Property(o => o.CreatedDateTime).IsRequired();
         builder.Property(o => o.IsDeleted).IsRequired();
 
@@ -34,15 +33,15 @@ internal class OrderConfiguration : IEntityTypeConfiguration<Order>
 
         // One AppUser can have Many Orders
         builder
-            .HasOne<AppUser>()
-            .WithMany()
+            .HasOne(o => o.User)
+            .WithMany(u => u.Orders)
             .HasForeignKey(o => o.UserId)
             .IsRequired();
 
         // One Order can have Many OrderDetails
         builder
             .HasMany(o => o.OrderDetails)
-            .WithOne()
+            .WithOne(od => od.Order)
             .HasForeignKey(x => x.OrderId)
             .IsRequired();
     }

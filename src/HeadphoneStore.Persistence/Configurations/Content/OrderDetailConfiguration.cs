@@ -16,23 +16,21 @@ internal class OrderDetailConfiguration : IEntityTypeConfiguration<OrderDetail>
         builder.HasKey(od => od.Id);
 
         builder.Property(od => od.ProductId).IsRequired();
-        builder.Property(od => od.ProductQuantity).IsRequired();
-        builder.Property(od => od.ProductPrice).HasPrecision(18, 2).IsRequired();
-        builder.Property(od => od.ProductPriceDiscount).HasPrecision(18, 2);
-        builder.Property(od => od.CreatedBy).IsRequired();
+        builder.Property(od => od.Quantity).IsRequired();
+        builder.Property(od => od.Price).HasPrecision(18, 2).IsRequired();
         builder.Property(od => od.CreatedDateTime).IsRequired();
         builder.Property(od => od.IsDeleted).IsRequired();
 
         // One OrderDetail belongs to One Order
         builder
-            .HasOne<Order>()
+            .HasOne(od => od.Order)
             .WithMany(o => o.OrderDetails)
-            .HasForeignKey("OrderId")
+            .HasForeignKey(od => od.OrderId)
             .IsRequired();
 
         // One Product can have Many OrderDetails
         builder
-            .HasOne<Product>()
+            .HasOne(od => od.Product)
             .WithMany()
             .HasForeignKey(o => o.ProductId)
             .IsRequired();

@@ -53,7 +53,6 @@ public class WhoAmIQueryHandler : IQueryHandler<WhoAmIQuery, UserDto>
             PhoneNumber = userFromDb.PhoneNumber!,
             DayOfBirth = userFromDb.DayOfBirth,
             Avatar = userFromDb.Avatar,
-            Bio = userFromDb.Bio,
             Status = Enum.GetName(typeof(UserStatus), (int)userFromDb.Status) ?? UserStatus.Inactive.ToString(),
             CreatedDateTime = userFromDb.CreatedDateTime,
             UpdatedDateTime = userFromDb.UpdatedDateTime,

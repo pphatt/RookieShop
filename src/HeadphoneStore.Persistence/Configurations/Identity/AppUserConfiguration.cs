@@ -17,7 +17,6 @@ internal class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
         builder.Property(x => x.FirstName).HasMaxLength(256);
         builder.Property(x => x.LastName).HasMaxLength(256);
         builder.Property(t => t.Email).HasMaxLength(256).IsRequired(true);
-        builder.Property(t => t.Bio).IsRequired(false);
 
         // One User can have Many UserRoles
         builder

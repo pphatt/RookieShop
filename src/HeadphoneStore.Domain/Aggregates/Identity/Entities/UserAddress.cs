@@ -4,12 +4,12 @@ namespace HeadphoneStore.Domain.Aggregates.Identity.Entities;
 
 public class UserAddress : Entity<Guid>
 {
-    public string Address { get; private set; }
-    public string Street { get; private set; }
-    public string Province { get; private set; }
-    public string PhoneNumber { get; private set; }
+    public string Address { get; set; }
+    public string Street { get; set; }
+    public string Province { get; set; }
+    public string PhoneNumber { get; set; }
 
-    protected UserAddress() { } // For EF Core
+    public UserAddress() { } // For EF Core
 
     public UserAddress(string street, string province, string phoneNumber) : base(Guid.NewGuid())
     {

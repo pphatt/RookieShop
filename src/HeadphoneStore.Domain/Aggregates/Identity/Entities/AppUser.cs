@@ -34,7 +34,7 @@ public class AppUser : IdentityUser<Guid>, IAuditableEntity
     private readonly List<UserAddress> _addresses = new();
     public virtual IReadOnlyCollection<UserAddress> Addresses => _addresses.AsReadOnly();
 
-    protected AppUser() { }
+    public AppUser() { }
 
     private AppUser(string email)
     {
