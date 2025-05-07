@@ -8,8 +8,8 @@ public abstract class Entity<T> : IEntity<T>, IAuditableEntity where T : notnull
 {
     [Key]
     //[DatabaseGenerated(DatabaseGeneratedOption.Identity)] //Equivalents to [Key] (generate primary key) but have auto-increment.
-    public T Id { get; protected set; } = default!;
-    public bool IsDeleted { get; protected set; }
+    public T Id { get; set; } = default!;
+    public bool IsDeleted { get; set; }
     public EntityStatus Status { get; set; } = EntityStatus.Active;
 
     public DateTimeOffset CreatedDateTime { get; protected set; } = DateTimeOffset.UtcNow;
