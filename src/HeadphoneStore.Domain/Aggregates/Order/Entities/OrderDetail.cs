@@ -15,7 +15,7 @@ public class OrderDetail : Entity<Guid>
     public Guid ProductId { get; set; }
     public virtual Product Product { get; set; }
 
-    private OrderDetail() { } // For EF Core
+    public OrderDetail() { } // For EF Core
 
     public OrderDetail(Guid orderId, Guid productId, int quantity, decimal price) : base(Guid.NewGuid())
     {

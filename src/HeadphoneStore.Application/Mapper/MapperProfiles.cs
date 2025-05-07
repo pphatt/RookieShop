@@ -26,6 +26,7 @@ using HeadphoneStore.Application.UseCases.V1.Identity.Login;
 using HeadphoneStore.Application.UseCases.V1.Identity.RefreshToken;
 using HeadphoneStore.Application.UseCases.V1.Identity.Register;
 using HeadphoneStore.Application.UseCases.V1.Identity.UpdateUser;
+using HeadphoneStore.Application.UseCases.V1.Order.CreateOrder;
 using HeadphoneStore.Application.UseCases.V1.Product.ActivateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.CreateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.DeleteProduct;
@@ -35,6 +36,9 @@ using HeadphoneStore.Application.UseCases.V1.Product.GetProductBySlug;
 using HeadphoneStore.Application.UseCases.V1.Product.InactivateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.UpdateProduct;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
+using HeadphoneStore.Domain.Aggregates.Order.Enumerations;
+using HeadphoneStore.Domain.Aggregates.Order.ValueObjects;
+using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Dtos.Identity.Role;
 using HeadphoneStore.Shared.Services.Brand.ActiveBrand;
 using HeadphoneStore.Shared.Services.Brand.BulkDelete;
@@ -62,6 +66,7 @@ using HeadphoneStore.Shared.Services.Identity.Login;
 using HeadphoneStore.Shared.Services.Identity.RefreshToken;
 using HeadphoneStore.Shared.Services.Identity.Register;
 using HeadphoneStore.Shared.Services.Identity.UpdateUser;
+using HeadphoneStore.Shared.Services.Order.CreateOrder;
 using HeadphoneStore.Shared.Services.Product.ActivateProduct;
 using HeadphoneStore.Shared.Services.Product.Create;
 using HeadphoneStore.Shared.Services.Product.Delete;
@@ -123,5 +128,18 @@ public class MapperProfiles : Profile
         CreateMap<ActivateProductRequestDto, ActivateProductCommand>();
         CreateMap<InactivateProductRequestDto, InactivateProductCommand>();
         CreateMap<GetProductBySlugRequestDto, GetProductBySlugQuery>();
+
+        // Order
+        CreateMap<CreateOrderRequestDto, CreateOrderCommand>()
+            .ForMember(dest => dest.ShippingAddress,
+                        opt => opt.MapFrom(src => new ShippingAddress
+                        {
+                            StreetAddress = src.ShippingAddress.StreetAddress,
+                            Ward = src.ShippingAddress.Ward,
+                            District = src.ShippingAddress.District,
+                            CityProvince = src.ShippingAddress.CityProvince
+                        }))
+            .ForMember(dest => dest.PaymentMethod,
+                        opt => opt.MapFrom(src => Enum.Parse<PaymentMethod>(src.PaymentMethod)));
     }
 }
