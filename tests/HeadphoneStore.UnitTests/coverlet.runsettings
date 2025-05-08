@@ -1,12 +1,12 @@
 <RunSettings>
-<DataCollectionRunSettings>
-<DataCollectors>
-<DataCollector friendlyName="XPlat Code Coverage">
-<Configuration>
-<Include>[HeadphoneStore.Application]*</Include>
-<Exclude>[HeadphoneStore.Infrastructure]*</Exclude>
-</Configuration>
-</DataCollector>
-</DataCollectors>
-</DataCollectionRunSettings>
+    <DataCollectionRunSettings>
+        <DataCollectors>
+            <DataCollector friendlyName="XPlat Code Coverage">
+                <Configuration>
+                    <Include>[HeadphoneStore.Application]*</Include>
+                    <Exclude>[HeadphoneStore.Infrastructure]*</Exclude>
+                </Configuration>
+            </DataCollector>
+        </DataCollectors>
+    </DataCollectionRunSettings>
 </RunSettings>

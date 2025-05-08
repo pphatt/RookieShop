@@ -43,6 +43,10 @@ bld/
 # Visual Studio 2017 auto generated files
 Generated\ Files/
 
+# Xunit - Code coverlet test Results
+tests/HeadphoneStore.UnitTests/codecoverageresults
+tests/HeadphoneStore.UnitTests/TestResults
+
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
