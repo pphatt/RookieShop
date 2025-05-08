@@ -129,15 +129,18 @@ public partial class DataSeeder
 
                 allPermissions.Add(new Permission(adminRole.Id, function.ToFunctionPermissions(),
                     command.ToCommandPermissions()));
+
+                allPermissions.Add(new Permission(customerRole.Id, function.ToFunctionPermissions(),
+                    command.ToCommandPermissions()));
             }
         }
 
-        allPermissions.Add(new Permission(customerRole.Id, Permissions.Function.CATEGORY.ToFunctionPermissions(),
-            Permissions.Command.VIEW.ToCommandPermissions()));
-        allPermissions.Add(new Permission(customerRole.Id, Permissions.Function.ORDER.ToFunctionPermissions(),
-            Permissions.Command.VIEW.ToCommandPermissions()));
-        allPermissions.Add(new Permission(customerRole.Id, Permissions.Function.ORDER.ToFunctionPermissions(),
-            Permissions.Command.CREATE.ToCommandPermissions()));
+        //allPermissions.Add(new Permission(customerRole.Id, Permissions.Function.CATEGORY.ToFunctionPermissions(),
+        //    Permissions.Command.VIEW.ToCommandPermissions()));
+        //allPermissions.Add(new Permission(customerRole.Id, Permissions.Function.ORDER.ToFunctionPermissions(),
+        //    Permissions.Command.VIEW.ToCommandPermissions()));
+        //allPermissions.Add(new Permission(customerRole.Id, Permissions.Function.ORDER.ToFunctionPermissions(),
+        //    Permissions.Command.CREATE.ToCommandPermissions()));
 
         await context.Permissions.AddRangeAsync(allPermissions);
 
@@ -641,39 +644,6 @@ public partial class DataSeeder
                 "http://res.cloudinary.com/dus70fkd3/image/upload/v1746497706/products/21bfd44a-1105-4c79-bc7e-1cf2c9c1b461/images/snfldvybqzdqyf3lrsgl.jpg",
                 name: "snfldvybqzdqyf3lrsgl",
                 order: 4,
-                createdBy: adminId
-            ),
-            new ProductMedia(
-                productId: products[2].Id,
-                imageUrl:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197914/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/hmctd5d3ngu1qpkexzcy.jpg",
-                publicId: "products/289c691c-60ab-4f79-881f-a79dc1cae032/images/hmctd5d3ngu1qpkexzcy",
-                path:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197914/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/hmctd5d3ngu1qpkexzcy.jpg",
-                name: "hmctd5d3ngu1qpkexzcy",
-                order: 6,
-                createdBy: adminId
-            ),
-            new ProductMedia(
-                productId: products[2].Id,
-                imageUrl:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197914/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/yhfyw4cqk7pbt170n6j0.jpg",
-                publicId: "products/289c691c-60ab-4f79-881f-a79dc1cae032/images/yhfyw4cqk7pbt170n6j0",
-                path:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197914/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/yhfyw4cqk7pbt170n6j0.jpg",
-                name: "yhfyw4cqk7pbt170n6j0",
-                order: 7,
-                createdBy: adminId
-            ),
-            new ProductMedia(
-                productId: products[2].Id,
-                imageUrl:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197916/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/k84kdwtsuqqivxeovpcm.jpg",
-                publicId: "products/289c691c-60ab-4f79-881f-a79dc1cae032/images/k84kdwtsuqqivxeovpcm",
-                path:
-                "http://res.cloudinary.com/dus70fkd3/image/upload/v1746197916/products/289c691c-60ab-4f79-881f-a79dc1cae032/images/k84kdwtsuqqivxeovpcm.jpg",
-                name: "k84kdwtsuqqivxeovpcm",
-                order: 8,
                 createdBy: adminId
             ),
             new ProductMedia(

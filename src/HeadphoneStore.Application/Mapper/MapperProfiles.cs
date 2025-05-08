@@ -35,6 +35,7 @@ using HeadphoneStore.Application.UseCases.V1.Product.GetProductById;
 using HeadphoneStore.Application.UseCases.V1.Product.GetProductBySlug;
 using HeadphoneStore.Application.UseCases.V1.Product.InactivateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.UpdateProduct;
+using HeadphoneStore.Application.UseCases.V1.ProductRating.CreateProductRating;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Domain.Aggregates.Order.Enumerations;
 using HeadphoneStore.Domain.Aggregates.Order.ValueObjects;
@@ -75,6 +76,7 @@ using HeadphoneStore.Shared.Services.Product.GetById;
 using HeadphoneStore.Shared.Services.Product.GetProductBySlug;
 using HeadphoneStore.Shared.Services.Product.InactivateProduct;
 using HeadphoneStore.Shared.Services.Product.Update;
+using HeadphoneStore.Shared.Services.ProductRating.CreateProductRating;
 
 namespace HeadphoneStore.Application.Mapper;
 
@@ -128,6 +130,9 @@ public class MapperProfiles : Profile
         CreateMap<ActivateProductRequestDto, ActivateProductCommand>();
         CreateMap<InactivateProductRequestDto, InactivateProductCommand>();
         CreateMap<GetProductBySlugRequestDto, GetProductBySlugQuery>();
+
+        // Product Prating
+        CreateMap<CreateProductRatingRequestDto, CreateProductRatingCommand>();
 
         // Order
         CreateMap<CreateOrderRequestDto, CreateOrderCommand>()

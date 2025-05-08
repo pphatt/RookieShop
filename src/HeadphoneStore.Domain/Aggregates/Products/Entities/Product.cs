@@ -17,8 +17,8 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
     public int Sold { get; set; }
     public ProductStatus ProductStatus { get; private set; } = ProductStatus.InStock;
     public ProductPrice ProductPrice { get; private set; } = ProductPrice.CreateEmpty();
-    public double AverageRating { get; private set; }
-    public int TotalReviews { get; private set; }
+    public double AverageRating { get; set; }
+    public int TotalReviews { get; set; }
     public Guid CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
 
@@ -29,6 +29,9 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
 
     private readonly List<ProductMedia> _media = [];
     public virtual IReadOnlyCollection<ProductMedia> Media => _media.AsReadOnly();
+
+    private readonly List<ProductRating> _ratings = [];
+    public virtual IReadOnlyCollection<ProductRating> Ratings => _ratings.AsReadOnly();
 
     protected Product() { }
 

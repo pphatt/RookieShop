@@ -1,5 +1,6 @@
 ﻿using HeadphoneStore.Shared.Dtos.Brand;
 using HeadphoneStore.Shared.Dtos.Category;
+using HeadphoneStore.Shared.Dtos.ProductRating;
 
 namespace HeadphoneStore.Shared.Dtos.Product;
 
@@ -21,4 +22,5 @@ public class ProductDto
     public string Status { get; set; }
 
     public IReadOnlyCollection<ProductMediaDto> Media { get; set; }
+    public IReadOnlyCollection<ProductRatingDto>? Rating { get; set; }
 }

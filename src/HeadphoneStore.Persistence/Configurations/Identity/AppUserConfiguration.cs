@@ -1,4 +1,5 @@
 ﻿using HeadphoneStore.Domain.Aggregates.Identity.Entities;
+using HeadphoneStore.Domain.Aggregates.Products.Entities;
 using HeadphoneStore.Domain.Constraints;
 
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +52,12 @@ internal class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
             .HasMany(x => x.Addresses)
             .WithOne()
             .HasForeignKey(x => x.Id)
+            .IsRequired();
+
+        builder
+            .HasMany<ProductRating>()
+            .WithOne(r => r.Customer)
+            .HasForeignKey(r => r.CustomerId)
             .IsRequired();
     }
 }

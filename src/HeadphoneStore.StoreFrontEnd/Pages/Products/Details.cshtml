@@ -71,9 +71,9 @@
 
         function decreaseQuantity() {
             const input = document.getElementById('quantity');
-            
+
             const currentValue = parseInt(input.value);
-            
+
             if (currentValue > 1) {
                 input.value = currentValue - 1;
             }
@@ -81,11 +81,11 @@
 
         function increaseQuantity() {
             const input = document.getElementById('quantity');
-            
+
             const currentValue = parseInt(input.value);
-            
+
             const maxValue = parseInt(input.getAttribute('max'));
-            
+
             if (currentValue < maxValue) {
                 input.value = currentValue + 1;
             }
@@ -132,12 +132,19 @@
                                             padding-bottom: 1px;
                                             margin-right: 7px;
                                             font-size: 1rem;">
-                                        4.9
+                                        @Model.Product.AverageRating
                                     </div>
 
                                     @for (var i = 0; i < 5; i++)
                                     {
-                                        <i class="bi bi-star-fill product-detail-rating-star product-detail-rating-star-active"></i>
+                                        if (i < Math.Floor(Model.Product.AverageRating))
+                                        {
+                                            <i class="bi bi-star-fill product-detail-rating-star product-detail-rating-star-active"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-star-fill product-detail-rating-star"></i>
+                                        }
                                     }
                                 </div>
 
@@ -148,7 +155,7 @@
                                             font-size: 1rem;
                                             margin-right: 5px;
                                             padding-bottom: 1px;">
-                                        4.9
+                                        @Model.Product.TotalReviews
                                     </div>
 
                                     <div style="margin-right: 5px;
@@ -181,7 +188,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                             </svg>
-                                            
+
                                             <span>In Stock (@Model.Product.Stock available)</span>
                                         </div>
                                     }
@@ -193,7 +200,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
                                             </svg>
-                                            
+
                                             <span>Low Stock (Only @Model.Product.Stock left)</span>
                                         </div>
                                     }
@@ -205,7 +212,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
                                             </svg>
-                                            
+
                                             <span>Out of Stock</span>
                                         </div>
                                     }
@@ -276,10 +283,83 @@
 
             <section class="product-rating-section-wrapper">
                 <div class="product-rating-section-title-wrapper">
-                    <div class="product-rating-section-title">ĐÁNH GIÁ SẢN PHẨM</div>
+                    <div class="product-rating-section-title">Bình luận về @Model.Product.Name</div>
                 </div>
 
-                <div></div>
+                <div class="rating-form-container col-md-4 border-start">
+                    <form method="post">
+                        <h4 class="text-center">Viết đánh giá của bạn</h4>
+                        
+                        <input type="hidden" name="productId" value="@Model.Product.Id"/>
+
+                        <input type="hidden" name="productSlug" value="@Model.Product.Slug"/>
+
+                        <div class="mb-3">
+                            <p class="form-label">Đánh giá</p>
+
+                            <div class="star-rating animated-stars">
+                                <input type="hidden" name="productId" value="@Model.Product.Id"/>
+                                <input type="radio" name="rating" id="star5" value="5">
+                                <label for="star5" class="bi bi-star-fill"><span hidden>5</span></label>
+                                <input type="radio" name="rating" id="star4" value="4">
+                                <label for="star4" class="bi bi-star-fill"><span hidden>4</span></label>
+                                <input type="radio" name="rating" id="star3" value="3">
+                                <label for="star3" class="bi bi-star-fill"><span hidden>3</span></label>
+                                <input type="radio" name="rating" id="star2" value="2">
+                                <label for="star2" class="bi bi-star-fill"><span hidden>2</span></label>
+                                <input type="radio" name="rating" id="star1" value="1">
+                                <label for="star1" class="bi bi-star-fill"><span hidden>1</span></label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nội dung đánh giá
+                                <textarea class="form-control" name="comment" rows="4"></textarea>
+                            </label>
+                        </div>
+
+                        <button type="submit" asp-page-handler="RatingProduct" class="btn btn-primary mt-2">Gửi đánh
+                            giá
+                        </button>
+                    </form>
+                </div>
+
+                <div class="feedback-list">
+                    @if (Model.Product.Rating.Any())
+                    {
+                        @foreach (var rating in Model.Product.Rating)
+                        {
+                            <div class="feedback-item">
+                                <div class="feedback-header">
+                                    <div class="feedback-avatar">
+                                        <img src="/images/avatar/noavatar.jpg" alt="@rating.CustomerName">
+                                    </div>
+                                    
+                                    <div>
+                                        <h5 class="feedback-customer">@rating.CustomerName</h5>
+                                        <div class="feedback-stars">
+                                            @for (int i = 0; i < int.Parse(rating.RatingValue); i++)
+                                            {
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                     class="w-5 h-5" viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M10 15.27l6.18 3.73-1.64-7.03 5.45-4.73-7.19-.61L10 0 8.2 7.63l-7.19.61 5.45 4.73-1.64 7.03L10 15.27z"></path>
+                                                </svg>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="feedback-comment">@rating.Comment</p>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="no-reviews">
+                            No customer reviews yet. Be the first to leave feedback!
+                        </div>
+                    }
+                </div>
             </section>
         </div>
     </div>

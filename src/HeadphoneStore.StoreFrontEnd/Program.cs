@@ -43,6 +43,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IProductRatingService, ProductRatingService>();
 
 // Configure API options
 builder.Services.Configure<ApiOptions>(builder.Configuration.GetSection("ApiOptions"));

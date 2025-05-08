@@ -5,6 +5,7 @@ using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Brand;
 using HeadphoneStore.Shared.Dtos.Category;
 using HeadphoneStore.Shared.Dtos.Product;
+using HeadphoneStore.Shared.Dtos.ProductRating;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -30,6 +31,8 @@ public class GetProductBySlugQueryHandler : IQueryHandler<GetProductBySlugQuery,
             .Include(x => x.Category)
             .Include(x => x.Brand)
             .Include(x => x.Media)
+            .Include(x => x.Ratings)
+                .ThenInclude(x => x.Customer)
             .FirstOrDefaultAsync();
 
         if (product is null || product.IsDeleted)
@@ -67,6 +70,15 @@ public class GetProductBySlugQueryHandler : IQueryHandler<GetProductBySlugQuery,
                 Path = x.Path,
                 PublicId = x.PublicId,
                 Order = x.Order
+            }).ToList().AsReadOnly(),
+            Rating = product.Ratings.OrderBy(x => x.CreatedDateTime).Select(x => new ProductRatingDto
+            {
+                CustomerAvatar = x.Customer.Avatar,
+                CustomerName = x.Customer.UserName,
+                RatingValue = x.RatingValue.ToString(),
+                Comment = x.Comment,
+                CreatedAt = x.CreatedDateTime,
+                UpdatedAt = x.UpdatedDateTime
             }).ToList().AsReadOnly()
         };
 

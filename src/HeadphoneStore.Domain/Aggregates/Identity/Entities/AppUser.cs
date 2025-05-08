@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
 using HeadphoneStore.Domain.Abstracts.Entities;
+using HeadphoneStore.Domain.Aggregates.Products.Entities;
 using HeadphoneStore.Domain.Enumerations;
 
 using Microsoft.AspNetCore.Identity;
@@ -25,6 +26,10 @@ public class AppUser : IdentityUser<Guid>, IAuditableEntity
     public DateTimeOffset? UpdatedDateTime { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+
+    private readonly List<ProductRating> _productRatings = [];
+    public virtual IReadOnlyCollection<ProductRating> ProductRatings => _productRatings.AsReadOnly();
 
     public virtual ICollection<IdentityUserRole<Guid>> UserRoles { get; set; } // UserRoles
     public virtual ICollection<IdentityUserClaim<Guid>> Claims { get; set; } // UserClaims

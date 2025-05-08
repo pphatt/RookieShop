@@ -1,11 +1,14 @@
 ﻿using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Domain.Abstracts.Repositories;
+using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Shared.Abstracts.Queries;
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Brand;
 using HeadphoneStore.Shared.Dtos.Category;
 using HeadphoneStore.Shared.Dtos.Product;
+using HeadphoneStore.Shared.Dtos.ProductRating;
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace HeadphoneStore.Application.UseCases.V1.Product.GetProductById;
@@ -30,6 +33,8 @@ public class GetProductByIdQueryHandler : IQueryHandler<GetProductByIdQuery, Pro
             .Include(x => x.Category)
             .Include(x => x.Brand)
             .Include(x => x.Media)
+            .Include(x => x.Ratings)
+                .ThenInclude(x => x.Customer)
             .FirstOrDefaultAsync();
 
         if (product is null || product.IsDeleted)
@@ -67,6 +72,15 @@ public class GetProductByIdQueryHandler : IQueryHandler<GetProductByIdQuery, Pro
                 Path = x.Path,
                 PublicId = x.PublicId,
                 Order = x.Order
+            }).ToList().AsReadOnly(),
+            Rating = product.Ratings.OrderBy(x => x.CreatedDateTime).Select(x => new ProductRatingDto
+            {
+                CustomerAvatar = x.Customer.Avatar,
+                CustomerName = x.Customer.UserName,
+                RatingValue = x.RatingValue.ToString(),
+                Comment = x.Comment,
+                CreatedAt = x.CreatedDateTime,
+                UpdatedAt = x.UpdatedDateTime
             }).ToList().AsReadOnly()
         };
 
