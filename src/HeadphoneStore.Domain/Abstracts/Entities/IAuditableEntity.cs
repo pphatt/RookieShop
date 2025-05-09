@@ -3,5 +3,5 @@
 public interface IAuditableEntity
 {
     DateTimeOffset CreatedDateTime { get; }
-    DateTimeOffset? UpdatedDateTime { get; }
+    DateTimeOffset? ModifiedDateTime { get; }
 }

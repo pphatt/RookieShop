@@ -8,8 +8,7 @@ public class OrderPayment : Entity<Guid>
     public string Cvc { get; private set; }
     public string Expire { get; private set; }
 
-    private OrderPayment() { } // For EF Core
-
+    private OrderPayment() { }
     public OrderPayment(string cardNumber, string cvc, string expire) : base(Guid.NewGuid())
     {
         CardNumber = cardNumber ?? throw new ArgumentNullException(nameof(cardNumber));

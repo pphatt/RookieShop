@@ -7,8 +7,6 @@ public class CategoryDto
     public string Slug { get; set; }
     public string Description { get; set; }
     public string Status { get; set; }
-    public Guid? CreatedBy { get; set; }
-    public Guid? UpdatedBy { get; set; }
 
     public CategoryDto? Parent { get; set; }
     public IEnumerable<CategoryDto>? SubCategories { get; set; }

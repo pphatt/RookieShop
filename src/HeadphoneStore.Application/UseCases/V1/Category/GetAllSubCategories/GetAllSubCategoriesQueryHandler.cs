@@ -33,8 +33,6 @@ public class GetAllSubCategoriesQueryHandler : IQueryHandler<GetAllSubCategories
                 Slug = x.Slug,
                 Description = x.Description,
                 Status = x.Status.ToString(),
-                CreatedBy = x.CreatedBy,
-                UpdatedBy = x.UpdatedBy,
             });
 
         var result = await query.ToListAsync();

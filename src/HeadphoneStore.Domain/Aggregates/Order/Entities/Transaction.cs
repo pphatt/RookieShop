@@ -12,8 +12,7 @@ public class Transaction : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdated
     public Guid CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
 
-    private Transaction() { } // For EF Core
-
+    private Transaction() { }
     public Transaction(decimal total, string note, Guid userId, Guid createdBy) : base(Guid.NewGuid())
     {
         Total = total >= 0 ? total : throw new ArgumentException("Total cannot be negative.");
@@ -32,6 +31,6 @@ public class Transaction : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdated
 
         Status = newStatus;
         UpdatedBy = updatedBy;
-        UpdatedDateTime = DateTime.UtcNow;
+        ModifiedDateTime = DateTime.UtcNow;
     }
 }

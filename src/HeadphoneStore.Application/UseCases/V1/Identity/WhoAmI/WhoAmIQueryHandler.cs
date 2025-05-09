@@ -55,7 +55,7 @@ public class WhoAmIQueryHandler : IQueryHandler<WhoAmIQuery, UserDto>
             Avatar = userFromDb.Avatar,
             Status = Enum.GetName(typeof(UserStatus), (int)userFromDb.Status) ?? UserStatus.Inactive.ToString(),
             CreatedDateTime = userFromDb.CreatedDateTime,
-            UpdatedDateTime = userFromDb.UpdatedDateTime,
+            UpdatedDateTime = userFromDb.ModifiedDateTime,
             UserAddress = userFromDb.Addresses.Select(x => new UserAddressDto
             {
                 Address = x.Address,

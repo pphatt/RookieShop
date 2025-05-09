@@ -1,4 +1,4 @@
-﻿using HeadphoneStore.Shared.Services.ProductRating.CreateProductRating;
+﻿using HeadphoneStore.Shared.Services.Product.CreateProductRating;
 
 namespace HeadphoneStore.StoreFrontEnd.Interfaces.Services;
 

@@ -19,6 +19,9 @@ public class ProductRepository : RepositoryBase<Product, Guid>, IProductReposito
         _context = context;
     }
 
+    public async Task AddImageAsync(ProductMedia media)
+        => await _context.ProductMedias.AddAsync(media);
+
     public async Task<bool> IsSlugAlreadyExisted(string slug, Guid? productId = null)
     {
         if (productId is not null)
@@ -70,21 +73,22 @@ public class ProductRepository : RepositoryBase<Product, Guid>, IProductReposito
             Brand = new BrandDto
             {
                 Id = x.Brand.Id,
-                Name = x.Brand.Name
+                Name = x.Brand.Name,
+                Slug = x.Brand.Slug
             },
             ProductStatus = x.ProductStatus.ToString(),
             ProductPrice = x.ProductPrice.Amount,
             AverageRating = x.AverageRating,
             TotalReviews = x.TotalReviews,
             Status = x.Status.ToString(),
-            Media = x.Media.OrderBy(x => x.Order).Select(x => new ProductMediaDto
+            Media = x.Media.OrderBy(x => x.DisplayOrder).Select(x => new ProductMediaDto
             {
                 Id = x.Id,
                 ImageUrl = x.ImageUrl,
                 Name = x.Name,
                 Path = x.Path,
                 PublicId = x.PublicId,
-                Order = x.Order
+                DIsplayOrder = x.DisplayOrder
             }).ToList().AsReadOnly()
         });
 

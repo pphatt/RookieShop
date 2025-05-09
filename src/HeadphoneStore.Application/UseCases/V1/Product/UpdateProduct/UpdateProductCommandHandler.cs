@@ -22,7 +22,6 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
     private readonly IProductRepository _productRepository;
     private readonly ICategoryRepository _categoryRepository;
     private readonly IBrandRepository _brandRepository;
-    private readonly IProductMediaRepository _productMediaRepository;
     private readonly ICloudinaryService _cloudinaryService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICacheService _cacheService;
@@ -31,7 +30,6 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
         IProductRepository productRepository,
         ICategoryRepository categoryRepository,
         IBrandRepository brandRepository,
-        IProductMediaRepository productMediaRepository,
         ICloudinaryService cloudinaryService,
         IUnitOfWork unitOfWork,
         ICacheService cacheService)
@@ -39,7 +37,6 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
         _productRepository = productRepository;
         _categoryRepository = categoryRepository;
         _brandRepository = brandRepository;
-        _productMediaRepository = productMediaRepository;
         _cloudinaryService = cloudinaryService;
         _unitOfWork = unitOfWork;
         _cacheService = cacheService;
@@ -82,8 +79,6 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
         if (brand is null)
             throw new Exceptions.Brand.NotFound();
 
-        var countOldImages = 0;
-
         // handle remove old images if changes.
         if (request.OldImages is not null &&
             request.OldImages.Count() > 0 &&
@@ -95,20 +90,18 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
 
             foreach (var image in product.Media.ToList())
             {
-                if (!oldImagesRequest.Contains(image.Id))
+                if (oldImagesRequest.Contains(image.Id))
                 {
-                    oldImages.Add(new DeleteFileDto
-                    {
-                        Type = FileType.Image,
-                        PublicId = image.PublicId
-                    });
+                    continue;
+                }
 
-                    _productMediaRepository.Remove(image);
-                }
-                else
+                oldImages.Add(new DeleteFileDto
                 {
-                    countOldImages++;
-                }
+                    Type = FileType.Image,
+                    PublicId = image.PublicId
+                });
+
+                product.RemoveMedia(image);
             }
 
             if (oldImages.Count() > 0)
@@ -123,9 +116,9 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
 
             foreach (var imageInfo in request.OldImages.Select((value, i) => (value, i)))
             {
-                var image = await _productMediaRepository.FindByIdAsync(imageInfo.value);
+                var image = product.Media.FirstOrDefault(x => x.Id == imageInfo.value);
 
-                image.Order = Int32.Parse(oldImagesOrder[imageInfo.i]);
+                image!.DisplayOrder = Int32.Parse(oldImagesOrder[imageInfo.i]);
             }
         }
 
@@ -147,16 +140,15 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
 
             foreach (var info in filesInfo.Select((value, i) => (value, i)))
             {
-                var file = new ProductMedia(
+                var file = ProductMedia.Create(
                     productId: product.Id,
                     imageUrl: info.value.Path,
                     publicId: info.value.PublicId,
                     path: info.value.Path,
                     name: info.value.Name,
-                    order: Int32.Parse(newImagesOrder[info.i]),
-                    createdBy: request.UpdatedBy);
+                    displayOrder: Int32.Parse(newImagesOrder[info.i]));
 
-                _productMediaRepository.Add(file);
+                await _productRepository.AddImageAsync(file);
             }
         }
 
@@ -174,8 +166,7 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
             sold: 0,
             category: category,
             brand: brand,
-            status: entityStatus,
-            updatedBy: request.UpdatedBy
+            status: entityStatus
         );
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);

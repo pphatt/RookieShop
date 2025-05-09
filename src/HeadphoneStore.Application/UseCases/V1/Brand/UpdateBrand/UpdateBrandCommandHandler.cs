@@ -1,12 +1,9 @@
 ﻿using HeadphoneStore.Application.Abstracts.Interface.Services.Caching;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Domain.Abstracts.Repositories;
-using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Commands;
 using HeadphoneStore.Shared.Abstracts.Shared;
-
-using Microsoft.AspNetCore.Identity;
 
 namespace HeadphoneStore.Application.UseCases.V1.Brand.UpdateBrand;
 
@@ -14,18 +11,15 @@ using Exceptions = Domain.Exceptions.Exceptions;
 
 public class UpdateBrandCommandHandler : ICommandHandler<UpdateBrandCommand>
 {
-    private readonly UserManager<AppUser> _userManager;
     private readonly IBrandRepository _brandRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICacheService _cacheService;
 
     public UpdateBrandCommandHandler(
-        UserManager<AppUser> userManager,
         IBrandRepository brandRepository,
         IUnitOfWork unitOfWork,
         ICacheService cacheService)
     {
-        _userManager = userManager;
         _brandRepository = brandRepository;
         _unitOfWork = unitOfWork;
         _cacheService = cacheService;
@@ -33,11 +27,6 @@ public class UpdateBrandCommandHandler : ICommandHandler<UpdateBrandCommand>
 
     public async Task<Result> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByIdAsync(request.UpdatedBy.ToString());
-
-        if (user is null)
-            throw new Exceptions.Identity.NotFound();
-
         var brandFromDb = await _brandRepository.FindByIdAsync(request.Id);
 
         if (brandFromDb is null)
@@ -63,7 +52,6 @@ public class UpdateBrandCommandHandler : ICommandHandler<UpdateBrandCommand>
             name: request.Name,
             slug: slug,
             description: request.Description,
-            updatedBy: request.UpdatedBy,
             status: status
         );
 

@@ -56,7 +56,7 @@ public class WhoAmIQueryHandlerTests : BaseTest
         user.IsActive = true;
         user.IsDeleted = false;
         user.CreatedDateTime = DateTimeOffset.UtcNow.AddDays(-10);
-        user.UpdatedDateTime = DateTimeOffset.UtcNow;
+        user.ModifiedDateTime = DateTimeOffset.UtcNow;
         user.UserRoles = new List<IdentityUserRole<Guid>> { new IdentityUserRole<Guid> { RoleId = Guid.NewGuid() } };
         user.GetType().GetField("_addresses", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
             .SetValue(user, new List<UserAddress>
@@ -95,7 +95,7 @@ public class WhoAmIQueryHandlerTests : BaseTest
         result.Value.DayOfBirth.Should().Be(user.DayOfBirth);
         result.Value.Avatar.Should().Be(user.Avatar);
         result.Value.CreatedDateTime.Should().Be(user.CreatedDateTime);
-        result.Value.UpdatedDateTime.Should().Be(user.UpdatedDateTime);
+        result.Value.UpdatedDateTime.Should().Be(user.ModifiedDateTime);
         result.Value.UserAddress.Should().HaveCount(1);
         result.Value.UserAddress.First().Address.Should().Be(user.Addresses.First().Address);
         result.Value.Roles.Id.Should().Be(role.Id);

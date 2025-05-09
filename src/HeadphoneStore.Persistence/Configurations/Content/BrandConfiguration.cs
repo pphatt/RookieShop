@@ -1,4 +1,4 @@
-﻿using HeadphoneStore.Domain.Aggregates.Products.Entities;
+﻿using HeadphoneStore.Domain.Aggregates.Brands.Entities;
 using HeadphoneStore.Domain.Constraints;
 
 using Microsoft.EntityFrameworkCore;
@@ -17,10 +17,8 @@ internal class BrandConfiguration : IEntityTypeConfiguration<Brand>
         builder.Property(b => b.Name).HasMaxLength(256).IsRequired();
         builder.Property(b => b.Description).HasMaxLength(1000).IsRequired(false);
         builder.Property(p => p.Slug).HasMaxLength(256).IsRequired();
-        builder.Property(b => b.CreatedBy).IsRequired();
         builder.Property(b => b.CreatedDateTime).IsRequired();
-        builder.Property(b => b.UpdatedBy).IsRequired(false);
-        builder.Property(b => b.UpdatedDateTime).IsRequired(false);
+        builder.Property(b => b.ModifiedDateTime).IsRequired(false);
         builder.Property(b => b.IsDeleted).IsRequired();
 
         // Indexing slug

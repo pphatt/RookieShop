@@ -1,5 +1,5 @@
 ﻿using HeadphoneStore.Shared.Dtos.Product;
-using HeadphoneStore.Shared.Services.ProductRating.CreateProductRating;
+using HeadphoneStore.Shared.Services.Product.CreateProductRating;
 using HeadphoneStore.StoreFrontEnd.Interfaces.Services;
 
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,4 @@
-﻿namespace HeadphoneStore.Shared.Dtos.ProductRating;
+﻿namespace HeadphoneStore.Shared.Dtos.Product;
 
 public class ProductRatingDto
 {

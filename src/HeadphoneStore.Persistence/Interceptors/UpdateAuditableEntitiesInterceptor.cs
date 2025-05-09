@@ -39,7 +39,7 @@ public sealed class UpdateAuditableEntitiesInterceptor
 
             if (entityEntry.State == EntityState.Modified)
             {
-                entityEntry.Property(a => a.UpdatedDateTime).CurrentValue
+                entityEntry.Property(a => a.ModifiedDateTime).CurrentValue
                     = TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, vietnamTimeZone);
             }
         }

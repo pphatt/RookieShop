@@ -7,5 +7,5 @@ public class ProductMediaDto
     public string PublicId { get; set; }
     public string Path { get; set; }
     public string Name { get; set; }
-    public int Order { get; set; }
+    public int DIsplayOrder { get; set; }
 }

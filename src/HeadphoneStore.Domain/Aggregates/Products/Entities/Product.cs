@@ -1,5 +1,5 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Aggregates;
-using HeadphoneStore.Domain.Abstracts.Entities;
+using HeadphoneStore.Domain.Aggregates.Brands.Entities;
 using HeadphoneStore.Domain.Aggregates.Categories.Entities;
 using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
 using HeadphoneStore.Domain.Aggregates.Products.ValueObjects;
@@ -7,24 +7,23 @@ using HeadphoneStore.Domain.Enumerations;
 
 namespace HeadphoneStore.Domain.Aggregates.Products.Entities;
 
-public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<Guid?>
+public class Product : AggregateRoot<Guid>
 {
     public string Name { get; private set; }
     public string Description { get; private set; }
-    public int Stock { get; set; }
+    public int Stock { get; private set; }
     public string Sku { get; private set; }
     public string Slug { get; private set; }
-    public int Sold { get; set; }
+    public int Sold { get; private set; }
     public ProductStatus ProductStatus { get; private set; } = ProductStatus.InStock;
     public ProductPrice ProductPrice { get; private set; } = ProductPrice.CreateEmpty();
-    public double AverageRating { get; set; }
-    public int TotalReviews { get; set; }
-    public Guid CreatedBy { get; set; }
-    public Guid? UpdatedBy { get; set; }
+    public double AverageRating { get; private set; }
+    public int TotalReviews { get; private set; }
 
-    public Guid CategoryId { get; set; }
+    public Guid CategoryId { get; private set; }
     public virtual Category Category { get; private set; }
-    public Guid BrandId { get; set; }
+
+    public Guid BrandId { get; private set; }
     public virtual Brand Brand { get; private set; }
 
     private readonly List<ProductMedia> _media = [];
@@ -34,20 +33,17 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
     public virtual IReadOnlyCollection<ProductRating> Ratings => _ratings.AsReadOnly();
 
     protected Product() { }
-
-    public Product(
-        string name,
-        string description,
-        int stock,
-        ProductStatus productStatus,
-        ProductPrice productPrice,
-        string sku,
-        string slug,
-        int sold,
-        Category category,
-        Brand brand,
-        Guid createdBy,
-        EntityStatus status = EntityStatus.Active) : base(Guid.NewGuid())
+    protected Product(string name,
+                      string description,
+                      int stock,
+                      ProductStatus productStatus,
+                      ProductPrice productPrice,
+                      string sku,
+                      string slug,
+                      int sold,
+                      Category category,
+                      Brand brand,
+                      EntityStatus status = EntityStatus.Active) : base(Guid.NewGuid())
     {
         Name = name;
         Description = description;
@@ -60,9 +56,21 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
         Category = category;
         Brand = brand;
         Status = status;
-        CreatedBy = createdBy;
-        CreatedDateTime = DateTime.UtcNow;
+        CreatedDateTime = DateTimeOffset.UtcNow;
     }
+
+    public static Product Create(string name,
+                                 string description,
+                                 int stock,
+                                 ProductStatus productStatus,
+                                 ProductPrice productPrice,
+                                 string sku,
+                                 string slug,
+                                 int sold,
+                                 Category category,
+                                 Brand brand,
+                                 EntityStatus status = EntityStatus.Active)
+        => new(name, description, stock, productStatus, productPrice, sku, slug, sold, category, brand, status);
 
     public void Update(
         string name,
@@ -75,8 +83,7 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
         int sold,
         Category category,
         Brand brand,
-        EntityStatus status,
-        Guid updatedBy)
+        EntityStatus status)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         Description = description ?? throw new ArgumentNullException(nameof(description));
@@ -89,20 +96,27 @@ public class Product : AggregateRoot<Guid>, ICreatedByEntity<Guid>, IUpdatedByEn
         Category = category;
         Brand = brand;
         Status = status;
-        UpdatedBy = updatedBy;
-        UpdatedDateTime = DateTime.UtcNow;
+        ModifiedDateTime = DateTimeOffset.UtcNow;
     }
 
     public void AddMedia(ProductMedia media)
     {
         _media.Add(media);
-        UpdatedDateTime = DateTime.UtcNow;
+        ModifiedDateTime = DateTimeOffset.UtcNow;
     }
 
     public void RemoveMedia(ProductMedia media)
     {
         _media.Remove(media);
-        UpdatedDateTime = DateTime.UtcNow;
+        ModifiedDateTime = DateTimeOffset.UtcNow;
+    }
+
+    public void AddRating(ProductRating rating, double averageRating, int totalReviews)
+    {
+        _ratings.Add(rating);
+
+        AverageRating = averageRating;
+        TotalReviews = totalReviews;
     }
 
     protected override void EnsureValidState()

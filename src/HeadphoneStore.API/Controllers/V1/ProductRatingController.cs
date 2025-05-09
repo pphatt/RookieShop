@@ -4,13 +4,10 @@ using AutoMapper;
 
 using HeadphoneStore.API.Authorization;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
-using HeadphoneStore.Application.UseCases.V1.Order.CreateOrder;
-using HeadphoneStore.Application.UseCases.V1.Product.CreateProduct;
-using HeadphoneStore.Application.UseCases.V1.ProductRating.CreateProductRating;
+using HeadphoneStore.Application.UseCases.V1.Product.CreateProductRating;
 using HeadphoneStore.Domain.Constants;
 using HeadphoneStore.Shared.Abstracts.Shared;
-using HeadphoneStore.Shared.Services.Order.CreateOrder;
-using HeadphoneStore.Shared.Services.ProductRating.CreateProductRating;
+using HeadphoneStore.Shared.Services.Product.CreateProductRating;
 
 using MediatR;
 

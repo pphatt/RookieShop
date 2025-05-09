@@ -72,7 +72,7 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
         Enum.TryParse<ProductStatus>(request.ProductStatus, true, out var productStatus);
         Enum.TryParse<EntityStatus>(request.Status, true, out var status);
 
-        var product = new Product(
+        var product = Product.Create(
             name: request.Name,
             description: request.Description,
             productStatus: productStatus,
@@ -83,8 +83,7 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
             sold: 0,
             category: category,
             brand: brand,
-            status: status,
-            createdBy: request.CreatedBy
+            status: status
         );
 
         if (request.Images != null && request.Images.Any())
@@ -100,14 +99,13 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
 
             foreach (var info in uploadResult.Select((value, i) => (value, i)))
             {
-                var media = new ProductMedia(
+                var media = ProductMedia.Create(
                     productId: product.Id,
                     imageUrl: info.value.Path,
                     publicId: info.value.PublicId,
                     path: info.value.Path,
                     name: info.value.Name,
-                    order: info.i + 1,
-                    createdBy: request.CreatedBy);
+                    displayOrder: info.i + 1);
 
                 product.AddMedia(media);
             }

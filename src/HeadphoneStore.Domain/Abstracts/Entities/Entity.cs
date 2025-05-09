@@ -13,7 +13,7 @@ public abstract class Entity<T> : IEntity<T>, IAuditableEntity where T : notnull
     public EntityStatus Status { get; set; } = EntityStatus.Active;
 
     public DateTimeOffset CreatedDateTime { get; protected set; } = DateTimeOffset.UtcNow;
-    public DateTimeOffset? UpdatedDateTime { get; protected set; }
+    public DateTimeOffset? ModifiedDateTime { get; protected set; }
 
     protected Entity()
     {
@@ -22,7 +22,7 @@ public abstract class Entity<T> : IEntity<T>, IAuditableEntity where T : notnull
 
     protected Entity(T Id)
     {
-        this.Id = Id ?? throw new ArgumentNullException(nameof(Id));
+        this.Id = Id;
 
         CreatedDateTime = DateTimeOffset.UtcNow;
     }
@@ -54,22 +54,16 @@ public abstract class Entity<T> : IEntity<T>, IAuditableEntity where T : notnull
         return Id?.GetHashCode() ?? 0;
     }
 
-    public void Delete(string? updatedBy)
-    {
-        IsDeleted = true;
-        Status = EntityStatus.Inactive;
-        UpdatedDateTime = DateTimeOffset.UtcNow;
-    }
-
     public void Delete()
     {
         IsDeleted = true;
         Status = EntityStatus.Inactive;
+        ModifiedDateTime = DateTimeOffset.UtcNow;
     }
 
     protected void UpdateAudit(string? updatedBy)
     {
-        UpdatedDateTime = DateTimeOffset.UtcNow;
+        ModifiedDateTime = DateTimeOffset.UtcNow;
     }
 
     public void Activate() => Status = EntityStatus.Active;

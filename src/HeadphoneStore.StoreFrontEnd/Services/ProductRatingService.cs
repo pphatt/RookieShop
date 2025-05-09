@@ -1,5 +1,5 @@
 ﻿using HeadphoneStore.Shared.Abstracts.Shared;
-using HeadphoneStore.Shared.Services.ProductRating.CreateProductRating;
+using HeadphoneStore.Shared.Services.Product.CreateProductRating;
 using HeadphoneStore.StoreFrontEnd.Apis.Endpoints;
 using HeadphoneStore.StoreFrontEnd.Interfaces.Apis;
 using HeadphoneStore.StoreFrontEnd.Interfaces.Services;

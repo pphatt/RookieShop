@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace HeadphoneStore.Application.UseCases.V1.ProductRating.CreateProductRating;
+namespace HeadphoneStore.Application.UseCases.V1.Product.CreateProductRating;
 
 public class CreateProductRatingCommandValidator : AbstractValidator<CreateProductRatingCommand>
 {

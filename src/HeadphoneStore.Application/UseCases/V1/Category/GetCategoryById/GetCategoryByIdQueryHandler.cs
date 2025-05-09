@@ -41,8 +41,6 @@ public class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, C
             Slug = category.Slug,
             Description = category.Description,
             Status = category.Status.ToString(),
-            CreatedBy = category.CreatedBy,
-            UpdatedBy = category.UpdatedBy,
             Parent = category.Parent != null ? new CategoryDto
             {
                 Id = category.Parent.Id,
@@ -50,8 +48,6 @@ public class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, C
                 Slug = category.Parent.Slug,
                 Description = category.Parent.Description,
                 Status = category.Parent.Status.ToString(),
-                CreatedBy = category.Parent.CreatedBy,
-                UpdatedBy = category.Parent.UpdatedBy,
             } : null,
             SubCategories = category.SubCategories.Select(x => new CategoryDto
             {
@@ -60,8 +56,6 @@ public class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, C
                 Slug = x.Slug,
                 Description = x.Description,
                 Status = x.Status.ToString(),
-                CreatedBy = x.CreatedBy,
-                UpdatedBy = x.UpdatedBy,
             })
         };
 

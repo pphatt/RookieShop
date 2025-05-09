@@ -55,7 +55,6 @@ public class BrandController : BaseApiController
         var mapper = _mapper.Map<CreateBrandCommand>(request);
 
         mapper.Slug = request.Slug ?? mapper.Name.Slugify();
-        mapper.CreatedBy = User.GetUserId();
 
         var result = await _mediator.Send(mapper);
 
@@ -73,8 +72,6 @@ public class BrandController : BaseApiController
     public async Task<IActionResult> UpdateBrand([FromForm] UpdateBrandRequestDto request)
     {
         var mapper = _mapper.Map<UpdateBrandCommand>(request);
-
-        mapper.UpdatedBy = User.GetUserId();
 
         var result = await _mediator.Send(mapper);
 
@@ -126,8 +123,6 @@ public class BrandController : BaseApiController
     public async Task<IActionResult> DeleteBrand([FromRoute] DeleteBrandRequestDto request)
     {
         var mapper = _mapper.Map<DeleteBrandCommand>(request);
-
-        mapper.UpdatedBy = User.GetUserId();
 
         var result = await _mediator.Send(mapper);
 

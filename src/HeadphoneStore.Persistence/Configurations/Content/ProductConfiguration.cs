@@ -24,7 +24,6 @@ internal class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.ProductStatus).IsRequired();
         builder.Property(p => p.AverageRating).IsRequired();
         builder.Property(p => p.TotalReviews).IsRequired();
-        builder.Property(p => p.CreatedBy).IsRequired();
         builder.Property(p => p.CreatedDateTime).IsRequired();
         builder.Property(p => p.IsDeleted).IsRequired();
 

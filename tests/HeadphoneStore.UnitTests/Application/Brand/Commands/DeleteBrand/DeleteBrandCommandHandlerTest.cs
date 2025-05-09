@@ -14,7 +14,7 @@ using Moq;
 
 namespace HeadphoneStore.UnitTests.Application.Brand.Commands.DeleteBrand;
 
-using Brand = Domain.Aggregates.Products.Entities.Brand;
+using Brand = Domain.Aggregates.Brands.Entities.Brand;
 using Exceptions = Domain.Exceptions.Exceptions;
 
 [Trait("Brand", "DeleteBrand")]
@@ -53,7 +53,7 @@ public class DeleteBrandCommandHandlerTests : BaseTest
         };
 
         var user = new AppUser { Id = updatedBy };
-        var brand = Brand.Create("TestBrand", "test-slug", "Test description", Guid.NewGuid(), EntityStatus.Active);
+        var brand = Brand.Create("TestBrand", "test-slug", "Test description", EntityStatus.Active);
         brand.Id = brandId;
 
         _mockUserManager.Setup(x => x.FindByIdAsync(updatedBy.ToString())).ReturnsAsync(user);
@@ -122,7 +122,7 @@ public class DeleteBrandCommandHandlerTests : BaseTest
         };
 
         var user = new AppUser { Id = updatedBy };
-        var brand = Brand.Create("TestBrand", "test-slug", "Test description", Guid.NewGuid(), EntityStatus.Active);
+        var brand = Brand.Create("TestBrand", "test-slug", "Test description", EntityStatus.Active);
         brand.Id = brandId;
         brand.IsDeleted = true;
 

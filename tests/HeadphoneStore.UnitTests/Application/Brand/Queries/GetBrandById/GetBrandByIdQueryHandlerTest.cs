@@ -11,7 +11,7 @@ using Moq;
 
 namespace HeadphoneStore.UnitTests.Application.Brand.Queries.GetBrandById;
 
-using Brand = Domain.Aggregates.Products.Entities.Brand;
+using Brand = Domain.Aggregates.Brands.Entities.Brand;
 using Exceptions = HeadphoneStore.Domain.Exceptions.Exceptions;
 
 [Trait("Brand", "GetBrandById")]
@@ -32,7 +32,7 @@ public class GetBrandByIdQueryHandlerTests : BaseTest
         // Arrange
         var brandId = Guid.NewGuid();
         var query = new GetBrandByIdQuery { Id = brandId };
-        var brand = Brand.Create("TestBrand", "test-slug", "Test description", Guid.NewGuid(), EntityStatus.Active);
+        var brand = Brand.Create("TestBrand", "test-slug", "Test description", EntityStatus.Active);
         brand.Id = brandId;
 
         _mockBrandRepository.Setup(x => x.FindByIdAsync(brandId,
@@ -79,7 +79,7 @@ public class GetBrandByIdQueryHandlerTests : BaseTest
         // Arrange
         var brandId = Guid.NewGuid();
         var query = new GetBrandByIdQuery { Id = brandId };
-        var brand = Brand.Create("TestBrand", "test-slug", "Test description", Guid.NewGuid(), EntityStatus.Active);
+        var brand = Brand.Create("TestBrand", "test-slug", "Test description", EntityStatus.Active);
         brand.Id = brandId;
         brand.IsDeleted = true;
 

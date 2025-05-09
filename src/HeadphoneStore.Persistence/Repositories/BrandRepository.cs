@@ -1,5 +1,5 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Repositories;
-using HeadphoneStore.Domain.Aggregates.Products.Entities;
+using HeadphoneStore.Domain.Aggregates.Brands.Entities;
 using HeadphoneStore.Persistence.Repository;
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Brand;
