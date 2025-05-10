@@ -29,7 +29,6 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
     {
         var name = request.Name;
         var description = request.Description;
-        var createdBy = request.CreatedBy;
         var parentCategoryId = request.ParentCategoryId;
 
         var duplicateName = _categoryRepository.FindByCondition(x => x.Name.Equals(name)).SingleOrDefault();
@@ -52,7 +51,6 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
             name: name,
             slug: request.Slug!,
             description: description,
-            createdBy: createdBy,
             parent: parentCategory,
             status: status
         );

@@ -14,13 +14,12 @@ using Moq;
 
 namespace HeadphoneStore.UnitTests.Application.Brand.Commands.UpdateBrand;
 
-using Brand = Domain.Aggregates.Products.Entities.Brand;
+using Brand = Domain.Aggregates.Brands.Entities.Brand;
 using Exceptions = Domain.Exceptions.Exceptions;
 
 [Trait("Brand", "UpdateBrand")]
 public class UpdateBrandCommandHandlerTests : BaseTest
 {
-    private readonly Mock<UserManager<AppUser>> _mockUserManager;
     private readonly Mock<IBrandRepository> _mockBrandRepository;
     private readonly Mock<IUnitOfWork> _mockUnitOfWork;
     private readonly Mock<ICacheService> _mockCacheService;
@@ -28,13 +27,10 @@ public class UpdateBrandCommandHandlerTests : BaseTest
 
     public UpdateBrandCommandHandlerTests()
     {
-        _mockUserManager = new Mock<UserManager<AppUser>>(
-            Mock.Of<IUserStore<AppUser>>(), null, null, null, null, null, null, null, null);
         _mockBrandRepository = new Mock<IBrandRepository>();
         _mockUnitOfWork = new Mock<IUnitOfWork>();
         _mockCacheService = new Mock<ICacheService>();
         _handler = new UpdateBrandCommandHandler(
-            _mockUserManager.Object,
             _mockBrandRepository.Object,
             _mockUnitOfWork.Object,
             _mockCacheService.Object);
@@ -53,11 +49,10 @@ public class UpdateBrandCommandHandlerTests : BaseTest
             Slug = "updated-brand",
             Description = "Updated description",
             Status = "Active",
-            UpdatedBy = updatedBy
         };
 
         var user = new AppUser { Id = updatedBy };
-        var brand = Brand.Create("OriginalBrand", "original-slug", "Original description", Guid.NewGuid(), EntityStatus.Active);
+        var brand = Brand.Create("OriginalBrand", "original-slug", "Original description", EntityStatus.Active);
         brand.Id = brandId;
 
         _mockUserManager.Setup(x => x.FindByIdAsync(updatedBy.ToString())).ReturnsAsync(user);
@@ -89,10 +84,7 @@ public class UpdateBrandCommandHandlerTests : BaseTest
             Slug = "updated-brand",
             Description = "Updated description",
             Status = "Active",
-            UpdatedBy = Guid.NewGuid()
         };
-
-        _mockUserManager.Setup(x => x.FindByIdAsync(command.UpdatedBy.ToString())).ReturnsAsync((AppUser)null);
 
         // Act & Assert
         await Assert.ThrowsAsync<Exceptions.Identity.NotFound>(
@@ -103,7 +95,6 @@ public class UpdateBrandCommandHandlerTests : BaseTest
     public async Task Handle_WithNonExistentBrand_ShouldThrowBrandNotFoundException()
     {
         // Arrange
-        var updatedBy = Guid.NewGuid();
         var command = new UpdateBrandCommand
         {
             Id = Guid.NewGuid(),
@@ -111,11 +102,8 @@ public class UpdateBrandCommandHandlerTests : BaseTest
             Slug = "updated-brand",
             Description = "Updated description",
             Status = "Active",
-            UpdatedBy = updatedBy
         };
 
-        var user = new AppUser { Id = updatedBy };
-        _mockUserManager.Setup(x => x.FindByIdAsync(updatedBy.ToString())).ReturnsAsync(user);
         _mockBrandRepository.Setup(x => x.FindByIdAsync(command.Id, It.IsAny<CancellationToken>(), It.IsAny<Expression<Func<Brand, object>>[]>()))
             .ReturnsAsync((Brand)null);
 
@@ -129,7 +117,6 @@ public class UpdateBrandCommandHandlerTests : BaseTest
     {
         // Arrange
         var brandId = Guid.NewGuid();
-        var updatedBy = Guid.NewGuid();
         var command = new UpdateBrandCommand
         {
             Id = brandId,
@@ -137,18 +124,16 @@ public class UpdateBrandCommandHandlerTests : BaseTest
             Slug = "updated-brand",
             Description = "Updated description",
             Status = "Active",
-            UpdatedBy = updatedBy
         };
 
-        var user = new AppUser { Id = updatedBy };
-        var brand = Brand.Create("OriginalBrand", "original-slug", "Original description", Guid.NewGuid(), EntityStatus.Active);
+        var brand = Brand.Create("OriginalBrand", "original-slug", "Original description", EntityStatus.Active);
         brand.Id = brandId;
-        var existingBrand = Brand.Create("ExistingBrand", "existing-slug", "Existing description", Guid.NewGuid(), EntityStatus.Active);
+        var existingBrand = Brand.Create("ExistingBrand", "existing-slug", "Existing description", EntityStatus.Active);
         existingBrand.Id = Guid.NewGuid();
 
-        _mockUserManager.Setup(x => x.FindByIdAsync(updatedBy.ToString())).ReturnsAsync(user);
         _mockBrandRepository.Setup(x => x.FindByIdAsync(brandId, It.IsAny<CancellationToken>(), It.IsAny<Expression<Func<Brand, object>>[]>()))
             .ReturnsAsync(brand);
+
         _mockBrandRepository.Setup(x => x.FindByCondition(It.IsAny<Expression<Func<Brand, bool>>>(), It.IsAny<CancellationToken>()))
             .Returns(new List<Brand> { existingBrand }.AsQueryable());
 
@@ -162,7 +147,6 @@ public class UpdateBrandCommandHandlerTests : BaseTest
     {
         // Arrange
         var brandId = Guid.NewGuid();
-        var updatedBy = Guid.NewGuid();
         var command = new UpdateBrandCommand
         {
             Id = brandId,
@@ -170,14 +154,10 @@ public class UpdateBrandCommandHandlerTests : BaseTest
             Slug = "existing-slug",
             Description = "Updated description",
             Status = "Active",
-            UpdatedBy = updatedBy
         };
 
-        var user = new AppUser { Id = updatedBy };
-        var brand = Brand.Create("UpdatedBrand", "existing-slug", "Original description", Guid.NewGuid(), EntityStatus.Active);
+        var brand = Brand.Create("UpdatedBrand", "existing-slug", "Original description", EntityStatus.Active);
         brand.Id = brandId;
-
-        _mockUserManager.Setup(x => x.FindByIdAsync(updatedBy.ToString())).ReturnsAsync(user);
 
         _mockBrandRepository.Setup(x => x.FindByIdAsync(brandId, It.IsAny<CancellationToken>(), It.IsAny<Expression<Func<Brand, object>>[]>()))
             .ReturnsAsync(brand);
@@ -197,7 +177,6 @@ public class UpdateBrandCommandHandlerTests : BaseTest
     {
         // Arrange
         var brandId = Guid.NewGuid();
-        var updatedBy = Guid.NewGuid();
         var command = new UpdateBrandCommand
         {
             Id = brandId,
@@ -205,15 +184,12 @@ public class UpdateBrandCommandHandlerTests : BaseTest
             Slug = "updated-brand",
             Description = "Updated description",
             Status = "Active",
-            UpdatedBy = updatedBy
         };
 
-        var user = new AppUser { Id = updatedBy };
-        var brand = Brand.Create("OriginalBrand", "original-slug", "Original description", Guid.NewGuid(), EntityStatus.Active);
+        var brand = Brand.Create("OriginalBrand", "original-slug", "Original description", EntityStatus.Active);
         brand.Id = brandId;
         brand.IsDeleted = true;
 
-        _mockUserManager.Setup(x => x.FindByIdAsync(updatedBy.ToString())).ReturnsAsync(user);
         _mockBrandRepository.Setup(x => x.FindByIdAsync(brandId, It.IsAny<CancellationToken>(), It.IsAny<Expression<Func<Brand, object>>[]>()))
             .ReturnsAsync(brand);
 

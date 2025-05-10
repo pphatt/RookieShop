@@ -4,7 +4,6 @@ using System.Text;
 using HeadphoneStore.Application.Abstracts.Interface.Services.Mail;
 using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
-using HeadphoneStore.Domain.Aggregates.Order.Entities;
 using HeadphoneStore.Shared.Abstracts.Commands;
 using HeadphoneStore.Shared.Abstracts.Shared;
 
@@ -21,21 +20,18 @@ public class CreateOrderCommandHandler : ICommandHandler<CreateOrderCommand>
     private readonly UserManager<AppUser> _userManager;
     private readonly IProductRepository _productRepository;
     private readonly IOrderRepository _orderRepository;
-    private readonly IOrderDetailRepository _orderDetailRepository;
     private readonly IEmailService _emailService;
 
     public CreateOrderCommandHandler(IUnitOfWork unitOfWork,
                                      UserManager<AppUser> userManager,
                                      IProductRepository productRepository,
                                      IOrderRepository orderRepository,
-                                     IOrderDetailRepository orderDetailRepository,
                                      IEmailService emailService)
     {
         _unitOfWork = unitOfWork;
         _userManager = userManager;
         _productRepository = productRepository;
         _orderRepository = orderRepository;
-        _orderDetailRepository = orderDetailRepository;
         _emailService = emailService;
     }
 
@@ -48,9 +44,13 @@ public class CreateOrderCommandHandler : ICommandHandler<CreateOrderCommand>
 
         request.CustomerName = user.GetFullName();
 
-        decimal calculatedTotalAmount = 0;
-        var orderItemsEntities = new List<OrderDetail>();
         var orderItemDetailsForEmail = new List<(string ProductName, int Quantity, decimal ProductPrice, decimal TotalPrice)>();
+
+        var order = Order.Create(request.CustomerId,
+                                 request.Note,
+                                 request.CustomerPhoneNumber,
+                                 request.PaymentMethod,
+                                 request.ShippingAddress);
 
         foreach (var item in request.OrderItems)
         {
@@ -65,27 +65,13 @@ public class CreateOrderCommandHandler : ICommandHandler<CreateOrderCommand>
             var unitPrice = product.ProductPrice.Amount;
 
             var totalPrice = item.Quantity * product.ProductPrice.Amount;
-            calculatedTotalAmount += totalPrice;
 
             orderItemDetailsForEmail.Add((product.Name, quantity, unitPrice, totalPrice));
 
-            orderItemsEntities.Add(new OrderDetail
-            {
-                ProductId = product.Id,
-                Quantity = quantity,
-                Price = unitPrice
-            });
+            order.CreateOrderDetail(productId, quantity, unitPrice);
         }
-
-        var order = Order.Create(request.CustomerId, request.Note, request.CustomerPhoneNumber, calculatedTotalAmount, request.PaymentMethod, request.ShippingAddress);
 
         _orderRepository.Add(order);
-
-        foreach (var item in orderItemsEntities)
-        {
-            item.OrderId = order.Id;
-            _orderDetailRepository.Add(item);
-        }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

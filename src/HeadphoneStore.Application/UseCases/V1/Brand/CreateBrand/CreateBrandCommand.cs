@@ -4,9 +4,8 @@ namespace HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
 
 public class CreateBrandCommand : ICommand
 {
-    public string Name { get; set; }
-    public string? Slug { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Slug { get; set; } = string.Empty;
     public string? Description { get; set; }
     public string? Status { get; set; }
-    public Guid CreatedBy { get; set; }
 }

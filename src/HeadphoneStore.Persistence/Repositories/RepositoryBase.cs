@@ -24,7 +24,7 @@ public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>
     {
         return await FindAll(null, includeProperties)
             .AsTracking()
-            .SingleOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
+            .SingleOrDefaultAsync(x => x.Id!.Equals(id), cancellationToken) ?? null!;
     }
 
     public IEnumerable<TEntity> FindByCondition(

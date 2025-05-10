@@ -23,7 +23,7 @@ public class AppUser : IdentityUser<Guid>, IAuditableEntity
     public bool IsDeleted { get; set; }
 
     public DateTimeOffset CreatedDateTime { get; set; } = DateTimeOffset.UtcNow;
-    public DateTimeOffset? UpdatedDateTime { get; set; }
+    public DateTimeOffset? ModifiedDateTime { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
@@ -109,7 +109,7 @@ public class AppUser : IdentityUser<Guid>, IAuditableEntity
     {
         FirstName = firstName;
         LastName = lastName;
-        UpdatedDateTime = DateTimeOffset.Now;
+        ModifiedDateTime = DateTimeOffset.Now;
     }
 
     public void Logout()

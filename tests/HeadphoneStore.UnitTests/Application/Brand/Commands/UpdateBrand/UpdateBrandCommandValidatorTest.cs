@@ -24,7 +24,6 @@ public class UpdateBrandCommandValidatorTests : BaseTest
             Name = null,
             Description = "Valid description",
             Status = "Active",
-            UpdatedBy = Guid.NewGuid()
         };
 
         // Act
@@ -44,7 +43,6 @@ public class UpdateBrandCommandValidatorTests : BaseTest
             Name = "",
             Description = "Valid description",
             Status = "Active",
-            UpdatedBy = Guid.NewGuid()
         };
 
         // Act
@@ -64,7 +62,6 @@ public class UpdateBrandCommandValidatorTests : BaseTest
             Name = new string('A', 51),
             Description = "Valid description",
             Status = "Active",
-            UpdatedBy = Guid.NewGuid()
         };
 
         // Act
@@ -84,7 +81,6 @@ public class UpdateBrandCommandValidatorTests : BaseTest
             Name = "ValidName",
             Description = null,
             Status = "Active",
-            UpdatedBy = Guid.NewGuid()
         };
 
         // Act
@@ -104,7 +100,6 @@ public class UpdateBrandCommandValidatorTests : BaseTest
             Name = "ValidName",
             Description = "",
             Status = "Active",
-            UpdatedBy = Guid.NewGuid()
         };
 
         // Act
@@ -124,7 +119,6 @@ public class UpdateBrandCommandValidatorTests : BaseTest
             Name = "ValidName",
             Description = "Valid description",
             Status = null,
-            UpdatedBy = Guid.NewGuid()
         };
 
         // Act
@@ -144,7 +138,6 @@ public class UpdateBrandCommandValidatorTests : BaseTest
             Name = "ValidName",
             Description = "Valid description",
             Status = "",
-            UpdatedBy = Guid.NewGuid()
         };
 
         // Act
@@ -164,7 +157,6 @@ public class UpdateBrandCommandValidatorTests : BaseTest
             Name = "ValidName",
             Description = "Valid description",
             Status = "InvalidStatus",
-            UpdatedBy = Guid.NewGuid()
         };
 
         // Act
@@ -186,7 +178,6 @@ public class UpdateBrandCommandValidatorTests : BaseTest
             Slug = "valid-slug",
             Description = "Valid description",
             Status = "Active",
-            UpdatedBy = Guid.NewGuid()
         };
 
         // Act

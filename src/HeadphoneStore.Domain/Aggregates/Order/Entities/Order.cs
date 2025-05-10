@@ -10,64 +10,61 @@ using HeadphoneStore.Domain.Enumerations;
 public class Order : AggregateRoot<Guid>
 {
     public string Note { get; private set; }
-    public string PhoneNumber { get; set; }
+    public string PhoneNumber { get; private set; }
     public OrderStatus Status { get; private set; }
     public bool IsFeedback { get; private set; }
     public decimal TotalPrice { get; private set; }
 
     // temporary
-    public PaymentMethod PaymentMethod { get; set; }
+    public PaymentMethod PaymentMethod { get; private set; }
 
     public ShippingAddress ShippingAddress { get; private set; }
 
     public Guid CustomerId { get; private set; }
-    public virtual AppUser Customer { get; set; }
+    public virtual AppUser Customer { get; private set; }
 
     private readonly List<OrderDetail> _orderDetails = new();
-    public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+    public virtual ICollection<OrderDetail> OrderDetails => _orderDetails.AsReadOnly();
 
     private readonly List<OrderPayment> _payments = new();
     public virtual IReadOnlyCollection<OrderPayment> Payments => _payments.AsReadOnly();
 
-    private static readonly TimeZoneInfo VietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
-
-    private Order() { } // For EF Core
-
-    public Order(Guid userId, ShippingAddress shippingAddress, string note) : base(Guid.NewGuid())
+    protected Order() { }
+    protected Order(Guid customerId,
+                    string note,
+                    string phoneNumber,
+                    PaymentMethod paymentMethod,
+                    ShippingAddress shippingAddress) : base(Guid.NewGuid())
     {
-        CustomerId = userId;
-        ShippingAddress = shippingAddress ?? throw new ArgumentNullException(nameof(shippingAddress));
-        Note = note ?? string.Empty;
-        Status = OrderStatus.Pending;
+        CustomerId = customerId;
+        Note = note;
+        PhoneNumber = phoneNumber;
+        PaymentMethod = paymentMethod;
+        ShippingAddress = shippingAddress;
         IsFeedback = false;
-        CreatedDateTime = DateTimeOffset.Now;
+        Status = OrderStatus.Pending;
+        CreatedDateTime = DateTimeOffset.UtcNow;
     }
 
-    public static Order Create(Guid customerId, string note, string phoneNumber, decimal totalPrice, PaymentMethod paymentMethod, ShippingAddress shippingAddress)
-    {
-        return new Order
-        {
-            CustomerId = customerId,
-            Note = note,
-            PhoneNumber = phoneNumber,
-            TotalPrice = totalPrice,
-            PaymentMethod = paymentMethod,
-            ShippingAddress = shippingAddress,
-            IsFeedback = false,
-            Status = OrderStatus.Pending,
-            CreatedDateTime = TimeZoneInfo.ConvertTime(DateTimeOffset.Now, VietnamTimeZone)
-        };
-    }
+    public static Order Create(Guid customerId,
+                               string note,
+                               string phoneNumber,
+                               PaymentMethod paymentMethod,
+                               ShippingAddress shippingAddress)
+        => new(customerId, note, phoneNumber, paymentMethod, shippingAddress);
 
-    public void AddOrderDetail(Guid orderId, Guid productId, int quantity, decimal price)
+    public void CreateOrderDetail(Guid productId, int quantity, decimal price)
     {
         if (Status != OrderStatus.Pending)
             throw new InvalidOperationException("Cannot add items to a non-pending order.");
 
-        var detail = new OrderDetail(orderId, productId, quantity, price);
+        var detail = OrderDetail.Create(productId, quantity, price);
+
         _orderDetails.Add(detail);
-        RecalculateTotal();
-        UpdatedDateTime = DateTime.UtcNow;
+
+        TotalPrice = _orderDetails.Sum(d => d.Quantity * d.Price);
+
+        ModifiedDateTime = DateTime.UtcNow;
     }
 
     public void AddPayment(string cardNumber, string cvc, string expire)
@@ -76,8 +73,10 @@ public class Order : AggregateRoot<Guid>
             throw new InvalidOperationException("Cannot add payments to a non-pending order.");
 
         var payment = new OrderPayment(cardNumber, cvc, expire);
+
         _payments.Add(payment);
-        UpdatedDateTime = DateTime.Now;
+
+        ModifiedDateTime = DateTime.Now;
     }
 
     public void UpdateStatus(string newStatus, Guid updatedBy)
@@ -91,7 +90,7 @@ public class Order : AggregateRoot<Guid>
             throw new InvalidOperationException("Cannot revert a delivered order.");
 
         Status = Enum.Parse<OrderStatus>(newStatus);
-        UpdatedDateTime = DateTime.Now;
+        ModifiedDateTime = DateTime.Now;
     }
 
     public void MarkFeedbackProvided(Guid updatedBy)
@@ -100,12 +99,7 @@ public class Order : AggregateRoot<Guid>
             throw new InvalidOperationException("Feedback can only be provided for delivered orders.");
 
         IsFeedback = true;
-        UpdatedDateTime = DateTime.Now;
-    }
-
-    private void RecalculateTotal()
-    {
-        TotalPrice = _orderDetails.Sum(d => d.Quantity * d.Price);
+        ModifiedDateTime = DateTime.Now;
     }
 
     protected override void EnsureValidState()

@@ -6,6 +6,8 @@ namespace HeadphoneStore.Domain.Abstracts.Repositories;
 
 public interface IProductRepository : IRepositoryBase<Product, Guid>
 {
+    Task AddImageAsync(ProductMedia media);
+
     Task<bool> IsSlugAlreadyExisted(string slug, Guid? productId = null);
 
     Task<PagedResult<ProductDto>> GetAllProductPagination(List<Guid>? categoryIds, 

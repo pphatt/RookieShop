@@ -2,39 +2,45 @@
 
 namespace HeadphoneStore.Domain.Aggregates.Products.Entities;
 
-public class ProductMedia : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<Guid?>
+public class ProductMedia : Entity<Guid>
 {
     public string ImageUrl { get; private set; }
     public string PublicId { get; set; }
     public string Path { get; set; }
     public string Name { get; set; }
-    public int Order { get; set; }
-    public Guid CreatedBy { get; set; }
-    public Guid? UpdatedBy { get; set; }
+    public int DisplayOrder { get; set; }
 
     public Guid ProductId { get; set; }
     public virtual Product Product { get; set; }
 
-    protected ProductMedia() { } // For EF Core
-
-    public ProductMedia(Guid productId, string imageUrl, string publicId, string path, string name, int order, Guid createdBy) : base(Guid.NewGuid())
+    protected ProductMedia() { }
+    protected ProductMedia(Guid productId,
+                           string imageUrl,
+                           string publicId,
+                           string path,
+                           string name,
+                           int displayOrder) : base(Guid.NewGuid())
     {
         ProductId = productId;
         ImageUrl = imageUrl ?? throw new ArgumentNullException(nameof(imageUrl));
         PublicId = publicId;
         Path = path;
         Name = name;
-        Order = order;
-        CreatedBy = createdBy;
+        DisplayOrder = displayOrder;
         CreatedDateTime = DateTime.UtcNow;
     }
 
-    public void Delete() => IsDeleted = true;
+    public static ProductMedia Create(Guid productId,
+                                      string imageUrl,
+                                      string publicId,
+                                      string path,
+                                      string name,
+                                      int displayOrder)
+        => new(productId, imageUrl, publicId, path, name, displayOrder);
 
-    public void Update(string imageUrl, Guid updatedBy)
+    public void Update(string imageUrl)
     {
         ImageUrl = imageUrl ?? throw new ArgumentNullException(nameof(imageUrl));
-        UpdatedBy = updatedBy;
-        UpdatedDateTime = DateTime.UtcNow;
+        ModifiedDateTime = DateTime.UtcNow;
     }
 }

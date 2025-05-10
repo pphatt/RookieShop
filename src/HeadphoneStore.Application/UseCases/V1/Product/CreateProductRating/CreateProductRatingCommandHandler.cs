@@ -7,28 +7,25 @@ using HeadphoneStore.Shared.Abstracts.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace HeadphoneStore.Application.UseCases.V1.ProductRating.CreateProductRating;
+namespace HeadphoneStore.Application.UseCases.V1.Product.CreateProductRating;
 
-using ProductRating = Domain.Aggregates.Products.Entities.ProductRating;
 using Exceptions = Domain.Exceptions.Exceptions;
+using ProductRating = Domain.Aggregates.Products.Entities.ProductRating;
 
 public class CreateProductRatingCommandHandler : ICommandHandler<CreateProductRatingCommand>
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly IProductRepository _productRepository;
-    private readonly IProductRatingRepository _productRatingRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICacheService _cacheService;
 
     public CreateProductRatingCommandHandler(UserManager<AppUser> userManager,
                                              IProductRepository productRepository,
-                                             IProductRatingRepository productRatingRepository,
                                              IUnitOfWork unitOfWork,
                                              ICacheService cacheService)
     {
         _userManager = userManager;
         _productRepository = productRepository;
-        _productRatingRepository = productRatingRepository;
         _unitOfWork = unitOfWork;
         _cacheService = cacheService;
     }
@@ -48,20 +45,16 @@ public class CreateProductRatingCommandHandler : ICommandHandler<CreateProductRa
         if (product is null)
             throw new Exceptions.Product.NotFound();
 
-        var productRating = ProductRating.Create(productId: product.Id, customerId: user.Id, ratingValue: request.RatingValue, comment: request.Comment);
+        var rating = ProductRating.Create(productId: product.Id, customerId: user.Id, ratingValue: request.RatingValue, comment: request.Comment);
+        double averageRating = request.RatingValue;
+        var totalReviews = product.TotalReviews + 1;
 
-        _productRatingRepository.Add(productRating);
-
-        if (product.TotalReviews == 0)
+        if (product.TotalReviews != 0)
         {
-            product.AverageRating = request.RatingValue;
-        }
-        else
-        {
-            product.AverageRating = Math.Round(((product.AverageRating * product.TotalReviews) + request.RatingValue) / (product.TotalReviews + 1), 2);
+            averageRating = Math.Round((product.AverageRating * product.TotalReviews + request.RatingValue) / (product.TotalReviews + 1), 2);
         }
 
-        product.TotalReviews += 1;
+        product.AddRating(rating, averageRating, totalReviews);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

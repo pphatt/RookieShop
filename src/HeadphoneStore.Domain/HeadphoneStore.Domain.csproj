@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Aggregates\Brands\ValueObjects\" />
     <Folder Include="Aggregates\Categories\ValueObjects\" />
     <Folder Include="Aggregates\Identity\ValueObjects\" />
   </ItemGroup>

@@ -22,7 +22,6 @@ public class CreateBrandCommandValidatorTests : BaseTest
         {
             Name = null,
             Description = "Valid description",
-            CreatedBy = Guid.NewGuid()
         };
 
         // Act
@@ -41,7 +40,6 @@ public class CreateBrandCommandValidatorTests : BaseTest
         {
             Name = "",
             Description = "Valid description",
-            CreatedBy = Guid.NewGuid()
         };
 
         // Act
@@ -60,7 +58,6 @@ public class CreateBrandCommandValidatorTests : BaseTest
         {
             Name = new string('A', 51),
             Description = "Valid description",
-            CreatedBy = Guid.NewGuid()
         };
 
         // Act
@@ -79,7 +76,6 @@ public class CreateBrandCommandValidatorTests : BaseTest
         {
             Name = "ValidName",
             Description = null,
-            CreatedBy = Guid.NewGuid()
         };
 
         // Act
@@ -98,7 +94,6 @@ public class CreateBrandCommandValidatorTests : BaseTest
         {
             Name = "ValidName",
             Description = "",
-            CreatedBy = Guid.NewGuid()
         };
 
         // Act
@@ -119,7 +114,6 @@ public class CreateBrandCommandValidatorTests : BaseTest
             Slug = "valid-slug",
             Description = "Valid description",
             Status = "Active",
-            CreatedBy = Guid.NewGuid()
         };
 
         // Act
@@ -139,7 +133,6 @@ public class CreateBrandCommandValidatorTests : BaseTest
             Slug = null,
             Description = "Valid description",
             Status = null,
-            CreatedBy = Guid.Empty
         };
 
         // Act

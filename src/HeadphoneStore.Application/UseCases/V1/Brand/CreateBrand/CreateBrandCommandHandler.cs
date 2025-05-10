@@ -6,7 +6,7 @@ using HeadphoneStore.Shared.Abstracts.Shared;
 
 namespace HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
 
-using Brand = Domain.Aggregates.Products.Entities.Brand;
+using Brand = Domain.Aggregates.Brands.Entities.Brand;
 using Exceptions = Domain.Exceptions.Exceptions;
 
 public class CreateBrandCommandHandler : ICommandHandler<CreateBrandCommand>
@@ -40,11 +40,11 @@ public class CreateBrandCommandHandler : ICommandHandler<CreateBrandCommand>
             name: request.Name,
             slug: request.Slug!,
             description: request.Description,
-            createdBy: request.CreatedBy,
             status: status
         );
 
         _brandRepository.Add(category);
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         await _cacheService.RemoveByPrefixAsync("Brands", cancellationToken);

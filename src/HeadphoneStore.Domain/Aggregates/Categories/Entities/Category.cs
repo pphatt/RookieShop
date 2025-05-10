@@ -1,54 +1,62 @@
-﻿using HeadphoneStore.Domain.Abstracts.Entities;
+﻿using HeadphoneStore.Domain.Abstracts.Aggregates;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
 using HeadphoneStore.Domain.Enumerations;
 
 namespace HeadphoneStore.Domain.Aggregates.Categories.Entities;
 
-public class Category : Entity<Guid>, ICreatedByEntity<Guid>, IUpdatedByEntity<Guid?>
+public class Category : AggregateRoot<Guid>
 {
-    public string Name { get; private set; }
-    public string Description { get; private set; }
-    public string Slug { get; set; }
-    public Guid CreatedBy { get; set; }
-    public Guid? UpdatedBy { get; set; }
+    public string Name { get; private set; } = "";
+    public string Description { get; private set; } = "";
+    public string Slug { get; private set; } = "";
 
     public Guid? ParentId { get; private set; }
     public virtual Category? Parent { get; private set; }
+
     private readonly List<Category> _subCategories = new();
     public virtual IReadOnlyCollection<Category> SubCategories => _subCategories.AsReadOnly();
+
     private readonly List<Product> _products = new();
     public virtual IReadOnlyCollection<Product> Products => _products.AsReadOnly();
 
     protected Category() { }
-
-    public Category(string name, string slug, string description, Guid createdBy, Category? parent = null, EntityStatus status = EntityStatus.Active) : base(Guid.NewGuid())
+    protected Category(string name,
+                     string slug,
+                     string description,
+                     Category? parent = null,
+                     EntityStatus status = EntityStatus.Active) : base(Guid.NewGuid())
     {
-        Name = name ?? throw new ArgumentNullException(nameof(name));
+        Name = name;
         Slug = slug;
-        Description = description ?? throw new ArgumentNullException(nameof(description));
-        CreatedBy = createdBy;
+        Description = description;
         CreatedDateTime = DateTime.UtcNow;
         Parent = parent;
         ParentId = parent?.Id;
+        Status = status;
     }
 
-    public static Category Create(string name, string slug, string description, Guid createdBy, Category? parent = null, EntityStatus status = EntityStatus.Active)
-    {
-        return new(name, slug, description, createdBy, parent, status);
-    }
+    public static Category Create(string name,
+                                  string slug,
+                                  string description,
+                                  Category? parent = null,
+                                  EntityStatus status = EntityStatus.Active)
+        => new(name, slug, description, parent, status);
 
-    public void Update(string name, string description, Category? parent, Guid updatedBy, EntityStatus status)
+    public void Update(string name,
+                       string slug,
+                       string description,
+                       Category? parent,
+                       EntityStatus status)
     {
         if (name.Length > 256)
             throw new ArgumentException("Name cannot exceed 256 characters.");
 
-        Name = name ?? throw new ArgumentNullException(nameof(name));
-        Description = description ?? throw new ArgumentNullException(nameof(description));
-        UpdatedBy = updatedBy;
+        Name = name;
+        Slug = slug;
+        Description = description;
         Parent = parent;
         ParentId = parent is not null ? parent.Id : null;
         Status = status;
-        UpdatedDateTime = DateTime.UtcNow;
     }
 
     public void AddSubCategory(Category category)

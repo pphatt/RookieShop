@@ -1,4 +1,5 @@
-﻿using HeadphoneStore.Domain.Aggregates.Categories.Entities;
+﻿using HeadphoneStore.Domain.Aggregates.Brands.Entities;
+using HeadphoneStore.Domain.Aggregates.Categories.Entities;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Domain.Aggregates.Order.Entities;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
@@ -19,6 +20,7 @@ public class ApplicationDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     public virtual DbSet<Permission> Permissions => Set<Permission>();
     public virtual DbSet<Product> Products => Set<Product>();
     public virtual DbSet<ProductMedia> ProductMedias => Set<ProductMedia>();
+    public virtual DbSet<ProductRating> Ratings => Set<ProductRating>();
     public virtual DbSet<Category> Categories => Set<Category>();
     public virtual DbSet<Brand> Brands => Set<Brand>();
     public virtual DbSet<Order> Orders => Set<Order>();

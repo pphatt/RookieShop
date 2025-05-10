@@ -65,13 +65,11 @@ public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryComman
 
         categoryFromDb.Update(
             name: name,
+            slug: slug,
             description: description,
             parent: parentCategory,
-            status: status,
-            updatedBy: updatedBy
+            status: status
         );
-
-        categoryFromDb.Slug = slug;
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

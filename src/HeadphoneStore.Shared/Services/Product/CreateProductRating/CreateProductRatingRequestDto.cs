@@ -1,4 +1,4 @@
-﻿namespace HeadphoneStore.Shared.Services.ProductRating.CreateProductRating;
+﻿namespace HeadphoneStore.Shared.Services.Product.CreateProductRating;
 
 public class CreateProductRatingRequestDto
 {

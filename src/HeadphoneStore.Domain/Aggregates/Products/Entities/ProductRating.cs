@@ -13,20 +13,22 @@ public class ProductRating : Entity<Guid>
     public Guid CustomerId { get; set; }
     public virtual AppUser Customer { get; set; }
 
-    public static ProductRating Create(Guid productId, Guid customerId, int ratingValue, string? comment)
+    protected ProductRating() { }
+    protected ProductRating(Guid productId, Guid customerId, int ratingValue, string? comment)
     {
-        return new ProductRating
-        {
-            ProductId = productId,
-            CustomerId = customerId,
-            RatingValue = ratingValue,
-            Comment = comment
-        };
+        ProductId = productId;
+        CustomerId = customerId;
+        RatingValue = ratingValue;
+        Comment = comment;
     }
+
+    public static ProductRating Create(Guid productId, Guid customerId, int ratingValue, string? comment)
+        => new(productId, customerId, ratingValue, comment);
 
     public void Update(int? ratingValue, string? comment)
     {
         if (ratingValue != null && !ratingValue.Equals(RatingValue)) { RatingValue = (int)ratingValue; }
+
         if (comment != null && comment != Comment) { Comment = comment; }
     }
 }

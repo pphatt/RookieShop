@@ -1,6 +1,5 @@
 ﻿using HeadphoneStore.Shared.Dtos.Brand;
 using HeadphoneStore.Shared.Dtos.Category;
-using HeadphoneStore.Shared.Dtos.ProductRating;
 
 namespace HeadphoneStore.Shared.Dtos.Product;
 

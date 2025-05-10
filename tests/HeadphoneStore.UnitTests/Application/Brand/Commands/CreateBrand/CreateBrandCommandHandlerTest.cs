@@ -11,7 +11,7 @@ using Moq;
 
 namespace HeadphoneStore.Application.Tests.UseCases.V1.Brand;
 
-using Brand = Domain.Aggregates.Products.Entities.Brand;
+using Brand = Domain.Aggregates.Brands.Entities.Brand;
 
 [Trait("Brand", "CreateBrand")]
 public class CreateBrandCommandHandlerTests
@@ -87,7 +87,7 @@ public class CreateBrandCommandHandlerTests
 
         var existingBrand = new List<Brand>
         {
-            Brand.Create("Sony", "sony-different", "Existing Sony brand", Guid.NewGuid(), EntityStatus.Active)
+            Brand.Create("Sony", "sony-different", "Existing Sony brand", EntityStatus.Active)
         };
 
         _mockBrandRepository.Setup(x => x.FindByCondition(

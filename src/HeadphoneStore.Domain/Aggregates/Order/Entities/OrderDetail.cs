@@ -15,14 +15,15 @@ public class OrderDetail : Entity<Guid>
     public Guid ProductId { get; set; }
     public virtual Product Product { get; set; }
 
-    public OrderDetail() { } // For EF Core
-
-    public OrderDetail(Guid orderId, Guid productId, int quantity, decimal price) : base(Guid.NewGuid())
+    protected OrderDetail() { }
+    protected OrderDetail(Guid productId, int quantity, decimal price) : base(Guid.NewGuid())
     {
-        OrderId = orderId;
         ProductId = productId;
-        Quantity = quantity > 0 ? quantity : throw new ArgumentException("Quantity must be positive.");
-        Price = price >= 0 ? price : throw new ArgumentException("Price cannot be negative.");
+        Quantity = quantity;
+        Price = price;
         CreatedDateTime = DateTime.UtcNow;
     }
+
+    public static OrderDetail Create(Guid productId, int quantity, decimal price)
+        => new(productId, quantity, price);
 }
