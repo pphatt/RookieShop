@@ -71,6 +71,7 @@ public class UpdateCategoryCommandHandler : ICommandHandler<UpdateCategoryComman
             status: status
         );
 
+        await _categoryRepository.UpdateAsync(categoryFromDb, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         await _cacheService.RemoveByPrefixAsync("Categories", cancellationToken);

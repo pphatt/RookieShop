@@ -20,13 +20,7 @@ public class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, C
 
     public async Task<Result<CategoryDto>> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
-        var category = await _categoryRepository
-            .GetQueryableSet()
-            .AsNoTracking()
-            .Where(x => x.Id.Equals(request.Id))
-            .Include(x => x.Parent)
-            .Include(x => x.SubCategories)
-            .SingleOrDefaultAsync();
+        var category = await _categoryRepository.GetCategoryById(request.Id);
 
         if (category is null)
             throw new Exceptions.Category.NotFound();

@@ -10,6 +10,10 @@ public interface IProductRepository : IRepositoryBase<Product, Guid>
 
     Task<bool> IsSlugAlreadyExisted(string slug, Guid? productId = null);
 
+    Task<Product?> GetProductBySlug(string slug);
+
+    Task<Product?> GetProductById(Guid id);
+
     Task<PagedResult<ProductDto>> GetAllProductPagination(List<Guid>? categoryIds, 
                                                           string? keyword,
                                                           int pageIndex,

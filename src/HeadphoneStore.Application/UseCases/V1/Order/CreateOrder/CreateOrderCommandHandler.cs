@@ -71,8 +71,7 @@ public class CreateOrderCommandHandler : ICommandHandler<CreateOrderCommand>
             order.CreateOrderDetail(productId, quantity, unitPrice);
         }
 
-        _orderRepository.Add(order);
-
+        await _orderRepository.AddAsync(order, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         // send order notification

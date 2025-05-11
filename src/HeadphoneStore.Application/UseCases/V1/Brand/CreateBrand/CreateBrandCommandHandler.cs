@@ -43,8 +43,7 @@ public class CreateBrandCommandHandler : ICommandHandler<CreateBrandCommand>
             status: status
         );
 
-        _brandRepository.Add(category);
-
+        await _brandRepository.AddAsync(category, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         await _cacheService.RemoveByPrefixAsync("Brands", cancellationToken);

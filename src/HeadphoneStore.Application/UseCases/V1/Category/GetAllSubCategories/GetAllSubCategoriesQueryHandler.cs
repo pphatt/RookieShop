@@ -1,10 +1,7 @@
 ﻿using HeadphoneStore.Domain.Abstracts.Repositories;
-using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Shared.Abstracts.Queries;
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Category;
-
-using Microsoft.EntityFrameworkCore;
 
 namespace HeadphoneStore.Application.UseCases.V1.Category.GetAllSubCategories;
 
@@ -19,23 +16,7 @@ public class GetAllSubCategoriesQueryHandler : IQueryHandler<GetAllSubCategories
 
     public async Task<Result<List<CategoryDto>>> Handle(GetAllSubCategoriesQuery request, CancellationToken cancellationToken)
     {
-        var query = _categoryRepository
-            .GetQueryableSet()
-            .AsNoTracking()
-            .Where(x => x.Status == EntityStatus.Active)
-            .Include(x => x.SubCategories)
-            .SelectMany(c => c.SubCategories)
-            .Where(x => x.Status == EntityStatus.Active)
-            .Select(x => new CategoryDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Slug = x.Slug,
-                Description = x.Description,
-                Status = x.Status.ToString(),
-            });
-
-        var result = await query.ToListAsync();
+        var result = await _categoryRepository.GetAllSubCategories();
 
         return Result.Success(result);
     }

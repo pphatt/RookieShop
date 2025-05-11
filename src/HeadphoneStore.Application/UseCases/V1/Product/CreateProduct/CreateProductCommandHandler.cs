@@ -111,8 +111,7 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
             }
         }
 
-        _productRepository.Add(product);
-
+        await _productRepository.AddAsync(product, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         await _cacheService.RemoveByPrefixAsync("Products", cancellationToken);

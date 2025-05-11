@@ -6,8 +6,6 @@ using HeadphoneStore.Shared.Dtos.Brand;
 using HeadphoneStore.Shared.Dtos.Category;
 using HeadphoneStore.Shared.Dtos.Product;
 
-using Microsoft.EntityFrameworkCore;
-
 namespace HeadphoneStore.Application.UseCases.V1.Product.GetProductBySlug;
 
 using Exceptions = Domain.Exceptions.Exceptions;
@@ -23,16 +21,7 @@ public class GetProductBySlugQueryHandler : IQueryHandler<GetProductBySlugQuery,
 
     public async Task<Result<ProductDto>> Handle(GetProductBySlugQuery request, CancellationToken cancellationToken)
     {
-        var product = await _productRepository
-            .GetQueryableSet()
-            .AsNoTracking()
-            .Where(x => x.Slug == request.Slug)
-            .Include(x => x.Category)
-            .Include(x => x.Brand)
-            .Include(x => x.Media)
-            .Include(x => x.Ratings)
-                .ThenInclude(x => x.Customer)
-            .FirstOrDefaultAsync();
+        var product = await _productRepository.GetProductBySlug(request.Slug);
 
         if (product is null || product.IsDeleted)
             throw new Exceptions.Product.NotFound();

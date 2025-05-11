@@ -62,33 +62,48 @@ public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>
         return _dbSet.AsQueryable<TEntity>();
     }
 
-    public void Add(TEntity entity)
+    public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
     {
-        _dbSet.Add(entity);
+        await _dbSet.AddAsync(entity, cancellationToken);
     }
 
-    public void AddRange(IEnumerable<TEntity> entities)
+    public async Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken)
     {
-        _dbSet.AddRange(entities);
+        await _dbSet.AddRangeAsync(entities, cancellationToken);
     }
 
-    public void Update(TEntity entity)
+    public Task UpdateAsync(TEntity entity, CancellationToken cancellationToken)
     {
-        _dbSet.Update(entity);
+        var entry = _dbSet.Entry(entity);
+
+        if (entry.State == EntityState.Detached)
+        {
+            _dbSet.Attach(entity);
+
+            entry.State = EntityState.Modified;
+        }
+
+        return Task.CompletedTask;
     }
 
-    public void UpdateRange(IEnumerable<TEntity> entities)
+    public Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken)
     {
         _dbSet.UpdateRange(entities);
+
+        return Task.CompletedTask;
     }
 
-    public void Remove(TEntity entity)
+    public Task RemoveAsync(TEntity entity)
     {
         _dbSet.Remove(entity);
+
+        return Task.CompletedTask;
     }
 
-    public void RemoveRange(IEnumerable<TEntity> entities)
+    public Task RemoveRangeAsync(IEnumerable<TEntity> entities)
     {
         _dbSet.RemoveRange(entities);
+
+        return Task.CompletedTask;
     }
 }

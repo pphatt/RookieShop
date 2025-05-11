@@ -19,19 +19,7 @@ public class GetAllFirstLevelCategoriesQueryHandler : IQueryHandler<GetAllFirstL
 
     public async Task<Result<List<CategoryDto>>> Handle(GetAllFirstLevelCategoriesQuery request, CancellationToken cancellationToken)
     {
-        var categories = _categoryRepository
-            .FindAll(x => x.ParentId == null)
-            .Where(x => !x.IsDeleted && x.Status == EntityStatus.Active)
-            .Select(x => new CategoryDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Slug = x.Slug,
-                Description = x.Description,
-                Status = x.Status.ToString(),
-            });
-
-        var result = await categories.ToListAsync();
+        var result = await _categoryRepository.GetAllFirstLevelCategories();
 
         return Result.Success(result);
     }

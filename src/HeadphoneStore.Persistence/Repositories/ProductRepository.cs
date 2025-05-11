@@ -1,10 +1,14 @@
-﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+﻿using Azure.Core;
+
+using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Products.Entities;
 using HeadphoneStore.Persistence.Repository;
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Brand;
 using HeadphoneStore.Shared.Dtos.Category;
 using HeadphoneStore.Shared.Dtos.Product;
+
+using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -32,17 +36,48 @@ public class ProductRepository : RepositoryBase<Product, Guid>, IProductReposito
         return await _context.Products.AnyAsync(x => x.Slug == slug);
     }
 
+    public async Task<Product?> GetProductBySlug(string slug)
+    {
+        return await GetQueryableSet()
+            .AsNoTracking()
+            .AsSplitQuery()
+            .IgnoreQueryFilters()
+            .Where(x => x.Slug == slug)
+            .Include(x => x.Category)
+            .Include(x => x.Brand)
+            .Include(x => x.Media)
+            .Include(x => x.Ratings)
+                .ThenInclude(x => x.Customer)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<Product?> GetProductById(Guid id)
+    {
+        return await GetQueryableSet()
+            .AsNoTracking()
+            .AsSplitQuery()
+            .IgnoreQueryFilters()
+            .Where(x => x.Id == id)
+            .Include(x => x.Category)
+            .Include(x => x.Brand)
+            .Include(x => x.Media)
+            .Include(x => x.Ratings)
+                .ThenInclude(x => x.Customer)
+            .FirstOrDefaultAsync();
+    }
+
     public async Task<PagedResult<ProductDto>> GetAllProductPagination(List<Guid>? categoryIds, string? keyword, int pageIndex, int pageSize)
     {
         var query = GetQueryableSet()
             .Include(x => x.Category)
             .Include(x => x.Media)
             .AsNoTracking()
-            .AsQueryable();
+            .AsQueryable()
+            .IgnoreQueryFilters();
 
         if (!string.IsNullOrWhiteSpace(keyword))
         {
-            query = query.Where(x => 
+            query = query.Where(x =>
                 x.Name.ToLowerInvariant().Contains(keyword.ToLowerInvariant()) ||
                 x.Description.ToLowerInvariant().Contains(keyword.ToLowerInvariant()));
         }
