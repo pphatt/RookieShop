@@ -10,15 +10,15 @@ public interface ICategoryRepository : IRepositoryBase<Category, Guid>
 
     Task<Category> GetCategoryById(Guid categoryId);
 
-    Task<List<CategoryDto?>> GetAllFirstLevelCategories(string? searchTerm);
+    Task<List<Category?>> GetAllFirstLevelCategories(string? searchTerm);
 
-    Task<List<CategoryDto>> GetAllCategoriesWithSubCategories(string categorySlug);
+    Task<List<Category>> GetAllCategoriesWithSubCategories(string categorySlug);
 
-    Task<List<CategoryDto>> GetAllSubCategories();
+    Task<List<Category>> GetAllSubCategories();
 
-    Task<List<CategoryDto>> GetAllFirstLevelCategories();
+    Task<List<Category>> GetAllFirstLevelCategories();
 
-    Task<PagedResult<CategoryDto>> GetAllCategoriesPagination(string? searchTerm,
+    Task<PagedResult<Category>> GetAllCategoriesPagination(string? searchTerm,
                                                               int pageIndex,
                                                               int pageSize);
 }

@@ -16,12 +16,22 @@ public class GetAllBrandsPagedQueryHandler : IQueryHandler<GetAllBrandsPagedQuer
 
     public async Task<Result<PagedResult<BrandDto>>> Handle(GetAllBrandsPagedQuery request, CancellationToken cancellationToken)
     {
-        var result = await _brandRepository.GetBrandsPagination(
+        var query = await _brandRepository.GetBrandsPagination(
             keyword: request.SearchTerm,
             pageIndex: request.PageIndex,
             pageSize: request.PageSize
         );
 
-        return Result.Success(result);
+        var resultItem = query.Items
+            .Select(x => new BrandDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Slug = x.Slug,
+                Description = x.Description,
+                Status = x.Status.ToString(),
+            }).ToList();
+
+        return Result.Success(new PagedResult<BrandDto>(resultItem, query.PageIndex, query.PageSize, query.TotalCount));
     }
 }

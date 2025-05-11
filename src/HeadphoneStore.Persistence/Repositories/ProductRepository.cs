@@ -66,7 +66,7 @@ public class ProductRepository : RepositoryBase<Product, Guid>, IProductReposito
             .FirstOrDefaultAsync();
     }
 
-    public async Task<PagedResult<ProductDto>> GetAllProductPagination(List<Guid>? categoryIds, string? keyword, int pageIndex, int pageSize)
+    public async Task<PagedResult<Product>> GetAllProductsPagination(List<Guid>? categoryIds, string? searchTerm, int pageIndex, int pageSize)
     {
         var query = GetQueryableSet()
             .Include(x => x.Category)
@@ -75,11 +75,11 @@ public class ProductRepository : RepositoryBase<Product, Guid>, IProductReposito
             .AsQueryable()
             .IgnoreQueryFilters();
 
-        if (!string.IsNullOrWhiteSpace(keyword))
+        if (!string.IsNullOrWhiteSpace(searchTerm))
         {
             query = query.Where(x =>
-                x.Name.ToLowerInvariant().Contains(keyword.ToLowerInvariant()) ||
-                x.Description.ToLowerInvariant().Contains(keyword.ToLowerInvariant()));
+                x.Name.ToLowerInvariant().Contains(searchTerm.ToLowerInvariant()) ||
+                x.Description.ToLowerInvariant().Contains(searchTerm.ToLowerInvariant()));
         }
 
         if (categoryIds != null && categoryIds.Any())
@@ -91,42 +91,6 @@ public class ProductRepository : RepositoryBase<Product, Guid>, IProductReposito
             .Where(x => !x.IsDeleted)
             .OrderByDescending(x => x.CreatedDateTime);
 
-        var result = query.Select(x => new ProductDto
-        {
-            Id = x.Id,
-            Name = x.Name,
-            Slug = x.Slug,
-            Description = x.Description,
-            Stock = x.Stock,
-            Sold = x.Sold,
-            Sku = x.Sku,
-            Category = new CategoryDto
-            {
-                Id = x.Category.Id,
-                Name = x.Category.Name
-            },
-            Brand = new BrandDto
-            {
-                Id = x.Brand.Id,
-                Name = x.Brand.Name,
-                Slug = x.Brand.Slug
-            },
-            ProductStatus = x.ProductStatus.ToString(),
-            ProductPrice = x.ProductPrice.Amount,
-            AverageRating = x.AverageRating,
-            TotalReviews = x.TotalReviews,
-            Status = x.Status.ToString(),
-            Media = x.Media.OrderBy(x => x.DisplayOrder).Select(x => new ProductMediaDto
-            {
-                Id = x.Id,
-                ImageUrl = x.ImageUrl,
-                Name = x.Name,
-                Path = x.Path,
-                PublicId = x.PublicId,
-                DIsplayOrder = x.DisplayOrder
-            }).ToList().AsReadOnly()
-        });
-
-        return await PagedResult<ProductDto>.InitializeAsync(result, pageIndex, pageSize);
+        return await PagedResult<Product>.InitializeAsync(query, pageIndex, pageSize);
     }
 }

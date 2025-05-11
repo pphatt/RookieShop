@@ -1,4 +1,6 @@
-﻿namespace HeadphoneStore.Shared.Dtos.Order;
+﻿using HeadphoneStore.Shared.Dtos.Product;
+
+namespace HeadphoneStore.Shared.Dtos.Order;
 
 public class CreateOrderItemDto
 {
@@ -6,8 +8,8 @@ public class CreateOrderItemDto
     public int Quantity { get; set; } = 1;
 }
 
-public class OrderItemDto
+public class OrderDetailDto
 {
-    public Guid ProductId { get; set; }
+    public ProductDto Product { get; set; }
     public int Quantity { get; set; } = 1;
 }

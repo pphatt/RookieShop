@@ -14,8 +14,8 @@ public interface IProductRepository : IRepositoryBase<Product, Guid>
 
     Task<Product?> GetProductById(Guid id);
 
-    Task<PagedResult<ProductDto>> GetAllProductPagination(List<Guid>? categoryIds, 
-                                                          string? keyword,
-                                                          int pageIndex,
-                                                          int pageSize);
+    Task<PagedResult<Product>> GetAllProductsPagination(List<Guid>? categoryIds, 
+                                                        string? keyword,
+                                                        int pageIndex,
+                                                        int pageSize);
 }

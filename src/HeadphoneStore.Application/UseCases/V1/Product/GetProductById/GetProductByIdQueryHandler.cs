@@ -6,8 +6,6 @@ using HeadphoneStore.Shared.Dtos.Brand;
 using HeadphoneStore.Shared.Dtos.Category;
 using HeadphoneStore.Shared.Dtos.Product;
 
-using Microsoft.EntityFrameworkCore;
-
 namespace HeadphoneStore.Application.UseCases.V1.Product.GetProductById;
 
 using Exceptions = Domain.Exceptions.Exceptions;

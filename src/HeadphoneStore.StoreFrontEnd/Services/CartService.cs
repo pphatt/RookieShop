@@ -148,7 +148,7 @@ public class CartService : ICartService
                 // Check if the requested quantity is still available
                 if (item.Quantity > product.Stock)
                 {
-                    item.Quantity = product.Stock;
+                    item.Quantity = (int)product.Stock;
                     cartChanged = true;
                 }
             }

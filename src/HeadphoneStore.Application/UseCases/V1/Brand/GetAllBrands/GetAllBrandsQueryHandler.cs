@@ -19,7 +19,17 @@ public class GetAllBrandsQueryHandler : IQueryHandler<GetAllBrandsQuery, List<Br
 
     public async Task<Result<List<BrandDto>>> Handle(GetAllBrandsQuery request, CancellationToken cancellationToken)
     {
-        var result = await _brandRepository.GetAllBrands();
+        var query = await _brandRepository.GetAllBrands();
+
+        var result = query
+            .Select(x => new BrandDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Slug = x.Slug,
+                Description = x.Description,
+                Status = x.Status.ToString(),
+            }).ToList();
 
         return Result.Success(result);
     }

@@ -28,7 +28,7 @@ public class BrandRepository : RepositoryBase<Brand, Guid>, IBrandRepository
         return await _context.Brands.AnyAsync(x => x.Slug == slug);
     }
 
-    public async Task<PagedResult<BrandDto>> GetBrandsPagination(string? keyword, int pageIndex, int pageSize)
+    public async Task<PagedResult<Brand>> GetBrandsPagination(string? keyword, int pageIndex, int pageSize)
     {
         var query = GetQueryableSet()
             .AsNoTracking()
@@ -44,37 +44,20 @@ public class BrandRepository : RepositoryBase<Brand, Guid>, IBrandRepository
             .Where(x => !x.IsDeleted)
             .OrderByDescending(x => x.CreatedDateTime);
 
-        var result = query.Select(x => new BrandDto
-        {
-            Id = x.Id,
-            Name = x.Name,
-            Slug = x.Slug,
-            Description = x.Description,
-            Status = x.Status.ToString(),
-        });
-
-        return await PagedResult<BrandDto>.InitializeAsync(result, pageIndex, pageSize);
+        return await PagedResult<Brand>.InitializeAsync(query, pageIndex, pageSize);
     }
 
-    public async Task<List<BrandDto>> GetAllBrands()
+    public async Task<List<Brand>> GetAllBrands()
     {
         return await GetQueryableSet()
             .AsNoTracking()
             .AsSplitQuery()
             .IgnoreQueryFilters()
             .Where(x => !x.IsDeleted && x.Status == EntityStatus.Active)
-            .Select(x => new BrandDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Slug = x.Slug,
-                Description = x.Description,
-                Status = x.Status.ToString(),
-            })
             .ToListAsync();
     }
 
-    public async Task<List<BrandDto>> GetBrandsFilteredByProductProperties(List<Guid>? categoryIds)
+    public async Task<List<Brand>> GetBrandsFilteredByProductProperties(List<Guid>? categoryIds)
     {
         var query = GetQueryableSet()
             .AsNoTracking()
@@ -89,16 +72,7 @@ public class BrandRepository : RepositoryBase<Brand, Guid>, IBrandRepository
                 .Where(x => x.Products.Where(x => categoryIds.Contains(x.CategoryId)).Any());
         }
 
-        var result = await query
-            .Select(x => new BrandDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Slug = x.Slug,
-                Description = x.Description,
-                Status = x.Status.ToString(),
-            })
-            .ToListAsync();
+        var result = await query.ToListAsync();
 
         return result;
     }

@@ -137,7 +137,7 @@
 
                                     @for (var i = 0; i < 5; i++)
                                     {
-                                        if (i < Math.Floor(Model.Product.AverageRating))
+                                        if (i < Math.Floor((decimal)Model.Product.AverageRating))
                                         {
                                             <i class="bi bi-star-fill product-detail-rating-star product-detail-rating-star-active"></i>
                                         }

@@ -20,6 +20,17 @@ public class GetAllBrandsByProductPropertiesQueryHandler : IQueryHandler<GetAllB
             categoryIds: request.CategoryIds
         );
 
-        return Result.Success(query);
+        var result = query
+            .Select(x => new BrandDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Slug = x.Slug,
+                Description = x.Description,
+                Status = x.Status.ToString(),
+            })
+            .ToList();
+
+        return Result.Success(result);
     }
 }

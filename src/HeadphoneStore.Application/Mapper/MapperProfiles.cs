@@ -27,6 +27,8 @@ using HeadphoneStore.Application.UseCases.V1.Identity.RefreshToken;
 using HeadphoneStore.Application.UseCases.V1.Identity.Register;
 using HeadphoneStore.Application.UseCases.V1.Identity.UpdateUser;
 using HeadphoneStore.Application.UseCases.V1.Order.CreateOrder;
+using HeadphoneStore.Application.UseCases.V1.Order.GetAllOrdersPagination;
+using HeadphoneStore.Application.UseCases.V1.Order.GetOrderById;
 using HeadphoneStore.Application.UseCases.V1.Product.ActivateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.CreateProduct;
 using HeadphoneStore.Application.UseCases.V1.Product.CreateProductRating;
@@ -68,6 +70,8 @@ using HeadphoneStore.Shared.Services.Identity.RefreshToken;
 using HeadphoneStore.Shared.Services.Identity.Register;
 using HeadphoneStore.Shared.Services.Identity.UpdateUser;
 using HeadphoneStore.Shared.Services.Order.CreateOrder;
+using HeadphoneStore.Shared.Services.Order.GetAllOrdersPagination;
+using HeadphoneStore.Shared.Services.Order.GetOrderById;
 using HeadphoneStore.Shared.Services.Product.ActivateProduct;
 using HeadphoneStore.Shared.Services.Product.Create;
 using HeadphoneStore.Shared.Services.Product.CreateProductRating;
@@ -146,5 +150,8 @@ public class MapperProfiles : Profile
                         }))
             .ForMember(dest => dest.PaymentMethod,
                         opt => opt.MapFrom(src => Enum.Parse<PaymentMethod>(src.PaymentMethod)));
+
+        CreateMap<GetOrderByIdRequestDto, GetOrderByIdQuery>();
+        CreateMap<GetAllOrdersPaginationRequestDto, GetAllOrdersPaginationQuery>();
     }
 }

@@ -16,7 +16,18 @@ public class GetAllSubCategoriesQueryHandler : IQueryHandler<GetAllSubCategories
 
     public async Task<Result<List<CategoryDto>>> Handle(GetAllSubCategoriesQuery request, CancellationToken cancellationToken)
     {
-        var result = await _categoryRepository.GetAllSubCategories();
+        var query = await _categoryRepository.GetAllSubCategories();
+
+        var result = query
+            .Select(x => new CategoryDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Slug = x.Slug,
+                Description = x.Description,
+                Status = x.Status.ToString(),
+            })
+            .ToList();
 
         return Result.Success(result);
     }

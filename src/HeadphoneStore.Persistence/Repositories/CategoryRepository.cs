@@ -40,7 +40,7 @@ public class CategoryRepository : RepositoryBase<Category, Guid>, ICategoryRepos
             .SingleOrDefaultAsync();
     }
 
-    public async Task<List<CategoryDto>> GetAllFirstLevelCategories(string? searchTerm)
+    public async Task<List<Category>> GetAllFirstLevelCategories(string? searchTerm)
     {
         var query = GetQueryableSet()
             .AsNoTracking()
@@ -55,51 +55,22 @@ public class CategoryRepository : RepositoryBase<Category, Guid>, ICategoryRepos
         query = query
             .Where(x => x.ParentId == null && x.Status == EntityStatus.Active);
 
-        var result = await query
-            .OrderBy(x => x.CreatedDateTime)
-            .Select(x => new CategoryDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Slug = x.Slug,
-                Description = x.Description,
-                Status = x.Status.ToString(),
-                SubCategories = x.SubCategories
-                    .Where(x => x.Status == EntityStatus.Active)
-                    .OrderBy(x => x.CreatedDateTime)
-                    .Select(c => new CategoryDto
-                    {
-                        Id = c.Id,
-                        Name = c.Name,
-                        Slug = c.Slug,
-                        Description = c.Description,
-                        Status = c.Status.ToString(),
-                    })
-            })
-            .ToListAsync();
+        var result = await query.ToListAsync();
 
         return result;
     }
 
-    public async Task<List<CategoryDto>> GetAllCategoriesWithSubCategories(string categorySlug)
+    public async Task<List<Category>> GetAllCategoriesWithSubCategories(string categorySlug)
     {
         return await GetQueryableSet()
             .AsNoTracking()
             .AsSplitQuery()
             .IgnoreQueryFilters()
             .Where(x => x.Status == EntityStatus.Active && x.Slug.Contains(categorySlug))
-            .Select(x => new CategoryDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Slug = x.Slug,
-                Description = x.Description,
-                Status = x.Status.ToString(),
-            })
             .ToListAsync();
     }
 
-    public async Task<List<CategoryDto>> GetAllSubCategories()
+    public async Task<List<Category>> GetAllSubCategories()
     {
         return await GetQueryableSet()
             .AsNoTracking()
@@ -109,35 +80,19 @@ public class CategoryRepository : RepositoryBase<Category, Guid>, ICategoryRepos
             .Include(x => x.SubCategories)
             .SelectMany(c => c.SubCategories)
             .Where(x => x.Status == EntityStatus.Active)
-            .Select(x => new CategoryDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Slug = x.Slug,
-                Description = x.Description,
-                Status = x.Status.ToString(),
-            })
             .ToListAsync();
     }
 
-    public async Task<List<CategoryDto>> GetAllFirstLevelCategories()
+    public async Task<List<Category>> GetAllFirstLevelCategories()
     {
         return await GetQueryableSet()
             .Where(x => x.ParentId == null && 
                         !x.IsDeleted && 
                         x.Status == EntityStatus.Active)
-            .Select(x => new CategoryDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Slug = x.Slug,
-                Description = x.Description,
-                Status = x.Status.ToString(),
-            })
             .ToListAsync();
     }
 
-    public async Task<PagedResult<CategoryDto>> GetAllCategoriesPagination(string? searchTerm, int pageIndex, int pageSize)
+    public async Task<PagedResult<Category>> GetAllCategoriesPagination(string? searchTerm, int pageIndex, int pageSize)
     {
         var query = GetQueryableSet()
             .AsNoTracking()
@@ -153,23 +108,6 @@ public class CategoryRepository : RepositoryBase<Category, Guid>, ICategoryRepos
             .Where(x => !x.IsDeleted)
             .OrderByDescending(x => x.CreatedDateTime);
 
-        var result = query.Select(x => new CategoryDto
-        {
-            Id = x.Id,
-            Name = x.Name,
-            Slug = x.Slug,
-            Description = x.Description,
-            Status = x.Status.ToString(),
-            Parent = x.Parent != null ? new CategoryDto
-            {
-                Id = x.Parent.Id,
-                Name = x.Parent.Name,
-                Slug = x.Slug,
-                Description = x.Parent.Description,
-                Status = x.Parent.Status.ToString(),
-            } : null,
-        });
-
-        return await PagedResult<CategoryDto>.InitializeAsync(result, pageIndex, pageSize);
+        return await PagedResult<Category>.InitializeAsync(query, pageIndex, pageSize);
     }
 }
