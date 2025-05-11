@@ -55,6 +55,7 @@ public class UpdateBrandCommandHandler : ICommandHandler<UpdateBrandCommand>
             status: status
         );
 
+        await _brandRepository.UpdateAsync(brandFromDb, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         await _cacheService.RemoveByPrefixAsync("Brands", cancellationToken);

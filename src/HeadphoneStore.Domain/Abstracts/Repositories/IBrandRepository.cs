@@ -12,5 +12,7 @@ public interface IBrandRepository : IRepositoryBase<Brand, Guid>
                                                     int pageIndex,
                                                     int pageSize);
 
+    Task<List<BrandDto>> GetAllBrands();
+
     Task<List<BrandDto>> GetBrandsFilteredByProductProperties(List<Guid>? categoryIds);
 }

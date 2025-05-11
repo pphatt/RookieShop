@@ -55,8 +55,7 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
             status: status
         );
 
-        _categoryRepository.Add(category);
-
+        await _categoryRepository.AddAsync(category, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         await _cacheService.RemoveByPrefixAsync("Categories", cancellationToken);

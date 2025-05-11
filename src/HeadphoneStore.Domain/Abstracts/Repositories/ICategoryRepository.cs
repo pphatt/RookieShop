@@ -8,7 +8,15 @@ public interface ICategoryRepository : IRepositoryBase<Category, Guid>
 {
     Task<bool> IsSlugAlreadyExisted(string slug, Guid? categoryId = null);
 
-    Task<List<CategoryDto>> GetAllFirstLevelCategories(string? searchTerm);
+    Task<Category> GetCategoryById(Guid categoryId);
+
+    Task<List<CategoryDto?>> GetAllFirstLevelCategories(string? searchTerm);
+
+    Task<List<CategoryDto>> GetAllCategoriesWithSubCategories(string categorySlug);
+
+    Task<List<CategoryDto>> GetAllSubCategories();
+
+    Task<List<CategoryDto>> GetAllFirstLevelCategories();
 
     Task<PagedResult<CategoryDto>> GetAllCategoriesPagination(string? searchTerm,
                                                               int pageIndex,

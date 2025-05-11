@@ -1,4 +1,6 @@
-﻿using HeadphoneStore.Domain.Abstracts.Repositories;
+﻿using Azure.Core;
+
+using HeadphoneStore.Domain.Abstracts.Repositories;
 using HeadphoneStore.Domain.Aggregates.Categories.Entities;
 using HeadphoneStore.Domain.Enumerations;
 using HeadphoneStore.Persistence.Repository;
@@ -28,9 +30,22 @@ public class CategoryRepository : RepositoryBase<Category, Guid>, ICategoryRepos
         return await _context.Categories.AnyAsync(x => x.Slug == slug);
     }
 
+    public async Task<Category?> GetCategoryById(Guid categoryId)
+    {
+        return await GetQueryableSet()
+            .AsNoTracking()
+            .Where(x => x.Id.Equals(categoryId))
+            .Include(x => x.Parent)
+            .Include(x => x.SubCategories)
+            .SingleOrDefaultAsync();
+    }
+
     public async Task<List<CategoryDto>> GetAllFirstLevelCategories(string? searchTerm)
     {
-        var query = GetQueryableSet();
+        var query = GetQueryableSet()
+            .AsNoTracking()
+            .AsSplitQuery()
+            .IgnoreQueryFilters();
 
         if (!string.IsNullOrEmpty(searchTerm))
         {
@@ -66,9 +81,68 @@ public class CategoryRepository : RepositoryBase<Category, Guid>, ICategoryRepos
         return result;
     }
 
+    public async Task<List<CategoryDto>> GetAllCategoriesWithSubCategories(string categorySlug)
+    {
+        return await GetQueryableSet()
+            .AsNoTracking()
+            .AsSplitQuery()
+            .IgnoreQueryFilters()
+            .Where(x => x.Status == EntityStatus.Active && x.Slug.Contains(categorySlug))
+            .Select(x => new CategoryDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Slug = x.Slug,
+                Description = x.Description,
+                Status = x.Status.ToString(),
+            })
+            .ToListAsync();
+    }
+
+    public async Task<List<CategoryDto>> GetAllSubCategories()
+    {
+        return await GetQueryableSet()
+            .AsNoTracking()
+            .AsSplitQuery()
+            .IgnoreQueryFilters()
+            .Where(x => x.Status == EntityStatus.Active)
+            .Include(x => x.SubCategories)
+            .SelectMany(c => c.SubCategories)
+            .Where(x => x.Status == EntityStatus.Active)
+            .Select(x => new CategoryDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Slug = x.Slug,
+                Description = x.Description,
+                Status = x.Status.ToString(),
+            })
+            .ToListAsync();
+    }
+
+    public async Task<List<CategoryDto>> GetAllFirstLevelCategories()
+    {
+        return await GetQueryableSet()
+            .Where(x => x.ParentId == null && 
+                        !x.IsDeleted && 
+                        x.Status == EntityStatus.Active)
+            .Select(x => new CategoryDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Slug = x.Slug,
+                Description = x.Description,
+                Status = x.Status.ToString(),
+            })
+            .ToListAsync();
+    }
+
     public async Task<PagedResult<CategoryDto>> GetAllCategoriesPagination(string? searchTerm, int pageIndex, int pageSize)
     {
-        var query = GetQueryableSet();
+        var query = GetQueryableSet()
+            .AsNoTracking()
+            .AsSplitQuery()
+            .IgnoreQueryFilters();
 
         if (!string.IsNullOrEmpty(searchTerm))
         {

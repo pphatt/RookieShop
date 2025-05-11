@@ -44,27 +44,27 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
 
     public async Task<Result> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
-        var product = await _productRepository
+        var productFromDb = await _productRepository
             .GetQueryableSet()
             .Where(x => x.Id == request.Id)
             .Include(x => x.Media)
             .FirstOrDefaultAsync();
 
-        if (product is null)
+        if (productFromDb is null)
             throw new Exceptions.Product.NotFound();
 
-        if (product.IsDeleted)
+        if (productFromDb.IsDeleted)
             throw new Exceptions.Product.AlreadyDeleted();
 
         var duplicateName = _productRepository
             .FindByCondition(x => x.Name == request.Name)
             .FirstOrDefault();
 
-        if (duplicateName is not null && duplicateName.Id != product.Id)
+        if (duplicateName is not null && duplicateName.Id != productFromDb.Id)
             throw new Exceptions.Product.DuplicateName();
 
-        var slug = product.Name != request.Name ? request.Name.Slugify() : request.Slug;
-        var isSlugAlreadyExisted = await _categoryRepository.IsSlugAlreadyExisted(slug, product.Id);
+        var slug = productFromDb.Name != request.Name ? request.Name.Slugify() : request.Slug;
+        var isSlugAlreadyExisted = await _categoryRepository.IsSlugAlreadyExisted(slug, productFromDb.Id);
 
         if (isSlugAlreadyExisted)
             throw new Exceptions.Product.SlugExists();
@@ -82,13 +82,13 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
         // handle remove old images if changes.
         if (request.OldImages is not null &&
             request.OldImages.Count() > 0 &&
-            product.Media.Count() > 0)
+            productFromDb.Media.Count() > 0)
         {
             var oldImages = new List<DeleteFileDto>();
 
             var oldImagesRequest = request.OldImages;
 
-            foreach (var image in product.Media.ToList())
+            foreach (var image in productFromDb.Media.ToList())
             {
                 if (oldImagesRequest.Contains(image.Id))
                 {
@@ -101,7 +101,7 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
                     PublicId = image.PublicId
                 });
 
-                product.RemoveMedia(image);
+                productFromDb.RemoveMedia(image);
             }
 
             if (oldImages.Count() > 0)
@@ -116,7 +116,7 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
 
             foreach (var imageInfo in request.OldImages.Select((value, i) => (value, i)))
             {
-                var image = product.Media.FirstOrDefault(x => x.Id == imageInfo.value);
+                var image = productFromDb.Media.FirstOrDefault(x => x.Id == imageInfo.value);
 
                 image!.DisplayOrder = Int32.Parse(oldImagesOrder[imageInfo.i]);
             }
@@ -129,7 +129,7 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
             {
                 type = FileType.Image,
                 userId = request.UpdatedBy,
-                productId = product.Id,
+                productId = productFromDb.Id,
             };
 
             var filesInfo = await _cloudinaryService.UploadFilesToCloudinary(request.NewImages, required);
@@ -141,7 +141,7 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
             foreach (var info in filesInfo.Select((value, i) => (value, i)))
             {
                 var file = ProductMedia.Create(
-                    productId: product.Id,
+                    productId: productFromDb.Id,
                     imageUrl: info.value.Path,
                     publicId: info.value.PublicId,
                     path: info.value.Path,
@@ -155,7 +155,7 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
         Enum.TryParse<ProductStatus>(request.ProductStatus, false, out var status);
         Enum.TryParse<EntityStatus>(request.Status, false, out var entityStatus);
 
-        product.Update(
+        productFromDb.Update(
             name: request.Name,
             description: request.Description,
             stock: request.Stock,
@@ -169,6 +169,7 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
             status: entityStatus
         );
 
+        await _productRepository.UpdateAsync(productFromDb, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         await _cacheService.RemoveByPrefixAsync("Products", cancellationToken);

@@ -23,16 +23,7 @@ public class GetProductByIdQueryHandler : IQueryHandler<GetProductByIdQuery, Pro
 
     public async Task<Result<ProductDto>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
-        var product = await _productRepository
-            .GetQueryableSet()
-            .AsNoTracking()
-            .Where(x => x.Id == request.Id)
-            .Include(x => x.Category)
-            .Include(x => x.Brand)
-            .Include(x => x.Media)
-            .Include(x => x.Ratings)
-                .ThenInclude(x => x.Customer)
-            .FirstOrDefaultAsync();
+        var product = await _productRepository.GetProductById(request.Id);
 
         if (product is null || product.IsDeleted)
             throw new Exceptions.Product.NotFound();
