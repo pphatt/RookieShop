@@ -91,7 +91,6 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
             var required = new FileRequiredParamsDto
             {
                 type = FileType.Image,
-                userId = request.CreatedBy,
                 productId = product.Id
             };
 

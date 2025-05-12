@@ -1,7 +1,5 @@
 ﻿using Asp.Versioning;
 
-using AutoMapper;
-
 using HeadphoneStore.API.Authorization;
 using HeadphoneStore.Application.UseCases.V1.Identity.GetAllRoles;
 using HeadphoneStore.Domain.Constants;
@@ -18,11 +16,8 @@ namespace HeadphoneStore.API.Controllers.V1;
 [ApiVersion(1)]
 public class RoleController : BaseApiController
 {
-    private readonly IMapper _mapper;
-
-    public RoleController(IMapper mapper, IMediator mediator) : base(mediator)
+    public RoleController(IMediator mediator) : base(mediator)
     {
-        _mapper = mapper;
     }
 
     [HttpGet("all")]

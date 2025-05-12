@@ -1,7 +1,5 @@
 ﻿using Asp.Versioning;
 
-using AutoMapper;
-
 using HeadphoneStore.API.Authorization;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Application.UseCases.V1.Order.CreateOrder;
@@ -25,11 +23,8 @@ namespace HeadphoneStore.API.Controllers.V1;
 [ApiVersion(1)]
 public class OrderController : BaseApiController
 {
-    private readonly IMapper _mapper;
-
-    public OrderController(IMediator mediator, IMapper mapper) : base(mediator)
+    public OrderController(IMediator mediator) : base(mediator)
     {
-        _mapper = mapper;
     }
 
     [HttpPost("create")]
@@ -39,11 +34,9 @@ public class OrderController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> CreateOrder(CreateOrderRequestDto request)
     {
-        var mapper = _mapper.Map<CreateOrderCommand>(request);
+        var command = request.MapToCommand(User.GetUserId());
 
-        mapper.CustomerId = User.GetUserId();
-
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -58,11 +51,9 @@ public class OrderController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> GetOrderById([FromRoute] GetOrderByIdRequestDto request)
     {
-        var mapper = _mapper.Map<GetOrderByIdQuery>(request);
+        var query = request.MapToQuery(User.GetUserId());
 
-        mapper.CustomerId = User.GetUserId();
-
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(query);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -77,11 +68,9 @@ public class OrderController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> GetAllOrdersPagination([FromQuery] GetAllOrdersPaginationRequestDto request)
     {
-        var mapper = _mapper.Map<GetAllOrdersPaginationQuery>(request);
+        var query = request.MapToQuery(User.GetUserId());
 
-        mapper.UserId = User.GetUserId();
-
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(query);
 
         if (result.IsFailure)
             return HandlerFailure(result);

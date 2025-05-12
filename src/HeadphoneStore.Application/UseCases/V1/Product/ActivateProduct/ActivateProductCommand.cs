@@ -2,7 +2,6 @@
 
 namespace HeadphoneStore.Application.UseCases.V1.Product.ActivateProduct;
 
-public class ActivateProductCommand : ICommand
+public sealed record ActivateProductCommand(Guid Id) : ICommand
 {
-    public Guid Id { get; set; }
 }

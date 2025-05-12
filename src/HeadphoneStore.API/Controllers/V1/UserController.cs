@@ -1,12 +1,10 @@
 ﻿using Asp.Versioning;
 
-using AutoMapper;
-
 using HeadphoneStore.API.Authorization;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Application.UseCases.V1.Identity.CreateUser;
 using HeadphoneStore.Application.UseCases.V1.Identity.DeleteUser;
-using HeadphoneStore.Application.UseCases.V1.Identity.GetAllUserPaged;
+using HeadphoneStore.Application.UseCases.V1.Identity.GetAllUsersPaged;
 using HeadphoneStore.Application.UseCases.V1.Identity.GetUserById;
 using HeadphoneStore.Application.UseCases.V1.Identity.UpdateUser;
 using HeadphoneStore.Application.UseCases.V1.Identity.WhoAmI;
@@ -31,11 +29,8 @@ namespace HeadphoneStore.API.Controllers.V1;
 [ApiVersion(1)]
 public class UserController : BaseApiController
 {
-    private readonly IMapper _mapper;
-
-    public UserController(IMapper mapper, IMediator mediator) : base(mediator)
+    public UserController(IMediator mediator) : base(mediator)
     {
-        _mapper = mapper;
     }
 
     [HttpGet("whoami")]
@@ -65,9 +60,9 @@ public class UserController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> CreateUser([FromForm] CreateUserRequestDto request)
     {
-        var mapper = _mapper.Map<CreateUserCommand>(request);
+        var command = request.MapToCommand();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -82,9 +77,9 @@ public class UserController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> UpdateUser(UpdateUserRequestDto request)
     {
-        var mapper = _mapper.Map<UpdateUserCommand>(request);
+        var command = request.MapToCommand();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -99,9 +94,9 @@ public class UserController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> DeleteUser(DeleteUserRequestDto request)
     {
-        var mapper = _mapper.Map<DeleteUserCommand>(request);
+        var command = request.MapToCommand();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -116,9 +111,9 @@ public class UserController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> GetUserById([FromRoute] GetUserByIdRequestDto request)
     {
-        var mapper = _mapper.Map<GetUserByIdQuery>(request);
+        var query = request.MapToQuery();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(query);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -131,11 +126,11 @@ public class UserController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedResult<UserDto>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
-    public async Task<IActionResult> GetAllUserPagination([FromQuery] GetAllUserPagedRequestDto request)
+    public async Task<IActionResult> GetAllUserPagination([FromQuery] GetAllUsersPagedRequestDto request)
     {
-        var mapper = _mapper.Map<GetAllUserPagedQuery>(request);
+        var query = request.MapToQuery();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(query);
 
         if (result.IsFailure)
             return HandlerFailure(result);

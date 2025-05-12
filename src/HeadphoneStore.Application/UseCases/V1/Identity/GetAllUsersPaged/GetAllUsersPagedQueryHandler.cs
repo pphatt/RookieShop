@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-using HeadphoneStore.Domain.Aggregates.Identity.Entities;
+﻿using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Shared.Abstracts.Queries;
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Identity.Role;
@@ -9,20 +7,20 @@ using HeadphoneStore.Shared.Dtos.Identity.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace HeadphoneStore.Application.UseCases.V1.Identity.GetAllUserPaged;
+namespace HeadphoneStore.Application.UseCases.V1.Identity.GetAllUsersPaged;
 
-public class GetAllUserPagedQueryHandler : IQueryHandler<GetAllUserPagedQuery, PagedResult<UserDto>>
+public class GetAllUsersPagedQueryHandler : IQueryHandler<GetAllUsersPagedQuery, PagedResult<UserDto>>
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly RoleManager<AppRole> _roleManager;
 
-    public GetAllUserPagedQueryHandler(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+    public GetAllUsersPagedQueryHandler(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
     {
         _userManager = userManager;
         _roleManager = roleManager;
     }
 
-    public async Task<Result<PagedResult<UserDto>>> Handle(GetAllUserPagedQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PagedResult<UserDto>>> Handle(GetAllUsersPagedQuery request, CancellationToken cancellationToken)
     {
         var query = _userManager.Users;
         var roles = _roleManager.Roles.AsQueryable();

@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using FluentAssertions;
+﻿using FluentAssertions;
+
 using HeadphoneStore.Application.UseCases.V1.Identity.Login;
 using HeadphoneStore.Shared.Services.Identity.Login;
 
@@ -19,7 +19,7 @@ public class LoginCommandTest : BaseTest
         };
 
         // Act
-        var command = _mapper.Map<LoginCommand>(requestDto);
+        var command = requestDto.MapToCommand();
 
         // Assert
         command.Should().NotBeNull();

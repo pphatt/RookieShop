@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 
-using HeadphoneStore.Application.UseCases.V1.Identity.GetAllUserPaged;
+using HeadphoneStore.Application.UseCases.V1.Identity.GetAllUsersPaged;
 using HeadphoneStore.Shared.Services.Identity.GetAllUserPaged;
 
 namespace HeadphoneStore.UnitTests.Application.Identity.Queries.GetAllUsersPaged;
@@ -15,7 +15,7 @@ public class GetAllUserPagedQueryTests : BaseTest
         var searchTerm = "test";
         var pageIndex = 2;
         var pageSize = 20;
-        var requestDto = new GetAllUserPagedRequestDto
+        var requestDto = new GetAllUsersPagedRequestDto
         {
             SearchTerm = searchTerm,
             PageIndex = pageIndex,

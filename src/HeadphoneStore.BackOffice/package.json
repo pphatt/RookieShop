@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "dev:local": "concurrently \"pnpm open-home\" \"pnpm dev\"",
     "dev:safe": "concurrently \"pnpm open-home:safe\" \"dotenv -e .env.https vite --experimental-https --experimental-https-key ./certificates/localhost-key.pem --experimental-https-cert ./certificates/localhost.pem\"",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",

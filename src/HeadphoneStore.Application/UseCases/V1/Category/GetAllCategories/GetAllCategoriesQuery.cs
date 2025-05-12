@@ -7,10 +7,8 @@ using HeadphoneStore.Shared.Dtos.Category;
 
 namespace HeadphoneStore.Application.UseCases.V1.Category.GetAllCategories;
 
-public class GetAllCategoriesQuery : IQuery<List<CategoryDto>>, ICacheable
+public sealed record GetAllCategoriesQuery(string? SearchTerm) : IQuery<List<CategoryDto>>, ICacheable
 {
-    public string? SearchTerm { get; set; }
-
     public bool BypassCache => false;
     public string CacheKey
     {

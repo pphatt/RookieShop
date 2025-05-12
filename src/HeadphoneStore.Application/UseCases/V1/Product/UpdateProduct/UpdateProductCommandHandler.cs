@@ -128,7 +128,6 @@ public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
             var required = new FileRequiredParamsDto
             {
                 type = FileType.Image,
-                userId = request.UpdatedBy,
                 productId = productFromDb.Id,
             };
 

@@ -2,7 +2,6 @@
 
 namespace HeadphoneStore.Application.UseCases.V1.Category.DeleteCategory;
 
-public class DeleteCategoryCommand : ICommand
+public sealed record DeleteCategoryCommand(Guid Id) : ICommand
 {
-    public Guid Id { get; set; }
 }

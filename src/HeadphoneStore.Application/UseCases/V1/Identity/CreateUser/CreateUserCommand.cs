@@ -2,12 +2,11 @@
 
 namespace HeadphoneStore.Application.UseCases.V1.Identity.CreateUser;
 
-public class CreateUserCommand : ICommand
+public sealed record CreateUserCommand(string Email,
+                                       string FirstName,
+                                       string LastName,
+                                       string PhoneNumber,
+                                       Guid RoleId,
+                                       string Status) : ICommand
 {
-    public string Email { get; set; } = default!;
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string PhoneNumber { get; set; }
-    public Guid RoleId { get; set; }
-    public string Status { get; set; }
 }

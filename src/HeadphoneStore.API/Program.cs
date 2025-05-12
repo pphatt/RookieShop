@@ -64,7 +64,6 @@ builder.Services
 
 // Application Layer
 builder.Services.AddMediatRApplication();
-builder.Services.AddAutoMapperApplication();
 
 // Infrastructure Layer
 builder.Services.AddInfrastructureDependenciesLayer(builder.Configuration);
@@ -115,8 +114,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-// Application Layer
-app.AddAutoMapperValidationApplication();
 
 app.Run();

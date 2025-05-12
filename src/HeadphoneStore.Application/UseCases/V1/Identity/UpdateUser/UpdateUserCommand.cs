@@ -2,12 +2,11 @@
 
 namespace HeadphoneStore.Application.UseCases.V1.Identity.UpdateUser;
 
-public class UpdateUserCommand : ICommand
+public sealed record UpdateUserCommand(Guid Id,
+                                       string FirstName,
+                                       string LastName,
+                                       string PhoneNumber,
+                                       Guid RoleId,
+                                       string Status) : ICommand
 {
-    public Guid Id { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string PhoneNumber { get; set; }
-    public Guid RoleId { get; set; }
-    public string Status { get; set; }
 }

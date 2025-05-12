@@ -1,7 +1,5 @@
 ﻿using Asp.Versioning;
 
-using AutoMapper;
-
 using HeadphoneStore.Application.UseCases.V1.Identity.Login;
 using HeadphoneStore.Application.UseCases.V1.Identity.Logout;
 using HeadphoneStore.Application.UseCases.V1.Identity.RefreshToken;
@@ -13,7 +11,6 @@ using HeadphoneStore.Shared.Services.Identity.Register;
 
 using MediatR;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
@@ -22,11 +19,8 @@ namespace HeadphoneStore.API.Controllers.V1;
 [ApiVersion(1)]
 public class AuthenticationController : BaseApiController
 {
-    private readonly IMapper _mapper;
-
-    public AuthenticationController(IMediator mediator, IMapper mapper) : base(mediator)
+    public AuthenticationController(IMediator mediator) : base(mediator)
     {
-        _mapper = mapper;
     }
 
     [HttpPost("login")]
@@ -35,9 +29,9 @@ public class AuthenticationController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
     {
-        var mapper = _mapper.Map<LoginCommand>(request);
+        var command = request.MapToCommand();
 
-        var response = await _mediator.Send(mapper);
+        var response = await _mediator.Send(command);
 
         if (response.IsFailure)
             return HandlerFailure(response);
@@ -51,9 +45,9 @@ public class AuthenticationController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> Register([FromBody] RegisterRequestDto request)
     {
-        var mapper = _mapper.Map<RegisterCommand>(request);
+        var command = request.MapToCommand();
 
-        var response = await _mediator.Send(mapper);
+        var response = await _mediator.Send(command);
 
         if (response.IsFailure)
             return HandlerFailure(response);
@@ -88,9 +82,9 @@ public class AuthenticationController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> RefreshToken([FromForm] RefreshTokenRequestDto request)
     {
-        var mapper = _mapper.Map<RefreshTokenCommand>(request);
+        var command = request.MapToCommand();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);

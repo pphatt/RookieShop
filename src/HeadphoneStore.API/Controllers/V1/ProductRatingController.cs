@@ -1,7 +1,5 @@
 ﻿using Asp.Versioning;
 
-using AutoMapper;
-
 using HeadphoneStore.API.Authorization;
 using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Application.UseCases.V1.Product.CreateProductRating;
@@ -20,11 +18,8 @@ namespace HeadphoneStore.API.Controllers.V1;
 [ApiVersion(1)]
 public class ProductRatingController : BaseApiController
 {
-    private readonly IMapper _mapper;
-
-    public ProductRatingController(IMediator mediator, IMapper mapper) : base(mediator)
+    public ProductRatingController(IMediator mediator) : base(mediator)
     {
-        _mapper = mapper;
     }
 
     [HttpPost("create")]
@@ -34,11 +29,9 @@ public class ProductRatingController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> CreateProductRating(CreateProductRatingRequestDto request)
     {
-        var mapper = _mapper.Map<CreateProductRatingCommand>(request);
+        var command = request.MapToCommand(User.GetUserId());
 
-        mapper.CustomerId = User.GetUserId();
-
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);

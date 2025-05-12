@@ -4,10 +4,8 @@ using HeadphoneStore.Shared.Dtos.Category;
 
 namespace HeadphoneStore.Application.UseCases.V1.Category.GetCategoryById;
 
-public class GetCategoryByIdQuery : IQuery<CategoryDto>
+public sealed record GetCategoryByIdQuery(Guid Id) : IQuery<CategoryDto>
 {
-    public Guid Id { get; set; }
-
     public bool BypassCache => false;
     public string CacheKey => $"Categories:{nameof(GetCategoryByIdQuery)}:{Id}";
     public int SlidingExpirationInMinutes => -1;

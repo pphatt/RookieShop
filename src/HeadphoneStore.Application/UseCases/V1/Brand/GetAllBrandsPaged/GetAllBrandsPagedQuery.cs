@@ -6,7 +6,10 @@ using HeadphoneStore.Shared.Dtos.Brand;
 
 namespace HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrandsPaged;
 
-public class GetAllBrandsPagedQuery : PagedDto, IQuery<PagedResult<BrandDto>>, ICacheable
+public sealed record GetAllBrandsPagedQuery(string? SearchTerm,
+                                            int PageIndex,
+                                            int PageSize) 
+    : IQuery<PagedResult<BrandDto>>, ICacheable
 {
     public bool BypassCache => false;
     public string CacheKey

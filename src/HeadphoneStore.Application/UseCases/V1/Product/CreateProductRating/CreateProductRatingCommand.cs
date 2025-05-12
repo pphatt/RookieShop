@@ -2,10 +2,9 @@
 
 namespace HeadphoneStore.Application.UseCases.V1.Product.CreateProductRating;
 
-public class CreateProductRatingCommand : ICommand
+public sealed record CreateProductRatingCommand(Guid ProductId,
+                                                Guid CustomerId,
+                                                int RatingValue,
+                                                string? Comment) : ICommand
 {
-    public Guid ProductId { get; set; }
-    public Guid CustomerId { get; set; }
-    public int RatingValue { get; set; }
-    public string? Comment { get; set; }
 }

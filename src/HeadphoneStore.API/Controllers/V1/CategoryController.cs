@@ -1,9 +1,6 @@
 ﻿using Asp.Versioning;
 
-using AutoMapper;
-
 using HeadphoneStore.API.Authorization;
-using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Application.UseCases.V1.Category.ActivateCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.CreateCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.DeleteCategory;
@@ -38,11 +35,8 @@ namespace HeadphoneStore.API.Controllers.V1;
 [ApiVersion(1)]
 public class CategoryController : BaseApiController
 {
-    private readonly IMapper _mapper;
-
-    public CategoryController(IMediator mediator, IMapper mapper) : base(mediator)
+    public CategoryController(IMediator mediator) : base(mediator)
     {
-        _mapper = mapper;
     }
 
     [HttpPost("create")]
@@ -52,11 +46,9 @@ public class CategoryController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> CreateCategory([FromForm] CreateCategoryRequestDto request)
     {
-        var mapper = _mapper.Map<CreateCategoryCommand>(request);
+        var command = request.MapToCommand();
 
-        mapper.Slug = request.Slug ?? mapper.Name.Slugify();
-
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -71,11 +63,9 @@ public class CategoryController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> UpdateCategory([FromForm] UpdateCategoryRequestDto request)
     {
-        var mapper = _mapper.Map<UpdateCategoryCommand>(request);
+        var command = request.MapToCommand();
 
-        mapper.UpdatedBy = User.GetUserId();
-
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -90,9 +80,9 @@ public class CategoryController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> ActiveCategory([FromRoute] ActivateCategoryRequestDto request)
     {
-        var mapper = _mapper.Map<ActivateCategoryCommand>(request);
+        var command = request.MapToCommand();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -107,9 +97,9 @@ public class CategoryController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> InactiveBrand([FromRoute] InactivateCategoryRequestDto request)
     {
-        var mapper = _mapper.Map<InactivateCategoryCommand>(request);
+        var command = request.MapToCommand();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -124,9 +114,9 @@ public class CategoryController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> DeleteCategory([FromRoute] DeleteCategoryRequestDto request)
     {
-        var mapper = _mapper.Map<DeleteCategoryCommand>(request);
+        var command = request.MapToCommand();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -142,9 +132,9 @@ public class CategoryController : BaseApiController
     [AllowAnonymous]
     public async Task<IActionResult> GetCategoryById([FromRoute] GetCategoryByIdRequestDto request)
     {
-        var mapper = _mapper.Map<GetCategoryByIdQuery>(request);
+        var query = request.MapToQuery();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(query);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -160,9 +150,9 @@ public class CategoryController : BaseApiController
     [AllowAnonymous]
     public async Task<IActionResult> GetAllCategoriesPagination([FromQuery] GetAllCategoriesPagedRequestDto request)
     {
-        var mapper = _mapper.Map<GetAllCategoriesPagedQuery>(request);
+        var query = request.MapToQuery();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(query);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -178,9 +168,9 @@ public class CategoryController : BaseApiController
     [AllowAnonymous]
     public async Task<IActionResult> GetAllCategories([FromQuery] GetAllCategoriesRequestDto request)
     {
-        var mapper = _mapper.Map<GetAllCategoriesQuery>(request);
+        var query = request.MapToQuery();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(query);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -232,10 +222,7 @@ public class CategoryController : BaseApiController
     [AllowAnonymous]
     public async Task<IActionResult> GetAllCategoriesWithSubCategories([FromQuery] string CategorySlug)
     {
-        var query = new GetAllCategoriesWithSubCategoriesQuery()
-        {
-            CategorySlug = CategorySlug
-        };
+        var query = new GetAllCategoriesWithSubCategoriesQuery(CategorySlug);
 
         var result = await _mediator.Send(query);
 

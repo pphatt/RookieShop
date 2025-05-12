@@ -3,8 +3,6 @@ using HeadphoneStore.Shared.Dtos.Order;
 
 namespace HeadphoneStore.Application.UseCases.V1.Order.GetOrderById;
 
-public class GetOrderByIdQuery : IQuery<OrderDto>
+public sealed record GetOrderByIdQuery(Guid Id, Guid CustomerId) : IQuery<OrderDto>
 {
-    public Guid Id { get; set; }
-    public Guid CustomerId { get; set; }
 }

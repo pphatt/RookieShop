@@ -1,10 +1,7 @@
 ﻿using Asp.Versioning;
 
-using AutoMapper;
-
 using HeadphoneStore.API.Authorization;
-using HeadphoneStore.Application.DependencyInjection.Extensions;
-using HeadphoneStore.Application.UseCases.V1.Brand.ActiveBrand;
+using HeadphoneStore.Application.UseCases.V1.Brand.ActivateBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.BulkDeleteBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.CreateBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.DeleteBrand;
@@ -12,7 +9,7 @@ using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrands;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrandsByProductProperties;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrandsPaged;
 using HeadphoneStore.Application.UseCases.V1.Brand.GetBrandById;
-using HeadphoneStore.Application.UseCases.V1.Brand.InactiveBrand;
+using HeadphoneStore.Application.UseCases.V1.Brand.InactivateBrand;
 using HeadphoneStore.Application.UseCases.V1.Brand.UpdateBrand;
 using HeadphoneStore.Domain.Constants;
 using HeadphoneStore.Shared.Abstracts.Shared;
@@ -38,11 +35,8 @@ namespace HeadphoneStore.API.Controllers.V1;
 [ApiVersion(1)]
 public class BrandController : BaseApiController
 {
-    private readonly IMapper _mapper;
-
-    public BrandController(IMediator mediator, IMapper mapper) : base(mediator)
+    public BrandController(IMediator mediator) : base(mediator)
     {
-        _mapper = mapper;
     }
 
     [HttpPost("create")]
@@ -52,11 +46,9 @@ public class BrandController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> CreateBrand([FromForm] CreateBrandRequestDto request)
     {
-        var mapper = _mapper.Map<CreateBrandCommand>(request);
+        var command = request.MapToCommand();
 
-        mapper.Slug = request.Slug ?? mapper.Name.Slugify();
-
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -71,9 +63,9 @@ public class BrandController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> UpdateBrand([FromForm] UpdateBrandRequestDto request)
     {
-        var mapper = _mapper.Map<UpdateBrandCommand>(request);
+        var command = request.MapToCommand();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -88,9 +80,9 @@ public class BrandController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> ActiveBrand([FromRoute] ActivateBrandRequestDto request)
     {
-        var mapper = _mapper.Map<ActivateBrandCommand>(request);
+        var command = request.MapToCommand();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -105,9 +97,9 @@ public class BrandController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> InactiveBrand([FromRoute] InactivateBrandRequestDto request)
     {
-        var mapper = _mapper.Map<InactivateBrandCommand>(request);
+        var command = request.MapToCommand();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -122,9 +114,9 @@ public class BrandController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> DeleteBrand([FromRoute] DeleteBrandRequestDto request)
     {
-        var mapper = _mapper.Map<DeleteBrandCommand>(request);
+        var command = request.MapToCommand();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -139,9 +131,9 @@ public class BrandController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> BulkDeleteBrand([FromForm] BulkDeleteBrandRequestDto request)
     {
-        var mapper = _mapper.Map<BulkDeleteBrandCommand>(request);
+        var command = request.MapToCommand();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -157,9 +149,9 @@ public class BrandController : BaseApiController
     [AllowAnonymous]
     public async Task<IActionResult> GetBrandById([FromRoute] GetBrandByIdRequestDto request)
     {
-        var mapper = _mapper.Map<GetBrandByIdQuery>(request);
+        var query = request.MapToQuery();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(query);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -193,9 +185,9 @@ public class BrandController : BaseApiController
     [AllowAnonymous]
     public async Task<IActionResult> GetAllBrandsPagination([FromQuery] GetAllBrandsPagedRequestDto request)
     {
-        var mapper = _mapper.Map<GetAllBrandsPagedQuery>(request);
+        var query = request.MapToQuery();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(query);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -208,9 +200,9 @@ public class BrandController : BaseApiController
     [AllowAnonymous]
     public async Task<IActionResult> GetAllBrandsFilteredByProductProperties([FromQuery] GetAllBrandsByProductPropertiesRequestDto request)
     {
-        var mapper = _mapper.Map<GetAllBrandsByProductPropertiesQuery>(request);
+        var query = request.MapToQuery();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(query);
 
         if (result.IsFailure)
             return HandlerFailure(result);

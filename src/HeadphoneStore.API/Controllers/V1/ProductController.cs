@@ -1,9 +1,6 @@
 ﻿using Asp.Versioning;
 
-using AutoMapper;
-
 using HeadphoneStore.API.Authorization;
-using HeadphoneStore.Application.DependencyInjection.Extensions;
 using HeadphoneStore.Application.UseCases.V1.Category.ActivateCategory;
 using HeadphoneStore.Application.UseCases.V1.Category.InactivateCategory;
 using HeadphoneStore.Application.UseCases.V1.Product.ActivateProduct;
@@ -17,8 +14,6 @@ using HeadphoneStore.Application.UseCases.V1.Product.UpdateProduct;
 using HeadphoneStore.Domain.Constants;
 using HeadphoneStore.Shared.Abstracts.Shared;
 using HeadphoneStore.Shared.Dtos.Product;
-using HeadphoneStore.Shared.Services.Category.ActivateCategory;
-using HeadphoneStore.Shared.Services.Category.InactivateCategory;
 using HeadphoneStore.Shared.Services.Product.ActivateProduct;
 using HeadphoneStore.Shared.Services.Product.Create;
 using HeadphoneStore.Shared.Services.Product.Delete;
@@ -39,11 +34,8 @@ namespace HeadphoneStore.API.Controllers.V1;
 [ApiVersion(1)]
 public class ProductController : BaseApiController
 {
-    private readonly IMapper _mapper;
-
-    public ProductController(IMediator mediator, IMapper mapper) : base(mediator)
+    public ProductController(IMediator mediator) : base(mediator)
     {
-        _mapper = mapper;
     }
 
     [HttpPost("create")]
@@ -53,13 +45,9 @@ public class ProductController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> CreateProduct([FromForm] CreateProductRequestDto request)
     {
-        var mapper = _mapper.Map<CreateProductCommand>(request);
+        var command = request.MapToCommand();
 
-        mapper.Slug = request.Slug ?? mapper.Name.Slugify();
-        mapper.Sku = mapper.Name.Slugify();
-        mapper.CreatedBy = User.GetUserId();
-
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -74,11 +62,9 @@ public class ProductController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> UpdateProduct([FromForm] UpdateProductRequestDto request)
     {
-        var mapper = _mapper.Map<UpdateProductCommand>(request);
+        var command = request.MapToCommand();
 
-        mapper.UpdatedBy = User.GetUserId();
-
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -93,9 +79,9 @@ public class ProductController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> ActiveProduct([FromRoute] ActivateProductRequestDto request)
     {
-        var mapper = _mapper.Map<ActivateProductCommand>(request);
+        var command = request.MapToCommand();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -110,9 +96,9 @@ public class ProductController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> InactiveBrand([FromRoute] InactivateProductRequestDto request)
     {
-        var mapper = _mapper.Map<InactivateProductCommand>(request);
+        var command = request.MapToCommand();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -127,9 +113,9 @@ public class ProductController : BaseApiController
     [MapToApiVersion(1)]
     public async Task<IActionResult> DeleteProduct([FromRoute] DeleteProductRequestDto request)
     {
-        var mapper = _mapper.Map<DeleteProductCommand>(request);
+        var command = request.MapToCommand();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(command);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -145,9 +131,9 @@ public class ProductController : BaseApiController
     [AllowAnonymous]
     public async Task<IActionResult> GetProductById([FromRoute] GetProductByIdRequestDto request)
     {
-        var mapper = _mapper.Map<GetProductByIdQuery>(request);
+        var query = request.MapToQuery();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(query);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -161,11 +147,11 @@ public class ProductController : BaseApiController
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ValidationProblemDetails))]
     [MapToApiVersion(1)]
     [AllowAnonymous]
-    public async Task<IActionResult> GetAllProductsPagination([FromQuery] GetAllProductPagedRequestDto request)
+    public async Task<IActionResult> GetAllProductsPagination([FromQuery] GetAllProductsPagedRequestDto request)
     {
-        var mapper = _mapper.Map<GetAllProductsPagedQuery>(request);
+        var query = request.MapToQuery();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(query);
 
         if (result.IsFailure)
             return HandlerFailure(result);
@@ -181,9 +167,9 @@ public class ProductController : BaseApiController
     [AllowAnonymous]
     public async Task<IActionResult> GetProductBySlug([FromRoute] GetProductBySlugRequestDto request)
     {
-        var mapper = _mapper.Map<GetProductBySlugQuery>(request);
+        var query = request.MapToQuery();
 
-        var result = await _mediator.Send(mapper);
+        var result = await _mediator.Send(query);
 
         if (result.IsFailure)
             return HandlerFailure(result);

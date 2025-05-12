@@ -5,10 +5,8 @@ using HeadphoneStore.Shared.Dtos.Category;
 
 namespace HeadphoneStore.Application.UseCases.V1.Category.GetAllCategoriesWithSubCategories;
 
-public class GetAllCategoriesWithSubCategoriesQuery : IQuery<List<CategoryDto>>, ICacheable
+public sealed record GetAllCategoriesWithSubCategoriesQuery(string CategorySlug) : IQuery<List<CategoryDto>>, ICacheable
 {
-    public string CategorySlug { get; set; }
-
     public bool BypassCache => false;
     public string CacheKey
     {

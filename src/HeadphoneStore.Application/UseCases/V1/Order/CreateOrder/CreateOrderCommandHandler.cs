@@ -42,7 +42,7 @@ public class CreateOrderCommandHandler : ICommandHandler<CreateOrderCommand>
         if (user is null)
             throw new Exceptions.Identity.NotFound();
 
-        request.CustomerName = user.GetFullName();
+        var customerName = user.GetFullName();
 
         var orderItemDetailsForEmail = new List<(string ProductName, int Quantity, decimal ProductPrice, decimal TotalPrice)>();
 
@@ -76,13 +76,13 @@ public class CreateOrderCommandHandler : ICommandHandler<CreateOrderCommand>
 
         // send order notification
         string subject = $"Order Confirmation - #{order.Id}";
-        string content = GenerateOrderConfirmationHtml(order, orderItemDetailsForEmail, order.CreatedDateTime, request.Email, request.CustomerName, request.CustomerPhoneNumber);
+        string content = GenerateOrderConfirmationHtml(order, orderItemDetailsForEmail, order.CreatedDateTime, request.Email, customerName, request.CustomerPhoneNumber);
         await _emailService.SendEmailAsync(new EmailContent
         {
-            
+
             ToEmail = request.Email,
             Subject = subject,
-            Body = content, 
+            Body = content,
         });
 
         return Result.Success("Order successfully.");

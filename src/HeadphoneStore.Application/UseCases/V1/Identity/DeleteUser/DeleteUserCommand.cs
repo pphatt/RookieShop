@@ -2,7 +2,6 @@
 
 namespace HeadphoneStore.Application.UseCases.V1.Identity.DeleteUser;
 
-public class DeleteUserCommand : ICommand
+public sealed record DeleteUserCommand(Guid Id) : ICommand
 {
-    public Guid Id { get; set; }
 }

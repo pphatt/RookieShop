@@ -4,7 +4,7 @@ using HeadphoneStore.Shared.Dtos.Brand;
 
 namespace HeadphoneStore.Application.UseCases.V1.Brand.GetAllBrands;
 
-public class GetAllBrandsQuery : IQuery<List<BrandDto>>, ICacheable
+public sealed record GetAllBrandsQuery : IQuery<List<BrandDto>>, ICacheable
 {
     public bool BypassCache => false;
     public string CacheKey => $"Brands:{nameof(GetAllBrandsQuery)}:GetAll";

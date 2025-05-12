@@ -2,7 +2,4 @@
 
 namespace HeadphoneStore.Application.UseCases.V1.Brand.ActiveBrand;
 
-public class ActivateBrandCommand : ICommand
-{
-    public Guid Id { get; set; }
-}
+public sealed record ActivateBrandCommand(Guid Id) : ICommand;

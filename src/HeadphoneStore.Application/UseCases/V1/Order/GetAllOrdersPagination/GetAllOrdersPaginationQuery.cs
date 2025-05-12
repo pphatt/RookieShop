@@ -7,10 +7,11 @@ using HeadphoneStore.Shared.Dtos.Order;
 
 namespace HeadphoneStore.Application.UseCases.V1.Order.GetAllOrdersPagination;
 
-public class GetAllOrdersPaginationQuery : PagedDto, IQuery<PagedResult<OrderDto>>, ICacheable
+public sealed record GetAllOrdersPaginationQuery(Guid UserId,
+                                                 string? SearchTerm,
+                                                 int PageIndex,
+                                                 int PageSize) : IQuery<PagedResult<OrderDto>>, ICacheable
 {
-    public Guid UserId { get; set; }
-
     public bool BypassCache => false;
     public string CacheKey
     {

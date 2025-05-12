@@ -2,7 +2,6 @@
 
 namespace HeadphoneStore.Application.UseCases.V1.Category.InactivateCategory;
 
-public class InactivateCategoryCommand : ICommand
+public sealed record InactivateCategoryCommand(Guid Id) : ICommand
 {
-    public Guid Id { get; set; }
 }

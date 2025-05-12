@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Xml.Linq;
 
 using FluentAssertions;
 
@@ -36,13 +37,12 @@ public class CreateBrandCommandHandlerTests
     public async Task Handle_WithValidRequest_ShouldCreateBrandSuccessfully()
     {
         // Arrange
-        var command = new CreateBrandCommand
-        {
-            Name = "Sony",
-            Slug = "sony",
-            Description = "Sony headphones brand",
-            Status = "Active"
-        };
+        var command = new CreateBrandCommand(
+            Name: "Sony",
+            Slug: "sony",
+            Description: "Sony headphones brand",
+            Status: "Active"
+        );
 
         // Mock the FindByCondition correctly without using optional parameters
         _mockBrandRepository.Setup(x => x.FindByCondition(

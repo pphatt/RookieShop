@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 
-using HeadphoneStore.Application.UseCases.V1.Identity.GetAllUserPaged;
+using HeadphoneStore.Application.UseCases.V1.Identity.GetAllUsersPaged;
 using HeadphoneStore.Domain.Aggregates.Identity.Entities;
 using HeadphoneStore.Domain.Enumerations;
 
@@ -17,7 +17,7 @@ public class GetAllUserPagedQueryHandlerTests : BaseTest
 {
     private readonly Mock<UserManager<AppUser>> _mockUserManager;
     private readonly Mock<RoleManager<AppRole>> _mockRoleManager;
-    private readonly GetAllUserPagedQueryHandler _queryHandler;
+    private readonly GetAllUsersPagedQueryHandler _queryHandler;
 
     public GetAllUserPagedQueryHandlerTests()
     {
@@ -27,7 +27,7 @@ public class GetAllUserPagedQueryHandlerTests : BaseTest
         _mockRoleManager = new Mock<RoleManager<AppRole>>(
             Mock.Of<IRoleStore<AppRole>>(), null, null, null, null);
 
-        _queryHandler = new GetAllUserPagedQueryHandler(_mockUserManager.Object, _mockRoleManager.Object);
+        _queryHandler = new GetAllUsersPagedQueryHandler(_mockUserManager.Object, _mockRoleManager.Object);
     }
 
     [Fact]

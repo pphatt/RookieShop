@@ -1,22 +1,20 @@
-﻿using HeadphoneStore.Domain.Aggregates.Products.Enumerations;
-using HeadphoneStore.Shared.Abstracts.Commands;
+﻿using HeadphoneStore.Shared.Abstracts.Commands;
 
 using Microsoft.AspNetCore.Http;
 
 namespace HeadphoneStore.Application.UseCases.V1.Product.CreateProduct;
 
-public class CreateProductCommand : ICommand
+public sealed record CreateProductCommand(
+    string Name,
+    string? Slug,
+    string Description,
+    int Stock,
+    string Sku,
+    string ProductStatus,
+    int ProductPrice,
+    Guid CategoryId,
+    Guid BrandId,
+    List<IFormFile>? Images,
+    string? Status) : ICommand
 {
-    public string Name { get; set; }
-    public string? Slug { get; set; }
-    public string Description { get; set; }
-    public int Stock { get; set; }
-    public string Sku { get; set; }
-    public string ProductStatus { get; set; }
-    public int ProductPrice { get; set; }
-    public Guid CategoryId { get; set; }
-    public Guid BrandId { get; set; }
-    public List<IFormFile>? Images { get; set; }
-    public string? Status { get; set; }
-    public Guid CreatedBy { get; set; }
 }

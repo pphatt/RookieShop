@@ -31,11 +31,6 @@ public class DeleteBrandCommandHandler : ICommandHandler<DeleteBrandCommand>
 
     public async Task<Result> Handle(DeleteBrandCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByIdAsync(request.UpdatedBy.ToString());
-
-        if (user is null)
-            throw new Exceptions.Identity.NotFound();
-
         var brand = _brandRepository.FindByCondition(x => x.Id == request.Id).SingleOrDefault();
 
         if (brand is null)
