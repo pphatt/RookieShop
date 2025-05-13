@@ -106,7 +106,7 @@ app.UseCors(serverCorsPolicy);
 // Add Core
 app.UseRouting();
 
-app.UseStaticFiles();
+app.MapStaticAssets();
 app.UseExceptionHandler("/errors");
 app.UseHttpsRedirection();
 
