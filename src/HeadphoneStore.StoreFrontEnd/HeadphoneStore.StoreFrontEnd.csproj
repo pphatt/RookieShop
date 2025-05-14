@@ -47,6 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HeadphoneStore.ServiceDefaults\HeadphoneStore.ServiceDefaults.csproj" />
     <ProjectReference Include="..\HeadphoneStore.Shared\HeadphoneStore.Shared.csproj" />
   </ItemGroup>
 

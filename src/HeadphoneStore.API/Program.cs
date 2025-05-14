@@ -17,6 +17,8 @@ using TreeCommerce.API.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 var serverCorsPolicy = "ServerCorsPolicy";
 
 // Add Controller
@@ -85,6 +87,8 @@ builder.Services.AddJwtAuthentication(builder.Configuration); // authentication 
 builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Using middleware
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();

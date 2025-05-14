@@ -9,7 +9,7 @@ public class CategoryApi
     /// <br />
     /// Sample endpoint: https://localhost:8081/api/v1/Category/all
     /// </summary>
-    public const string GetAllCategories = "Category/all";
+    public const string GetAllCategories = "Category/all-first-level";
     
     /// <summary>
     /// [AllowAnonymous]

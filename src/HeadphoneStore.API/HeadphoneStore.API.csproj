@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HeadphoneStore.Application\HeadphoneStore.Application.csproj" />
+    <ProjectReference Include="..\HeadphoneStore.ServiceDefaults\HeadphoneStore.ServiceDefaults.csproj" />
     <ProjectReference Include="..\HeadphoneStore.Shared\HeadphoneStore.Shared.csproj" />
     <ProjectReference Include="..\HeadphoneStore.Domain\HeadphoneStore.Domain.csproj" />
     <ProjectReference Include="..\HeadphoneStore.Infrastructure\HeadphoneStore.Infrastructure.csproj" />
