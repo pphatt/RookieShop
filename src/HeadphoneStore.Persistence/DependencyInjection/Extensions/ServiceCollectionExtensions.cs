@@ -31,7 +31,7 @@ public static class ServiceCollectionExtensions
                 .EnableSensitiveDataLogging(true)
                 .UseLazyLoadingProxies(true) // If using UseLazyLoadingProxies, all of the navigation fields (entities declaration) should be VIRTUAL
                 .UseSqlServer(
-                    configuration.GetConnectionString("DefaultConnection"),
+                    configuration.GetConnectionString("headphonestore-db"),
                     sqlServerOptionsAction: optionsBuilder =>
                         optionsBuilder
                             .ExecutionStrategy(dependencies => new SqlServerRetryingExecutionStrategy(

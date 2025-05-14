@@ -53,10 +53,10 @@ public static class ServiceCollectionExtensions
     {
         services.AddMemoryCache();
 
-        services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(configuration.GetSection("CacheOption")["RedisConnection"]!));
+        services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(configuration.GetConnectionString("redis")!));
         services.AddStackExchangeRedisCache(redisOptions =>
         {
-            redisOptions.Configuration = configuration.GetSection("CacheOption")["RedisConnection"];
+            redisOptions.Configuration = configuration.GetConnectionString("redis");
         });
     }
 
