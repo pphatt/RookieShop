@@ -1,3 +1,5 @@
+using Google.Protobuf.WellKnownTypes;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 // Secret parameters
@@ -5,15 +7,14 @@ var sqlServerPassword = builder.AddParameter("SqlServerPassword", secret: true);
 
 // MSSQL database
 var sqlServer = builder
-    .AddSqlServer("headphonestore-db", port: 5432)
+    .AddSqlServer("database", sqlServerPassword)
     .WithImage("mssql/server")
     .WithImageTag("2022-latest")
     .WithEnvironment("ACCEPT_EULA", "Y")
-    .WithEnvironment("MSSQL_SA_PASSWORD", "StrongP@ssw0rd123")
-    .WithEnvironment("SA_PASSWORD", "StrongP@ssw0rd123")
+    .WithEnvironment("MSSQL_SA_PASSWORD", sqlServerPassword)
     .WithLifetime(ContainerLifetime.Persistent)
-    .WithDataBindMount("../../mnt/mssql")
-    .WithDataVolume("sqlserver");
+    .WithDataBindMount(source: "../../mnt/mssql")
+    .WithDataVolume("sqlserver", isReadOnly: false);
 
 // Redis cache
 var redis = builder
@@ -39,5 +40,11 @@ var storefront = builder
     .AddProject<Projects.HeadphoneStore_StoreFrontEnd>("storefront")
     .WithReference(redis)
     .WaitFor(apiService);
+
+builder.AddProject<Projects.HeadphoneStore_Proxy>("proxy")
+    .WithHttpsEndpoint(8080, name: "proxy", isProxied: false)
+    .WithReference(apiService)
+    .WithReference(backoffice)
+    .WithReference(storefront);
 
 builder.Build().Run();
