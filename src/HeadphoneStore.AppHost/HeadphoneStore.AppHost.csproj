@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HeadphoneStore.API\HeadphoneStore.API.csproj" />
+    <ProjectReference Include="..\HeadphoneStore.Proxy\HeadphoneStore.Proxy.csproj" />
     <ProjectReference Include="..\HeadphoneStore.StoreFrontEnd\HeadphoneStore.StoreFrontEnd.csproj" />
   </ItemGroup>
 
