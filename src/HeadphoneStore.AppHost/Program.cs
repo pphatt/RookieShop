@@ -1,5 +1,3 @@
-using Google.Protobuf.WellKnownTypes;
-
 var builder = DistributedApplication.CreateBuilder(args);
 
 // Secret parameters
@@ -23,11 +21,13 @@ var redis = builder
     .WithDataBindMount("../../mnt/redis")
     .WithRedisCommander();
 
+// Api service
 var apiService = builder
     .AddProject<Projects.HeadphoneStore_API>("api-service")
     .WithReference(sqlServer).WaitFor(sqlServer)
     .WithReference(redis);
 
+// Backoffice FE
 var backoffice = builder
     .AddPnpmApp("backoffice", "../HeadphoneStore.Backoffice", "dev")
     .WaitFor(sqlServer)
@@ -36,11 +36,13 @@ var backoffice = builder
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile();
 
+// Storefront FE
 var storefront = builder
     .AddProject<Projects.HeadphoneStore_StoreFrontEnd>("storefront")
     .WithReference(redis)
     .WaitFor(apiService);
 
+// Yarp
 builder.AddProject<Projects.HeadphoneStore_Proxy>("proxy")
     .WithHttpsEndpoint(8080, name: "proxy", isProxied: false)
     .WithReference(apiService)
