@@ -24,8 +24,8 @@ importers:
         specifier: ^1.86.3
         version: 1.86.3
       swiper:
-        specifier: ^11.2.6
-        version: 11.2.6
+        specifier: ^12.1.2
+        version: 12.1.2
     devDependencies:
       prettier:
         specifier: 3.5.3
@@ -215,6 +215,7 @@ packages:
   glob@11.0.1:
     resolution: {integrity: sha512-zrQDm8XPnYEKawJScsnM0QzobJxlT/kHOOlRTio8IH/GrmxRE5fjllkzdaHclIuNjUQTJYH2xHNIGfdpJkDJUw==}
     engines: {node: 20 || >=22}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   immutable@5.1.1:
@@ -347,8 +348,8 @@ packages:
     resolution: {integrity: sha512-iq6eVVI64nQQTRYq2KtEg2d2uU7LElhTJwsH4YzIHZshxlgZms/wIc4VoDQTlG/IvVIrBKG06CrZnp0qv7hkcQ==}
     engines: {node: '>=12'}
 
-  swiper@11.2.6:
-    resolution: {integrity: sha512-8aXpYKtjy3DjcbzZfz+/OX/GhcU5h+looA6PbAzHMZT6ESSycSp9nAjPCenczgJyslV+rUGse64LMGpWE3PX9Q==}
+  swiper@12.1.2:
+    resolution: {integrity: sha512-4gILrI3vXZqoZh71I1PALqukCFgk+gpOwe1tOvz5uE9kHtl2gTDzmYflYCwWvR4LOvCrJi6UEEU+gnuW5BtkgQ==}
     engines: {node: '>= 4.7.0'}
 
   to-regex-range@5.0.1:
@@ -459,7 +460,7 @@ snapshots:
 
   '@types/swiper@6.0.0':
     dependencies:
-      swiper: 11.2.6
+      swiper: 12.1.2
 
   ansi-regex@5.0.1: {}
 
@@ -644,7 +645,7 @@ snapshots:
     dependencies:
       ansi-regex: 6.1.0
 
-  swiper@11.2.6: {}
+  swiper@12.1.2: {}
 
   to-regex-range@5.0.1:
     dependencies:
